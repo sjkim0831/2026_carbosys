@@ -68,19 +68,19 @@
     <header class="bg-white border-b border-[var(--kr-gov-border)] sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <div class="flex items-center gap-4">
+                <a href="/login" class="flex items-center gap-4">
                     <div class="flex items-center gap-2">
                         <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]"
                             style="font-variation-settings: 'wght' 600;">eco</span>
                         <div class="flex flex-col">
-                            <h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-dark)]">CCUS 통합관리시스템
-                            </h1>
+                            <h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-dark)] leading-none">
+                                CCUS 통합관리시스템</h1>
                             <p
-                                class="text-[11px] text-[var(--kr-gov-text-muted)] font-medium uppercase tracking-tighter">
-                                Carbon Capture, Utilization and Storage Management</p>
+                                class="text-[10px] text-[var(--kr-gov-text-muted)] font-medium uppercase tracking-wider mt-0.5">
+                                Carbon Capture, Utilization and Storage System</p>
                         </div>
                     </div>
-                </div>
+                </a>
                 <nav class="hidden lg:flex items-center space-x-10 h-full">
                     <a class="h-full flex items-center text-[17px] font-bold text-[var(--kr-gov-text-dark)] border-b-4 border-transparent hover:border-[var(--kr-gov-blue)] transition-all focus-visible"
                         href="#">배출량 산정</a>
@@ -95,7 +95,8 @@
                     <button
                         class="px-4 py-2 text-sm font-bold border border-[var(--kr-gov-border)] rounded-md hover:bg-gray-50 focus-visible">회원가입</button>
                     <button
-                        class="px-5 py-2 text-sm font-bold bg-[var(--kr-gov-blue)] text-white rounded-md hover:brightness-110 focus-visible">로그인</button>
+                        class="px-5 py-2 text-sm font-bold bg-[var(--kr-gov-blue)] text-white rounded-md hover:brightness-110 focus-visible"
+                        onclick="location.href='/login'">로그인</button>
                 </div>
             </div>
         </div>

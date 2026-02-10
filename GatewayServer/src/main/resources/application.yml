@@ -78,6 +78,13 @@ spring:
           filters:
             - RewritePath=/uat/uia/(?<segment>.*), /uat/uia/${segment}
 
+        - id: DirectLogin
+          uri: lb://EGOVLOGIN
+          predicates:
+            - Path=/login
+          filters:
+            - RewritePath=/login, /uat/uia/loginView
+
         - id: EgovLoginPolicy
           uri: lb://EGOVLOGINPOLICY
           predicates:

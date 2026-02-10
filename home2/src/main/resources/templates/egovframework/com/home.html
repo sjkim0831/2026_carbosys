@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html lang="ko"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CCUS 통합관리 시스템 - 컨셉 B: 서비스 가이드형</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<style type="text/tailwindcss">
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CCUS 통합관리 시스템 - 컨셉 B: 서비스 가이드형</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
         :root {
             --kr-gov-blue: #00378b;
             --kr-gov-blue-dark: #002b6d;
@@ -39,7 +45,7 @@
             border-color: var(--kr-gov-blue);
         }
     </style>
-<script id="tailwind-config">
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -57,277 +63,348 @@
         }
     </script>
 </head>
+
 <body class="bg-white text-[var(--kr-gov-text-dark)] min-h-screen">
-<a class="skip-link" href="#main-content">본문 바로가기</a>
-<div class="bg-[#f2f2f2] border-b border-[var(--kr-gov-border)]">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
-<div class="flex items-center gap-2">
-<img alt="대한민국 정부 상징" class="h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BPzqtzSLVGSrjt4mzhhVBy9SocCRDssk1F3XRVu7Xq9jHh7qzzt48wFi8qduCiJmB0LRQczPB7waPe3h0gkjn3jOEDxt6UJSJjdXNf8P-4WlM2BEZrfg2SL91uSiZrFcCk9KYrsdg-biTS9dtJ_OIghDBEVoAzMc33XcCYR_UP0QQdoYzBe840YrtH40xGyB9MSr0QH4D0foqlvOhG0jX8CDayXNlDsSKlfClVd3K2aodlwg4xSxgXHB3vnnnA0L2yNBNihQQg0"/>
-<span class="text-xs font-medium text-[var(--kr-gov-text-muted)]">대한민국 정부 공식 서비스</span>
-</div>
-<div class="flex items-center gap-4 text-xs font-medium text-[var(--kr-gov-text-muted)]">
-<div class="flex items-center bg-white border border-[var(--kr-gov-border)] rounded-sm overflow-hidden">
-<button class="px-2 py-0.5 bg-[var(--kr-gov-blue)] text-white" onclick="location.href='/home2'">KO</button>
-<button class="px-2 py-0.5 hover:bg-gray-100" onclick="location.href='/home2/en'">EN</button>
-</div>
-</div>
-</div>
-</div>
-<header class="bg-white border-b border-[var(--kr-gov-border)] sticky top-0 z-50">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex justify-between items-center h-20">
-<div class="flex items-center gap-4">
-<a class="flex items-center gap-3 focus-visible" href="/home2">
-<img alt="기관 로고" class="h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE"/>
-<div class="flex flex-col">
-<h1 class="text-lg font-bold leading-tight text-[var(--kr-gov-text-dark)]">CCUS 통합관리시스템</h1>
-<p class="text-[10px] text-[var(--kr-gov-text-muted)] font-bold uppercase tracking-tight">Digital Gov Service Guideline 2025.08</p>
-</div>
-</a>
-</div>
-<nav class="hidden lg:flex items-center space-x-8 h-full">
-<a class="h-full flex items-center text-[16px] font-bold text-[var(--kr-gov-text-dark)] hover:text-[var(--kr-gov-blue)] transition-colors focus-visible" href="#">서비스 가이드</a>
-<a class="h-full flex items-center text-[16px] font-bold text-[var(--kr-gov-text-dark)] hover:text-[var(--kr-gov-blue)] transition-colors focus-visible" href="#">배출량 산정</a>
-<a class="h-full flex items-center text-[16px] font-bold text-[var(--kr-gov-text-dark)] hover:text-[var(--kr-gov-blue)] transition-colors focus-visible" href="#">인증 신청</a>
-<a class="h-full flex items-center text-[16px] font-bold text-[var(--kr-gov-text-dark)] hover:text-[var(--kr-gov-blue)] transition-colors focus-visible" href="#">현황 및 통계</a>
-<a class="h-full flex items-center text-[16px] font-bold text-[var(--kr-gov-text-dark)] hover:text-[var(--kr-gov-blue)] transition-colors focus-visible" href="#">고객지원</a>
-</nav>
-<div class="flex items-center gap-2">
-<button class="px-4 py-2 text-sm font-bold border border-[var(--kr-gov-border)] rounded-[var(--radius-gov)] hover:bg-gray-50 focus-visible" style="border-radius: 5px;">회원가입</button>
-<button class="px-5 py-2 text-sm font-bold bg-[var(--kr-gov-blue)] text-white rounded-[var(--radius-gov)] hover:brightness-110 focus-visible" style="border-radius: 5px;">로그인</button>
-</div>
-</div>
-</div>
-</header>
-<main id="main-content">
-<section class="bg-slate-50 border-b border-[var(--kr-gov-border)] pt-12 pb-16">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex flex-col lg:flex-row gap-12 items-center">
-<div class="flex-1 space-y-8 w-full">
-<div class="relative">
-<span class="inline-block px-3 py-1 bg-[var(--kr-gov-blue)] text-white text-xs font-bold rounded mb-4">처음이신가요?</span>
-<h2 class="text-3xl sm:text-4xl font-black text-[var(--kr-gov-text-dark)] leading-tight">복잡한 탄소 배출권 업무,<br/>단계별 가이드로 시작하세요.</h2>
-<p class="mt-4 text-lg text-[var(--kr-gov-text-muted)]">CCUS 프로젝트 등록부터 인증서 발급까지 모든 과정을 쉽고 정확하게 안내합니다.</p>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-<div class="bg-white p-6 rounded-xl border-2 border-[var(--kr-gov-blue)] guide-step-active relative">
-<div class="absolute -top-3 left-6 bg-[var(--kr-gov-blue)] text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">1</div>
-<h3 class="font-bold text-lg mb-2 mt-2">회원가입/인증</h3>
-<p class="text-sm text-[var(--kr-gov-text-muted)]">사업자 등록번호 기반의 공식 사용자 인증 단계</p>
-<a class="mt-4 inline-flex items-center text-sm font-bold text-[var(--kr-gov-blue)] hover:underline focus-visible" href="#">시작하기 <span class="material-symbols-outlined ml-1 !text-sm">arrow_forward</span></a>
-</div>
-<div class="bg-white p-6 rounded-xl border border-[var(--kr-gov-border)] hover:border-[var(--kr-gov-blue)] transition-colors relative">
-<div class="absolute -top-3 left-6 bg-gray-300 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">2</div>
-<h3 class="font-bold text-lg mb-2 mt-2">배출량 산정</h3>
-<p class="text-sm text-[var(--kr-gov-text-muted)]">포집 데이터 입력 및 배출계수 시뮬레이션</p>
-</div>
-<div class="bg-white p-6 rounded-xl border border-[var(--kr-gov-border)] hover:border-[var(--kr-gov-blue)] transition-colors relative">
-<div class="absolute -top-3 left-6 bg-gray-300 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">3</div>
-<h3 class="font-bold text-lg mb-2 mt-2">인증서 발급</h3>
-<p class="text-sm text-[var(--kr-gov-text-muted)]">심사 완료 후 공식 탄소 배출권 인증서 출력</p>
-</div>
-</div>
-</div>
-<div class="flex-1 w-full max-w-xl">
-<div class="aspect-video bg-slate-200 rounded-2xl overflow-hidden relative group cursor-pointer shadow-xl border border-[var(--kr-gov-border)]">
-<img alt="서비스 소개 영상 썸네일" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKzEmq3B_kHRl3FWheD0HIdd3wasUtuhFVFgeRS05lgvAoyZS3TAjbi14ilZx1_L6i6qxmVk4OP8cNbisdlZRCSUAOwrKOVimb-EXOsS8PU1Sp_cB__QUog96l3-0MOv1ytGr46E0DjQVE-xJZF1mpIl3qWUAcm0bMOOwwT95WOqhuzJ6n0e5xjS85Oh5ccEJ0Qba6PTC5EnaLQDnyXFxNQr1hHjf034PZnFbSRLt8rRWDtjPZZpYhIo1_brXQ_xjIQqT4XK8kvPM"/>
-<div class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/40 transition-colors">
-<div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined !text-4xl text-[var(--kr-gov-blue)]">play_arrow</span>
-</div>
-</div>
-<div class="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur p-3 rounded-lg">
-<p class="text-xs font-bold text-[var(--kr-gov-blue)]">튜토리얼 영상</p>
-<p class="text-sm font-bold">3분만에 배우는 CCUS 통합관리 시스템 활용법</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section class="max-w-4xl mx-auto px-4 -mt-8 relative z-10">
-<div class="bg-white p-2 rounded-full shadow-2xl border border-[var(--kr-gov-border)] flex items-center">
-<div class="flex items-center gap-3 pl-6 pr-4 border-r border-gray-200 hidden sm:flex">
-<span class="material-symbols-outlined text-gray-400">search</span>
-</div>
-<input aria-label="통합 검색" class="flex-1 h-14 border-none focus:ring-0 text-lg px-4 focus-visible" placeholder="궁금한 서비스나 지침서, FAQ를 검색해 보세요." type="text"/>
-<button class="bg-[var(--kr-gov-blue)] text-white px-8 py-4 rounded-full font-bold hover:bg-[var(--kr-gov-blue-dark)] transition-colors focus-visible">검색</button>
-</div>
-<div class="mt-4 flex justify-center gap-4 text-sm font-medium text-[var(--kr-gov-text-muted)]">
-<span class="text-gray-400">인기 키워드:</span>
-<a class="underline hover:text-[var(--kr-gov-blue)]" href="#">배출량 인증 절차</a>
-<a class="underline hover:text-[var(--kr-gov-blue)]" href="#">수수료 감면 혜택</a>
-<a class="underline hover:text-[var(--kr-gov-blue)]" href="#">포집기술 가이드</a>
-</div>
-</section>
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-<div class="text-center mb-12">
-<h2 class="text-2xl font-bold">주요 서비스 바로가기</h2>
-<p class="text-[var(--kr-gov-text-muted)] mt-2">사용자가 가장 많이 찾는 핵심 메뉴입니다.</p>
-</div>
-<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6">
-<a class="group flex flex-col items-center gap-4 focus-visible" href="#">
-<div class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
-<span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'wght' 500;">monitoring</span>
-</div>
-<span class="text-[15px] font-bold text-center">배출량 산정</span>
-</a>
-<a class="group flex flex-col items-center gap-4 focus-visible" href="#">
-<div class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
-<span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'wght' 500;">tag</span>
-</div>
-<span class="text-[15px] font-bold text-center">CO2 태그 검색</span>
-</a>
-<a class="group flex flex-col items-center gap-4 focus-visible" href="#">
-<div class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
-<span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'wght' 500;">payments</span>
-</div>
-<span class="text-[15px] font-bold text-center">수수료 관리</span>
-</a>
-<a class="group flex flex-col items-center gap-4 focus-visible" href="#">
-<div class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
-<span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'wght' 500;">description</span>
-</div>
-<span class="text-[15px] font-bold text-center">이의신청</span>
-</a>
-<a class="group flex flex-col items-center gap-4 focus-visible" href="#">
-<div class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
-<span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'wght' 500;">verified_user</span>
-</div>
-<span class="text-[15px] font-bold text-center">인증조회</span>
-</a>
-<a class="group flex flex-col items-center gap-4 focus-visible" href="#">
-<div class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
-<span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'wght' 500;">pie_chart</span>
-</div>
-<span class="text-[15px] font-bold text-center">프로젝트 통계</span>
-</a>
-<a class="group flex flex-col items-center gap-4 focus-visible" href="#">
-<div class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
-<span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'wght' 500;">auto_stories</span>
-</div>
-<span class="text-[15px] font-bold text-center">지침 다운로드</span>
-</a>
-<a class="group flex flex-col items-center gap-4 focus-visible" href="#">
-<div class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
-<span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'wght' 500;">support_agent</span>
-</div>
-<span class="text-[15px] font-bold text-center">헬프데스크</span>
-</a>
-</div>
-</section>
-<section class="bg-[var(--kr-gov-bg-light)] py-12">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
-<div class="lg:col-span-8 bg-white rounded-xl border border-[var(--kr-gov-border)] overflow-hidden">
-<div class="px-6 py-4 border-b border-[var(--kr-gov-border)] flex justify-between items-center">
-<h3 class="font-bold flex items-center gap-2 text-lg">
-<span class="material-symbols-outlined text-[var(--kr-gov-blue)]">notifications</span>
+    <a class="skip-link" href="#main-content">본문 바로가기</a>
+    <div class="bg-[#f2f2f2] border-b border-[var(--kr-gov-border)]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <img alt="대한민국 정부 상징" class="h-4"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BPzqtzSLVGSrjt4mzhhVBy9SocCRDssk1F3XRVu7Xq9jHh7qzzt48wFi8qduCiJmB0LRQczPB7waPe3h0gkjn3jOEDxt6UJSJjdXNf8P-4WlM2BEZrfg2SL91uSiZrFcCk9KYrsdg-biTS9dtJ_OIghDBEVoAzMc33XcCYR_UP0QQdoYzBe840YrtH40xGyB9MSr0QH4D0foqlvOhG0jX8CDayXNlDsSKlfClVd3K2aodlwg4xSxgXHB3vnnnA0L2yNBNihQQg0" />
+                <span class="text-xs font-medium text-[var(--kr-gov-text-muted)]">대한민국 정부 공식 서비스</span>
+            </div>
+            <div class="flex items-center gap-4 text-xs font-medium text-[var(--kr-gov-text-muted)]">
+                <div class="flex items-center bg-white border border-[var(--kr-gov-border)] rounded-sm overflow-hidden">
+                    <button class="px-2 py-0.5 bg-[var(--kr-gov-blue)] text-white"
+                        onclick="location.href='/home2'">KO</button>
+                    <button class="px-2 py-0.5 hover:bg-gray-100" onclick="location.href='/home2/en'">EN</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header class="bg-white border-b border-[var(--kr-gov-border)] sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-4">
+                    <a class="flex items-center gap-3 focus-visible" href="/login">
+                        <img alt="기관 로고" class="h-10"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE" />
+                        <div class="flex flex-col">
+                            <h1 class="text-lg font-bold leading-tight text-[var(--kr-gov-text-dark)]">CCUS 통합관리시스템</h1>
+                            <p class="text-[10px] text-[var(--kr-gov-text-muted)] font-bold uppercase tracking-tight">
+                                Digital Gov Service Guideline 2025.08</p>
+                        </div>
+                    </a>
+                </div>
+                <nav class="hidden lg:flex items-center space-x-8 h-full">
+                    <a class="h-full flex items-center text-[16px] font-bold text-[var(--kr-gov-text-dark)] hover:text-[var(--kr-gov-blue)] transition-colors focus-visible"
+                        href="#">서비스 가이드</a>
+                    <a class="h-full flex items-center text-[16px] font-bold text-[var(--kr-gov-text-dark)] hover:text-[var(--kr-gov-blue)] transition-colors focus-visible"
+                        href="#">배출량 산정</a>
+                    <a class="h-full flex items-center text-[16px] font-bold text-[var(--kr-gov-text-dark)] hover:text-[var(--kr-gov-blue)] transition-colors focus-visible"
+                        href="#">인증 신청</a>
+                    <a class="h-full flex items-center text-[16px] font-bold text-[var(--kr-gov-text-dark)] hover:text-[var(--kr-gov-blue)] transition-colors focus-visible"
+                        href="#">현황 및 통계</a>
+                    <a class="h-full flex items-center text-[16px] font-bold text-[var(--kr-gov-text-dark)] hover:text-[var(--kr-gov-blue)] transition-colors focus-visible"
+                        href="#">고객지원</a>
+                </nav>
+                <div class="flex items-center gap-2">
+                    <button
+                        class="px-4 py-2 text-sm font-bold border border-[var(--kr-gov-border)] rounded-[var(--radius-gov)] hover:bg-gray-50 focus-visible"
+                        style="border-radius: 5px;">회원가입</button>
+                    <button
+                        class="px-5 py-2 text-sm font-bold bg-[var(--kr-gov-blue)] text-white rounded-[var(--radius-gov)] hover:brightness-110 focus-visible"
+                        style="border-radius: 5px;" onclick="location.href='/login'">로그인</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main id="main-content">
+        <section class="bg-slate-50 border-b border-[var(--kr-gov-border)] pt-12 pb-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row gap-12 items-center">
+                    <div class="flex-1 space-y-8 w-full">
+                        <div class="relative">
+                            <span
+                                class="inline-block px-3 py-1 bg-[var(--kr-gov-blue)] text-white text-xs font-bold rounded mb-4">처음이신가요?</span>
+                            <h2 class="text-3xl sm:text-4xl font-black text-[var(--kr-gov-text-dark)] leading-tight">복잡한
+                                탄소 배출권 업무,<br />단계별 가이드로 시작하세요.</h2>
+                            <p class="mt-4 text-lg text-[var(--kr-gov-text-muted)]">CCUS 프로젝트 등록부터 인증서 발급까지 모든 과정을 쉽고
+                                정확하게 안내합니다.</p>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div
+                                class="bg-white p-6 rounded-xl border-2 border-[var(--kr-gov-blue)] guide-step-active relative">
+                                <div
+                                    class="absolute -top-3 left-6 bg-[var(--kr-gov-blue)] text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">
+                                    1</div>
+                                <h3 class="font-bold text-lg mb-2 mt-2">회원가입/인증</h3>
+                                <p class="text-sm text-[var(--kr-gov-text-muted)]">사업자 등록번호 기반의 공식 사용자 인증 단계</p>
+                                <a class="mt-4 inline-flex items-center text-sm font-bold text-[var(--kr-gov-blue)] hover:underline focus-visible"
+                                    href="#">시작하기 <span
+                                        class="material-symbols-outlined ml-1 !text-sm">arrow_forward</span></a>
+                            </div>
+                            <div
+                                class="bg-white p-6 rounded-xl border border-[var(--kr-gov-border)] hover:border-[var(--kr-gov-blue)] transition-colors relative">
+                                <div
+                                    class="absolute -top-3 left-6 bg-gray-300 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">
+                                    2</div>
+                                <h3 class="font-bold text-lg mb-2 mt-2">배출량 산정</h3>
+                                <p class="text-sm text-[var(--kr-gov-text-muted)]">포집 데이터 입력 및 배출계수 시뮬레이션</p>
+                            </div>
+                            <div
+                                class="bg-white p-6 rounded-xl border border-[var(--kr-gov-border)] hover:border-[var(--kr-gov-blue)] transition-colors relative">
+                                <div
+                                    class="absolute -top-3 left-6 bg-gray-300 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">
+                                    3</div>
+                                <h3 class="font-bold text-lg mb-2 mt-2">인증서 발급</h3>
+                                <p class="text-sm text-[var(--kr-gov-text-muted)]">심사 완료 후 공식 탄소 배출권 인증서 출력</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1 w-full max-w-xl">
+                        <div
+                            class="aspect-video bg-slate-200 rounded-2xl overflow-hidden relative group cursor-pointer shadow-xl border border-[var(--kr-gov-border)]">
+                            <img alt="서비스 소개 영상 썸네일" class="w-full h-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKzEmq3B_kHRl3FWheD0HIdd3wasUtuhFVFgeRS05lgvAoyZS3TAjbi14ilZx1_L6i6qxmVk4OP8cNbisdlZRCSUAOwrKOVimb-EXOsS8PU1Sp_cB__QUog96l3-0MOv1ytGr46E0DjQVE-xJZF1mpIl3qWUAcm0bMOOwwT95WOqhuzJ6n0e5xjS85Oh5ccEJ0Qba6PTC5EnaLQDnyXFxNQr1hHjf034PZnFbSRLt8rRWDtjPZZpYhIo1_brXQ_xjIQqT4XK8kvPM" />
+                            <div
+                                class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/40 transition-colors">
+                                <div
+                                    class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <span
+                                        class="material-symbols-outlined !text-4xl text-[var(--kr-gov-blue)]">play_arrow</span>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur p-3 rounded-lg">
+                                <p class="text-xs font-bold text-[var(--kr-gov-blue)]">튜토리얼 영상</p>
+                                <p class="text-sm font-bold">3분만에 배우는 CCUS 통합관리 시스템 활용법</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="max-w-4xl mx-auto px-4 -mt-8 relative z-10">
+            <div class="bg-white p-2 rounded-full shadow-2xl border border-[var(--kr-gov-border)] flex items-center">
+                <div class="flex items-center gap-3 pl-6 pr-4 border-r border-gray-200 hidden sm:flex">
+                    <span class="material-symbols-outlined text-gray-400">search</span>
+                </div>
+                <input aria-label="통합 검색" class="flex-1 h-14 border-none focus:ring-0 text-lg px-4 focus-visible"
+                    placeholder="궁금한 서비스나 지침서, FAQ를 검색해 보세요." type="text" />
+                <button
+                    class="bg-[var(--kr-gov-blue)] text-white px-8 py-4 rounded-full font-bold hover:bg-[var(--kr-gov-blue-dark)] transition-colors focus-visible">검색</button>
+            </div>
+            <div class="mt-4 flex justify-center gap-4 text-sm font-medium text-[var(--kr-gov-text-muted)]">
+                <span class="text-gray-400">인기 키워드:</span>
+                <a class="underline hover:text-[var(--kr-gov-blue)]" href="#">배출량 인증 절차</a>
+                <a class="underline hover:text-[var(--kr-gov-blue)]" href="#">수수료 감면 혜택</a>
+                <a class="underline hover:text-[var(--kr-gov-blue)]" href="#">포집기술 가이드</a>
+            </div>
+        </section>
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-bold">주요 서비스 바로가기</h2>
+                <p class="text-[var(--kr-gov-text-muted)] mt-2">사용자가 가장 많이 찾는 핵심 메뉴입니다.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6">
+                <a class="group flex flex-col items-center gap-4 focus-visible" href="#">
+                    <div
+                        class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
+                        <span class="material-symbols-outlined"
+                            style="font-size: 32px; font-variation-settings: 'wght' 500;">monitoring</span>
+                    </div>
+                    <span class="text-[15px] font-bold text-center">배출량 산정</span>
+                </a>
+                <a class="group flex flex-col items-center gap-4 focus-visible" href="#">
+                    <div
+                        class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
+                        <span class="material-symbols-outlined"
+                            style="font-size: 32px; font-variation-settings: 'wght' 500;">tag</span>
+                    </div>
+                    <span class="text-[15px] font-bold text-center">CO2 태그 검색</span>
+                </a>
+                <a class="group flex flex-col items-center gap-4 focus-visible" href="#">
+                    <div
+                        class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
+                        <span class="material-symbols-outlined"
+                            style="font-size: 32px; font-variation-settings: 'wght' 500;">payments</span>
+                    </div>
+                    <span class="text-[15px] font-bold text-center">수수료 관리</span>
+                </a>
+                <a class="group flex flex-col items-center gap-4 focus-visible" href="#">
+                    <div
+                        class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
+                        <span class="material-symbols-outlined"
+                            style="font-size: 32px; font-variation-settings: 'wght' 500;">description</span>
+                    </div>
+                    <span class="text-[15px] font-bold text-center">이의신청</span>
+                </a>
+                <a class="group flex flex-col items-center gap-4 focus-visible" href="#">
+                    <div
+                        class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
+                        <span class="material-symbols-outlined"
+                            style="font-size: 32px; font-variation-settings: 'wght' 500;">verified_user</span>
+                    </div>
+                    <span class="text-[15px] font-bold text-center">인증조회</span>
+                </a>
+                <a class="group flex flex-col items-center gap-4 focus-visible" href="#">
+                    <div
+                        class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
+                        <span class="material-symbols-outlined"
+                            style="font-size: 32px; font-variation-settings: 'wght' 500;">pie_chart</span>
+                    </div>
+                    <span class="text-[15px] font-bold text-center">프로젝트 통계</span>
+                </a>
+                <a class="group flex flex-col items-center gap-4 focus-visible" href="#">
+                    <div
+                        class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
+                        <span class="material-symbols-outlined"
+                            style="font-size: 32px; font-variation-settings: 'wght' 500;">auto_stories</span>
+                    </div>
+                    <span class="text-[15px] font-bold text-center">지침 다운로드</span>
+                </a>
+                <a class="group flex flex-col items-center gap-4 focus-visible" href="#">
+                    <div
+                        class="w-16 h-16 bg-blue-50 text-[var(--kr-gov-blue)] rounded-xl flex items-center justify-center group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-all shadow-sm">
+                        <span class="material-symbols-outlined"
+                            style="font-size: 32px; font-variation-settings: 'wght' 500;">support_agent</span>
+                    </div>
+                    <span class="text-[15px] font-bold text-center">헬프데스크</span>
+                </a>
+            </div>
+        </section>
+        <section class="bg-[var(--kr-gov-bg-light)] py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8 bg-white rounded-xl border border-[var(--kr-gov-border)] overflow-hidden">
+                    <div class="px-6 py-4 border-b border-[var(--kr-gov-border)] flex justify-between items-center">
+                        <h3 class="font-bold flex items-center gap-2 text-lg">
+                            <span class="material-symbols-outlined text-[var(--kr-gov-blue)]">notifications</span>
                             공지사항
                         </h3>
-<a class="text-sm font-bold text-[var(--kr-gov-text-muted)] hover:underline focus-visible" href="#">전체보기</a>
-</div>
-<ul class="divide-y divide-gray-100">
-<li>
-<a class="block px-6 py-4 hover:bg-gray-50 transition-colors focus-visible" href="#">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-<span class="font-medium text-[var(--kr-gov-text-dark)] truncate">2025년 하반기 CCUS 기술 인증 평가 일정 안내</span>
-<span class="text-xs text-[var(--kr-gov-text-muted)] whitespace-nowrap">2025.08.10</span>
-</div>
-</a>
-</li>
-<li>
-<a class="block px-6 py-4 hover:bg-gray-50 transition-colors focus-visible" href="#">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-<span class="font-medium text-[var(--kr-gov-text-dark)] truncate">온실가스 감축량 산정 지침(v3.1) 개정 알림</span>
-<span class="text-xs text-[var(--kr-gov-text-muted)] whitespace-nowrap">2025.08.05</span>
-</div>
-</a>
-</li>
-<li>
-<a class="block px-6 py-4 hover:bg-gray-50 transition-colors focus-visible" href="#">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-<span class="font-medium text-[var(--kr-gov-text-dark)] truncate">시스템 보안 점검에 따른 서비스 일시 중단 안내 (08.15)</span>
-<span class="text-xs text-[var(--kr-gov-text-muted)] whitespace-nowrap">2025.08.01</span>
-</div>
-</a>
-</li>
-</ul>
-</div>
-<div class="lg:col-span-4">
-<div class="bg-gradient-to-br from-[var(--kr-gov-blue)] to-[#0052cc] rounded-xl p-8 text-white h-full flex flex-col justify-between relative overflow-hidden">
-<div class="relative z-10">
-<span class="inline-block px-2 py-0.5 bg-white/20 rounded text-[10px] font-bold mb-3">NEW POLICY</span>
-<h3 class="text-xl font-bold leading-snug">탄소중립 기술 중소기업<br/>인증 수수료 50% 감면</h3>
-<p class="mt-4 text-blue-100 text-sm">2025년 9월부터 시행되는 새로운 정책을 지금 바로 확인해 보세요.</p>
-</div>
-<div class="mt-8 flex justify-between items-center relative z-10">
-<a class="bg-white text-[var(--kr-gov-blue)] px-5 py-2 rounded-md text-sm font-bold hover:bg-blue-50 focus-visible" href="#" style="border-radius: 5px;">자세히 보기</a>
-<div class="flex gap-2">
-<button aria-label="이전 배너" class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10">
-<span class="material-symbols-outlined !text-lg">chevron_left</span>
-</button>
-<button aria-label="다음 배너" class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10">
-<span class="material-symbols-outlined !text-lg">chevron_right</span>
-</button>
-</div>
-</div>
-<span class="material-symbols-outlined absolute -bottom-4 -right-4 !text-[120px] opacity-10 rotate-12">policy</span>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="bg-[#f2f2f2] border-t border-[var(--kr-gov-border)] pt-12 pb-8">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex flex-col lg:flex-row justify-between gap-10 border-b border-[var(--kr-gov-border)] pb-10">
-<div class="space-y-6">
-<div class="flex items-center gap-3">
-<img alt="대한민국 정부 상징" class="h-10 grayscale opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE"/>
-<span class="text-xl font-bold text-[var(--kr-gov-text-dark)]">탄소중립 CCUS 통합관리본부</span>
-</div>
-<div class="text-[14px] text-[var(--kr-gov-text-muted)] space-y-1.5 leading-relaxed">
-<p>(04551) 서울특별시 중구 세종대로 110 | 대표전화: 02-1234-5678 (평일 09:00~18:00)</p>
-<p>본 사이트의 무단전재 및 복사를 금하며, 관련 법령에 따라 처벌될 수 있습니다.</p>
-</div>
-</div>
-<div class="flex flex-wrap gap-x-10 gap-y-4 items-start">
-<div class="space-y-3">
-<h4 class="font-bold text-sm">정보공개</h4>
-<ul class="text-sm space-y-2 text-[var(--kr-gov-text-muted)]">
-<li><a class="hover:underline" href="#">개인정보처리방침</a></li>
-<li><a class="hover:underline" href="#">저작권 정책</a></li>
-<li><a class="hover:underline" href="#">이용약관</a></li>
-</ul>
-</div>
-<div class="space-y-3">
-<h4 class="font-bold text-sm">고객센터</h4>
-<ul class="text-sm space-y-2 text-[var(--kr-gov-text-muted)]">
-<li><a class="hover:underline" href="#">자주 묻는 질문</a></li>
-<li><a class="hover:underline" href="#">온라인 문의</a></li>
-<li><a class="hover:underline" href="#">찾아오시는 길</a></li>
-</ul>
-</div>
-</div>
-</div>
-<div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-<div class="flex flex-col md:flex-row items-center gap-4 text-xs font-medium text-[var(--kr-gov-text-muted)]">
-<p>© 2025 CCUS Integration Management System. All rights reserved.</p>
-<span class="hidden md:inline text-gray-300">|</span>
-<span class="bg-gray-200 px-2 py-0.5 rounded-sm">최종 수정일: 2025.08.14</span>
-</div>
-<div class="flex items-center gap-6">
-<img alt="웹 접근성 품질인증 마크" class="h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzkKwREcbsB7LV3B2b7fBK7y2M_9Exa0vlGVzxNy2qM0n1LFMRlBCIa_XiIBeCfvv3DkMb9Z0D05Y-RMuAytisqlCS8QTpbtebgKnMnWoefEx5uJOgRW5H_8Pw9jmaRvkiW6sVRrifgIhrWc5hi2PRUGHgXn-q8-veHvu9wSwDhtcvbHKYyokgnP-hqdR10ahEAdBe4vFFkR88N_By8pjpp34KH9TwHOouRLBwdfVCsRGmDCS6wnvQZDwf6s4HyScSMXyJJGQjl8Y"/>
-<div class="flex gap-2">
-<button aria-label="블로그" class="w-8 h-8 rounded-full border border-[var(--kr-gov-border)] flex items-center justify-center bg-white hover:bg-gray-100">
-<span class="material-symbols-outlined !text-lg">share</span>
-</button>
-<button aria-label="유튜브" class="w-8 h-8 rounded-full border border-[var(--kr-gov-border)] flex items-center justify-center bg-white hover:bg-gray-100">
-<span class="material-symbols-outlined !text-lg">movie</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-</footer>
+                        <a class="text-sm font-bold text-[var(--kr-gov-text-muted)] hover:underline focus-visible"
+                            href="#">전체보기</a>
+                    </div>
+                    <ul class="divide-y divide-gray-100">
+                        <li>
+                            <a class="block px-6 py-4 hover:bg-gray-50 transition-colors focus-visible" href="#">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <span class="font-medium text-[var(--kr-gov-text-dark)] truncate">2025년 하반기 CCUS 기술
+                                        인증 평가 일정 안내</span>
+                                    <span
+                                        class="text-xs text-[var(--kr-gov-text-muted)] whitespace-nowrap">2025.08.10</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="block px-6 py-4 hover:bg-gray-50 transition-colors focus-visible" href="#">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <span class="font-medium text-[var(--kr-gov-text-dark)] truncate">온실가스 감축량 산정
+                                        지침(v3.1) 개정 알림</span>
+                                    <span
+                                        class="text-xs text-[var(--kr-gov-text-muted)] whitespace-nowrap">2025.08.05</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="block px-6 py-4 hover:bg-gray-50 transition-colors focus-visible" href="#">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <span class="font-medium text-[var(--kr-gov-text-dark)] truncate">시스템 보안 점검에 따른 서비스
+                                        일시 중단 안내 (08.15)</span>
+                                    <span
+                                        class="text-xs text-[var(--kr-gov-text-muted)] whitespace-nowrap">2025.08.01</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lg:col-span-4">
+                    <div
+                        class="bg-gradient-to-br from-[var(--kr-gov-blue)] to-[#0052cc] rounded-xl p-8 text-white h-full flex flex-col justify-between relative overflow-hidden">
+                        <div class="relative z-10">
+                            <span class="inline-block px-2 py-0.5 bg-white/20 rounded text-[10px] font-bold mb-3">NEW
+                                POLICY</span>
+                            <h3 class="text-xl font-bold leading-snug">탄소중립 기술 중소기업<br />인증 수수료 50% 감면</h3>
+                            <p class="mt-4 text-blue-100 text-sm">2025년 9월부터 시행되는 새로운 정책을 지금 바로 확인해 보세요.</p>
+                        </div>
+                        <div class="mt-8 flex justify-between items-center relative z-10">
+                            <a class="bg-white text-[var(--kr-gov-blue)] px-5 py-2 rounded-md text-sm font-bold hover:bg-blue-50 focus-visible"
+                                href="#" style="border-radius: 5px;">자세히 보기</a>
+                            <div class="flex gap-2">
+                                <button aria-label="이전 배너"
+                                    class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10">
+                                    <span class="material-symbols-outlined !text-lg">chevron_left</span>
+                                </button>
+                                <button aria-label="다음 배너"
+                                    class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10">
+                                    <span class="material-symbols-outlined !text-lg">chevron_right</span>
+                                </button>
+                            </div>
+                        </div>
+                        <span
+                            class="material-symbols-outlined absolute -bottom-4 -right-4 !text-[120px] opacity-10 rotate-12">policy</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-[#f2f2f2] border-t border-[var(--kr-gov-border)] pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row justify-between gap-10 border-b border-[var(--kr-gov-border)] pb-10">
+                <div class="space-y-6">
+                    <div class="flex items-center gap-3">
+                        <img alt="대한민국 정부 상징" class="h-10 grayscale opacity-80"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE" />
+                        <span class="text-xl font-bold text-[var(--kr-gov-text-dark)]">탄소중립 CCUS 통합관리본부</span>
+                    </div>
+                    <div class="text-[14px] text-[var(--kr-gov-text-muted)] space-y-1.5 leading-relaxed">
+                        <p>(04551) 서울특별시 중구 세종대로 110 | 대표전화: 02-1234-5678 (평일 09:00~18:00)</p>
+                        <p>본 사이트의 무단전재 및 복사를 금하며, 관련 법령에 따라 처벌될 수 있습니다.</p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-x-10 gap-y-4 items-start">
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-sm">정보공개</h4>
+                        <ul class="text-sm space-y-2 text-[var(--kr-gov-text-muted)]">
+                            <li><a class="hover:underline" href="#">개인정보처리방침</a></li>
+                            <li><a class="hover:underline" href="#">저작권 정책</a></li>
+                            <li><a class="hover:underline" href="#">이용약관</a></li>
+                        </ul>
+                    </div>
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-sm">고객센터</h4>
+                        <ul class="text-sm space-y-2 text-[var(--kr-gov-text-muted)]">
+                            <li><a class="hover:underline" href="#">자주 묻는 질문</a></li>
+                            <li><a class="hover:underline" href="#">온라인 문의</a></li>
+                            <li><a class="hover:underline" href="#">찾아오시는 길</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div
+                    class="flex flex-col md:flex-row items-center gap-4 text-xs font-medium text-[var(--kr-gov-text-muted)]">
+                    <p>© 2025 CCUS Integration Management System. All rights reserved.</p>
+                    <span class="hidden md:inline text-gray-300">|</span>
+                    <span class="bg-gray-200 px-2 py-0.5 rounded-sm">최종 수정일: 2025.08.14</span>
+                </div>
+                <div class="flex items-center gap-6">
+                    <img alt="웹 접근성 품질인증 마크" class="h-10"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzkKwREcbsB7LV3B2b7fBK7y2M_9Exa0vlGVzxNy2qM0n1LFMRlBCIa_XiIBeCfvv3DkMb9Z0D05Y-RMuAytisqlCS8QTpbtebgKnMnWoefEx5uJOgRW5H_8Pw9jmaRvkiW6sVRrifgIhrWc5hi2PRUGHgXn-q8-veHvu9wSwDhtcvbHKYyokgnP-hqdR10ahEAdBe4vFFkR88N_By8pjpp34KH9TwHOouRLBwdfVCsRGmDCS6wnvQZDwf6s4HyScSMXyJJGQjl8Y" />
+                    <div class="flex gap-2">
+                        <button aria-label="블로그"
+                            class="w-8 h-8 rounded-full border border-[var(--kr-gov-border)] flex items-center justify-center bg-white hover:bg-gray-100">
+                            <span class="material-symbols-outlined !text-lg">share</span>
+                        </button>
+                        <button aria-label="유튜브"
+                            class="w-8 h-8 rounded-full border border-[var(--kr-gov-border)] flex items-center justify-center bg-white hover:bg-gray-100">
+                            <span class="material-symbols-outlined !text-lg">movie</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-</body></html>
+</body>
+
+</html>
