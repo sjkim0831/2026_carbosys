@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html class="light" lang="ko">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>탄소 중립 및 CCUS 전략 플랫폼 - CARBON TRUST</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "emerald-green": "#10b981",
+                        "emerald-dark": "#059669",
+                        "emerald-deep": "#064e3b",
+                        "emerald-light": "#d1fae5",
+                        "charcoal-gray": "#334155",
+                        "charcoal-dark": "#1e293b",
+                    },
+                    fontFamily: {
+                        "sans": ["Noto Sans KR", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply font-sans text-charcoal-dark bg-white;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-gradient {
+            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.65)), url('https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&q=80&w=2041');
+            background-size: cover;
+            background-position: center;
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 30px -5px rgb(0 0 0 / 0.08), 0 10px 15px -6px rgb(0 0 0 / 0.08);
+        }
+        .logo-slider {
+            display: flex;
+            overflow: hidden;
+            user-select: none;
+            gap: 4rem;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col relative">
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-emerald-green text-3xl font-bold">eco</span>
+                    <span class="text-xl font-black tracking-tight text-charcoal-dark">CARBON<span
+                            class="text-emerald-green">TRUST</span></span>
+                </div>
+                <div class="hidden lg:flex items-center gap-10">
+                    <a class="text-[15px] font-bold text-charcoal-gray hover:text-emerald-green transition-colors"
+                        href="#">배출량 산정</a>
+                    <a class="text-[15px] font-bold text-charcoal-gray hover:text-emerald-green transition-colors"
+                        href="#">인증 서비스</a>
+                    <a class="text-[15px] font-bold text-charcoal-gray hover:text-emerald-green transition-colors"
+                        href="#">CCUS 국가 전략</a>
+                    <a class="text-[15px] font-bold text-charcoal-gray hover:text-emerald-green transition-colors"
+                        href="#">고객 지원</a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="p-2 text-charcoal-gray hover:text-emerald-green transition-colors">
+                        <span class="material-symbols-outlined">search</span>
+                    </button>
+                    <div
+                        class="hidden sm:flex items-center text-xs font-bold text-slate-400 gap-1 px-4 border-r border-slate-200 mr-2">
+                        <button class="text-emerald-green" onclick="location.href='/home?language=ko'">KR</button>
+                        <span>|</span>
+                        <button class="hover:text-charcoal-gray" onclick="location.href='/home?language=en'">EN</button>
+                    </div>
+                    <button class="hidden sm:block text-sm font-medium text-charcoal-gray hover:text-emerald-green px-4"
+                        onclick="location.href='2. 로그인 페이지.html'">로그인</button>
+                    <button
+                        class="bg-emerald-green hover:bg-emerald-dark text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-lg shadow-emerald-500/20">
+                        시작하기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section
+        class="hero-gradient min-h-[800px] flex items-center justify-center text-center text-white px-4 relative overflow-hidden">
+        <div class="max-w-5xl space-y-10 py-32 relative z-10">
+            <div
+                class="inline-flex items-center px-4 py-2 rounded-full bg-emerald-900/40 border border-emerald-500/30 backdrop-blur-md text-emerald-300 text-sm font-bold">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2"></span>
+                기업·지자체·공공기관을 위한 국가 표준 탄소 관리 플랫폼
+            </div>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.1] tracking-tight drop-shadow-2xl">
+                지속 가능한 미래를 위한<br />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-200">탄소 중립
+                    파트너</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-200 font-medium max-w-3xl mx-auto drop-shadow-lg leading-relaxed">
+                국가 전략 기반의 정밀한 배출량 산정과 글로벌 CCUS 인증 서비스로<br class="hidden sm:block" />
+                공공 및 민간의 기후 변화 대응 경쟁력을 강화합니다.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-5 justify-center pt-10">
+                <button
+                    class="bg-emerald-green hover:bg-emerald-600 text-white px-10 py-5 rounded-2xl font-bold text-xl shadow-2xl shadow-emerald-900/50 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    인증 가능 여부 3분 자가진단
+                    <span class="material-symbols-outlined">bolt</span>
+                </button>
+                <button
+                    class="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/30 px-10 py-5 rounded-2xl font-bold text-xl transition-all transform hover:-translate-y-1">
+                    전략 분석 서비스
+                </button>
+            </div>
+            <div class="mt-24 grid grid-cols-2 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div
+                    class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center transform hover:bg-white/10 transition-all">
+                    <div class="text-4xl md:text-5xl font-black text-emerald-300 mb-2">2,842+</div>
+                    <div class="text-sm text-slate-300 font-bold mb-1 uppercase tracking-wider">Completed</div>
+                    <div class="text-base text-slate-100 font-medium leading-tight">국내·외 인증 완료 기업</div>
+                </div>
+                <div
+                    class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center transform hover:bg-white/10 transition-all">
+                    <div class="text-4xl md:text-5xl font-black text-emerald-300 mb-2">174.5k</div>
+                    <div class="text-sm text-slate-300 font-bold mb-1 uppercase tracking-wider">Accumulated Data</div>
+                    <div class="text-base text-slate-100 font-medium leading-tight">누적 탄소 측정 데이터(tCO₂e)</div>
+                </div>
+                <div
+                    class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center transform hover:bg-white/10 transition-all hidden md:block">
+                    <div class="text-4xl md:text-5xl font-black text-emerald-300 mb-2">99.98%</div>
+                    <div class="text-sm text-slate-300 font-bold mb-1 uppercase tracking-wider">Reliability</div>
+                    <div class="text-base text-slate-100 font-medium leading-tight">검증 데이터 신뢰도</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 relative z-20 mb-32">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div
+                class="bg-white rounded-3xl p-8 shadow-2xl shadow-slate-200/60 card-hover border border-slate-100 flex flex-col h-full">
+                <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mb-6 text-emerald-600">
+                    <span class="material-symbols-outlined text-4xl">analytics</span>
+                </div>
+                <h3 class="text-xl font-bold text-charcoal-dark mb-3">배출량 산정</h3>
+                <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                    Scope 1, 2, 3 전 범위에 걸친 고도화된 데이터 분석을 제공합니다.
+                </p>
+                <div class="mt-auto">
+                    <div class="bg-slate-50 rounded-xl p-3 mb-4 text-[13px] font-bold text-emerald-700">
+                        • Scope 1·2·3 자동 대응
+                    </div>
+                    <a class="text-emerald-600 font-bold text-xs flex items-center gap-1 hover:underline" href="#">
+                        서비스 상세보기 <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+            <div
+                class="bg-white rounded-3xl p-8 shadow-2xl shadow-slate-200/60 card-hover border border-slate-100 flex flex-col h-full">
+                <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mb-6 text-emerald-600">
+                    <span class="material-symbols-outlined text-4xl">verified</span>
+                </div>
+                <h3 class="text-xl font-bold text-charcoal-dark mb-3">인증 서비스</h3>
+                <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                    국가 공인 및 국제 표준에 부합하는 정밀 검증으로 신뢰성을 보장합니다.
+                </p>
+                <div class="mt-auto">
+                    <div class="bg-slate-50 rounded-xl p-3 mb-4 text-[13px] font-bold text-emerald-700">
+                        • 국가·국제 표준 동시 충족
+                    </div>
+                    <a class="text-emerald-600 font-bold text-xs flex items-center gap-1 hover:underline" href="#">
+                        서비스 상세보기 <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+            <div
+                class="bg-white rounded-3xl p-8 shadow-2xl shadow-slate-200/60 card-hover border border-slate-100 flex flex-col h-full">
+                <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mb-6 text-emerald-600">
+                    <span class="material-symbols-outlined text-4xl">hub</span>
+                </div>
+                <h3 class="text-xl font-bold text-charcoal-dark mb-3">CCUS 국가 전략</h3>
+                <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                    탄소 포집·활용·저장 기술 도입을 위한 정책 연계 로드맵을 수립합니다.
+                </p>
+                <div class="mt-auto">
+                    <div class="bg-slate-50 rounded-xl p-3 mb-4 text-[13px] font-bold text-emerald-700">
+                        • 핵심 기술 타당성 분석
+                    </div>
+                    <a class="text-emerald-600 font-bold text-xs flex items-center gap-1 hover:underline" href="#">
+                        서비스 상세보기 <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+            <div
+                class="bg-white rounded-3xl p-8 shadow-2xl shadow-slate-200/60 card-hover border border-slate-100 flex flex-col h-full">
+                <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mb-6 text-emerald-600">
+                    <span class="material-symbols-outlined text-4xl">monitoring</span>
+                </div>
+                <h3 class="text-xl font-bold text-charcoal-dark mb-3">데이터 대시보드</h3>
+                <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                    실시간 감축 현황과 기후 목표 달성도를 정교하게 시각화합니다.
+                </p>
+                <div class="mt-auto">
+                    <div class="bg-slate-50 rounded-xl p-3 mb-4 text-[13px] font-bold text-emerald-700">
+                        • 지능형 감축 목표 관리
+                    </div>
+                    <a class="text-emerald-600 font-bold text-xs flex items-center gap-1 hover:underline" href="#">
+                        서비스 상세보기 <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-32 pt-16 border-t border-slate-100">
+            <div class="text-center mb-12">
+                <p class="text-sm font-bold text-slate-400 tracking-widest uppercase mb-4">Trusted By Governments &amp;
+                    Institutions</p>
+                <h2 class="text-2xl font-bold text-charcoal-dark">함께 혁신을 만들어가는 협력 기관</h2>
+            </div>
+            <div class="logo-slider items-center justify-between grayscale opacity-40 px-4">
+                <div class="flex items-center gap-3 font-bold text-2xl"><span
+                        class="material-symbols-outlined text-4xl">account_balance</span> MINISTRY</div>
+                <div class="flex items-center gap-3 font-bold text-2xl"><span
+                        class="material-symbols-outlined text-4xl">verified_user</span> ISO CERTIFIED</div>
+                <div class="flex items-center gap-3 font-bold text-2xl"><span
+                        class="material-symbols-outlined text-4xl">public</span> GLOBAL PARTNER</div>
+                <div class="flex items-center gap-3 font-bold text-2xl"><span
+                        class="material-symbols-outlined text-4xl">corporate_fare</span> KOREA TECH</div>
+                <div class="flex items-center gap-3 font-bold text-2xl"><span
+                        class="material-symbols-outlined text-4xl">shield_with_heart</span> ESG ALLIANCE</div>
+            </div>
+        </div>
+    </section>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 mb-10 w-full bg-slate-50 rounded-[3rem]">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 p-10">
+            <div class="space-y-8">
+                <div class="flex justify-between items-end border-b-2 border-emerald-600 pb-5">
+                    <div>
+                        <h2 class="text-3xl font-black text-charcoal-dark flex items-center gap-3">
+                            지금 꼭 알아야 할 주요 소식
+                        </h2>
+                        <p class="text-slate-400 text-sm mt-2">최신 탄소 중립 기술 동향과 정책 소식을 전해드립니다.</p>
+                    </div>
+                    <a class="text-sm font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 transition-colors"
+                        href="#">
+                        전체보기 <span class="material-symbols-outlined text-sm">add</span>
+                    </a>
+                </div>
+                <div class="space-y-4">
+                    <a class="group bg-white p-6 flex justify-between items-center rounded-2xl shadow-sm hover:shadow-md transition-all border border-transparent hover:border-emerald-100"
+                        href="#">
+                        <div class="flex items-center gap-4 overflow-hidden">
+                            <span
+                                class="shrink-0 px-3 py-1 rounded bg-emerald-50 text-emerald-600 text-xs font-bold">Policy</span>
+                            <span
+                                class="text-charcoal-gray group-hover:text-emerald-600 transition-colors font-bold truncate">2024년
+                                CCUS 국가 기술 전략 가이드라인 배포</span>
+                        </div>
+                        <span class="text-xs text-slate-400 font-medium shrink-0 ml-4">2024.05.20</span>
+                    </a>
+                    <a class="group bg-white p-6 flex justify-between items-center rounded-2xl shadow-sm hover:shadow-md transition-all border border-transparent hover:border-emerald-100"
+                        href="#">
+                        <div class="flex items-center gap-4 overflow-hidden">
+                            <span
+                                class="shrink-0 px-3 py-1 rounded bg-slate-100 text-slate-500 text-xs font-bold">Notice</span>
+                            <span
+                                class="text-charcoal-gray group-hover:text-emerald-600 transition-colors font-bold truncate">국제
+                                탄소 표준 인증 시스템 정기 점검 안내</span>
+                        </div>
+                        <span class="text-xs text-slate-400 font-medium shrink-0 ml-4">2024.05.18</span>
+                    </a>
+                    <a class="group bg-white p-6 flex justify-between items-center rounded-2xl shadow-sm hover:shadow-md transition-all border border-transparent hover:border-emerald-100"
+                        href="#">
+                        <div class="flex items-center gap-4 overflow-hidden">
+                            <span
+                                class="shrink-0 px-3 py-1 rounded bg-slate-100 text-slate-500 text-xs font-bold">Recruit</span>
+                            <span
+                                class="text-charcoal-gray group-hover:text-emerald-600 transition-colors font-bold truncate">CCUS
+                                인증 서비스 신규 고객사 모집 공고</span>
+                        </div>
+                        <span class="text-xs text-slate-400 font-medium shrink-0 ml-4">2024.05.15</span>
+                    </a>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <div class="flex justify-between items-end border-b-2 border-charcoal-dark pb-5">
+                    <div>
+                        <h2 class="text-3xl font-black text-charcoal-dark flex items-center gap-3">
+                            미디어 센터
+                        </h2>
+                        <p class="text-slate-400 text-sm mt-2">CARBON TRUST의 대외 활동 및 보도 자료입니다.</p>
+                    </div>
+                    <a class="text-sm font-bold text-slate-400 hover:text-charcoal-dark flex items-center gap-1 transition-colors"
+                        href="#">
+                        더보기 <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    <div class="group cursor-pointer">
+                        <div
+                            class="aspect-[4/3] bg-slate-200 rounded-3xl mb-5 overflow-hidden border border-slate-100 shadow-sm relative">
+                            <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors z-10">
+                            </div>
+                            <img alt="Press 1"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl1tDnjwTNMDMWKyvbbFLzXqxgxiyJxpS0EBy-5kRJIkCh7PdJD_436Iiduh_LNuGDHBryAxHsI_5ZubngAlBePeJa4ztrvwFSIDedsHk1x6MgNETUeMbw-xOVlL3HMj2zeuZ8mezMyjXoaYxj2_J9KBqC0PM6mR1-1izw1HjqWezTQllDCsfAYtypiID4OUBucsWTSlkq_Ua9YEs_pHYt1QxCr7zOOcLREPaGSv14vZ2neC-18aTA2_88m2Qm8qKZQ_itnwu7wkPz" />
+                        </div>
+                        <h3
+                            class="font-bold text-charcoal-dark group-hover:text-emerald-600 transition-colors line-clamp-2 leading-tight text-lg">
+                            국가 CCUS 통합 인증 시스템 구축... 탄소 중립 가속화의 중추
+                        </h3>
+                        <p
+                            class="text-xs text-slate-400 mt-3 font-medium flex items-center gap-1 uppercase tracking-wider">
+                            <span class="material-symbols-outlined text-[14px]">calendar_today</span> 2024.05.19
+                        </p>
+                    </div>
+                    <div class="group cursor-pointer">
+                        <div
+                            class="aspect-[4/3] bg-slate-200 rounded-3xl mb-5 overflow-hidden border border-slate-100 shadow-sm relative">
+                            <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors z-10">
+                            </div>
+                            <img alt="Press 2"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC18UOrfY3_nZ3iDDZtCJbsUrsrXQ0CnRoLwKe98EoE_3Fy9SgEcUVODSTy1cB-1e1UhsPtJ9ryE_R_k1WqVyk_6rJdfs8LYsr8p-GfmB6xIkGha0FJHCvIGlZrI-0a6oUFogaQzZ4v0999SW7epWaR5FdsZtLZvQlOvUBObnKwIPSOre7kx0bJ61oasRaZV-2cw-i58V4vgcdfcootyYHpHquDNCrRKQYfUpNB3yq92DeqhANHNrDzUe9r2upxE4daCO2uM2uKG9HQ" />
+                        </div>
+                        <h3
+                            class="font-bold text-charcoal-dark group-hover:text-emerald-600 transition-colors line-clamp-2 leading-tight text-lg">
+                            탄소 배출량 산정 알고리즘 국제 표준 적합성 판정 획득
+                        </h3>
+                        <p
+                            class="text-xs text-slate-400 mt-3 font-medium flex items-center gap-1 uppercase tracking-wider">
+                            <span class="material-symbols-outlined text-[14px]">calendar_today</span> 2024.05.16
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-24 text-center bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <span class="text-emerald-600 font-black text-sm tracking-[0.3em] uppercase mb-6 block">Our Vision</span>
+            <h2 class="text-3xl md:text-5xl font-black text-charcoal-dark leading-tight">
+                "탄소 중립은 선언이 아니라,<br class="hidden sm:block" />
+                <span class="text-emerald-600">정확한 데이터</span>에서 시작됩니다."
+            </h2>
+            <div class="mt-12 h-1 w-20 bg-emerald-100 mx-auto rounded-full"></div>
+        </div>
+    </section>
+    <footer class="bg-charcoal-dark text-slate-300 py-20 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-16">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-8">
+                        <span class="material-symbols-outlined text-emerald-green text-3xl font-bold">eco</span>
+                        <span class="text-2xl font-black tracking-tight text-white">CARBON<span
+                                class="text-emerald-green">TRUST</span></span>
+                    </div>
+                    <p class="text-[15px] leading-relaxed text-slate-400 mb-8">
+                        국가 탄소 중립 목표 달성을 위한<br />
+                        통합 CCUS 및 탄소 관리 플랫폼입니다.<br />
+                        공공의 신뢰를 바탕으로 미래를 설계합니다.
+                    </p>
+                    <div class="flex gap-4">
+                        <a class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-emerald-green hover:text-white transition-all duration-300"
+                            href="#">
+                            <span class="material-symbols-outlined">public</span>
+                        </a>
+                        <a class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-emerald-green hover:text-white transition-all duration-300"
+                            href="#">
+                            <span class="material-symbols-outlined">chat</span>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-8 text-lg">핵심 서비스</h4>
+                    <ul class="space-y-4 text-[15px] text-slate-400">
+                        <li><a class="hover:text-emerald-green transition-colors" href="#">국가 배출량 산정</a></li>
+                        <li><a class="hover:text-emerald-green transition-colors" href="#">CCUS 전략 분석</a></li>
+                        <li><a class="hover:text-emerald-green transition-colors" href="#">국제 표준 인증</a></li>
+                        <li><a class="hover:text-emerald-green transition-colors" href="#">공공 플랫폼 지원</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-8 text-lg">정보 공개</h4>
+                    <ul class="space-y-4 text-[15px] text-slate-400">
+                        <li><a class="hover:text-emerald-green transition-colors" href="#">사업 계획 공고</a></li>
+                        <li><a class="hover:text-emerald-green transition-colors" href="#">기술 표준 자료</a></li>
+                        <li><a class="hover:text-emerald-green transition-colors" href="#">법령 및 지침</a></li>
+                        <li><a class="hover:text-emerald-green transition-colors" href="#">민원 신청</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-8 text-lg">Contact Center</h4>
+                    <ul class="space-y-5 text-[15px] text-slate-400">
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-emerald-green mt-0.5">location_on</span>
+                            <span>세종특별자치시 도움6로 11<br />정부세종청사 탄소중립지원센터</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-emerald-green">mail</span>
+                            <a class="hover:text-white"
+                                href="mailto:admin@carbontrust.or.kr">admin@carbontrust.or.kr</a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-emerald-green">call</span>
+                            <span class="text-xl font-bold text-white">044-123-4567</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                class="border-t border-slate-800 mt-20 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-slate-500 uppercase tracking-widest font-bold">
+                <p>© 2024 CARBON TRUST Public Platform. All Rights Reserved.</p>
+                <div class="flex gap-8">
+                    <a class="hover:text-white transition-colors" href="#">이용약관</a>
+                    <a class="text-slate-300 hover:text-white transition-colors underline decoration-emerald-500/50 underline-offset-4"
+                        href="#">개인정보처리방침</a>
+                    <a class="hover:text-white transition-colors" href="#">이메일무단수집거부</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div
+        class="fixed bottom-8 right-8 z-[100] w-80 bg-white rounded-[2rem] shadow-2xl border border-slate-100 overflow-hidden transform transition-all hover:-translate-y-1">
+        <div class="bg-gradient-to-r from-emerald-600 to-teal-600 h-1.5 w-full"></div>
+        <div class="p-8 relative">
+            <button class="text-slate-300 hover:text-charcoal-dark transition-colors absolute top-6 right-6">
+                <span class="material-symbols-outlined text-xl">close</span>
+            </button>
+            <div class="bg-emerald-50 text-emerald-600 w-12 h-12 rounded-2xl flex items-center justify-center mb-6">
+                <span class="material-symbols-outlined text-2xl">event_note</span>
+            </div>
+            <h4 class="text-charcoal-dark font-black text-xl mb-3">CCUS 국가 전략 세미나</h4>
+            <p class="text-sm text-slate-500 leading-relaxed mb-6">
+                2024년 탄소 포집 및 저장 기술의 국가적 로드맵과 인증 표준안을 발표합니다.
+            </p>
+            <button
+                class="w-full bg-emerald-green text-white py-4 rounded-2xl text-[15px] font-bold hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-xl shadow-emerald-500/30">
+                사전 신청하기
+                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+            </button>
+            <div class="mt-5 flex items-center gap-2 border-t border-slate-100 pt-4">
+                <input
+                    class="rounded border-slate-300 text-emerald-green focus:ring-emerald-green w-4 h-4 cursor-pointer"
+                    id="no-more" type="checkbox" />
+                <label
+                    class="text-xs font-bold text-slate-400 cursor-pointer select-none hover:text-emerald-green transition-colors"
+                    for="no-more">오늘 하루 보지 않기</label>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
