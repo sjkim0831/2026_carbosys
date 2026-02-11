@@ -94,7 +94,10 @@
                 <div class="flex items-center gap-3">
                     <button
                         class="px-4 py-2 text-sm font-bold border border-[var(--kr-gov-border)] rounded-md hover:bg-gray-50 focus-visible">회원가입</button>
-                    <button
+                    <button th:if="${isLoggedIn}" id="logoutBtn"
+                        class="px-5 py-2 text-sm font-bold bg-[var(--kr-gov-blue)] text-white rounded-md hover:brightness-110 focus-visible"
+                        onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type': 'application/json'}}).then(r => r.json()).then(d => {if(d.status === 'success') location.reload();});">로그아웃</button>
+                    <button th:unless="${isLoggedIn}" id="loginBtn"
                         class="px-5 py-2 text-sm font-bold bg-[var(--kr-gov-blue)] text-white rounded-md hover:brightness-110 focus-visible"
                         onclick="location.href='/signin/loginView'">로그인</button>
                 </div>
@@ -399,6 +402,37 @@
         </div>
     </footer>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            const accessToken = getCookie('accessToken');
+            const loginBtn = document.getElementById('loginBtn');
+
+            if (accessToken && loginBtn) {
+                loginBtn.innerText = '로그아웃';
+                loginBtn.onclick = function () {
+                    fetch('/signin/actionLogout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                location.reload();
+                            }
+                        })
+                        .catch(error => console.error('Error logging out:', error));
+                };
+            }
+        });
+    </script>
 </body>
 
 </html>

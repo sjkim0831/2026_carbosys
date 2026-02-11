@@ -60,4 +60,7 @@ public class LoginVO extends EgovDefaultVO implements Serializable {
     /** 사용자 권한패턴정보 */
     private String authorList;
 
+    /** 자동 로그인 여부 */
+    private boolean autoLogin;
+
 }

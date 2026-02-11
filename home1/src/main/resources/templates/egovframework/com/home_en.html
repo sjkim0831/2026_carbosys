@@ -97,7 +97,10 @@
                     <button
                         class="px-4 py-2 text-sm font-bold border border-[var(--kr-gov-border)] rounded-md hover:bg-gray-50 focus-visible">Sign
                         Up</button>
-                    <button
+                    <button th:if="${isLoggedIn}" id="logoutBtn"
+                        class="px-5 py-2 text-sm font-bold bg-[var(--kr-gov-blue)] text-white rounded-md hover:brightness-110 focus-visible"
+                        onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type': 'application/json'}}).then(r => r.json()).then(d => {if(d.status === 'success') location.reload();});">Logout</button>
+                    <button th:unless="${isLoggedIn}" id="loginBtn"
                         class="px-5 py-2 text-sm font-bold bg-[var(--kr-gov-blue)] text-white rounded-md hover:brightness-110 focus-visible"
                         onclick="location.href='/signin/loginView?language=en'">Login</button>
                 </div>
@@ -411,6 +414,7 @@
             </div>
         </div>
     </footer>
+
 
 </body>
 

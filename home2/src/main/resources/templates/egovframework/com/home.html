@@ -112,7 +112,11 @@
                     <button
                         class="px-4 py-2 text-sm font-bold border border-[var(--kr-gov-border)] rounded-[var(--radius-gov)] hover:bg-gray-50 focus-visible"
                         style="border-radius: 5px;">회원가입</button>
-                    <button
+                    <button th:if="${isLoggedIn}" id="logoutBtn"
+                        class="px-5 py-2 text-sm font-bold bg-[var(--kr-gov-blue)] text-white rounded-[var(--radius-gov)] hover:brightness-110 focus-visible"
+                        style="border-radius: 5px;"
+                        onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type': 'application/json'}}).then(r => r.json()).then(d => {if(d.status === 'success') location.reload();});">로그아웃</button>
+                    <button th:unless="${isLoggedIn}" id="loginBtn"
                         class="px-5 py-2 text-sm font-bold bg-[var(--kr-gov-blue)] text-white rounded-[var(--radius-gov)] hover:brightness-110 focus-visible"
                         style="border-radius: 5px;" onclick="location.href='/signin/loginView'">로그인</button>
                 </div>
@@ -404,6 +408,7 @@
             </div>
         </div>
     </footer>
+
 
 </body>
 

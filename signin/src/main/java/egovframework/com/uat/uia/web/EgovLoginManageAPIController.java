@@ -98,7 +98,12 @@ public class EgovLoginManageAPIController {
             String refreshToken = jwtProvider.createRefreshToken(dtoToVo);
 
             long accessCookieMaxAge = Duration.ofMillis(Long.parseLong(jwtProvider.getAccessExpiration())).getSeconds();
-            long refreshCookieMaxAge = Duration.ofMillis(Long.parseLong(jwtProvider.getRefreshExpiration())).getSeconds();
+            long refreshCookieMaxAge;
+            if (loginVO.isAutoLogin()) {
+                refreshCookieMaxAge = 60 * 60 * 24 * 30; // 30 days
+            } else {
+                refreshCookieMaxAge = Duration.ofMillis(Long.parseLong(jwtProvider.getRefreshExpiration())).getSeconds();
+            }
 
             ResponseCookie accessTokenCookie = jwtProvider.createCookie("accessToken", accessToken, accessCookieMaxAge);
             response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());

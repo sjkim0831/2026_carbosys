@@ -91,7 +91,8 @@
                         <span>|</span>
                         <button class="text-emerald-green" onclick="location.href='/home?language=en'">EN</button>
                     </div>
-                    <button class="hidden sm:block text-sm font-medium text-charcoal-gray hover:text-emerald-green px-4"
+                    <button id="loginBtn"
+                        class="hidden sm:block text-sm font-medium text-charcoal-gray hover:text-emerald-green px-4"
                         onclick="location.href='/signin/loginView?language=en'">Login</button>
                     <button
                         class="bg-emerald-green hover:bg-emerald-dark text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-lg shadow-emerald-500/20">
@@ -478,6 +479,37 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            const accessToken = getCookie('accessToken');
+            const loginBtn = document.getElementById('loginBtn');
+
+            if (accessToken && loginBtn) {
+                loginBtn.innerText = 'Logout';
+                loginBtn.onclick = function () {
+                    fetch('/signin/actionLogout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                location.reload();
+                            }
+                        })
+                        .catch(error => console.error('Error logging out:', error));
+                };
+            }
+        });
+    </script>
 </body>
 
 </html>

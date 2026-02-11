@@ -112,7 +112,8 @@
                             class="px-2 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold focus-visible border-l border-[var(--kr-gov-border-light)]"
                             onclick="location.href='/home3/en'">EN</button>
                     </div>
-                    <button class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"
+                    <button id="loginBtn"
+                        class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"
                         onclick="location.href='/signin/loginView'">로그인</button>
                 </div>
             </div>
@@ -346,6 +347,37 @@
         </div>
     </footer>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            const accessToken = getCookie('accessToken');
+            const loginBtn = document.getElementById('loginBtn');
+
+            if (accessToken && loginBtn) {
+                loginBtn.innerText = '로그아웃';
+                loginBtn.onclick = function () {
+                    fetch('/signin/actionLogout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                location.reload();
+                            }
+                        })
+                        .catch(error => console.error('Error logging out:', error));
+                };
+            }
+        });
+    </script>
 </body>
 
 </html>

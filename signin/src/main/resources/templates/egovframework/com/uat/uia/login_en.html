@@ -149,13 +149,13 @@
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-4">
                             <label class="inline-flex items-center cursor-pointer">
-                                <input
+                                <input id="saveId"
                                     class="w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
                                     type="checkbox" />
                                 <span class="ml-2 text-sm text-[var(--kr-gov-text-secondary)]">Remember ID</span>
                             </label>
                             <label class="inline-flex items-center cursor-pointer">
-                                <input
+                                <input id="autoLogin"
                                     class="w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
                                     type="checkbox" />
                                 <span class="ml-2 text-sm text-[var(--kr-gov-text-secondary)]">Auto Login</span>
@@ -264,6 +264,41 @@
             });
         });
 
+        document.addEventListener("DOMContentLoaded", function () {
+            let userInputId = getCookie("userInputId");
+            if (userInputId !== undefined && userInputId !== "") {
+                document.getElementById("id").value = userInputId;
+                document.getElementById("saveId").checked = true;
+            }
+        });
+
+        function getCookie(cookieName) {
+            cookieName = cookieName + '=';
+            let cookieData = document.cookie;
+            let start = cookieData.indexOf(cookieName);
+            let cookieValue = '';
+            if (start != -1) {
+                start += cookieName.length;
+                let end = cookieData.indexOf(';', start);
+                if (end == -1) end = cookieData.length;
+                cookieValue = cookieData.substring(start, end);
+            }
+            return unescape(cookieValue);
+        }
+
+        function setCookie(cookieName, value, exdays) {
+            let exdate = new Date();
+            exdate.setDate(exdate.getDate() + exdays);
+            let cookieValue = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());
+            document.cookie = cookieName + "=" + cookieValue;
+        }
+
+        function deleteCookie(cookieName) {
+            let expireDate = new Date();
+            expireDate.setDate(expireDate.getDate() - 1);
+            document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+        }
+
         function loginProcess() {
             let userId = document.getElementById('id').value;
             let userPw = document.getElementById('password').value;
@@ -281,7 +316,13 @@
                 alert('Please enter your password');
                 return false;
             } else {
-                const param = { userId: userId, userPw: userPw, userSe: userSe };
+                if (document.getElementById("saveId").checked) {
+                    setCookie("userInputId", userId, 7);
+                } else {
+                    deleteCookie("userInputId");
+                }
+                const autoLogin = document.getElementById("autoLogin").checked;
+                const param = { userId: userId, userPw: userPw, userSe: userSe, autoLogin: autoLogin };
                 fetch('/signin/actionLogin', {
                     method: 'POST',
                     headers: {
