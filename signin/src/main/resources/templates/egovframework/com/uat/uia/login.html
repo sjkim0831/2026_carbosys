@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>시스템 로그인 - CCUS 통합관리 포털</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+            --kr-gov-error: #d32f2f;
+        }
+        @layer base {
+            body { font-family: 'Noto Sans KR', 'Public Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+            .focus-visible:focus-visible {
+                outline: 3px solid var(--kr-gov-focus);
+                outline-offset: 2px;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+        }
+        .login-tab-active {
+            @apply border-b-4 border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] font-bold;
+        }
+        .login-tab-inactive {
+            @apply border-b-4 border-transparent text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-text-primary)] transition-colors;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "gov-gray": "#767676",
+                    },
+                    borderRadius: {
+                        'gov': '5px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
+    <a class="skip-link" href="#main-content">본문 바로가기</a>
+    <div class="bg-white border-b border-[var(--kr-gov-border-light)]">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8 py-2 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <img alt="대한민국 정부 상징" class="h-4"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BPzqtzSLVGSrjt4mzhhVBy9SocCRDssk1F3XRVu7Xq9jHh7qzzt48wFi8qduCiJmB0LRQczPB7waPe3h0gkjn3jOEDxt6UJSJjdXNf8P-4WlM2BEZrfg2SL91uSiZrFcCk9KYrsdg-biTS9dtJ_OIghDBEVoAzMc33XcCYR_UP0QQdoYzBe840YrtH40xGyB9MSr0QH4D0foqlvOhG0jX8CDayXNlDsSKlfClVd3K2aodlwg4xSxgXHB3vnnnA0L2yNBNihQQg0" />
+                <span class="text-[13px] font-medium text-[var(--kr-gov-text-secondary)]">대한민국 정부 공식 서비스</span>
+            </div>
+        </div>
+    </div>
+    <header class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3">
+                    <a class="flex items-center gap-2" href="/">
+                        <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]"
+                            style="font-variation-settings: 'wght' 600;">eco</span>
+                        <div class="flex flex-col">
+                            <h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)]">CCUS 통합관리 포털
+                            </h1>
+                            <p
+                                class="text-[10px] text-[var(--kr-gov-text-secondary)] font-bold uppercase tracking-wider">
+                                Carbon Capture, Utilization and Storage</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div
+                        class="hidden sm:flex items-center gap-1.5 text-xs font-bold text-emerald-600 px-3 py-1.5 bg-emerald-50 rounded-full border border-emerald-100">
+                        <span class="material-symbols-outlined text-[16px]">lock</span>
+                        안전한 SSL 보안 통신 중
+                    </div>
+                    <div
+                        class="flex border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] overflow-hidden">
+                        <button class="px-3 py-1 text-xs bg-[var(--kr-gov-blue)] text-white font-bold">KO</button>
+                        <button
+                            class="px-3 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold border-l border-[var(--kr-gov-border-light)]">EN</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="flex-grow flex flex-col items-center justify-center py-12 px-4" id="main-content">
+        <div class="w-full max-w-[480px] mb-6">
+            <div class="bg-blue-50 border border-blue-100 p-4 rounded-[var(--kr-gov-radius)] flex gap-3">
+                <span class="material-symbols-outlined text-blue-600">info</span>
+                <div class="text-sm text-blue-800 leading-relaxed">
+                    <p class="font-bold mb-0.5">시스템 점검 안내</p>
+                    <p>2025.08.20(수) 02:00 ~ 05:00 안정적인 서비스 제공을 위한 정기 점검이 예정되어 있습니다.</p>
+                </div>
+            </div>
+        </div>
+        <div
+            class="w-full max-w-[480px] bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm overflow-hidden">
+            <div class="flex border-b border-[var(--kr-gov-border-light)] bg-gray-50">
+                <button type="button" class="flex-1 py-4 text-[16px] login-tab login-tab-active" data-value="GNR">국내
+                    사용자</button>
+                <button type="button" class="flex-1 py-4 text-[16px] login-tab login-tab-inactive" data-value="ENT">해외
+                    사업자</button>
+            </div>
+            <div class="p-8 lg:p-10">
+                <form id="loginForm" name="loginForm" th:object="${loginVO}" class="space-y-6">
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <label class="block text-sm font-bold text-[var(--kr-gov-text-secondary)] mb-1.5"
+                                for="userId">아이디</label>
+                            <input
+                                class="w-full h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all"
+                                id="userId" name="userId" placeholder="아이디를 입력하세요" type="text" />
+                        </div>
+                        <div class="relative">
+                            <label class="block text-sm font-bold text-[var(--kr-gov-text-secondary)] mb-1.5"
+                                for="userPw">비밀번호</label>
+                            <input
+                                class="w-full h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all"
+                                id="userPw" name="userPw" placeholder="비밀번호를 입력하세요" type="password" />
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input
+                                    class="w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
+                                    type="checkbox" />
+                                <span class="ml-2 text-sm text-[var(--kr-gov-text-secondary)]">아이디 저장</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input
+                                    class="w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
+                                    type="checkbox" />
+                                <span class="ml-2 text-sm text-[var(--kr-gov-text-secondary)]">자동 로그인</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button
+                        class="w-full h-14 bg-[var(--kr-gov-blue)] text-white text-lg font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors focus-visible"
+                        type="button" onclick="loginProcess()">
+                        로그인
+                    </button>
+                    <div
+                        class="flex items-center justify-center gap-4 text-sm text-[var(--kr-gov-text-secondary)] font-medium pt-2">
+                        <a class="hover:underline" href="#">아이디 찾기</a>
+                        <span class="w-px h-3 bg-[var(--kr-gov-border-light)]"></span>
+                        <a class="hover:underline" href="#">비밀번호 재설정</a>
+                        <span class="w-px h-3 bg-[var(--kr-gov-border-light)]"></span>
+                        <a class="text-[var(--kr-gov-blue)] font-bold hover:underline" href="#">회원가입</a>
+                    </div>
+                    <div class="relative py-4">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-200"></div>
+                        </div>
+                        <div class="relative flex justify-center text-xs"><span
+                                class="px-2 bg-white text-gray-400 font-bold uppercase tracking-wider">또는 간편인증
+                                로그인</span></div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-3">
+                        <button
+                            class="w-full h-12 flex items-center justify-center gap-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors font-bold text-sm"
+                            type="button">
+                            <span class="material-symbols-outlined text-blue-700">verified_user</span>
+                            간편인증 (카카오, 토스 등)
+                        </button>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button
+                                class="h-12 flex items-center justify-center gap-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors font-bold text-sm"
+                                type="button">
+                                <span class="material-symbols-outlined text-gray-600">badge</span>
+                                공동인증서
+                            </button>
+                            <button
+                                class="h-12 flex items-center justify-center gap-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors font-bold text-sm"
+                                type="button">
+                                <span class="material-symbols-outlined text-gray-600">account_balance</span>
+                                금융인증서
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <p class="mt-10 text-sm text-[var(--kr-gov-text-secondary)] text-center max-w-md leading-relaxed">
+            본 시스템은 인가된 사용자만 이용 가능합니다. <br />
+            불법적인 접근 시 관계 법령에 의해 처벌받을 수 있습니다.
+        </p>
+    </main>
+    <footer class="bg-white border-t border-[var(--kr-gov-border-light)]">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8 py-10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <img alt="대한민국 정부 상징" class="h-8 grayscale"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE" />
+                        <span class="text-xl font-black text-[var(--kr-gov-text-primary)]">탄소중립 CCUS 통합관리본부</span>
+                    </div>
+                    <address class="not-italic text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        (04551) 서울특별시 중구 세종대로 110 | 대표전화: 02-1234-5678 <br />
+                        © 2025 CCUS Integration Management Portal. All rights reserved.
+                    </address>
+                </div>
+                <div class="flex flex-col items-end gap-4">
+                    <div class="flex flex-wrap gap-6 text-sm font-bold">
+                        <a class="text-[var(--kr-gov-blue)] hover:underline" href="#">개인정보처리방침</a>
+                        <a class="text-[var(--kr-gov-text-primary)] hover:underline" href="#">이용약관</a>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="px-3 py-1 bg-[var(--kr-gov-bg-gray)] rounded-[var(--kr-gov-radius)] text-[11px] font-bold text-[var(--kr-gov-text-secondary)]">
+                            최종 수정일: <time datetime="2025-08-14">2025.08.14</time>
+                        </div>
+                        <img alt="웹 접근성 품질인증 마크" class="h-10"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzkKwREcbsB7LV3B2b7fBK7y2M_9Exa0vlGVzxNy2qM0n1LFMRlBCIa_XiIBeCfvv3DkMb9Z0D05Y-RMuAytisqlCS8QTpbtebgKnMnWoefEx5uJOgRW5H_8Pw9jmaRvkiW6sVRrifgIhrWc5hi2PRUGHgXn-q8-veHvu9wSwDhtcvbHKYyokgnP-hqdR10ahEAdBe4vFFkR88N_By8pjpp34KH9TwHOouRLBwdfVCsRGmDCS6wnvQZDwf6s4HyScSMXyJJGQjl8Y" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <form id="loginContentForm" name="loginContentForm" th:object="${loginVO}">
+        <input type="hidden" id="userInfo" name="userInfo" />
+    </form>
+
+    <script th:inline="javascript" defer>
+        document.querySelectorAll(".login-tab").forEach(tab => {
+            tab.addEventListener("click", function () {
+                document.querySelectorAll(".login-tab").forEach(t => {
+                    t.classList.remove("login-tab-active");
+                    t.classList.add("login-tab-inactive");
+                });
+                this.classList.remove("login-tab-inactive");
+                this.classList.add("login-tab-active");
+            });
+        });
+
+        function loginProcess() {
+            let userId = document.getElementById('userId').value;
+            let userPw = document.getElementById('userPw').value;
+            let userSe;
+            document.querySelectorAll(".login-tab").forEach(tab => {
+                if (tab.classList.contains("login-tab-active")) {
+                    userSe = tab.getAttribute("data-value");
+                }
+            });
+
+            if (userId.length === 0) {
+                alert('아이디를 입력하세요');
+                return false;
+            } else if (userPw.length === 0) {
+                alert('비밀번호를 입력하세요');
+                return false;
+            } else {
+                const param = { userId: userId, userPw: userPw, userSe: userSe };
+                fetch('/signin/actionLogin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(param)
+                })
+                    .then(response => response.json())
+                    .then(response => {
+                        if (response.status === 'loginFailure') {
+                            alert(response.errors);
+                            location.reload();
+                        } else {
+                            contentView(response.userInfo);
+                        }
+                    })
+            }
+        }
+
+        function contentView(userInfo) {
+            document.getElementById('userInfo').value = userInfo;
+            const form = document.getElementById('loginContentForm');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', '/signin/loginView');
+            form.submit();
+        }
+    </script>
+</body>
+
+</html>
