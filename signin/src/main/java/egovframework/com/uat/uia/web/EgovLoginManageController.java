@@ -22,15 +22,18 @@ public class EgovLoginManageController {
 
     @GetMapping(value="/index")
     public String login(LoginVO loginVO, Model model, HttpServletRequest request) {
-        return this.loginView(loginVO, model, request);
+        return this.loginView(null, loginVO, model, request);
     }
 
     @RequestMapping(value="/loginView", method={RequestMethod.GET, RequestMethod.POST})
-    public String loginView(LoginVO loginVO, Model model, HttpServletRequest request) {
+    public String loginView(@RequestParam(value = "language", required = false) String language, LoginVO loginVO, Model model, HttpServletRequest request) {
         String accessToken = jwtProvider.getCookie(request, "accessToken");
         if (ObjectUtils.isEmpty(accessToken)) {
             loginVO = new LoginVO();
             model.addAttribute("loginVO", loginVO);
+            if ("en".equals(language)) {
+                return "uat/uia/login_en";
+            }
             return "uat/uia/login";
         } else {
             String userId = jwtProvider.decrypt(jwtProvider.extractUserId(accessToken));

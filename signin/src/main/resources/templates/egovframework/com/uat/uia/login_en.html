@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>System Login - CCUS Integrated Management Portal</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+            --kr-gov-error: #d32f2f;
+        }
+        @layer base {
+            body { font-family: 'Public Sans', 'Noto Sans KR', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+            .focus-visible:focus-visible {
+                outline: 3px solid var(--kr-gov-focus);
+                outline-offset: 2px;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+        }
+        .login-tab-active {
+            @apply border-b-4 border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] font-bold;
+        }
+        .login-tab-inactive {
+            @apply border-b-4 border-transparent text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-text-primary)] transition-colors;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "gov-gray": "#767676",
+                    },
+                    borderRadius: {
+                        'gov': '5px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div class="bg-white border-b border-[var(--kr-gov-border-light)]">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8 py-2 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <img alt="Government of the Republic of Korea Emblem" class="h-4"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BPzqtzSLVGSrjt4mzhhVBy9SocCRDssk1F3XRVu7Xq9jHh7qzzt48wFi8qduCiJmB0LRQczPB7waPe3h0gkjn3jOEDxt6UJSJjdXNf8P-4WlM2BEZrfg2SL91uSiZrFcCk9KYrsdg-biTS9dtJ_OIghDBEVoAzMc33XcCYR_UP0QQdoYzBe840YrtH40xGyB9MSr0QH4D0foqlvOhG0jX8CDayXNlDsSKlfClVd3K2aodlwg4xSxgXHB3vnnnA0L2yNBNihQQg0" />
+                <span class="text-[13px] font-medium text-[var(--kr-gov-text-secondary)]">Official Government Service of
+                    the Republic of Korea</span>
+            </div>
+        </div>
+    </div>
+    <header class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3">
+                    <a class="flex items-center gap-2" href="/">
+                        <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]"
+                            style="font-variation-settings: 'wght' 600;">eco</span>
+                        <div class="flex flex-col">
+                            <h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)] uppercase">
+                                CCUS Portal</h1>
+                            <p
+                                class="text-[10px] text-[var(--kr-gov-text-secondary)] font-bold uppercase tracking-wider">
+                                Carbon Capture, Utilization and Storage</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div
+                        class="hidden sm:flex items-center gap-1.5 text-xs font-bold text-emerald-600 px-3 py-1.5 bg-emerald-50 rounded-full border border-emerald-100">
+                        <span class="material-symbols-outlined text-[16px]">lock</span>
+                        Secure SSL Communication Active
+                    </div>
+                    <div
+                        class="flex border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] overflow-hidden">
+                        <button
+                            class="px-3 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold"
+                            onclick="location.href='/signin/loginView'">KO</button>
+                        <button
+                            class="px-3 py-1 text-xs bg-[var(--kr-gov-blue)] text-white font-bold border-l border-[var(--kr-gov-border-light)]"
+                            onclick="location.href='/signin/loginView?language=en'">EN</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="flex-grow flex flex-col items-center justify-center py-12 px-4" id="main-content">
+        <div class="w-full max-w-[480px] mb-6">
+            <div class="bg-blue-50 border border-blue-100 p-4 rounded-[var(--kr-gov-radius)] flex gap-3">
+                <span class="material-symbols-outlined text-blue-600">info</span>
+                <div class="text-sm text-blue-800 leading-relaxed">
+                    <p class="font-bold mb-0.5">System Maintenance Notice</p>
+                    <p>Regular maintenance is scheduled for 2025.08.20 (Wed) 02:00 ~ 05:00 KST to ensure stable service
+                        delivery.</p>
+                </div>
+            </div>
+        </div>
+        <div
+            class="w-full max-w-[480px] bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm overflow-hidden">
+            <div class="flex border-b border-[var(--kr-gov-border-light)] bg-gray-50">
+                <button class="flex-1 py-4 text-[16px] login-tab-active">Domestic Users</button>
+                <button class="flex-1 py-4 text-[16px] login-tab-inactive">Overseas Businesses</button>
+            </div>
+            <div class="p-8 lg:p-10">
+                <form action="/signin/actionLogin" method="post" class="space-y-6">
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <label class="block text-sm font-bold text-[var(--kr-gov-text-secondary)] mb-1.5"
+                                for="id">ID</label>
+                            <input
+                                class="w-full h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all"
+                                id="id" name="id" placeholder="Enter your ID" type="text" />
+                        </div>
+                        <div class="relative">
+                            <label class="block text-sm font-bold text-[var(--kr-gov-text-secondary)] mb-1.5"
+                                for="password">Password</label>
+                            <input
+                                class="w-full h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all"
+                                id="password" name="password" placeholder="Enter your password" type="password" />
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input
+                                    class="w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
+                                    type="checkbox" />
+                                <span class="ml-2 text-sm text-[var(--kr-gov-text-secondary)]">Remember ID</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input
+                                    class="w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
+                                    type="checkbox" />
+                                <span class="ml-2 text-sm text-[var(--kr-gov-text-secondary)]">Auto Login</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button
+                        class="w-full h-14 bg-[var(--kr-gov-blue)] text-white text-lg font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors focus-visible"
+                        type="submit">
+                        Log In
+                    </button>
+                    <div
+                        class="flex items-center justify-center gap-4 text-sm text-[var(--kr-gov-text-secondary)] font-medium pt-2">
+                        <a class="hover:underline" href="#">Find ID</a>
+                        <span class="w-px h-3 bg-[var(--kr-gov-border-light)]"></span>
+                        <a class="hover:underline" href="#">Reset Password</a>
+                        <span class="w-px h-3 bg-[var(--kr-gov-border-light)]"></span>
+                        <a class="text-[var(--kr-gov-blue)] font-bold hover:underline" href="#">Register</a>
+                    </div>
+                    <div class="relative py-4">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-200"></div>
+                        </div>
+                        <div class="relative flex justify-center text-xs"><span
+                                class="px-2 bg-white text-gray-400 font-bold uppercase tracking-wider">Or Simple
+                                Authentication Login</span></div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-3">
+                        <button
+                            class="w-full h-12 flex items-center justify-center gap-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors font-bold text-sm"
+                            type="button">
+                            <span class="material-symbols-outlined text-blue-700">verified_user</span>
+                            Simple Authentication (Kakao, Toss, etc.)
+                        </button>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button
+                                class="h-12 flex items-center justify-center gap-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors font-bold text-sm"
+                                type="button">
+                                <span class="material-symbols-outlined text-gray-600">badge</span>
+                                Joint Certificate
+                            </button>
+                            <button
+                                class="h-12 flex items-center justify-center gap-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors font-bold text-sm"
+                                type="button">
+                                <span class="material-symbols-outlined text-gray-600">account_balance</span>
+                                Financial Certificate
+                            </button>
+                        </div>
+                    </div>
+                    <input name="userSe" type="hidden" value="USR" />
+                </form>
+            </div>
+        </div>
+        <p class="mt-10 text-sm text-[var(--kr-gov-text-secondary)] text-center max-w-md leading-relaxed">
+            This system is restricted to authorized users only. <br />
+            Unauthorized access attempts may be punishable by law.
+        </p>
+    </main>
+    <footer class="bg-white border-t border-[var(--kr-gov-border-light)]">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8 py-10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <img alt="Government of Korea Emblem" class="h-8 grayscale"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE" />
+                        <span class="text-xl font-black text-[var(--kr-gov-text-primary)]">Carbon Neutral CCUS
+                            Management Headquarters</span>
+                    </div>
+                    <address class="not-italic text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        (04551) 110 Sejong-daero, Jung-gu, Seoul, Republic of Korea | Representative: 02-1234-5678
+                        <br />
+                        © 2025 CCUS Integration Management Portal. All rights reserved.
+                    </address>
+                </div>
+                <div class="flex flex-col items-end gap-4">
+                    <div class="flex flex-wrap gap-6 text-sm font-bold">
+                        <a class="text-[var(--kr-gov-blue)] hover:underline" href="#">Privacy Policy</a>
+                        <a class="text-[var(--kr-gov-text-primary)] hover:underline" href="#">Terms of Use</a>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="px-3 py-1 bg-[var(--kr-gov-bg-gray)] rounded-[var(--kr-gov-radius)] text-[11px] font-bold text-[var(--kr-gov-text-secondary)]">
+                            Last Updated: <time datetime="2025-08-14">2025.08.14</time>
+                        </div>
+                        <img alt="Web Accessibility Quality Certification Mark" class="h-10"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzkKwREcbsB7LV3B2b7fBK7y2M_9Exa0vlGVzxNy2qM0n1LFMRlBCIa_XiIBeCfvv3DkMb9Z0D05Y-RMuAytisqlCS8QTpbtebgKnMnWoefEx5uJOgRW5H_8Pw9jmaRvkiW6sVRrifgIhrWc5hi2PRUGHgXn-q8-veHvu9wSwDhtcvbHKYyokgnP-hqdR10ahEAdBe4vFFkR88N_By8pjpp34KH9TwHOouRLBwdfVCsRGmDCS6wnvQZDwf6s4HyScSMXyJJGQjl8Y" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
