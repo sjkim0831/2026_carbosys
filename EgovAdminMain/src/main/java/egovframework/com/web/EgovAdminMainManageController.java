@@ -17,4 +17,9 @@ public class EgovAdminMainManageController {
         return "memberStats";
     }
 
+    @RequestMapping(value = "/member/admin-account", method = { RequestMethod.GET, RequestMethod.POST })
+    public String adminAccount() {
+        return "adminAccount";
+    }
+
 }

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>관리자 계정 추가 | CCUS 통합관리 시스템</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-green: #006b5d;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+        }
+        @layer base {
+            body { font-family: 'Noto Sans KR', 'Public Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+            line-height: 1.6;
+        }
+        .admin-sidebar-link {
+            @apply flex items-center gap-3 px-4 py-3 text-[15px] font-medium text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-[var(--kr-gov-radius)] transition-colors;
+        }
+        .admin-sidebar-link.active {
+            @apply bg-[var(--kr-gov-blue)] text-white font-bold;
+        }
+        .gov-card {
+            @apply border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white p-8 shadow-sm;
+        }
+        .gov-input {
+            @apply block w-full border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] py-2.5 px-4 text-sm focus:border-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-blue)] transition-all;
+        }
+        .gov-label {
+            @apply block text-sm font-bold text-[var(--kr-gov-text-primary)] mb-2;
+        }
+        .gov-btn-primary {
+            @apply bg-[var(--kr-gov-blue)] text-white px-6 py-2.5 rounded-[var(--kr-gov-radius)] font-bold text-sm hover:bg-[var(--kr-gov-blue-hover)] transition-colors flex items-center justify-center gap-2;
+        }
+        .gov-btn-secondary {
+            @apply bg-white border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] px-6 py-2.5 rounded-[var(--kr-gov-radius)] font-bold text-sm hover:bg-gray-50 transition-colors flex items-center justify-center gap-2;
+        }
+        .help-tooltip {
+            @apply invisible opacity-0 absolute right-0 top-full mt-2 w-64 p-4 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] shadow-xl z-50 text-sm transition-all;
+        }
+        .help-button:hover .help-tooltip {
+            @apply visible opacity-100;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "secondary": "#006b5d",
+                        "gov-gray": "#767676",
+                    },
+                    borderRadius: {
+                        'gov': '5px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-[#f8f9fa] text-[var(--kr-gov-text-primary)]">
+    <a class="skip-link" href="#main-content">본문 바로가기</a>
+    <div class="bg-[var(--kr-gov-bg-gray)] border-b border-[var(--kr-gov-border-light)]">
+        <div class="max-w-full mx-auto px-6 py-1.5 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <img alt="대한민국 정부 상징" class="h-3.5"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BPzqtzSLVGSrjt4mzhhVBy9SocCRDssk1F3XRVu7Xq9jHh7qzzt48wFi8qduCiJmB0LRQczPB7waPe3h0gkjn3jOEDxt6UJSJjdXNf8P-4WlM2BEZrfg2SL91uSiZrFcCk9KYrsdg-biTS9dtJ_OIghDBEVoAzMc33XcCYR_UP0QQdoYzBe840YrtH40xGyB9MSr0QH4D0foqlvOhG0jX8CDayXNlDsSKlfClVd3K2aodlwg4xSxgXHB3vnnnA0L2yNBNihQQg0" />
+                <span class="text-[12px] font-medium text-[var(--kr-gov-text-secondary)]">대한민국 정부 공식 서비스</span>
+            </div>
+            <div class="flex items-center gap-4 text-[11px] font-medium text-[var(--kr-gov-text-secondary)]">
+                <span th:if="${loginVO != null}">관리자 로그인: <span th:text="${loginVO.userInfo}">홍길동 (최상위관리자)</span></span>
+                <button class="hover:underline" onclick="logout()">로그아웃</button>
+            </div>
+        </div>
+    </div>
+    <header class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-40">
+        <div class="max-w-full mx-auto px-6">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]">eco</span>
+                        <div class="flex flex-col">
+                            <h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)]">CCUS 통합관리 시스템
+                            </h1>
+                            <p class="text-[10px] text-[var(--kr-gov-blue)] font-black uppercase tracking-widest">Admin
+                                Dashboard</p>
+                        </div>
+                    </div>
+                </div>
+                <nav class="hidden xl:flex items-center space-x-2 h-full">
+                    <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
+                        href="/adminmain/">운영 대시보드</a>
+                    <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-blue)] border-b-4 border-[var(--kr-gov-blue)]"
+                        href="/adminmain/member/stats">회원·권한 관리</a>
+                    <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
+                        href="#">산정 로직 관리</a>
+                    <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
+                        href="#">인증·심사 관리</a>
+                    <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
+                        href="#">통계·리포트</a>
+                    <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
+                        href="#">시스템 설정</a>
+                </nav>
+                <div class="flex items-center gap-1">
+                    <div class="relative help-button">
+                        <button aria-label="도움말"
+                            class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full flex items-center gap-1.5">
+                            <span class="material-symbols-outlined">help</span>
+                            <span class="text-[14px] font-bold hidden lg:inline">도움말</span>
+                        </button>
+                        <div class="help-tooltip">
+                            <h4 class="font-bold text-[var(--kr-gov-blue)] mb-2 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[18px]">info</span>
+                                관리 가이드
+                            </h4>
+                            <ul class="space-y-2 text-[12px] text-[var(--kr-gov-text-secondary)]">
+                                <li class="flex gap-2"><span class="text-blue-500">•</span> 중복 아이디는 등록이 불가능합니다.</li>
+                                <li class="flex gap-2"><span class="text-blue-500">•</span> 임시 비밀번호는 첫 로그인 후 변경해야 합니다.
+                                </li>
+                                <li class="flex gap-2"><span class="text-blue-500">•</span> 권한별로 접근 가능한 메뉴가 제한됩니다.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button aria-label="알림"
+                        class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full relative">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <button aria-label="설정"
+                        class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full">
+                        <span class="material-symbols-outlined">settings</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="flex min-h-[calc(100vh-124px)]">
+        <aside class="w-64 bg-white border-r border-[var(--kr-gov-border-light)] p-4 flex flex-col gap-2">
+            <div class="mb-4 px-2 py-2 flex items-center justify-between">
+                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">User Management</h2>
+                <span class="material-symbols-outlined text-gray-400 cursor-pointer">menu_open</span>
+            </div>
+            <a class="admin-sidebar-link" href="#">
+                <span class="material-symbols-outlined text-[20px]">group</span>
+                일반 회원 관리
+            </a>
+            <a class="admin-sidebar-link active" href="/adminmain/member/admin-account">
+                <span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
+                관리자 계정 관리
+            </a>
+            <a class="admin-sidebar-link" href="#">
+                <span class="material-symbols-outlined text-[20px]">rule</span>
+                권한 그룹 설정
+            </a>
+            <div class="mt-auto border-t pt-4 border-[var(--kr-gov-border-light)]">
+                <div class="p-4 bg-emerald-50 rounded-[var(--kr-gov-radius)] text-[13px]">
+                    <p class="font-bold text-[var(--kr-gov-green)] mb-1">시스템 상태: 정상</p>
+                    <p class="text-[var(--kr-gov-text-secondary)] text-[11px]">보안 규정 2025.08 준수 중</p>
+                </div>
+            </div>
+        </aside>
+        <main class="flex-1 p-8 overflow-y-auto" id="main-content">
+            <div class="max-w-4xl mx-auto">
+                <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-xs text-gray-400 mb-4">
+                    <span>회원·권한 관리</span>
+                    <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                    <span>관리자 계정 관리</span>
+                    <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                    <span class="text-[var(--kr-gov-text-primary)] font-bold">관리자 계정 추가</span>
+                </nav>
+                <div class="mb-8">
+                    <h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)]">관리자 계정 추가</h2>
+                    <p class="text-[var(--kr-gov-text-secondary)] text-sm mt-1">시스템 운영을 위한 신규 관리자 계정을 생성합니다.</p>
+                </div>
+                <div class="gov-card">
+                    <form action="#" class="space-y-6" method="POST">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="gov-label" for="admin-name">성명 <span class="text-red-500">*</span></label>
+                                <input class="gov-input" id="admin-name" name="admin-name" placeholder="성명을 입력하세요"
+                                    required="" type="text" />
+                            </div>
+                            <div>
+                                <label class="gov-label" for="admin-id">아이디 <span class="text-red-500">*</span></label>
+                                <div class="flex gap-2">
+                                    <input class="gov-input" id="admin-id" name="admin-id" placeholder="영문, 숫자 조합 6~12자"
+                                        required="" type="text" />
+                                    <button class="gov-btn-secondary whitespace-nowrap px-4" type="button">
+                                        중복 확인
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="gov-label" for="temp-pw">임시 비밀번호 <span
+                                        class="text-red-500">*</span></label>
+                                <input class="gov-input" id="temp-pw" name="temp-pw" placeholder="특수문자 포함 8자 이상"
+                                    required="" type="password" />
+                            </div>
+                            <div>
+                                <label class="gov-label" for="dept-name">부서명</label>
+                                <input class="gov-input" id="dept-name" name="dept-name" placeholder="소속 부서를 입력하세요"
+                                    type="text" />
+                            </div>
+                            <div>
+                                <label class="gov-label" for="contact">연락처 <span class="text-red-500">*</span></label>
+                                <input class="gov-input" id="contact" name="contact" placeholder="010-0000-0000"
+                                    required="" type="tel" />
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="gov-label">관리 권한 설정 <span class="text-red-500">*</span></label>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    <label
+                                        class="flex items-center p-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] cursor-pointer hover:bg-gray-50 transition-colors">
+                                        <input checked=""
+                                            class="w-4 h-4 text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-blue)] border-[var(--kr-gov-border-light)]"
+                                            name="admin-role" type="radio" value="super" />
+                                        <div class="ml-3">
+                                            <span class="block text-sm font-bold">최고관리자</span>
+                                            <span class="block text-[11px] text-gray-400 mt-0.5">시스템 전체 권한 보유</span>
+                                        </div>
+                                    </label>
+                                    <label
+                                        class="flex items-center p-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] cursor-pointer hover:bg-gray-50 transition-colors">
+                                        <input
+                                            class="w-4 h-4 text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-blue)] border-[var(--kr-gov-border-light)]"
+                                            name="admin-role" type="radio" value="operator" />
+                                        <div class="ml-3">
+                                            <span class="block text-sm font-bold">일반운영자</span>
+                                            <span class="block text-[11px] text-gray-400 mt-0.5">운영 및 모니터링 가능</span>
+                                        </div>
+                                    </label>
+                                    <label
+                                        class="flex items-center p-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] cursor-pointer hover:bg-gray-50 transition-colors">
+                                        <input
+                                            class="w-4 h-4 text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-blue)] border-[var(--kr-gov-border-light)]"
+                                            name="admin-role" type="radio" value="reviewer" />
+                                        <div class="ml-3">
+                                            <span class="block text-sm font-bold">심사관</span>
+                                            <span class="block text-[11px] text-gray-400 mt-0.5">인증·심사 업무만 수행</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-end gap-3 pt-8 mt-8 border-t border-gray-100">
+                            <button class="gov-btn-secondary min-w-[120px]" type="button">
+                                취소
+                            </button>
+                            <button class="gov-btn-primary min-w-[120px]" type="submit">
+                                <span class="material-symbols-outlined text-[20px]">person_add</span>
+                                계정 생성
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="mt-6 p-4 bg-gray-50 rounded-[var(--kr-gov-radius)] border border-gray-200">
+                    <div class="flex gap-3">
+                        <span class="material-symbols-outlined text-gray-400 text-[20px]">info</span>
+                        <div>
+                            <p class="text-xs font-bold text-gray-600 mb-1">계정 생성 시 유의사항</p>
+                            <ul class="text-[11px] text-gray-500 space-y-1">
+                                <li>• 계정 생성 완료 후 해당 관리자의 연락처로 임시 비밀번호 및 접속 가이드가 전송됩니다.</li>
+                                <li>• 보안을 위해 비밀번호는 영문 대소문자, 숫자, 특수문자를 혼합하여 10자리 이상으로 설정을 권장합니다.</li>
+                                <li>• 최근 6개월 이내의 활동이 없는 계정은 자동으로 잠금 처리될 수 있습니다.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="bg-white border-t border-[var(--kr-gov-border-light)] z-40 relative">
+        <div class="max-w-full mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-4">
+                <img alt="대한민국 정부 상징" class="h-8 grayscale opacity-70"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE" />
+                <div
+                    class="text-[12px] text-[var(--kr-gov-text-secondary)] leading-tight border-l border-gray-200 pl-4">
+                    <p class="font-bold text-[13px] mb-0.5">탄소중립 CCUS 통합관리본부 (Admin Console)</p>
+                    <p>© 2025 CCUS Integration Management Portal. All rights reserved.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 text-[12px] font-medium text-[var(--kr-gov-text-secondary)]">
+                <a class="hover:underline" href="#">시스템 운영정책</a>
+                <span class="text-gray-300">|</span>
+                <a class="hover:underline" href="#">개인정보처리방침</a>
+                <span class="text-gray-300">|</span>
+                <div
+                    class="bg-[var(--kr-gov-bg-gray)] px-3 py-1 rounded-[5px] text-[11px] font-bold border border-gray-200">
+                    Last Updated: 2025.08.14 14:45
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script th:inline="javascript">
+        function logout() {
+            if (confirm("로그아웃 하시겠습니까?")) {
+                fetch('/admin/login/actionLogout', {
+                    method: 'POST'
+                })
+                    .then(response => response.json())
+                    .then(response => {
+                        if (response.status === 'success') {
+                            location.href = '/admin/login/loginView';
+                        }
+                    });
+            }
+        }
+    </script>
+</body>
+
+</html>
