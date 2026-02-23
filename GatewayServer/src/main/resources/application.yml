@@ -29,6 +29,25 @@ spring:
             allowCredentials: true # 클라이언트가 쿠키, 인증 정보, Authorization 헤더 등을 포함한 요청을 보낼 수 있도록 허용
 
       routes:
+        - id: EgovAdminMain
+          uri: lb://EGOVADMINMAIN
+          predicates:
+            - Path=/adminmain/**
+          filters:
+            - name: Auth
+              args:
+                loginUrl: /admin/login/loginView
+                forbiddenUrl: /admin/login/loginForbidden
+            - RewritePath=/adminmain/(?<segment>.*), /${segment}
+
+        - id: EgovAdminLogin
+          uri: lb://EGOVADMINLOGIN
+          predicates:
+            - Path=/admin/login/**
+          filters:
+            - RewritePath=/admin/login/(?<segment>.*), /admin/login/${segment}
+
+
         - id: RedirectToMain
           uri: lb://GATEWAYSERVER
           predicates:
@@ -266,6 +285,27 @@ spring:
           filters:
             - RewritePath=/ext/ops/(?<segment>.*), /ext/ops/${segment}
             - name: Auth
+
+        - id: EgovCertLogin
+          uri: lb://EGOVCERTLOGIN
+          predicates:
+            - Path=/certlogin/**
+          filters:
+            - RewritePath=/certlogin/(?<segment>.*), /certlogin/${segment}
+
+        - id: EgovGnrLogin
+          uri: lb://EGOVGNRLOGIN
+          predicates:
+            - Path=/gnrlogin/**
+          filters:
+            - RewritePath=/gnrlogin/(?<segment>.*), /gnrlogin/${segment}
+
+        - id: EgovSimpleAuth
+          uri: lb://EGOVSIMPLEAUTH
+          predicates:
+            - Path=/saas/v2.0/kcert/**
+          filters:
+            - RewritePath=/saas/v2.0/kcert/(?<segment>.*), /saas/v2.0/kcert/${segment}
 
 logging:
   level:

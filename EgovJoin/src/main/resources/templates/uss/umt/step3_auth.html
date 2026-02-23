@@ -164,13 +164,13 @@
             <form id="authForm" action="/uss/umt/EgovJoinStep4.do" method="post"
                 class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
                 <input type="hidden" name="auth_method" id="auth_method" value="" />
-                <button onclick="submitAuth('PHONE')" class="auth-card group" type="button">
+                <button onclick="submitAuth('GNR')" class="auth-card group" type="button">
                     <div class="icon-box">
                         <span class="material-symbols-outlined">smartphone</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">휴대폰 본인확인</h3>
+                    <h3 class="text-xl font-bold mb-4">디지털 원패스</h3>
                     <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
-                        본인 명의의 휴대폰을 통해<br />문자(SMS)로 인증번호를 확인합니다.
+                        하나의 아이디로<br />모든 정부 서비스를 이용합니다.
                     </p>
                 </button>
                 <button onclick="submitAuth('CERT')" class="auth-card group" type="button">
@@ -249,8 +249,25 @@
     </footer>
     <script>
         function submitAuth(method) {
-            document.getElementById('auth_method').value = method;
-            document.getElementById('authForm').submit();
+            if (method === 'CERT') {
+                window.open('http://localhost:9000/certlogin/utl/sec/certVar.do', 'certPopup', 'width=500,height=600');
+            } else if (method === 'GNR') {
+                window.open('http://localhost:9000/gnrlogin/utl/sec/certVar.do', 'gnrPopup', 'width=500,height=600');
+            } else if (method === 'EASY') {
+                fetch('http://localhost:9000/saas/v2.0/kcert/v1.0/prepare', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'}
+                }).then(res => res.json()).then(data => {
+                    alert("간편인증 요청 성공 (Mock): " + JSON.stringify(data));
+                    document.getElementById('auth_method').value = method;
+                    document.getElementById('authForm').submit();
+                }).catch(err => {
+                    alert("간편인증 모듈 연결 실패: " + err);
+                });
+            } else {
+                document.getElementById('auth_method').value = method;
+                document.getElementById('authForm').submit();
+            }
         }
     </script>
 </body>

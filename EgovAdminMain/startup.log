@@ -1,0 +1,859 @@
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--------------------< [0;36megovframework:EgovAdminMain[0;1m >---------------------[m
+[[1;34mINFO[m] [1mBuilding EgovAdminMain 1.0.0[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m>>> [0;32mspring-boot-maven-plugin:2.7.18:run[m [1m(default-cli)[0;1m > [0;1mtest-compile[m @ [36mEgovAdminMain[0;1m >>>[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.2.0:resources[m [1m(default-resources)[m @ [36mEgovAdminMain[0;1m ---[m
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered resources.
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered properties files.
+[[1;34mINFO[m] Copying 1 resource
+[[1;34mINFO[m] Copying 597 resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.10.1:compile[m [1m(default-compile)[m @ [36mEgovAdminMain[0;1m ---[m
+[[1;34mINFO[m] Nothing to compile - all classes are up to date
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.2.0:testResources[m [1m(default-testResources)[m @ [36mEgovAdminMain[0;1m ---[m
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered resources.
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered properties files.
+[[1;34mINFO[m] skip non existing resourceDirectory /opt/carbosys/EgovAdminMain/src/test/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.10.1:testCompile[m [1m(default-testCompile)[m @ [36mEgovAdminMain[0;1m ---[m
+[[1;34mINFO[m] No sources to compile
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m<<< [0;32mspring-boot-maven-plugin:2.7.18:run[m [1m(default-cli)[0;1m < [0;1mtest-compile[m @ [36mEgovAdminMain[0;1m <<<[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mspring-boot-maven-plugin:2.7.18:run[m [1m(default-cli)[m @ [36mEgovAdminMain[0;1m ---[m
+[[1;34mINFO[m] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.18)
+
+2026-02-23 15:29:02.026  INFO 104862 --- [           main] e.c.EgovAdminMainApplication             : Starting EgovAdminMainApplication using Java 17.0.18 on DESKTOP-040GL2H with PID 104862 (/opt/carbosys/EgovAdminMain/target/classes started by root in /opt/carbosys/EgovAdminMain)
+2026-02-23 15:29:02.028 DEBUG 104862 --- [           main] e.c.EgovAdminMainApplication             : Running with Spring Boot v2.7.18, Spring v5.3.37
+2026-02-23 15:29:02.029  INFO 104862 --- [           main] e.c.EgovAdminMainApplication             : No active profile set, falling back to 1 default profile: "default"
+2026-02-23 15:29:02.510  INFO 104862 --- [           main] o.s.c.c.s.GenericScope                   : BeanFactory id=f23d8c76-dc51-3600-a43b-351bd0b050c4
+2026-02-23 15:29:02.561  INFO 104862 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2026-02-23 15:29:02.561  INFO 104862 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2026-02-23 15:29:02.562  INFO 104862 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2026-02-23 15:29:02.664  INFO 104862 --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 0 (http)
+Feb 23, 2026 3:29:02 PM org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["http-nio-auto-1"]
+Feb 23, 2026 3:29:02 PM org.apache.catalina.core.StandardService startInternal
+INFO: Starting service [Tomcat]
+Feb 23, 2026 3:29:02 PM org.apache.catalina.core.StandardEngine startInternal
+INFO: Starting Servlet engine: [Apache Tomcat/9.0.83]
+Feb 23, 2026 3:29:02 PM org.apache.catalina.core.ApplicationContext log
+INFO: Initializing Spring embedded WebApplicationContext
+2026-02-23 15:29:02.727  INFO 104862 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 677 ms
+2026-02-23 15:29:02.907 DEBUG 104862 --- [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-23 15:29:02.939 DEBUG 104862 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : 3 mappings in 'requestMappingHandlerMapping'
+2026-02-23 15:29:02.947 DEBUG 104862 --- [           main] o.s.w.s.h.SimpleUrlHandlerMapping        : Patterns [/webjars/**, /**, /adminmain/**] in 'resourceHandlerMapping'
+2026-02-23 15:29:02.951 DEBUG 104862 --- [           main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-23 15:29:03.092  INFO 104862 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2026-02-23 15:29:03.132  WARN 104862 --- [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2026-02-23 15:29:03.134  INFO 104862 --- [           main] o.s.b.a.e.w.EndpointLinksResolver        : Exposing 2 endpoint(s) beneath base path '/actuator'
+Feb 23, 2026 3:29:03 PM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-nio-auto-1"]
+2026-02-23 15:29:03.159  INFO 104862 --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 42459 (http) with context path ''
+2026-02-23 15:29:03.160  INFO 104862 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 42459
+2026-02-23 15:29:03.162  INFO 104862 --- [           main] o.s.c.n.e.InstanceInfoFactory            : Setting initial instance status as: STARTING
+2026-02-23 15:29:03.181  INFO 104862 --- [           main] c.n.d.DiscoveryClient                    : Initializing Eureka in region us-east-1
+2026-02-23 15:29:03.184  INFO 104862 --- [           main] c.n.d.s.r.a.ConfigClusterResolver        : Resolving eureka endpoints via configuration
+2026-02-23 15:29:03.198  INFO 104862 --- [           main] c.n.d.DiscoveryClient                    : Disable delta property : false
+2026-02-23 15:29:03.198  INFO 104862 --- [           main] c.n.d.DiscoveryClient                    : Single vip registry refresh property : null
+2026-02-23 15:29:03.198  INFO 104862 --- [           main] c.n.d.DiscoveryClient                    : Force full registry fetch : false
+2026-02-23 15:29:03.198  INFO 104862 --- [           main] c.n.d.DiscoveryClient                    : Application is null : false
+2026-02-23 15:29:03.198  INFO 104862 --- [           main] c.n.d.DiscoveryClient                    : Registered Applications size is zero : true
+2026-02-23 15:29:03.198  INFO 104862 --- [           main] c.n.d.DiscoveryClient                    : Application version is -1: true
+2026-02-23 15:29:03.198  INFO 104862 --- [           main] c.n.d.DiscoveryClient                    : Getting all instance registry info from the eureka server
+2026-02-23 15:29:03.293 DEBUG 104862 --- [           main] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/
+2026-02-23 15:29:03.339 DEBUG 104862 --- [           main] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:03.358 DEBUG 104862 --- [           main] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:03.359 DEBUG 104862 --- [           main] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:03.368  INFO 104862 --- [           main] c.n.d.DiscoveryClient                    : The response status is 200
+2026-02-23 15:29:03.370  INFO 104862 --- [           main] c.n.d.DiscoveryClient                    : Starting heartbeat executor: renew interval is: 30
+2026-02-23 15:29:03.371  INFO 104862 --- [           main] c.n.d.InstanceInfoReplicator             : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2026-02-23 15:29:03.373  INFO 104862 --- [           main] c.n.d.DiscoveryClient                    : Discovery Client initialized at timestamp 1771828143373 with initial instances count: 3
+2026-02-23 15:29:03.374  INFO 104862 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application EGOVADMINMAIN with eureka with status UP
+2026-02-23 15:29:03.374  INFO 104862 --- [           main] c.n.d.DiscoveryClient                    : Saw local status change event StatusChangeEvent [timestamp=1771828143374, current=UP, previous=STARTING]
+2026-02-23 15:29:03.375  INFO 104862 --- [nfoReplicator-0] c.n.d.DiscoveryClient                    : DiscoveryClient_EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0: registering service...
+2026-02-23 15:29:03.377 DEBUG 104862 --- [nfoReplicator-0] o.s.w.c.RestTemplate                     : HTTP POST http://localhost:8761/eureka/apps/EGOVADMINMAIN
+2026-02-23 15:29:03.377 DEBUG 104862 --- [nfoReplicator-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:03.384 DEBUG 104862 --- [nfoReplicator-0] o.s.w.c.RestTemplate                     : Writing [InstanceInfo [instanceId = 10.255.255.254:EgovAdminMain:0, appName = EGOVADMINMAIN, hostName = 10.255.255.254, status = UP, ipAddr = 10.255.255.254, port = 42459, securePort = 443, dataCenterInfo = com.netflix.appinfo.MyDataCenterInfo@3ee6dc82] as "application/json"
+2026-02-23 15:29:03.391 DEBUG 104862 --- [nfoReplicator-0] o.s.w.c.RestTemplate                     : Response 204 NO_CONTENT
+2026-02-23 15:29:03.392  INFO 104862 --- [nfoReplicator-0] c.n.d.DiscoveryClient                    : DiscoveryClient_EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0 - registration status: 204
+2026-02-23 15:29:03.396  INFO 104862 --- [           main] e.c.EgovAdminMainApplication             : Started EgovAdminMainApplication in 1.613 seconds (JVM running for 1.925)
+2026-02-23 15:29:06.069 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:06.069 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:06.073 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:06.073 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:11.076 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:11.076 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:11.079 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:11.080 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:16.083 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:16.083 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:16.087 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:16.087 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:21.089 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:21.089 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:21.092 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:21.092 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:26.097 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:26.097 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:26.100 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:26.100 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:31.070 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771828143374
+2026-02-23 15:29:31.075 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:31.078 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:31.104 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:31.104 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:31.106 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:31.107 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:33.798 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:33.799 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:33.801 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:33.802 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:38.803 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:38.804 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:38.806 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:38.807 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:43.809 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:43.810 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:43.812 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:43.813 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:48.815 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:48.815 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:48.817 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:48.818 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:53.820 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:53.820 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:53.824 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:53.824 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:58.767 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771828143374
+2026-02-23 15:29:58.768 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:58.770 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:58.827 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:58.828 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:58.830 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:58.831 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:01.527 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:01.527 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:01.530 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:01.530 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:06.533 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:06.533 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:06.535 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:06.535 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:11.537 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:11.537 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:11.539 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:11.539 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:16.541 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:16.542 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:16.544 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:16.544 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:21.546 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:21.546 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:21.549 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:21.549 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:26.465 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771828143374
+2026-02-23 15:30:26.465 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:26.467 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:26.550 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:26.551 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:26.553 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:26.554 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:29.249 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:29.250 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:29.253 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:29.253 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:34.254 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:34.255 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:34.257 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:34.257 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:39.259 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:39.259 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:39.262 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:39.262 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:44.264 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:44.264 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:44.268 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:44.268 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:49.271 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:49.272 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:49.274 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:49.274 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:54.161 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771828143374
+2026-02-23 15:30:54.162 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:54.164 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:54.276 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:54.276 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:54.279 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:54.279 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:56.990 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:56.990 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:56.993 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:56.993 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:01.997 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:01.997 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:02.000 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:02.000 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:07.002 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:07.002 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:07.005 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:07.005 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:12.007 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:12.007 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:12.010 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:12.010 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:17.013 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:17.013 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:17.016 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:17.016 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:21.876 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771828143374
+2026-02-23 15:31:21.876 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:21.879 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:22.018 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:22.018 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:22.021 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:22.021 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:24.713 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:24.713 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:24.716 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:24.716 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:29.718 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:29.719 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:29.721 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:29.721 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:34.723 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:34.723 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:34.725 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:34.726 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:39.727 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:39.728 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:39.730 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:39.730 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:44.732 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:44.732 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:44.735 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:44.735 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:49.571 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771828143374
+2026-02-23 15:31:49.571 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:49.573 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:49.736 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:49.736 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:49.739 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:49.739 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:52.420 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:52.420 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:52.422 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:52.423 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:57.426 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:57.426 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:57.429 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:57.429 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:02.431 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:02.431 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:02.434 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:02.434 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:07.437 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:07.437 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:07.440 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:07.440 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:12.442 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:12.442 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:12.445 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:12.445 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:17.251 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771828143374
+2026-02-23 15:32:17.252 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:17.254 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:17.447 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:17.448 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:17.450 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:17.450 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:20.155 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:20.155 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:20.158 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:20.158 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:25.161 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:25.161 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:25.164 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:25.164 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:30.168 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:30.168 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:30.172 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:30.172 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:35.174 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:35.174 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:35.177 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:35.177 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:40.179 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:40.180 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:40.182 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:40.182 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:44.959 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771828143374
+2026-02-23 15:32:44.960 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:44.962 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:45.185 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:45.185 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:45.187 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:45.188 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:47.873 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:47.874 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:47.877 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:47.877 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:52.880 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:52.881 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:52.883 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:52.884 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:57.887 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:57.887 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:57.889 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:57.890 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:02.891 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:02.892 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:02.894 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:02.894 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:07.895 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:07.895 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:07.898 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:07.898 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:12.647 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771828143374
+2026-02-23 15:33:12.647 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:12.650 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:12.899 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:12.899 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:12.902 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:12.902 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:15.593 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:15.593 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:15.596 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:15.596 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:20.597 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:20.597 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:20.600 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:20.605 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:25.606 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:25.606 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:25.609 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:25.609 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:30.610 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:30.611 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:30.613 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:30.613 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:35.616 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:35.617 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:35.619 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:35.620 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:40.122  INFO 104862 --- [trap-executor-0] c.n.d.s.r.a.ConfigClusterResolver        : Resolving eureka endpoints via configuration
+2026-02-23 15:33:40.342 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771828143374
+2026-02-23 15:33:40.342 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:40.345 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:40.621 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:40.622 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:40.625 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:40.625 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:43.328 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:43.328 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:43.330 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:43.331 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:48.332 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:48.332 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:48.335 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:48.335 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:53.338 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:53.339 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:53.341 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:53.342 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:58.344 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:58.345 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:58.347 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:58.348 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:03.350 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:03.350 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:03.353 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:03.353 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:08.047 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771828143374
+2026-02-23 15:34:08.047 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:08.050 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:08.355 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:08.356 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:08.358 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:08.358 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:11.059 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:11.060 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:11.063 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:11.063 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:16.065 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:16.065 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:16.068 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:16.068 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:21.069 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:21.070 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:21.072 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:21.073 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:26.075 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:26.075 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:26.078 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:26.079 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:31.084 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:31.084 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:31.087 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:31.087 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:35.751 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771828143374
+2026-02-23 15:34:35.751 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:35.754 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:36.097 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:36.097 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:36.100 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:36.100 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:38.782 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:38.782 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:38.784 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:38.784 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:43.788 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:43.788 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:43.791 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:43.791 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:48.793 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:48.793 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:48.796 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:48.796 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:53.799 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:53.799 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:53.802 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:53.802 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:58.807 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:58.807 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:58.809 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:58.809 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:35:03.441 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771828143374
+2026-02-23 15:35:03.441 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:03.444 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:03.814 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:35:03.814 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:03.816 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:03.817 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:35:06.515 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:35:06.515 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:06.518 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:06.518 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:35:11.520 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:35:11.520 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:11.523 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:11.523 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:35:16.525 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:35:16.526 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:16.529 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:16.529 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:35:21.531 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:35:21.531 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:21.534 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:21.535 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:35:26.536 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:35:26.536 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:26.539 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:26.539 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:35:31.145 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771828143374
+2026-02-23 15:35:31.145 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:31.148 DEBUG 104862 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:31.540 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:35:31.540 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:31.543 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:31.543 DEBUG 104862 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         2026-02-23 15:29:00.987 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:29:00.988 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:00.991 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:01.823 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:01.823 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:01.826 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:01.826 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:04.526 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:04.526 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:04.528 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:04.529 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:09.530 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:09.531 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:09.542 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:09.542 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:14.544 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:14.544 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:14.555 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:14.556 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:19.557 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:19.557 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:19.561 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:19.561 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:24.562 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:24.562 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:24.565 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:24.565 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:28.688 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:29:28.689 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:28.691 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:29.568 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:29.568 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:29.580 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:29.580 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:32.272 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:32.272 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:32.279 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:32.279 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:37.281 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:37.281 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:37.284 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:37.284 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:42.285 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:42.286 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:42.289 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:42.296 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:47.298 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:47.298 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:47.301 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:47.308 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:52.309 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:52.309 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:52.321 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:52.321 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:29:56.381 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:29:56.381 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:56.384 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:57.323 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:29:57.323 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:29:57.326 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:29:57.326 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:00.022 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:00.022 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:00.024 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:00.024 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:05.026 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:05.026 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:05.029 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:05.029 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:10.031 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:10.031 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:10.033 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:10.040 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:15.042 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:15.042 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:15.046 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:15.051 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:20.052 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:20.052 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:20.056 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:20.057 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:24.093 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:30:24.103 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:24.105 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:25.058 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:25.058 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:25.062 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:25.062 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:27.758 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:27.759 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:27.761 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:27.761 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:32.763 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:32.763 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:32.766 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:32.766 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:37.768 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:37.768 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:37.770 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:37.777 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:42.779 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:42.779 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:42.781 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:42.788 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:47.790 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:47.790 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:47.793 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:47.793 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:51.799 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:30:51.799 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:51.802 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:52.795 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:52.795 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:52.797 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:52.798 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:30:55.512 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:30:55.513 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:30:55.515 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:30:55.515 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:00.516 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:00.516 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:00.519 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:00.519 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:05.521 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:05.521 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:05.524 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:05.524 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:10.525 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:10.525 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:10.527 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:10.527 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:15.528 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:15.529 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:15.540 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:15.540 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:19.173  INFO 103055 --- [trap-executor-0] c.n.d.s.r.a.ConfigClusterResolver        : Resolving eureka endpoints via configuration
+2026-02-23 15:31:19.515 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:31:19.515 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:19.518 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:20.541 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:20.541 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:20.553 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:20.554 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:23.247 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:23.247 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:23.250 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:23.250 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:28.251 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:28.252 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:28.254 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:28.255 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:33.258 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:33.258 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:33.261 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:33.261 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:38.263 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:38.264 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:38.266 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:38.266 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:43.268 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:43.268 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:43.270 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:43.271 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:47.209 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:31:47.209 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:47.212 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:48.272 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:48.273 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:48.275 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:48.275 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:50.959 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:50.959 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:50.962 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:50.962 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:31:55.964 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:31:55.964 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:31:55.967 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:31:55.967 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:00.969 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:00.969 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:00.971 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:00.971 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:05.973 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:05.973 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:05.975 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:05.975 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:10.980 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:10.980 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:10.983 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:10.983 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:14.890 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:32:14.891 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:14.894 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:15.985 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:15.985 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:15.988 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:15.988 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:18.694 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:18.694 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:18.696 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:18.697 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:23.698 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:23.699 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:23.702 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:23.702 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:28.703 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:28.703 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:28.707 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:28.707 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:33.711 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:33.712 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:33.715 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:33.715 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:38.717 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:38.717 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:38.720 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:38.720 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:42.598 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:32:42.598 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:42.601 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:43.722 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:43.722 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:43.724 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:43.724 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:46.411 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:46.411 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:46.416 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:46.416 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:51.418 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:51.418 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:51.420 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:51.421 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:32:56.422 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:32:56.422 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:32:56.424 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:32:56.432 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:01.433 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:01.433 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:01.436 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:01.443 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:06.445 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:06.445 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:06.448 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:06.449 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:10.285 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:33:10.286 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:10.288 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:11.450 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:11.450 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:11.452 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:11.452 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:14.144 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:14.144 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:14.147 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:14.147 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:19.150 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:19.151 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:19.154 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:19.154 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:24.155 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:24.156 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:24.167 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:24.167 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:29.168 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:29.168 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:29.171 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:29.171 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:34.173 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:34.173 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:34.176 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:34.176 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:37.986 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:33:37.986 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:37.989 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:39.178 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:39.178 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:39.181 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:39.181 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:41.886 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:41.886 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:41.889 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:41.889 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:46.891 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:46.892 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:46.895 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:46.895 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:51.896 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:51.896 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:51.899 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:51.899 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:33:56.900 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:33:56.900 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:33:56.903 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:33:56.909 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:01.913 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:01.913 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:01.916 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:01.916 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:05.689 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:34:05.689 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:05.692 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:06.918 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:06.918 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:06.920 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:06.927 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:09.627 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:09.628 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:09.630 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:09.630 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:14.632 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:14.632 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:14.635 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:14.635 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:19.637 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:19.637 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:19.640 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:19.640 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:24.641 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:24.641 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:24.644 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:24.650 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:29.651 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:29.651 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:29.654 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:29.661 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:33.393 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:34:33.393 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:33.396 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:34.662 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:34.662 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:34.665 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:34.665 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:37.344 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:37.344 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:37.347 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:37.347 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:42.348 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:42.348 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:42.350 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:42.350 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:47.352 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:47.352 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:47.354 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:47.354 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:52.359 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:52.359 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:52.362 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:52.362 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:34:57.365 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:34:57.365 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:34:57.367 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:34:57.368 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:35:01.074 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:35:01.075 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:01.078 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:02.369 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:35:02.369 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:02.372 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:02.372 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:35:05.067 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:35:05.067 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:05.070 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:05.070 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:35:10.071 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:35:10.071 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:10.074 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:10.074 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:35:15.082 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:35:15.082 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:15.085 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:15.085 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:35:20.089 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:35:20.089 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:20.091 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:20.091 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:35:25.093 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:35:25.093 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:25.096 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:25.096 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-23 15:35:28.773 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/10.255.255.254:EgovAdminMain:0?status=UP&lastDirtyTimestamp=1771827448568
+2026-02-23 15:35:28.773 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:28.776 DEBUG 103055 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:30.097 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-23 15:35:30.097 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-23 15:35:30.100 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-23 15:35:30.100 DEBUG 103055 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]

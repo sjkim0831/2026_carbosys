@@ -1,5 +1,5 @@
 server:
-  port: 18003 # Choose a free port
+  port: 18004 # Choose a free port
   forward-headers-strategy: native
 
 egov:

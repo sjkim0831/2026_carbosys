@@ -38,6 +38,10 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
 
     @Override
     public GatewayFilter apply(Config config) {
+        String loginUrl = ObjectUtils.isEmpty(config.getLoginUrl()) ? "/uat/uia/loginView" : config.getLoginUrl();
+        String forbiddenUrl = ObjectUtils.isEmpty(config.getForbiddenUrl()) ? "/uat/uia/loginForbidden"
+                : config.getForbiddenUrl();
+
         return (exchange, chain) -> {
             String path = exchange.getRequest().getURI().getPath();
 
@@ -49,7 +53,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
             int accessValidationStatus = gatewayJwtProvider.accessValidateToken(accessToken);
             if (accessValidationStatus == 400) {
                 log.debug("##### AuthGatewayFilterFactory accessToken invalid (400).");
-                return onError(exchange);
+                return onError(exchange, loginUrl);
             }
 
             if (accessValidationStatus == 401) {
@@ -58,13 +62,13 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 String refreshToken = gatewayJwtProvider.getCookie(exchange.getRequest(), "refreshToken");
                 if (ObjectUtils.isEmpty(refreshToken)) {
                     log.debug("##### AuthGatewayFilterFactory refreshToken is null.");
-                    return onError(exchange);
+                    return onError(exchange, loginUrl);
                 }
 
                 int refreshValidationStatus = gatewayJwtProvider.refreshValidateToken(refreshToken);
                 if (refreshValidationStatus == 400 || refreshValidationStatus == 401) {
                     log.debug("##### AuthGatewayFilterFactory refreshToken invalid.");
-                    return onError(exchange);
+                    return onError(exchange, loginUrl);
                 }
 
                 log.debug("##### AuthGatewayFilterFactory validating refresh token...");
@@ -76,15 +80,15 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                         .flatMap(isValid -> {
                             if (Boolean.TRUE.equals(isValid)) {
                                 log.debug("##### Refresh token is valid, generating new access token...");
-                                return regenerateAccessToken(exchange, refreshToken, chain);
+                                return regenerateAccessToken(exchange, refreshToken, chain, loginUrl);
                             } else {
                                 log.debug("##### AuthGatewayFilterFactory refreshToken invalid.");
-                                return onError(exchange);
+                                return onError(exchange, loginUrl);
                             }
                         })
                         .onErrorResume(error -> {
                             log.error("##### Error during refresh token validation: ", error);
-                            return onError(exchange);
+                            return onError(exchange, loginUrl);
                         });
             }
 
@@ -92,7 +96,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
             String authList = gatewayJwtProvider.extractAuthLs(accessToken);
             String param = getParamFromPath(path);
             if (!isPathAuthorized(path, authList)) {
-                return onForbidden(exchange, param);
+                return onForbidden(exchange, forbiddenUrl, param);
             }
 
             ServerHttpRequest request = gatewayJwtProvider.headerSetting(exchange, accessToken);
@@ -100,7 +104,8 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
         };
     }
 
-    private Mono<Void> regenerateAccessToken(ServerWebExchange exchange, String refreshToken, GatewayFilterChain chain) {
+    private Mono<Void> regenerateAccessToken(ServerWebExchange exchange, String refreshToken, GatewayFilterChain chain,
+            String loginUrl) {
         return webClientBuilder.build().get()
                 .uri("lb://EGOVLOGIN/uat/uia/recreateAccessToken")
                 .header("refreshToken", refreshToken)
@@ -108,7 +113,8 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 .bodyToMono(String.class)
                 .flatMap(token -> {
                     log.debug("##### New access token received: {}", token);
-                    long accessCookieMaxAge = Duration.ofMillis(Long.parseLong(gatewayJwtProvider.getAccessExpiration())).getSeconds();
+                    long accessCookieMaxAge = Duration
+                            .ofMillis(Long.parseLong(gatewayJwtProvider.getAccessExpiration())).getSeconds();
                     ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", token)
                             .httpOnly(true)
                             .secure(false)
@@ -121,19 +127,19 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                 })
                 .onErrorResume(error -> {
                     log.error("##### Error while regenerating access token: ", error);
-                    return onError(exchange);
+                    return onError(exchange, loginUrl);
                 });
     }
 
-    private Mono<Void> onError(ServerWebExchange exchange) {
+    private Mono<Void> onError(ServerWebExchange exchange, String loginUrl) {
         // Remove accessToken, refreshToken cookie
         deleteCookie(exchange, "accessToken");
         deleteCookie(exchange, "refreshToken");
-        return redirectToErrorPage(exchange, "/uat/uia/loginView", "0");
+        return redirectToErrorPage(exchange, loginUrl, "0");
     }
 
-    private Mono<Void> onForbidden(ServerWebExchange exchange, String param) {
-        return redirectToErrorPage(exchange, "/uat/uia/loginForbidden", param);
+    private Mono<Void> onForbidden(ServerWebExchange exchange, String forbiddenUrl, String param) {
+        return redirectToErrorPage(exchange, forbiddenUrl, param);
     }
 
     private Mono<Void> redirectToErrorPage(ServerWebExchange exchange, String errorPage, String param) {
@@ -202,6 +208,8 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
     public static class Config {
         private boolean preLogger;
         private boolean postLogger;
+        private String loginUrl;
+        private String forbiddenUrl;
     }
 
 }

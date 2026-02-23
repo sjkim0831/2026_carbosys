@@ -13,8 +13,10 @@
 		<module>EgovBoard</module>
 		<module>EgovCmmnCode</module>
 		<module>EgovLogin</module>
+		<module>EgovAdminLogin</module>
 		<module>EgovLoginPolicy</module>
 		<module>EgovMain</module>
+		<module>EgovAdminMain</module>
 		<module>home</module>
 		<module>home1</module>
 		<module>home2</module>
