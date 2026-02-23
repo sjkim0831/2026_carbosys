@@ -161,7 +161,7 @@
                 <p class="text-[var(--kr-gov-text-secondary)] text-lg">안전한 서비스 이용을 위해 아래의 수단 중 하나를 선택하여 본인확인을 진행해 주세요.
                 </p>
             </div>
-            <form id="authForm" action="/uss/umt/EgovJoinStep4.do" method="post"
+            <form id="authForm" action="/join/step4" method="post"
                 class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
                 <input type="hidden" name="auth_method" id="auth_method" value="" />
                 <button onclick="submitAuth('GNR')" class="auth-card group" type="button">
@@ -256,7 +256,7 @@
             } else if (method === 'EASY') {
                 fetch('http://localhost:9000/saas/v2.0/kcert/v1.0/prepare', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'}
+                    headers: { 'Content-Type': 'application/json' }
                 }).then(res => res.json()).then(data => {
                     alert("간편인증 요청 성공 (Mock): " + JSON.stringify(data));
                     document.getElementById('auth_method').value = method;

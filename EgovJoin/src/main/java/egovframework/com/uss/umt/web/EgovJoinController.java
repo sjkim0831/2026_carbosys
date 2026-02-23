@@ -16,7 +16,7 @@ import egovframework.com.uss.umt.service.EgovEntrprsManageService;
 import egovframework.com.uss.umt.service.EntrprsManageVO;
 
 @Controller
-@RequestMapping("/uss/umt")
+@RequestMapping("/join")
 public class EgovJoinController {
 
     @Resource(name = "entrprsManageService")
@@ -25,7 +25,7 @@ public class EgovJoinController {
     /**
      * Step 1: 회원유형 선택 화면
      */
-    @GetMapping("/EgovJoinStep1.do")
+    @GetMapping("/step1")
     public String step1View(HttpSession session, Model model) {
         session.removeAttribute("joinVO");
         return "uss/umt/step1_join";
@@ -34,7 +34,7 @@ public class EgovJoinController {
     /**
      * Step 2: 약관 동의 화면
      */
-    @PostMapping("/EgovJoinStep2.do")
+    @PostMapping("/step2")
     public String step2View(@RequestParam(value = "membership_type", required = false) String membershipType,
             HttpSession session, Model model) {
         EntrprsManageVO joinVO = new EntrprsManageVO();
@@ -46,7 +46,7 @@ public class EgovJoinController {
     /**
      * Step 3: 본인 인증 화면
      */
-    @PostMapping("/EgovJoinStep3.do")
+    @PostMapping("/step3")
     public String step3View(@RequestParam(value = "marketing_agree", required = false) String marketingAgree,
             HttpSession session, Model model) {
         // marketingAgree will be "on" if checked
@@ -56,12 +56,12 @@ public class EgovJoinController {
     /**
      * Step 4: 정보 입력 화면
      */
-    @PostMapping("/EgovJoinStep4.do")
+    @PostMapping("/step4")
     public String step4View(@RequestParam(value = "auth_method", required = false) String authMethod,
             HttpSession session, Model model) {
         EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
         if (joinVO == null)
-            return "redirect:/uss/umt/EgovJoinStep1.do";
+            return "redirect:/join/step1";
 
         // Mocking auth data
         joinVO.setApplcntNm("홍길동");
@@ -74,7 +74,7 @@ public class EgovJoinController {
     /**
      * Step 5: 가입 완료 처리
      */
-    @PostMapping("/EgovJoinStep5.do")
+    @PostMapping("/step5")
     public String step5Process(@RequestParam("mberId") String mberId,
             @RequestParam("password") String password,
             @RequestParam("mberNm") String mberNm,
@@ -88,7 +88,7 @@ public class EgovJoinController {
 
         EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
         if (joinVO == null)
-            return "redirect:/uss/umt/EgovJoinStep1.do";
+            return "redirect:/join/step1";
 
         // Merge data
         joinVO.setEntrprsmberId(mberId);

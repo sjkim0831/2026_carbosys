@@ -22,4 +22,14 @@ public class EgovAdminMainManageController {
         return "adminAccount";
     }
 
+    @RequestMapping(value = "/member/list", method = { RequestMethod.GET, RequestMethod.POST })
+    public String memberList() {
+        return "memberList";
+    }
+
+    @RequestMapping(value = "/member/auth-group", method = { RequestMethod.GET, RequestMethod.POST })
+    public String authGroup() {
+        return "authGroup";
+    }
+
 }

@@ -114,9 +114,9 @@ spring:
         - id: EgovJoin
           uri: lb://EGOVJOIN
           predicates:
-            - Path=/uss/umt/**
+            - Path=/join/**
           filters:
-            - RewritePath=/uss/umt/(?<segment>.*), /uss/umt/${segment}
+            - RewritePath=/join/(?<segment>.*), /join/${segment}
 
         - id: EgovLoginPolicy
           uri: lb://EGOVLOGINPOLICY
