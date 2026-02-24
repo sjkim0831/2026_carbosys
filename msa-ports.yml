@@ -1,0 +1,37 @@
+# MSA Module Port Registry
+# Centralized management of service ports.
+
+ports:
+  # Infrastructure
+  EurekaServer: 8761
+  ConfigServer: 8888
+  GatewayServer: 9000
+  
+  # Admin Modules
+  EgovAdminMain: 18020
+  EgovAdminLogin: 18021
+  EgovMsaManager: 18030
+  
+  # Core Business Modules
+  EgovMain: 18001
+  EgovLogin: 18002
+  EgovBoard: 18003
+  EgovJoin: 18004
+  EgovAuthor: 18005
+  EgovCmmnCode: 18006
+  EgovQuestionnaire: 18007
+  EgovSearch: 18008
+  EgovMobileId: 18009
+  EgovLoginPolicy: 18010
+  
+  # Auth / Secondary Modules
+  EgovCertLogin: 18031
+  EgovSimpleAuth: 18032
+  EgovGnrLogin: 18033
+  
+  # UI/Home Modules
+  home: 18050
+  home1: 18051
+  home2: 18052
+  home3: 18053
+  signin: 18060

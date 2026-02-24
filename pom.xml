@@ -26,6 +26,7 @@
 		<module>EgovQuestionnaire</module>
 		<module>EgovSearch</module>
 		<module>EgovJoin</module>
+		<module>EgovMsaManager</module>
 		<module>EurekaServer</module>
 		<module>GatewayServer</module>
 	</modules>

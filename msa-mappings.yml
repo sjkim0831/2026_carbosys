@@ -1,0 +1,523 @@
+# MSA Route/Controller Mappings with API Schema
+# Each entry includes: path, module, description, method, params, requestBody, response
+
+mappings:
+
+  # ============================================================
+  # EgovAdminMain (Port: 18020)
+  # ============================================================
+  - path: "/"
+    module: "EgovAdminMain"
+    description: "관리자 운영 대시보드 메인"
+    method: "GET"
+
+  - path: "/member/stats"
+    module: "EgovAdminMain"
+    description: "회원·통계 조회"
+    method: "GET"
+    response:
+      - name: "memberCount"
+        type: "int"
+        description: "전체 회원 수"
+      - name: "activeCount"
+        type: "int"
+        description: "활성 회원 수"
+
+  - path: "/member/list"
+    module: "EgovAdminMain"
+    description: "회원 목록 조회"
+    method: "GET"
+    params:
+      - name: "page"
+        type: "int"
+        required: false
+        description: "페이지 번호 (기본값: 1)"
+      - name: "size"
+        type: "int"
+        required: false
+        description: "페이지 크기 (기본값: 20)"
+
+  - path: "/member/auth-group"
+    module: "EgovAdminMain"
+    description: "권한 그룹 관리"
+    method: "GET"
+
+  - path: "/member/admin-account"
+    module: "EgovAdminMain"
+    description: "관리자 계정 관리"
+    method: "GET"
+
+  # ============================================================
+  # EgovAdminLogin (Port: 18021)
+  # ============================================================
+  - path: "/admin/login/loginView"
+    module: "EgovAdminLogin"
+    description: "관리자 로그인 화면"
+    method: "GET"
+
+  - path: "/admin/login/actionLogin"
+    module: "EgovAdminLogin"
+    description: "관리자 로그인 처리"
+    method: "POST"
+    requestBody:
+      - name: "userId"
+        type: "String"
+        required: true
+        description: "관리자 아이디"
+      - name: "password"
+        type: "String"
+        required: true
+        description: "비밀번호"
+    response:
+      - name: "status"
+        type: "String"
+        description: "success / error"
+      - name: "accessToken"
+        type: "String"
+        description: "JWT Access Token"
+      - name: "refreshToken"
+        type: "String"
+        description: "JWT Refresh Token"
+
+  - path: "/admin/login/actionLogout"
+    module: "EgovAdminLogin"
+    description: "관리자 로그아웃"
+    method: "POST"
+    response:
+      - name: "status"
+        type: "String"
+        description: "success / error"
+
+  - path: "/admin/login/validateRefreshToken"
+    module: "EgovAdminLogin"
+    description: "Refresh Token 유효성 검증"
+    method: "GET"
+    params:
+      - name: "refreshToken"
+        type: "String"
+        required: true
+        description: "검증할 Refresh Token"
+    response:
+      - name: "valid"
+        type: "boolean"
+        description: "토큰 유효 여부"
+
+  - path: "/admin/login/recreateAccessToken"
+    module: "EgovAdminLogin"
+    description: "Access Token 재발급"
+    method: "GET"
+    params:
+      - name: "refreshToken"
+        type: "String"
+        required: true
+        description: "유효한 Refresh Token"
+    response:
+      - name: "accessToken"
+        type: "String"
+        description: "새로 발급된 Access Token"
+
+  # ============================================================
+  # EgovMsaManager (Port: 18030)
+  # ============================================================
+  - path: "/admin/msa/manager"
+    module: "EgovMsaManager"
+    description: "MSA 통합 관리 UI"
+    method: "GET"
+
+  - path: "/admin/msa/api/modules"
+    module: "EgovMsaManager"
+    description: "전체 모듈 목록 및 상태 조회"
+    method: "GET"
+    response:
+      - name: "[].id"
+        type: "String"
+        description: "모듈 디렉토리명"
+      - name: "[].name"
+        type: "String"
+        description: "애플리케이션명 (spring.application.name)"
+      - name: "[].port"
+        type: "int"
+        description: "서비스 포트"
+      - name: "[].status"
+        type: "String"
+        description: "running / stopped / starting / error"
+      - name: "[].pid"
+        type: "Long"
+        description: "프로세스 ID (이 도구로 시작된 경우)"
+
+  - path: "/admin/msa/api/modules/{id}/start"
+    module: "EgovMsaManager"
+    description: "모듈 시작 (mvn spring-boot:run)"
+    method: "POST"
+    params:
+      - name: "id"
+        type: "String"
+        required: true
+        description: "모듈 ID (Path Variable)"
+    response:
+      - name: "status"
+        type: "String"
+        description: "ok / error"
+      - name: "message"
+        type: "String"
+        description: "오류 메시지 (error 시)"
+
+  - path: "/admin/msa/api/modules/{id}/stop"
+    module: "EgovMsaManager"
+    description: "모듈 중지"
+    method: "POST"
+    params:
+      - name: "id"
+        type: "String"
+        required: true
+        description: "모듈 ID (Path Variable)"
+    response:
+      - name: "status"
+        type: "String"
+        description: "ok"
+
+  - path: "/admin/msa/api/modules/{id}/logs"
+    module: "EgovMsaManager"
+    description: "모듈 로그 조회 (최근 200줄)"
+    method: "GET"
+    params:
+      - name: "id"
+        type: "String"
+        required: true
+        description: "모듈 ID (Path Variable)"
+    response:
+      - name: "logs"
+        type: "List<String>"
+        description: "로그 라인 목록 (startup.log 또는 actuator)"
+
+  - path: "/admin/msa/api/mappings"
+    module: "EgovMsaManager"
+    description: "컨트롤러 매핑 목록 조회"
+    method: "GET"
+    response:
+      - name: "[].path"
+        type: "String"
+        description: "URL 경로 패턴"
+      - name: "[].module"
+        type: "String"
+        description: "담당 모듈명"
+      - name: "[].status"
+        type: "String"
+        description: "running / stopped / unknown"
+      - name: "[].port"
+        type: "int"
+        description: "담당 모듈 포트"
+
+  # ============================================================
+  # EgovLogin (Port: 18002)
+  # ============================================================
+  - path: "/uat/uia/loginView"
+    module: "EgovLogin"
+    description: "사용자 로그인 화면"
+    method: "GET"
+
+  - path: "/uat/uia/actionLogin"
+    module: "EgovLogin"
+    description: "사용자 로그인 처리"
+    method: "POST"
+    requestBody:
+      - name: "userId"
+        type: "String"
+        required: true
+        description: "사용자 ID"
+      - name: "password"
+        type: "String"
+        required: true
+        description: "비밀번호"
+    response:
+      - name: "status"
+        type: "String"
+        description: "success / error"
+      - name: "accessToken"
+        type: "String"
+        description: "JWT Access Token"
+      - name: "refreshToken"
+        type: "String"
+        description: "JWT Refresh Token"
+
+  - path: "/uat/uia/actionLogout"
+    module: "EgovLogin"
+    description: "사용자 로그아웃"
+    method: "POST"
+    response:
+      - name: "status"
+        type: "String"
+        description: "success"
+
+  - path: "/uat/uia/validateRefreshToken"
+    module: "EgovLogin"
+    description: "Refresh Token 검증"
+    method: "GET"
+    params:
+      - name: "refreshToken"
+        type: "String"
+        required: true
+        description: "검증할 Refresh Token"
+    response:
+      - name: "valid"
+        type: "boolean"
+        description: "토큰 유효 여부"
+
+  - path: "/uat/uia/recreateAccessToken"
+    module: "EgovLogin"
+    description: "Access Token 재발급"
+    method: "GET"
+    params:
+      - name: "refreshToken"
+        type: "String"
+        required: true
+        description: "유효한 Refresh Token"
+    response:
+      - name: "accessToken"
+        type: "String"
+        description: "새로 발급된 Access Token"
+
+  # ============================================================
+  # EgovJoin (Port: 18004)
+  # ============================================================
+  - path: "/join/**"
+    module: "EgovJoin"
+    description: "회원가입 서비스 전체"
+    method: "GET/POST"
+
+  # ============================================================
+  # EgovAuthor (Port: 18005)
+  # ============================================================
+  - path: "/sec/gmt/**"
+    module: "EgovAuthor"
+    description: "권한 그룹 정보 관리 (Author Group Management)"
+    method: "GET/POST"
+
+  - path: "/sec/ram/**"
+    module: "EgovAuthor"
+    description: "권한 정보 관리 (Role-Auth Mapping)"
+    method: "GET/POST"
+
+  - path: "/sec/rmt/**"
+    module: "EgovAuthor"
+    description: "롤 정보 관리 (Role Management)"
+    method: "GET/POST"
+
+  # ============================================================
+  # EgovCmmnCode (Port: 18006)
+  # ============================================================
+  - path: "/sym/ccm/cca/**"
+    module: "EgovCmmnCode"
+    description: "공통 코드 관리"
+    method: "GET/POST"
+    params:
+      - name: "codeId"
+        type: "String"
+        required: false
+        description: "코드 ID"
+
+  - path: "/sym/ccm/ccc/**"
+    module: "EgovCmmnCode"
+    description: "공통 분류 코드 관리"
+    method: "GET/POST"
+
+  - path: "/sym/ccm/cde/**"
+    module: "EgovCmmnCode"
+    description: "공통 상세 코드 관리"
+    method: "GET/POST"
+
+  # ============================================================
+  # EgovBoard (Port: 18003)
+  # ============================================================
+  - path: "/cop/brd/**"
+    module: "EgovBoard"
+    description: "게시판 (Board) 서비스"
+    method: "GET/POST"
+    params:
+      - name: "bbsId"
+        type: "String"
+        required: false
+        description: "게시판 ID"
+      - name: "nttId"
+        type: "long"
+        required: false
+        description: "게시물 ID"
+
+  - path: "/cop/cmy/**"
+    module: "EgovBoard"
+    description: "커뮤니티 (Community) 서비스"
+    method: "GET/POST"
+
+  - path: "/cop/bls/**"
+    module: "EgovBoard"
+    description: "블로그 (Blog) 서비스"
+    method: "GET/POST"
+
+  - path: "/cop/bbs/**"
+    module: "EgovBoard"
+    description: "게시판 마스터 관리"
+    method: "GET/POST"
+
+  # ============================================================
+  # EgovSearch (Port: 18008)
+  # ============================================================
+  - path: "/ext/ops/**"
+    module: "EgovSearch"
+    description: "통합 검색 (OpenSearch) 서비스"
+    method: "GET/POST"
+    params:
+      - name: "searchKeyword"
+        type: "String"
+        required: false
+        description: "검색 키워드"
+      - name: "pageIndex"
+        type: "int"
+        required: false
+        description: "페이지 번호"
+
+  # ============================================================
+  # EgovQuestionnaire (Port: 18007)
+  # ============================================================
+  - path: "/uss/olp/qmc/**"
+    module: "EgovQuestionnaire"
+    description: "설문 관리 (Questionnaire Management)"
+    method: "GET/POST"
+
+  - path: "/uss/olp/qri/**"
+    module: "EgovQuestionnaire"
+    description: "설문 응답 결과 관리"
+    method: "GET/POST"
+
+  - path: "/uss/olp/qim/**"
+    module: "EgovQuestionnaire"
+    description: "설문 문항 관리"
+    method: "GET/POST"
+
+  - path: "/uss/olp/qtm/**"
+    module: "EgovQuestionnaire"
+    description: "설문 템플릿 관리"
+    method: "GET/POST"
+
+  - path: "/uss/olp/qqm/**"
+    module: "EgovQuestionnaire"
+    description: "설문 질문 관리"
+    method: "GET/POST"
+
+  - path: "/uss/olp/qrm/**"
+    module: "EgovQuestionnaire"
+    description: "설문 응답자 정보 관리"
+    method: "GET/POST"
+
+  # ============================================================
+  # EgovLoginPolicy (Port: 18010)
+  # ============================================================
+  - path: "/uat/uap/**"
+    module: "EgovLoginPolicy"
+    description: "로그인 정책 관리"
+    method: "GET/POST"
+
+  # ============================================================
+  # EgovMobileId (Port: 18009)
+  # ============================================================
+  - path: "/mip/**"
+    module: "EgovMobileId"
+    description: "모바일 신분증 인증 (MIP 프로토콜)"
+    method: "GET/POST"
+
+  - path: "/qrcpm/**"
+    module: "EgovMobileId"
+    description: "QR Code 제시 방식 (QR CPM)"
+    method: "GET/POST"
+
+  - path: "/qrmpm/**"
+    module: "EgovMobileId"
+    description: "QR Code 판독 방식 (QR MPM)"
+    method: "GET/POST"
+
+  - path: "/push/**"
+    module: "EgovMobileId"
+    description: "PUSH 방식 인증"
+    method: "POST"
+    requestBody:
+      - name: "spDid"
+        type: "String"
+        required: true
+        description: "서비스 제공자 DID"
+
+  - path: "/app2app/**"
+    module: "EgovMobileId"
+    description: "App-to-App 인증"
+    method: "GET/POST"
+
+  - path: "/web/**"
+    module: "EgovMobileId"
+    description: "웹 기반 모바일 신분증 인증"
+    method: "GET/POST"
+
+  # ============================================================
+  # EgovSimpleAuth (Port: 18032)
+  # ============================================================
+  - path: "/saas/v2.0/kcert/v1.0/**"
+    module: "EgovSimpleAuth"
+    description: "간편인증 (카카오/PASS 등)"
+    method: "POST"
+
+  # ============================================================
+  # EgovCertLogin (Port: 18031)
+  # ============================================================
+  - path: "/uat/uia/loginView"
+    module: "EgovCertLogin"
+    description: "공동인증서 로그인 화면"
+    method: "GET"
+
+  # ============================================================
+  # EgovGnrLogin (Port: 18033)
+  # ============================================================
+  - path: "/uat/uia/loginView"
+    module: "EgovGnrLogin"
+    description: "일반 로그인 화면"
+    method: "GET"
+
+  # ============================================================
+  # Home Modules
+  # ============================================================
+  - path: "/home"
+    module: "home"
+    description: "메인 홈페이지"
+    method: "GET"
+
+  - path: "/home2"
+    module: "home2"
+    description: "홈페이지 테마 2 (KR)"
+    method: "GET"
+
+  - path: "/home2/en"
+    module: "home2"
+    description: "홈페이지 테마 2 (EN)"
+    method: "GET"
+
+  - path: "/home3"
+    module: "home3"
+    description: "홈페이지 테마 3 (KR)"
+    method: "GET"
+
+  - path: "/home3/en"
+    module: "home3"
+    description: "홈페이지 테마 3 (EN)"
+    method: "GET"
+
+  # ============================================================
+  # signin (Port: 18060)
+  # ============================================================
+  - path: "/signin/**"
+    module: "signin"
+    description: "통합 사인인 서비스"
+    method: "GET/POST"
+
+  # ============================================================
+  # EgovMain (Port: 18001)
+  # ============================================================
+  - path: "/"
+    module: "EgovMain"
+    description: "사용자 메인 페이지"
+    method: "GET"

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>사용자 권한 그룹 설정 - CCUS 통합관리 시스템</title>
+    <title>권한 그룹 설정 - CCUS 통합관리 시스템</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
@@ -41,17 +41,24 @@
         .admin-sidebar-link.active {
             @apply bg-[var(--kr-gov-blue)] text-white font-bold;
         }
+        .admin-sidebar-sublink {
+            @apply flex items-center gap-2 pl-12 pr-4 py-2 text-[14px] text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)] hover:font-bold transition-all;
+        }
+        .admin-sidebar-sublink.active {
+            @apply text-[var(--kr-gov-blue)] font-bold relative;
+        }
+        .admin-sidebar-sublink.active::before {
+            content: '';
+            @apply absolute left-8 w-1.5 h-1.5 bg-[var(--kr-gov-blue)] rounded-full top-1/2 -translate-y-1/2;
+        }
         .gov-card {
             @apply border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white p-6 shadow-sm;
         }
+        .gov-table-header {
+            @apply bg-gray-50 border-y border-[var(--kr-gov-border-light)] text-[13px] font-bold text-[var(--kr-gov-text-secondary)];
+        }
         .gov-checkbox {
-            @apply w-5 h-5 border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-blue)];
-        }
-        .help-tooltip {
-            @apply invisible opacity-0 absolute right-0 top-full mt-2 w-64 p-4 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] shadow-xl z-50 text-sm transition-all;
-        }
-        .help-button:hover .help-tooltip {
-            @apply visible opacity-100;
+            @apply w-4 h-4 text-[var(--kr-gov-blue)] border-gray-300 rounded focus:ring-[var(--kr-gov-blue)];
         }
     </style>
     <script id="tailwind-config">
@@ -74,218 +81,83 @@
 
 <body class="bg-[#f8f9fa] text-[var(--kr-gov-text-primary)]">
     <a class="skip-link" href="#main-content">본문 바로가기</a>
-    <div class="bg-[var(--kr-gov-bg-gray)] border-b border-[var(--kr-gov-border-light)]">
-        <div class="max-w-full mx-auto px-6 py-1.5 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <img alt="대한민국 정부 상징" class="h-3.5"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BPzqtzSLVGSrjt4mzhhVBy9SocCRDssk1F3XRVu7Xq9jHh7qzzt48wFi8qduCiJmB0LRQczPB7waPe3h0gkjn3jOEDxt6UJSJjdXNf8P-4WlM2BEZrfg2SL91uSiZrFcCk9KYrsdg-biTS9dtJ_OIghDBEVoAzMc33XcCYR_UP0QQdoYzBe840YrtH40xGyB9MSr0QH4D0foqlvOhG0jX8CDayXNlDsSKlfClVd3K2aodlwg4xSxgXHB3vnnnA0L2yNBNihQQg0" />
-                <span class="text-[12px] font-medium text-[var(--kr-gov-text-secondary)]">대한민국 정부 공식 서비스</span>
-            </div>
-            <div class="flex items-center gap-4 text-[11px] font-medium text-[var(--kr-gov-text-secondary)]">
-                <span th:if="${loginVO != null}">관리자 로그인: <span th:text="${loginVO.userInfo}">홍길동 (최상위관리자)</span></span>
-                <button class="hover:underline" onclick="logout()">로그아웃</button>
-            </div>
-        </div>
-    </div>
-    <header class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-40">
-        <div class="max-w-full mx-auto px-6">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]">eco</span>
-                        <div class="flex flex-col">
-                            <h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)]">CCUS 통합관리 시스템
-                            </h1>
-                            <p class="text-[10px] text-[var(--kr-gov-blue)] font-black uppercase tracking-widest">Admin
-                                Dashboard</p>
-                        </div>
-                    </div>
-                </div>
-                <nav class="hidden xl:flex items-center space-x-2 h-full">
-                    <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                        href="/adminmain/">운영 대시보드</a>
-                    <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-blue)] border-b-4 border-[var(--kr-gov-blue)]"
-                        href="/adminmain/member/stats">회원·권한 관리</a>
-                    <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                        href="#">산정 로직 관리</a>
-                    <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                        href="#">인증·심사 관리</a>
-                    <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                        href="#">통계·리포트</a>
-                    <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                        href="#">시스템 설정</a>
-                </nav>
-                <div class="flex items-center gap-1">
-                    <div class="relative help-button">
-                        <button aria-label="도움말"
-                            class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full flex items-center gap-1.5">
-                            <span class="material-symbols-outlined">help</span>
-                            <span class="text-[14px] font-bold hidden lg:inline">도움말</span>
-                        </button>
-                        <div class="help-tooltip">
-                            <h4 class="font-bold text-[var(--kr-gov-blue)] mb-2 flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[18px]">info</span>
-                                권한 설정 가이드
-                            </h4>
-                            <ul class="space-y-2 text-[12px] text-[var(--kr-gov-text-secondary)]">
-                                <li class="flex gap-2"><span class="text-blue-500">•</span> 그룹별로 접근 가능한 메뉴와 행위 권한을
-                                    설정합니다.</li>
-                                <li class="flex gap-2"><span class="text-blue-500">•</span> 삭제 권한은 신중하게 부여하시기 바랍니다.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <button aria-label="알림"
-                        class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full relative">
-                        <span class="material-symbols-outlined">notifications</span>
-                        <span
-                            class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
+
+    <!-- Header fragment inclusion -->
+    <div th:replace="~{header :: headerFragment}"></div>
+
     <div class="flex min-h-[calc(100vh-124px)]">
         <aside class="w-64 bg-white border-r border-[var(--kr-gov-border-light)] p-4 flex flex-col gap-2">
             <div class="mb-4 px-2 py-2 flex items-center justify-between">
                 <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Operation Tools</h2>
                 <span class="material-symbols-outlined text-gray-400 cursor-pointer">menu_open</span>
             </div>
-            <a class="admin-sidebar-link" href="/adminmain/member/list">
-                <span class="material-symbols-outlined">manage_accounts</span>
-                회원 관리
+            <a class="admin-sidebar-link" href="/adminmain/">
+                <span class="material-symbols-outlined">dashboard</span>
+                운영 대시보드
             </a>
-            <a class="admin-sidebar-link active" href="/adminmain/member/auth-group">
-                <span class="material-symbols-outlined">shield_person</span>
-                권한 그룹 설정
+            <div class="bg-gray-50 rounded-[var(--kr-gov-radius)] border border-gray-100 pb-2">
+                <a class="admin-sidebar-link active" href="/adminmain/member/stats">
+                    <span class="material-symbols-outlined">group</span>
+                    회원·권한 관리
+                </a>
+                <a class="admin-sidebar-sublink" href="/adminmain/member/list">회원 목록 조회</a>
+                <a class="admin-sidebar-sublink active" href="/adminmain/auth/group">권한 그룹 설정</a>
+                <a class="admin-sidebar-sublink" href="/adminmain/admin/account">관리자 계정 생성</a>
+            </div>
+            <a class="admin-sidebar-link" href="#">
+                <span class="material-symbols-outlined">terminal</span>
+                코드 관리
             </a>
             <a class="admin-sidebar-link" href="#">
-                <span class="material-symbols-outlined">security_update_good</span>
-                접속 로그 관리
+                <span class="material-symbols-outlined">analytics</span>
+                로그 분석
             </a>
-            <div class="mt-auto border-t pt-4 border-[var(--kr-gov-border-light)]">
-                <div class="p-4 bg-emerald-50 rounded-[var(--kr-gov-radius)] text-[13px]">
-                    <p class="font-bold text-[var(--kr-gov-green)] mb-1">시스템 상태: 정상</p>
-                    <p class="text-[var(--kr-gov-text-secondary)]">2025.08 가이드라인 적용</p>
-                </div>
-            </div>
         </aside>
+
         <main class="flex-1 p-8 overflow-y-auto" id="main-content">
             <div class="flex justify-between items-end mb-8">
                 <div>
-                    <h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)]">사용자 권한 그룹 설정</h2>
-                    <p class="text-[var(--kr-gov-text-secondary)] text-sm mt-1">시스템 권한 그룹별로 메뉴 접근 및 기능 사용 범위를 상세 설정합니다.
-                    </p>
-                </div>
-                <div class="flex gap-2">
-                    <button
-                        class="flex items-center gap-1 px-3 py-1.5 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] text-[13px] font-bold hover:bg-gray-50">
-                        <span class="material-symbols-outlined text-[18px]">history</span> 변경 이력
-                    </button>
+                    <h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)]">권한 그룹 설정</h2>
+                    <p class="text-[var(--kr-gov-text-secondary)] text-sm mt-1">사용자 그룹별 시스템 접근 및 작업 권한을 상세 설정합니다.</p>
                 </div>
             </div>
-            <div class="gov-card mb-6">
-                <div class="flex items-center gap-4">
-                    <label class="text-[15px] font-bold text-[var(--kr-gov-text-primary)]" for="group-select">대상 권한 그룹
-                        선택</label>
+
+            <div class="gov-card">
+                <div
+                    class="flex items-center gap-4 mb-8 p-4 bg-gray-50 rounded-[var(--kr-gov-radius)] border border-gray-100">
+                    <span class="text-sm font-bold text-[var(--kr-gov-text-secondary)] whitespace-nowrap">설정 대상
+                        그룹:</span>
                     <select
-                        class="w-64 border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] text-[14px] focus:ring-[var(--kr-gov-blue)] focus:border-[var(--kr-gov-blue)]"
-                        id="group-select">
-                        <option value="admin">최고관리자 (System Admin)</option>
-                        <option selected="" value="evaluator">심사평가자 (Evaluator)</option>
-                        <option value="operator">기업운영자 (Operator)</option>
-                        <option value="viewer">일반열람자 (Viewer)</option>
+                        class="px-4 py-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white text-sm font-bold focus:ring-2 focus:ring-[var(--kr-gov-blue)] outline-none">
+                        <option value="ROLE_ADMIN">시스템 운영자 (Level 1)</option>
+                        <option value="ROLE_OPERATOR">일반 운영팀 (Level 2)</option>
+                        <option value="ROLE_USER_CORP">기업 사용자 그룹</option>
+                        <option value="ROLE_USER_IND">개인 사용자 그룹</option>
                     </select>
                 </div>
-            </div>
-            <div class="gov-card p-0 overflow-hidden mb-8">
+
                 <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left border-collapse">
-                        <thead class="bg-gray-50 border-b border-[var(--kr-gov-border-light)]">
-                            <tr>
-                                <th class="px-6 py-4 font-bold text-[var(--kr-gov-text-primary)] w-1/4">메뉴명 (Menu Name)
-                                </th>
-                                <th class="px-6 py-4 font-bold text-[var(--kr-gov-text-primary)] text-center">조회 권한
-                                    (View)</th>
-                                <th class="px-6 py-4 font-bold text-[var(--kr-gov-text-primary)] text-center">등록/수정 권한
-                                    (Add/Edit)</th>
-                                <th class="px-6 py-4 font-bold text-[var(--kr-gov-text-primary)] text-center">삭제/관리 권한
-                                    (Delete/Admin)</th>
+                    <table class="w-full text-left border-collapse border border-[var(--kr-gov-border-light)]">
+                        <thead>
+                            <tr class="gov-table-header">
+                                <th class="px-6 py-4 border-r border-[var(--kr-gov-border-light)]">메뉴/기능 대분류</th>
+                                <th class="px-6 py-4 text-center">조회(Read)</th>
+                                <th class="px-6 py-4 text-center">작성(Write)</th>
+                                <th class="px-6 py-4 text-center">승인(Approve)</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-100">
-                            <tr class="hover:bg-gray-50/50 transition-colors">
-                                <td class="px-6 py-4 font-medium flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-[18px] text-gray-400">home</span> 홈
-                                    (Home)
-                                </td>
-                                <td class="px-6 py-4 text-center"><input checked="" class="gov-checkbox"
-                                        type="checkbox" /></td>
-                                <td class="px-6 py-4 text-center"><input class="gov-checkbox" type="checkbox" /></td>
-                                <td class="px-6 py-4 text-center"><input class="gov-checkbox" type="checkbox" /></td>
-                            </tr>
+                        <tbody class="divide-y divide-gray-100 text-[14px]">
                             <tr class="hover:bg-gray-50/50 transition-colors">
                                 <td class="px-6 py-4 font-medium flex items-center gap-2">
                                     <span class="material-symbols-outlined text-[18px] text-gray-400">dashboard</span>
-                                    운영 대시보드 (Dashboard)
+                                    운영 대시보드(Dashboard)
                                 </td>
                                 <td class="px-6 py-4 text-center"><input checked="" class="gov-checkbox"
                                         type="checkbox" /></td>
                                 <td class="px-6 py-4 text-center"><input class="gov-checkbox" type="checkbox" /></td>
                                 <td class="px-6 py-4 text-center"><input class="gov-checkbox" type="checkbox" /></td>
                             </tr>
-                            <tr class="hover:bg-gray-50/50 transition-colors">
-                                <td class="px-6 py-4 font-medium flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-[18px] text-gray-400">group</span> 회원·권한
-                                    관리 (Member Management)
-                                </td>
-                                <td class="px-6 py-4 text-center"><input checked="" class="gov-checkbox"
-                                        type="checkbox" /></td>
-                                <td class="px-6 py-4 text-center"><input class="gov-checkbox" type="checkbox" /></td>
-                                <td class="px-6 py-4 text-center"><input class="gov-checkbox" type="checkbox" /></td>
-                            </tr>
-                            <tr class="hover:bg-gray-50/50 transition-colors">
-                                <td class="px-6 py-4 font-medium flex items-center gap-2">
-                                    <span
-                                        class="material-symbols-outlined text-[18px] text-gray-400">model_training</span>
-                                    산정 시뮬레이션 (Simulation)
-                                </td>
-                                <td class="px-6 py-4 text-center"><input checked="" class="gov-checkbox"
-                                        type="checkbox" /></td>
-                                <td class="px-6 py-4 text-center"><input checked="" class="gov-checkbox"
-                                        type="checkbox" /></td>
-                                <td class="px-6 py-4 text-center"><input class="gov-checkbox" type="checkbox" /></td>
-                            </tr>
-                            <tr class="hover:bg-gray-50/50 transition-colors">
-                                <td class="px-6 py-4 font-medium flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-[18px] text-gray-400">verified</span>
-                                    인증·심사 관리 (Certification)
-                                </td>
-                                <td class="px-6 py-4 text-center"><input checked="" class="gov-checkbox"
-                                        type="checkbox" /></td>
-                                <td class="px-6 py-4 text-center"><input checked="" class="gov-checkbox"
-                                        type="checkbox" /></td>
-                                <td class="px-6 py-4 text-center"><input class="gov-checkbox" type="checkbox" /></td>
-                            </tr>
-                            <tr class="hover:bg-gray-50/50 transition-colors">
-                                <td class="px-6 py-4 font-medium flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-[18px] text-gray-400">analytics</span>
-                                    통계·리포트 (Statistics)
-                                </td>
-                                <td class="px-6 py-4 text-center"><input checked="" class="gov-checkbox"
-                                        type="checkbox" /></td>
-                                <td class="px-6 py-4 text-center"><input class="gov-checkbox" type="checkbox" /></td>
-                                <td class="px-6 py-4 text-center"><input class="gov-checkbox" type="checkbox" /></td>
-                            </tr>
-                            <tr class="hover:bg-gray-50/50 transition-colors">
-                                <td class="px-6 py-4 font-medium flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-[18px] text-gray-400">settings</span>
-                                    시스템 설정 (System Settings)
-                                </td>
-                                <td class="px-6 py-4 text-center"><input checked="" class="gov-checkbox"
-                                        type="checkbox" /></td>
-                                <td class="px-6 py-4 text-center"><input class="gov-checkbox" type="checkbox" /></td>
-                                <td class="px-6 py-4 text-center"><input class="gov-checkbox" type="checkbox" /></td>
-                            </tr>
+                            <!-- Add more rows as needed -->
                         </tbody>
                     </table>
                 </div>
@@ -302,29 +174,9 @@
             </div>
         </main>
     </div>
-    <footer class="bg-white border-t border-[var(--kr-gov-border-light)] z-40 relative">
-        <div class="max-w-full mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-4">
-                <img alt="대한민국 정부 상징" class="h-8 grayscale opacity-70"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE" />
-                <div
-                    class="text-[12px] text-[var(--kr-gov-text-secondary)] leading-tight border-l border-gray-200 pl-4">
-                    <p class="font-bold text-[13px] mb-0.5">탄소중립 CCUS 통합관리본부 (Admin Console)</p>
-                    <p>© 2025 CCUS Integration Management Portal. All rights reserved.</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-4 text-[12px] font-medium text-[var(--kr-gov-text-secondary)]">
-                <a class="hover:underline" href="#">시스템 운영정책</a>
-                <span class="text-gray-300">|</span>
-                <a class="hover:underline" href="#">개인정보처리방침</a>
-                <span class="text-gray-300">|</span>
-                <div
-                    class="bg-[var(--kr-gov-bg-gray)] px-3 py-1 rounded-[5px] text-[11px] font-bold border border-gray-200">
-                    Last Updated: 2025.08.14 14:45
-                </div>
-            </div>
-        </div>
-    </footer>
+
+    <!-- Footer fragment inclusion -->
+    <div th:replace="~{footer :: footerFragment}"></div>
 
     <script th:inline="javascript">
         function logout() {
