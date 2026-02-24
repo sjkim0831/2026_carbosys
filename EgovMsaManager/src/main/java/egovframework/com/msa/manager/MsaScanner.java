@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 public class MsaScanner {
-    private static final String ROOT_PATH = "/opt/carbosys";
-    private static final String PORT_REGISTRY = "/opt/carbosys/msa-ports.yml";
+    private static final String ROOT_PATH = "/app";
+    private static final String PORT_REGISTRY = "/app/msa-ports.yml";
 
     @Data
     @Builder

@@ -22,7 +22,7 @@ public class MsaController {
     private MsaProcessManager processManager;
 
     private final MsaScanner scanner = new MsaScanner();
-    private static final String MAPPING_FILE = "/opt/carbosys/msa-mappings.yml";
+    private static final String MAPPING_FILE = "/app/msa-mappings.yml";
 
     @GetMapping("/manager")
     public String managerView(Model model) {
@@ -114,7 +114,7 @@ public class MsaController {
         if (mod != null) {
             result.put("logs", processManager.getLogs(id, mod.getDir(), mod.getPort()));
         } else {
-            result.put("logs", List.of("Module info not found"));
+            result.put("logs", java.util.Collections.singletonList("Module info not found"));
         }
         return result;
     }
@@ -138,7 +138,9 @@ public class MsaController {
 
         // 2) Kill remaining Spring Boot / Maven wrapper processes EXCEPT current
         // manager
-        long myPid = ProcessHandle.current().pid();
+        // Java 8 compatible PID retrieval
+        String jvmName = java.lang.management.ManagementFactory.getRuntimeMXBean().getName();
+        long myPid = Long.parseLong(jvmName.split("@")[0]);
         try {
             // Give some time for graceful shutdown
             Thread.sleep(1000);

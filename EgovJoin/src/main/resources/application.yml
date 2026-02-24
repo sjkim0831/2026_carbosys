@@ -18,7 +18,7 @@ spring:
     active: local
   datasource:
     driver-class-name: cubrid.jdbc.driver.CUBRIDDriver
-    url: jdbc:cubrid:localhost:33000:com:::?charset=UTF-8
+    url: jdbc:cubrid:cubrid:33000:com:::?charset=UTF-8
     username: dba
     password: ""
     hikari:

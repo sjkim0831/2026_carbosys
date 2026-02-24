@@ -5,11 +5,21 @@ services:
       TZ: Asia/Seoul
       CUBRID_DB: com
       CUBRID_LOCALE: ko_KR.utf8
-      DB_ROOT_PASSWORD: "" # dba 계정 비밀번호 (공백 시 dba 접속 가능)
+      DB_ROOT_PASSWORD: ""
     volumes:
       - "./init/:/docker-entrypoint-initdb.d/"
+      - "./data:/var/lib/cubrid"
     platform: linux/x86_64
     ports:
       - "33000:33000"
     container_name: cubrid
-    # command: cubrid broker off
+    hostname: cubrid
+    shm_size: '2gb'
+    privileged: true
+    networks:
+      - carbosys-net
+
+networks:
+  carbosys-net:
+    name: carbosys-net
+    external: true

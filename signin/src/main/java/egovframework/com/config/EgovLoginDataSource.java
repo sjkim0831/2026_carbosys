@@ -14,7 +14,7 @@ public class EgovLoginDataSource {
     @Value("${spring.datasource.driver-class-name:cubrid.jdbc.driver.CUBRIDDriver}")
     private String driverClassName;
 
-    @Value("${spring.datasource.url:jdbc:cubrid:localhost:33000:com:::?charset=UTF-8}")
+    @Value("${spring.datasource.url:jdbc:cubrid:cubrid:33000:com:::?charset=UTF-8}")
     private String url;
 
     @Value("${spring.datasource.username:dba}")
