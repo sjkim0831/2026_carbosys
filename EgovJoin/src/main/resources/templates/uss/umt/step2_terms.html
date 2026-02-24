@@ -38,11 +38,26 @@
             font-variation-settings: 'wght' 400, 'opsz' 24;
             font-size: 24px;
         }
-        .step-active {
-            @apply flex items-center justify-center w-10 h-10 rounded-full bg-[var(--kr-gov-blue)] text-white font-bold ring-4 ring-blue-100;
+        .step-item {
+            @apply flex flex-col items-center relative flex-1;
         }
-        .step-inactive {
-            @apply flex items-center justify-center w-10 h-10 rounded-full bg-white border-2 border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] font-bold;
+        .step-circle {
+            @apply w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2 z-10 bg-white;
+        }
+        .step-active .step-circle {
+            @apply bg-[var(--kr-gov-blue)] border-[var(--kr-gov-blue)] text-white ring-4 ring-blue-100;
+        }
+        .step-completed .step-circle {
+            @apply bg-white border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)];
+        }
+        .step-inactive .step-circle {
+            @apply border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)];
+        }
+        .step-line {
+            @apply absolute top-5 left-1/2 w-full h-[2px] bg-[var(--kr-gov-border-light)];
+        }
+        .step-completed .step-line {
+            @apply bg-[var(--kr-gov-blue)];
         }
         .terms-scroll {
             @apply h-48 overflow-y-auto p-5 bg-gray-50 border border-[var(--kr-gov-border-light)] text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed;
@@ -56,6 +71,13 @@
             background: #ccc;
             border-radius: 4px;
         }
+        /* 회원가입 페이지: 헤더 로그인 버튼/내비게이션 숨김 */
+        #loginBtn { display: none !important; }
+        header nav { display: none !important; }
+        .gov-btn { display: none !important; }
+        /* KO/EN 버튼: KO 활성 */
+        #langKoBtn { @apply bg-[var(--kr-gov-blue)] text-white; }
+        #langEnBtn { @apply bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100; }
     </style>
     <script id="tailwind-config">
         tailwind.config = {
@@ -77,78 +99,46 @@
 
 <body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
     <a class="skip-link" href="#main-content">본문 바로가기</a>
-    <div class="bg-white border-b border-[var(--kr-gov-border-light)]">
-        <div class="max-w-7xl mx-auto px-4 lg:px-8 py-2 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <img alt="대한민국 정부 상징" class="h-4"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BPzqtzSLVGSrjt4mzhhVBy9SocCRDssk1F3XRVu7Xq9jHh7qzzt48wFi8qduCiJmB0LRQczPB7waPe3h0gkjn3jOEDxt6UJSJjdXNf8P-4WlM2BEZrfg2SL91uSiZrFcCk9KYrsdg-biTS9dtJ_OIghDBEVoAzMc33XcCYR_UP0QQdoYzBe840YrtH40xGyB9MSr0QH4D0foqlvOhG0jX8CDayXNlDsSKlfClVd3K2aodlwg4xSxgXHB3vnnnA0L2yNBNihQQg0" />
-                <span class="text-[13px] font-medium text-[var(--kr-gov-text-secondary)]">대한민국 정부 공식 서비스</span>
-            </div>
-        </div>
-    </div>
-    <header class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center gap-3">
-                    <a class="flex items-center gap-2" href="/">
-                        <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]"
-                            style="font-variation-settings: 'wght' 600;">eco</span>
-                        <div class="flex flex-col">
-                            <h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)]">CCUS 통합관리 포털
-                            </h1>
-                            <p
-                                class="text-[10px] text-[var(--kr-gov-text-secondary)] font-bold uppercase tracking-wider">
-                                Carbon Capture, Utilization and Storage</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="flex items-center gap-6">
-                    <div
-                        class="hidden sm:flex items-center gap-1.5 text-xs font-bold text-emerald-600 px-3 py-1.5 bg-emerald-50 rounded-full border border-emerald-100">
-                        <span class="material-symbols-outlined text-[16px]">lock</span>
-                        안전한 SSL 보안 통신 중
-                    </div>
-                    <div
-                        class="flex border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] overflow-hidden">
-                        <button class="px-3 py-1 text-xs bg-[var(--kr-gov-blue)] text-white font-bold">KO</button>
-                        <button
-                            class="px-3 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold border-l border-[var(--kr-gov-border-light)]">EN</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+    <!-- 헤더: home3에서 공유 -->
+    <div id="shared-header"></div>
+
     <main class="flex-grow py-12 px-4" id="main-content">
-        <div class="max-w-3xl mx-auto">
+        <div class="max-w-5xl mx-auto">
+            <!-- 제목 -->
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-[var(--kr-gov-text-primary)] mb-6">회원가입</h2>
-                <div class="flex justify-center items-center gap-4">
-                    <div class="flex flex-col items-center gap-2">
-                        <div class="step-inactive">01</div>
-                        <span class="text-xs font-bold text-[var(--kr-gov-text-secondary)]">회원유형</span>
+                <h2 class="text-3xl font-bold text-[var(--kr-gov-text-primary)] mb-2">회원가입</h2>
+                <p class="text-[var(--kr-gov-text-secondary)]">서비스 이용을 위해 약관에 동의해 주세요.</p>
+            </div>
+            <!-- 진행 표시 -->
+            <div class="max-w-5xl mx-auto mb-12">
+                <div class="flex justify-between relative">
+                    <div class="step-item step-completed">
+                        <div class="step-line"></div>
+                        <div class="step-circle"><span class="material-symbols-outlined !text-[20px]">check</span></div>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">회원유형</span>
                     </div>
-                    <div class="w-12 h-px bg-[var(--kr-gov-border-light)] -mt-6"></div>
-                    <div class="flex flex-col items-center gap-2">
-                        <div class="step-active">02</div>
-                        <span class="text-xs font-bold text-[var(--kr-gov-blue)]">약관동의</span>
+                    <div class="step-item step-active">
+                        <div class="step-line"></div>
+                        <div class="step-circle">02</div>
+                        <span class="mt-3 text-sm font-bold text-[var(--kr-gov-blue)]">약관 동의</span>
                     </div>
-                    <div class="w-12 h-px bg-[var(--kr-gov-border-light)] -mt-6"></div>
-                    <div class="flex flex-col items-center gap-2">
-                        <div class="step-inactive">03</div>
-                        <span class="text-xs font-bold text-[var(--kr-gov-text-secondary)]">본인확인</span>
+                    <div class="step-item step-inactive">
+                        <div class="step-line"></div>
+                        <div class="step-circle">03</div>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">본인 확인</span>
                     </div>
-                    <div class="w-12 h-px bg-[var(--kr-gov-border-light)] -mt-6"></div>
-                    <div class="flex flex-col items-center gap-2">
-                        <div class="step-inactive">04</div>
-                        <span class="text-xs font-bold text-[var(--kr-gov-text-secondary)]">정보입력</span>
+                    <div class="step-item step-inactive">
+                        <div class="step-line"></div>
+                        <div class="step-circle">04</div>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">정보 입력</span>
                     </div>
-                    <div class="w-12 h-px bg-[var(--kr-gov-border-light)] -mt-6"></div>
-                    <div class="flex flex-col items-center gap-2">
-                        <div class="step-inactive">05</div>
-                        <span class="text-xs font-bold text-[var(--kr-gov-text-secondary)]">가입완료</span>
+                    <div class="step-item step-inactive">
+                        <div class="step-circle">05</div>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">가입 완료</span>
                     </div>
                 </div>
             </div>
+
             <div class="bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm p-8 lg:p-10">
                 <h3
                     class="text-xl font-bold text-[var(--kr-gov-text-primary)] mb-8 border-l-4 border-[var(--kr-gov-blue)] pl-4">
@@ -257,41 +247,30 @@
             </p>
         </div>
     </main>
-    <footer class="bg-white border-t border-[var(--kr-gov-border-light)]">
-        <div class="max-w-7xl mx-auto px-4 lg:px-8 py-10">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-                <div class="space-y-4">
-                    <div class="flex items-center gap-3">
-                        <img alt="대한민국 정부 상징" class="h-8 grayscale"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE" />
-                        <span class="text-xl font-black text-[var(--kr-gov-text-primary)]">탄소중립 CCUS 통합관리본부</span>
-                    </div>
-                    <address class="not-italic text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
-                        (04551) 서울특별시 중구 세종대로 110 | 대표전화: 02-1234-5678 <br />
-                        © 2025 CCUS Integration Management Portal. All rights reserved.
-                    </address>
-                </div>
-                <div class="flex flex-col items-end gap-4">
-                    <div class="flex flex-wrap gap-6 text-sm font-bold">
-                        <a class="text-[var(--kr-gov-blue)] hover:underline" href="#">개인정보처리방침</a>
-                        <a class="text-[var(--kr-gov-text-primary)] hover:underline" href="#">이용약관</a>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="px-3 py-1 bg-[var(--kr-gov-bg-gray)] rounded-[var(--kr-gov-radius)] text-[11px] font-bold text-[var(--kr-gov-text-secondary)]">
-                            최종 수정일: <time datetime="2025-08-20">2025.08.20</time>
-                        </div>
-                        <img alt="웹 접근성 품질인증 마크" class="h-10"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzkKwREcbsB7LV3B2b7fBK7y2M_9Exa0vlGVzxNy2qM0n1LFMRlBCIa_XiIBeCfvv3DkMb9Z0D05Y-RMuAytisqlCS8QTpbtebgKnMnWoefEx5uJOgRW5H_8Pw9jmaRvkiW6sVRrifgIhrWc5hi2PRUGHgXn-q8-veHvu9wSwDhtcvbHKYyokgnP-hqdR10ahEAdBe4vFFkR88N_By8pjpp34KH9TwHOouRLBwdfVCsRGmDCS6wnvQZDwf6s4HyScSMXyJJGQjl8Y" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- 푸터: home3에서 공유 -->
+    <div id="shared-footer"></div>
     <script>
+            // home3에서 공유 헤더/푸터를 fetch
+            (function loadSharedLayout() {
+                fetch('/home3/fragments/header')
+                    .then(r => r.text())
+                    .then(html => {
+                        document.getElementById('shared-header').innerHTML = html;
+                        // KO/EN 버튼에 링크 연결 (step2+ 는 POST 전용이라 step1으로 이동)
+                        const ko = document.getElementById('langKoBtn');
+                        const en = document.getElementById('langEnBtn');
+                        if (ko) ko.onclick = () => location.href = '/join/step1';
+                        if (en) en.onclick = () => location.href = '/join/en/step1';
+                    })
+                    .catch(() => { });
+                fetch('/home3/fragments/footer')
+                    .then(r => r.text())
+                    .then(html => { document.getElementById('shared-footer').innerHTML = html; })
+                    .catch(() => { });
+            })();
+
         const allCheck = document.getElementById('all-check');
         const termChecks = document.querySelectorAll('.term-check');
-
         allCheck.addEventListener('change', function () {
             termChecks.forEach(check => check.checked = this.checked);
         });

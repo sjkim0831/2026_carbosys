@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>본인확인 - CCUS 통합관리 포털</title>
+    <title>Identity Verification - CCUS Integrated Management Portal</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
     <style type="text/tailwindcss">
         :root {
@@ -25,36 +22,19 @@
             --kr-gov-radius: 5px;
         }
         @layer base {
-            body { font-family: 'Noto Sans KR', 'Public Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+            body { font-family: 'Public Sans', sans-serif; -webkit-font-smoothing: antialiased; }
             .skip-link {
                 @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
             }
         }
-        .material-symbols-outlined {
-            font-variation-settings: 'wght' 400, 'opsz' 24;
-            font-size: 24px;
-        }
-        .step-item {
-            @apply flex flex-col items-center relative flex-1;
-        }
-        .step-circle {
-            @apply w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2 z-10 bg-white;
-        }
-        .step-active .step-circle {
-            @apply bg-[var(--kr-gov-blue)] border-[var(--kr-gov-blue)] text-white ring-4 ring-blue-100;
-        }
-        .step-completed .step-circle {
-            @apply bg-white border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)];
-        }
-        .step-inactive .step-circle {
-            @apply border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)];
-        }
-        .step-line {
-            @apply absolute top-5 left-1/2 w-full h-[2px] bg-[var(--kr-gov-border-light)];
-        }
-        .step-completed .step-line {
-            @apply bg-[var(--kr-gov-blue)];
-        }
+        .material-symbols-outlined { font-variation-settings: 'wght' 400, 'opsz' 24; font-size: 24px; }
+        .step-item { @apply flex flex-col items-center relative flex-1; }
+        .step-circle { @apply w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2 z-10 bg-white; }
+        .step-active .step-circle { @apply bg-[var(--kr-gov-blue)] border-[var(--kr-gov-blue)] text-white ring-4 ring-blue-100; }
+        .step-completed .step-circle { @apply bg-white border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)]; }
+        .step-inactive .step-circle { @apply border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)]; }
+        .step-line { @apply absolute top-5 left-1/2 w-full h-[2px] bg-[var(--kr-gov-border-light)]; }
+        .step-completed .step-line { @apply bg-[var(--kr-gov-blue)]; }
         .auth-card {
             @apply flex flex-col items-center p-10 bg-white border border-[var(--kr-gov-border-light)] rounded-xl transition-all hover:border-[var(--kr-gov-blue)] hover:shadow-xl text-center cursor-pointer h-full outline-none focus:ring-4 focus:ring-blue-100;
         }
@@ -66,101 +46,89 @@
             font-size: 48px;
             color: var(--kr-gov-blue);
         }
-        /* 회원가입 페이지: 헤더 로그인 버튼/내비게이션 숨김 */
+        /* Hide login button/nav on join pages */
         #loginBtn { display: none !important; }
         header nav { display: none !important; }
         .gov-btn { display: none !important; }
-        /* KO/EN 버튼: KO 활성 */
-        #langKoBtn { @apply bg-[var(--kr-gov-blue)] text-white; }
-        #langEnBtn { @apply bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100; }
+        /* Override KO/EN button: EN active */
+        #langKoBtn { @apply bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100; }
+        #langEnBtn { @apply bg-[var(--kr-gov-blue)] text-white; }
     </style>
     <script id="tailwind-config">
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#00378b",
-                        "gov-gray": "#767676",
-                    },
-                    borderRadius: {
-                        'gov': '5px',
-                    }
-                },
-            },
-        }
+        tailwind.config = { theme: { extend: { colors: { "primary": "#00378b", "gov-gray": "#767676" }, borderRadius: { 'gov': '5px' } } } }
     </script>
 </head>
 
 <body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
-    <a class="skip-link" href="#main-content">본문 바로가기</a>
-    <!-- 헤더: home3에서 공유 -->
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <div id="shared-header"></div>
 
     <main class="flex-grow py-12 px-4" id="main-content">
         <div class="max-w-5xl mx-auto">
-            <!-- 제목 -->
+            <!-- Title -->
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-[var(--kr-gov-text-primary)] mb-2">회원가입</h2>
-                <p class="text-[var(--kr-gov-text-secondary)]">안전한 서비스 이용을 위해 본인확인을 진행해 주세요.</p>
+                <h2 class="text-3xl font-bold text-[var(--kr-gov-text-primary)] mb-2">Registration</h2>
+                <p class="text-[var(--kr-gov-text-secondary)]">Please complete identity verification for secure service
+                    access.</p>
             </div>
-            <!-- 진행 표시 -->
+            <!-- Step progress -->
             <div class="max-w-5xl mx-auto mb-12">
                 <div class="flex justify-between relative">
                     <div class="step-item step-completed">
                         <div class="step-line"></div>
                         <div class="step-circle"><span class="material-symbols-outlined !text-[20px]">check</span></div>
-                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">회원유형</span>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">Member Type</span>
                     </div>
                     <div class="step-item step-completed">
                         <div class="step-line"></div>
                         <div class="step-circle"><span class="material-symbols-outlined !text-[20px]">check</span></div>
-                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">약관 동의</span>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">Terms</span>
                     </div>
                     <div class="step-item step-active">
                         <div class="step-line"></div>
                         <div class="step-circle">03</div>
-                        <span class="mt-3 text-sm font-bold text-[var(--kr-gov-blue)]">본인 확인</span>
+                        <span class="mt-3 text-sm font-bold text-[var(--kr-gov-blue)]">Verification</span>
                     </div>
                     <div class="step-item step-inactive">
                         <div class="step-line"></div>
                         <div class="step-circle">04</div>
-                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">정보 입력</span>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">Information</span>
                     </div>
                     <div class="step-item step-inactive">
                         <div class="step-circle">05</div>
-                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">가입 완료</span>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">Complete</span>
                     </div>
                 </div>
             </div>
 
-            <form id="authForm" action="/join/step4" method="post"
+            <form id="authForm" action="/join/en/step4" method="post"
                 class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
                 <input type="hidden" name="auth_method" id="auth_method" value="" />
                 <button onclick="submitAuth('GNR')" class="auth-card group" type="button">
                     <div class="icon-box">
                         <span class="material-symbols-outlined">smartphone</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">디지털 원패스</h3>
+                    <h3 class="text-xl font-bold mb-4">Digital One-Pass</h3>
                     <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
-                        하나의 아이디로<br />모든 정부 서비스를 이용합니다.
+                        Access all government services<br />with a single account.
                     </p>
                 </button>
                 <button onclick="submitAuth('CERT')" class="auth-card group" type="button">
                     <div class="icon-box">
                         <span class="material-symbols-outlined">verified_user</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">공동 / 금융인증서</h3>
+                    <h3 class="text-xl font-bold mb-4">Joint / Financial Certificate</h3>
                     <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
-                        발급받으신 공동인증서 또는<br />금융인증서를 사용하여 확인합니다.
+                        Verify using your joint<br />or financial certificate.
                     </p>
                 </button>
                 <button onclick="submitAuth('EASY')" class="auth-card group" type="button">
                     <div class="icon-box">
                         <span class="material-symbols-outlined">qr_code_scanner</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">간편인증 (카카오, 토스 등)</h3>
+                    <h3 class="text-xl font-bold mb-4">Easy Auth (Kakao, Toss, etc.)</h3>
                     <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
-                        카카오, 토스 등 민간 인증서의<br />간편한 인증 절차를 이용합니다.
+                        Use simple authentication<br />via private certificates.
                     </p>
                 </button>
             </form>
@@ -169,42 +137,43 @@
                     class="w-48 h-14 border border-[var(--kr-gov-border-light)] bg-white text-[var(--kr-gov-text-primary)] flex items-center justify-center rounded-[var(--kr-gov-radius)] font-bold hover:bg-gray-50 transition-colors"
                     type="button">
                     <span class="material-symbols-outlined mr-2">arrow_back</span>
-                    이전 단계
+                    Previous
                 </button>
             </div>
             <div class="max-w-5xl mx-auto mt-20 bg-white border border-[var(--kr-gov-border-light)] p-8 rounded-lg">
                 <div class="flex gap-4">
                     <span class="material-symbols-outlined text-blue-600 mt-0.5">info</span>
                     <div class="text-[15px] text-[var(--kr-gov-text-secondary)]">
-                        <p class="font-bold text-[var(--kr-gov-text-primary)] mb-2">본인인증 안내사항</p>
+                        <p class="font-bold text-[var(--kr-gov-text-primary)] mb-2">Identity Verification Guide</p>
                         <ul class="list-disc ml-5 space-y-1.5">
-                            <li>입력하신 본인확인 정보는 가입 시 입력된 정보와 일치해야 합니다.</li>
-                            <li>타인의 명의를 도용하여 본인확인을 진행할 경우 관련 법령에 따라 처벌받을 수 있습니다.</li>
-                            <li>인증 과정에서 발생하는 문제는 각 인증 수단별 고객센터로 문의해 주시기 바랍니다.</li>
-                            <li>법인 회원의 경우, 담당자 개인의 본인인증이 필요할 수 있습니다.</li>
+                            <li>The identity verification information must match the information entered during
+                                registration.</li>
+                            <li>Using someone else's identity for verification may result in penalties under relevant
+                                laws.</li>
+                            <li>For issues during the verification process, please contact the customer service of each
+                                verification method.</li>
+                            <li>For corporate members, personal identity verification of the person in charge may be
+                                required.</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <!-- 푸터: home3에서 공유 -->
     <div id="shared-footer"></div>
     <script>
             (function loadSharedLayout() {
-                fetch('/home3/fragments/header')
-                    .then(r => r.text()).then(html => {
-                        document.getElementById('shared-header').innerHTML = html;
-                        // KO/EN 버튼에 링크 연결 (step3+ 는 POST 전용이라 step1으로 이동)
-                        const ko = document.getElementById('langKoBtn');
-                        const en = document.getElementById('langEnBtn');
-                        if (ko) ko.onclick = () => location.href = '/join/step1';
-                        if (en) en.onclick = () => location.href = '/join/en/step1';
-                    })
-                    .catch(() => { });
-                fetch('/home3/fragments/footer')
-                    .then(r => r.text()).then(html => { document.getElementById('shared-footer').innerHTML = html; })
-                    .catch(() => { });
+                fetch('/home3/fragments/header').then(r => r.text()).then(html => {
+                    document.getElementById('shared-header').innerHTML = html;
+                    // Switch KO/EN buttons (POST-only steps → redirect to step1)
+                    const ko = document.getElementById('langKoBtn');
+                    const en = document.getElementById('langEnBtn');
+                    if (ko) ko.onclick = () => location.href = '/join/step1';
+                    if (en) en.onclick = () => location.href = '/join/en/step1';
+                }).catch(() => { });
+                fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
+                    document.getElementById('shared-footer').innerHTML = html;
+                }).catch(() => { });
             })();
 
         function submitAuth(method) {
@@ -217,10 +186,10 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(res => res.json()).then(data => {
-                    alert("간편인증 요청 성공 (Mock): " + JSON.stringify(data));
+                    alert("Easy Auth Request Success (Mock): " + JSON.stringify(data));
                     document.getElementById('auth_method').value = method;
                     document.getElementById('authForm').submit();
-                }).catch(err => { alert("간편인증 모듈 연결 실패: " + err); });
+                }).catch(err => { alert("Easy Auth connection failed: " + err); });
             } else {
                 document.getElementById('auth_method').value = method;
                 document.getElementById('authForm').submit();

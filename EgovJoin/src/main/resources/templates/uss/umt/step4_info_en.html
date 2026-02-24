@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>회원가입 4단계: 정보 입력 - CCUS 통합관리 포털</title>
+    <title>Registration Step 4: Information - CCUS Integrated Management Portal</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
     <style type="text/tailwindcss">
         :root {
@@ -26,7 +23,7 @@
             --kr-gov-success: #2e7d32;
         }
         @layer base {
-            body { font-family: 'Noto Sans KR', 'Public Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+            body { font-family: 'Public Sans', sans-serif; -webkit-font-smoothing: antialiased; }
             .skip-link {
                 @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
             }
@@ -34,147 +31,115 @@
                 outline: 3px solid var(--kr-gov-focus);
                 outline-offset: 2px;
             }
-            .form-label {
-                @apply block text-sm font-bold text-[var(--kr-gov-text-primary)] mb-2;
-            }
-            .form-input {
-                @apply w-full h-12 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all outline-none;
-            }
-            .section-title {
-                @apply text-lg font-bold text-[var(--kr-gov-text-primary)] flex items-center gap-2 mb-6 pb-2 border-b-2 border-gray-100;
-            }
+            .form-label { @apply block text-sm font-bold text-[var(--kr-gov-text-primary)] mb-2; }
+            .form-input { @apply w-full h-12 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all outline-none; }
+            .section-title { @apply text-lg font-bold text-[var(--kr-gov-text-primary)] flex items-center gap-2 mb-6 pb-2 border-b-2 border-gray-100; }
         }
-        .material-symbols-outlined {
-            font-variation-settings: 'wght' 400, 'opsz' 24;
-            font-size: 24px;
-        }
-        .step-item {
-            @apply flex flex-col items-center relative flex-1;
-        }
-        .step-circle {
-            @apply w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2 z-10 bg-white;
-        }
-        .step-active .step-circle {
-            @apply bg-[var(--kr-gov-blue)] border-[var(--kr-gov-blue)] text-white ring-4 ring-blue-100;
-        }
-        .step-completed .step-circle {
-            @apply bg-white border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)];
-        }
-        .step-inactive .step-circle {
-            @apply border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)];
-        }
-        .step-line {
-            @apply absolute top-5 left-1/2 w-full h-[2px] bg-[var(--kr-gov-border-light)];
-        }
-        .step-completed .step-line {
-            @apply bg-[var(--kr-gov-blue)];
-        }
-        /* 회원가입 페이지: 헤더 로그인 버튼/내비게이션 숨김 */
+        .material-symbols-outlined { font-variation-settings: 'wght' 400, 'opsz' 24; font-size: 24px; }
+        .step-item { @apply flex flex-col items-center relative flex-1; }
+        .step-circle { @apply w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2 z-10 bg-white; }
+        .step-active .step-circle { @apply bg-[var(--kr-gov-blue)] border-[var(--kr-gov-blue)] text-white ring-4 ring-blue-100; }
+        .step-completed .step-circle { @apply bg-white border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)]; }
+        .step-inactive .step-circle { @apply border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)]; }
+        .step-line { @apply absolute top-5 left-1/2 w-full h-[2px] bg-[var(--kr-gov-border-light)]; }
+        .step-completed .step-line { @apply bg-[var(--kr-gov-blue)]; }
+        /* Hide login button/nav on join pages */
         #loginBtn { display: none !important; }
         header nav { display: none !important; }
         .gov-btn { display: none !important; }
-        /* KO/EN 버튼: KO 활성 */
-        #langKoBtn { @apply bg-[var(--kr-gov-blue)] text-white; }
-        #langEnBtn { @apply bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100; }
+        /* Override KO/EN button: EN active */
+        #langKoBtn { @apply bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100; }
+        #langEnBtn { @apply bg-[var(--kr-gov-blue)] text-white; }
     </style>
     <script id="tailwind-config">
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#00378b",
-                        "gov-gray": "#767676",
-                    },
-                    borderRadius: {
-                        'gov': '5px',
-                    }
-                },
-            },
-        }
+        tailwind.config = { theme: { extend: { colors: { "primary": "#00378b", "gov-gray": "#767676" }, borderRadius: { 'gov': '5px' } } } }
     </script>
 </head>
 
 <body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
-    <a class="skip-link" href="#main-content">본문 바로가기</a>
-    <!-- 헤더: home3에서 공유 -->
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <div id="shared-header"></div>
 
     <main class="flex-grow py-12 px-4" id="main-content">
         <div class="max-w-5xl mx-auto">
-            <!-- 제목 -->
+            <!-- Title -->
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-[var(--kr-gov-text-primary)] mb-2">회원가입</h2>
-                <p class="text-[var(--kr-gov-text-secondary)]">정확한 정보를 입력해 주세요.</p>
+                <h2 class="text-3xl font-bold text-[var(--kr-gov-text-primary)] mb-2">Registration</h2>
+                <p class="text-[var(--kr-gov-text-secondary)]">Please enter your information accurately.</p>
             </div>
-            <!-- 진행 표시 -->
+            <!-- Step progress -->
             <div class="max-w-5xl mx-auto mb-12">
                 <div class="flex justify-between relative">
                     <div class="step-item step-completed">
                         <div class="step-line"></div>
                         <div class="step-circle"><span class="material-symbols-outlined !text-[20px]">check</span></div>
-                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">회원유형</span>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">Member Type</span>
                     </div>
                     <div class="step-item step-completed">
                         <div class="step-line"></div>
                         <div class="step-circle"><span class="material-symbols-outlined !text-[20px]">check</span></div>
-                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">약관 동의</span>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">Terms</span>
                     </div>
                     <div class="step-item step-completed">
                         <div class="step-line"></div>
                         <div class="step-circle"><span class="material-symbols-outlined !text-[20px]">check</span></div>
-                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">본인 확인</span>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">Verification</span>
                     </div>
                     <div class="step-item step-active">
                         <div class="step-line"></div>
                         <div class="step-circle">04</div>
-                        <span class="mt-3 text-sm font-bold text-[var(--kr-gov-blue)]">정보 입력</span>
+                        <span class="mt-3 text-sm font-bold text-[var(--kr-gov-blue)]">Information</span>
                     </div>
                     <div class="step-item step-inactive">
                         <div class="step-circle">05</div>
-                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">가입 완료</span>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">Complete</span>
                     </div>
                 </div>
             </div>
 
             <div
                 class="bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm overflow-hidden p-8 md:p-12">
-                <form action="/join/step5" method="post" enctype="multipart/form-data" class="space-y-10">
+                <form action="/join/en/step5" method="post" enctype="multipart/form-data" class="space-y-10">
                     <section>
                         <h3 class="section-title">
                             <span class="material-symbols-outlined text-[var(--kr-gov-blue)]">person</span>
-                            사용자 정보
+                            User Information
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-1">
-                                <label class="form-label" for="user-id">아이디 <span class="text-red-500">*</span></label>
+                                <label class="form-label" for="user-id">User ID <span
+                                        class="text-red-500">*</span></label>
                                 <div class="flex gap-2">
-                                    <input class="form-input" id="user-id" name="mberId" placeholder="6~16자 영문, 숫자"
-                                        type="text" required />
+                                    <input class="form-input" id="user-id" name="mberId"
+                                        placeholder="6–16 alphanumeric characters" type="text" required />
                                     <button
                                         class="px-4 bg-gray-800 text-white text-sm font-bold rounded-[var(--kr-gov-radius)] whitespace-nowrap"
-                                        type="button">중복확인</button>
+                                        type="button">Check</button>
                                 </div>
                             </div>
                             <div class="space-y-1">
-                                <label class="form-label" for="user-name">이름 <span class="text-red-500">*</span></label>
+                                <label class="form-label" for="user-name">Name <span
+                                        class="text-red-500">*</span></label>
                                 <input class="form-input bg-gray-50" id="user-name" name="mberNm" readonly=""
-                                    type="text" value="홍길동" />
-                                <p class="text-[12px] text-gray-500 mt-1 italic">본인인증 정보로 자동 입력되었습니다.</p>
+                                    type="text" th:value="${mberNm}" value="John Doe" />
+                                <p class="text-[12px] text-gray-500 mt-1 italic">Auto-filled from identity verification.
+                                </p>
                             </div>
                             <div class="space-y-1">
-                                <label class="form-label" for="password">비밀번호 <span
+                                <label class="form-label" for="password">Password <span
                                         class="text-red-500">*</span></label>
                                 <input class="form-input" id="password" name="password"
-                                    placeholder="영문, 숫자, 특수문자 조합 8자 이상" type="password" required />
+                                    placeholder="8+ characters: letters, numbers, symbols" type="password" required />
                             </div>
                             <div class="space-y-1">
-                                <label class="form-label" for="password-confirm">비밀번호 확인 <span
+                                <label class="form-label" for="password-confirm">Confirm Password <span
                                         class="text-red-500">*</span></label>
-                                <input class="form-input" id="password-confirm" placeholder="비밀번호를 다시 입력하세요"
+                                <input class="form-input" id="password-confirm" placeholder="Re-enter your password"
                                     type="password" required />
                             </div>
                             <div class="md:col-span-2 space-y-1">
-                                <label class="form-label" for="contact">연락처 <span class="text-red-500">*</span></label>
+                                <label class="form-label" for="contact">Phone Number <span
+                                        class="text-red-500">*</span></label>
                                 <div class="flex gap-2">
                                     <select class="w-24 form-input" name="moblphonNo1">
                                         <option>010</option>
@@ -192,35 +157,36 @@
                     <section>
                         <h3 class="section-title">
                             <span class="material-symbols-outlined text-[var(--kr-gov-blue)]">corporate_fare</span>
-                            소속 정보
+                            Organization Information
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="md:col-span-2 space-y-1">
-                                <label class="form-label" for="company-search">기관/기업명 <span
+                                <label class="form-label" for="company-search">Organization / Company Name <span
                                         class="text-red-500">*</span></label>
                                 <div class="relative">
                                     <input class="form-input pr-24" id="company-search" name="insttNm"
-                                        placeholder="기관명 또는 기업명을 검색하세요" type="text" required />
+                                        placeholder="Search for institution or company name" type="text" required />
                                     <button
                                         class="absolute right-2 top-2 bottom-2 px-4 bg-[var(--kr-gov-blue)] text-white text-sm font-bold rounded-[var(--kr-gov-radius)] flex items-center gap-1"
                                         type="button">
-                                        <span class="material-symbols-outlined text-sm">search</span> 검색
+                                        <span class="material-symbols-outlined text-sm">search</span> Search
                                     </button>
                                 </div>
                             </div>
                             <div class="space-y-1">
-                                <label class="form-label" for="biz-number">사업자등록번호 <span
+                                <label class="form-label" for="biz-number">Business Registration Number <span
                                         class="text-red-500">*</span></label>
                                 <input class="form-input bg-gray-50" id="biz-number" name="bizrno"
-                                    placeholder="기관 검색 시 자동 입력" type="text" />
+                                    placeholder="Auto-filled after organization search" type="text" />
                             </div>
                             <div class="space-y-1">
-                                <label class="form-label" for="department">부서명</label>
-                                <input class="form-input" id="department" name="deptNm" placeholder="소속 부서를 입력하세요"
-                                    type="text" />
+                                <label class="form-label" for="department">Department</label>
+                                <input class="form-input" id="department" name="deptNm"
+                                    placeholder="Enter your department" type="text" />
                             </div>
                             <div class="md:col-span-2 space-y-1">
-                                <label class="form-label">증빙 서류 업로드 <span class="text-red-500">*</span></label>
+                                <label class="form-label">Supporting Documents <span
+                                        class="text-red-500">*</span></label>
                                 <div class="mt-2 flex flex-col items-center justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer"
                                     onclick="document.getElementById('file-upload').click()">
                                     <div class="space-y-1 text-center">
@@ -229,13 +195,14 @@
                                         <div class="flex text-sm text-gray-600">
                                             <span
                                                 class="relative cursor-pointer font-bold text-[var(--kr-gov-blue)] hover:underline">
-                                                <span>파일 선택</span>
+                                                <span>Select File</span>
                                                 <input class="sr-only" id="file-upload" name="evidenceFile"
                                                     type="file" />
                                             </span>
-                                            <p class="pl-1">또는 파일을 여기로 끌어다 놓으세요</p>
+                                            <p class="pl-1">or drag and drop here</p>
                                         </div>
-                                        <p class="text-xs text-gray-500">사업자등록증 또는 재직증명서 (PDF, JPG 최대 10MB)</p>
+                                        <p class="text-xs text-gray-500">Business registration or employment certificate
+                                            (PDF, JPG, max 10MB)</p>
                                     </div>
                                 </div>
                             </div>
@@ -245,39 +212,37 @@
                         <button onclick="history.back()"
                             class="flex-1 h-14 border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-primary)] text-lg font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors"
                             type="button">
-                            이전 단계
+                            Previous
                         </button>
                         <button
                             class="flex-[2] h-14 bg-[var(--kr-gov-blue)] text-white text-lg font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors shadow-lg"
                             type="submit">
-                            회원가입 완료
+                            Complete Registration
                         </button>
                     </div>
                 </form>
             </div>
             <p class="mt-10 text-sm text-[var(--kr-gov-text-secondary)] text-center max-w-2xl mx-auto leading-relaxed">
-                입력하신 정보는 회원가입 승인 절차를 위해 사용되며, 관리자의 승인 후 정식 서비스를 이용하실 수 있습니다. <br />
-                승인 결과는 입력하신 연락처(휴대폰/이메일)로 안내됩니다.
+                The information you enter will be used for the membership approval process. Full service access will be
+                available after administrator approval.<br />
+                Approval results will be sent to the contact information (phone/email) you provided.
             </p>
         </div>
     </main>
-    <!-- 푸터: home3에서 공유 -->
     <div id="shared-footer"></div>
     <script>
             (function loadSharedLayout() {
-                fetch('/home3/fragments/header')
-                    .then(r => r.text()).then(html => {
-                        document.getElementById('shared-header').innerHTML = html;
-                        // KO/EN 버튼에 링크 연결 (POST 전용 step이라 step1으로 이동)
-                        const ko = document.getElementById('langKoBtn');
-                        const en = document.getElementById('langEnBtn');
-                        if (ko) ko.onclick = () => location.href = '/join/step1';
-                        if (en) en.onclick = () => location.href = '/join/en/step1';
-                    })
-                    .catch(() => { });
-                fetch('/home3/fragments/footer')
-                    .then(r => r.text()).then(html => { document.getElementById('shared-footer').innerHTML = html; })
-                    .catch(() => { });
+                fetch('/home3/fragments/header').then(r => r.text()).then(html => {
+                    document.getElementById('shared-header').innerHTML = html;
+                    // Switch KO/EN buttons (POST-only steps → redirect to step1)
+                    const ko = document.getElementById('langKoBtn');
+                    const en = document.getElementById('langEnBtn');
+                    if (ko) ko.onclick = () => location.href = '/join/step1';
+                    if (en) en.onclick = () => location.href = '/join/en/step1';
+                }).catch(() => { });
+                fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
+                    document.getElementById('shared-footer').innerHTML = html;
+                }).catch(() => { });
             })();
     </script>
 </body>
