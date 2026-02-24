@@ -1,0 +1,44 @@
+services:
+  cubrid:
+    image: cubrid/cubrid:11.2
+    environment:
+      TZ: Asia/Seoul
+      CUBRID_DB: com
+      CUBRID_LOCALE: ko_KR.utf8
+      DB_ROOT_PASSWORD: ""
+    volumes:
+      - "./docker-compose/cubrid/init/:/docker-entrypoint-initdb.d/"
+      - "./docker-compose/cubrid/data:/var/lib/cubrid"
+    platform: linux/x86_64
+    hostname: cubrid
+    shm_size: '2gb'
+    privileged: true
+    container_name: cubrid
+    ports:
+      - "33000:33000"
+    networks:
+      - carbosys-net
+
+  carbosys-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - cubrid
+    ports:
+      - "8761:8761"
+      - "9000:9000"
+      - "18030:18030"
+    container_name: carbosys-app
+    hostname: carbosys-app
+    networks:
+      - carbosys-net
+    volumes:
+      - ".:/app"
+      - "/root/.m2:/root/.m2"
+    extra_hosts:
+      - "localhost:127.0.0.1"
+
+networks:
+  carbosys-net:
+    driver: bridge

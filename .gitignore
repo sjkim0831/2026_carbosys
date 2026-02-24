@@ -40,3 +40,7 @@ sonar-project.properties
 
 model/
 target/
+
+# Database data and log files
+docker-compose/cubrid/data/
+*.log

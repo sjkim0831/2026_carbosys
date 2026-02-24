@@ -2794,3 +2794,599 @@ INFO: Starting ProtocolHandler ["http-nio-18020"]
 2026-02-24 06:51:30.859 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
 2026-02-24 06:51:30.865 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
 2026-02-24 06:51:30.865 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:51:35.370 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:51:35.370 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:51:35.376 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:51:35.376 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:51:39.874 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:51:39.875 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:51:39.878 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:51:39.879 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:51:43.742  INFO 509 --- [trap-executor-0] c.n.d.s.r.a.ConfigClusterResolver        : Resolving eureka endpoints via configuration
+2026-02-24 06:51:43.975 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771915631462
+2026-02-24 06:51:43.975 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:51:43.978 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:51:49.683 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:51:49.683 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:51:49.687 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:51:49.687 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:51:48.878 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:51:48.879 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:51:48.882 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:51:48.883 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:51:53.402 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:51:53.402 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:51:53.405 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:51:53.405 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:03.418 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:03.419 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:03.422 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:03.423 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:08.426 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:08.426 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:08.430 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:08.430 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:13.432 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:13.432 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:13.435 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:13.435 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:11.113 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771915631462
+2026-02-24 06:52:11.113 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:11.117 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:16.995 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:16.995 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:16.998 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:16.998 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:16.425 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:16.425 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:16.427 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:16.427 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:20.939 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:20.939 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:20.943 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:20.943 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:25.453 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:25.453 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:25.457 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:25.457 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:29.951 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:29.951 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:29.955 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:29.956 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:34.463 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:34.464 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:34.468 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:34.468 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:38.475 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771915631462
+2026-02-24 06:52:38.476 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:38.480 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:44.310 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:44.311 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:44.314 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:44.314 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:43.475 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:43.475 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:43.477 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:43.477 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:47.985 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:47.986 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:47.989 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:47.990 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:52.481 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:52.482 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:52.486 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:52.487 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:57.491 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:57.491 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:57.494 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:57.494 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:02.000 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:02.000 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:02.004 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:02.004 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:05.987 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771915631462
+2026-02-24 06:53:05.987 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:05.991 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:11.635 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:11.635 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:11.640 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:11.640 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:11.002 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:11.003 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:11.005 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:11.005 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:15.516 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:15.516 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:15.519 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:15.519 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:20.024 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:20.024 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:20.027 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:20.027 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:24.560 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:24.560 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:24.564 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:24.564 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:29.075 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:29.075 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:29.078 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:29.078 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:32.987 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771915631462
+2026-02-24 06:53:32.987 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:32.992 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:33.473 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:33.473 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:33.477 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:33.477 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:38.082 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:38.082 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:38.085 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:38.085 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:42.584 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:42.584 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:42.589 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:42.589 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:47.598 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:47.599 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:47.602 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:47.602 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:52.121 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:52.121 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:52.125 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:52.125 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:56.634 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:56.634 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:56.638 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:56.638 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:54:00.486 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771915631462
+2026-02-24 06:54:00.487 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:54:00.492 DEBUG 509 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:54:00.813 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:54:00.813 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:54:00.818 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:54:00.818 DEBUG 509 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< egovframework:EgovAdminMain >---------------------
+[INFO] Building EgovAdminMain 1.0.0
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot-maven-plugin:2.7.18:run (default-cli) > test-compile @ EgovAdminMain >>>
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:resources (default-resources) @ EgovAdminMain ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 1 resource
+[INFO] Copying 601 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ EgovAdminMain ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:testResources (default-testResources) @ EgovAdminMain ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory /app/EgovAdminMain/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ EgovAdminMain ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] <<< spring-boot-maven-plugin:2.7.18:run (default-cli) < test-compile @ EgovAdminMain <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.7.18:run (default-cli) @ EgovAdminMain ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.18)
+
+2026-02-24 06:55:11.934  INFO 508 --- [           main] e.c.EgovAdminMainApplication             : Starting EgovAdminMainApplication using Java 1.8.0_322 on carbosys-app with PID 508 (/app/EgovAdminMain/target/classes started by root in /app/EgovAdminMain)
+2026-02-24 06:55:11.937 DEBUG 508 --- [           main] e.c.EgovAdminMainApplication             : Running with Spring Boot v2.7.18, Spring v5.3.37
+2026-02-24 06:55:11.937  INFO 508 --- [           main] e.c.EgovAdminMainApplication             : No active profile set, falling back to 1 default profile: "default"
+2026-02-24 06:55:12.425  INFO 508 --- [           main] o.s.c.c.s.GenericScope                   : BeanFactory id=f23d8c76-dc51-3600-a43b-351bd0b050c4
+2026-02-24 06:55:12.472  INFO 508 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2026-02-24 06:55:12.473  INFO 508 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2026-02-24 06:55:12.473  INFO 508 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2026-02-24 06:55:12.553  INFO 508 --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 18020 (http)
+Feb 24, 2026 6:55:12 AM org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["http-nio-18020"]
+Feb 24, 2026 6:55:12 AM org.apache.catalina.core.StandardService startInternal
+INFO: Starting service [Tomcat]
+Feb 24, 2026 6:55:12 AM org.apache.catalina.core.StandardEngine startInternal
+INFO: Starting Servlet engine: [Apache Tomcat/9.0.83]
+Feb 24, 2026 6:55:12 AM org.apache.catalina.core.ApplicationContext log
+INFO: Initializing Spring embedded WebApplicationContext
+2026-02-24 06:55:12.625  INFO 508 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 645 ms
+2026-02-24 06:55:12.755 DEBUG 508 --- [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-24 06:55:17.790 DEBUG 508 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : 7 mappings in 'requestMappingHandlerMapping'
+2026-02-24 06:55:17.799 DEBUG 508 --- [           main] o.s.w.s.h.SimpleUrlHandlerMapping        : Patterns [/webjars/**, /**, /adminmain/**] in 'resourceHandlerMapping'
+2026-02-24 06:55:17.803 DEBUG 508 --- [           main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-24 06:55:17.904  INFO 508 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2026-02-24 06:55:17.939  WARN 508 --- [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2026-02-24 06:55:17.941  INFO 508 --- [           main] o.s.b.a.e.w.EndpointLinksResolver        : Exposing 2 endpoint(s) beneath base path '/actuator'
+2026-02-24 06:55:17.955  INFO 508 --- [           main] o.s.c.n.e.InstanceInfoFactory            : Setting initial instance status as: STARTING
+2026-02-24 06:55:17.968  INFO 508 --- [           main] c.n.d.DiscoveryClient                    : Initializing Eureka in region us-east-1
+2026-02-24 06:55:17.970  INFO 508 --- [           main] c.n.d.s.r.a.ConfigClusterResolver        : Resolving eureka endpoints via configuration
+2026-02-24 06:55:17.979  INFO 508 --- [           main] c.n.d.DiscoveryClient                    : Disable delta property : false
+2026-02-24 06:55:17.979  INFO 508 --- [           main] c.n.d.DiscoveryClient                    : Single vip registry refresh property : null
+2026-02-24 06:55:17.979  INFO 508 --- [           main] c.n.d.DiscoveryClient                    : Force full registry fetch : false
+2026-02-24 06:55:17.979  INFO 508 --- [           main] c.n.d.DiscoveryClient                    : Application is null : false
+2026-02-24 06:55:17.979  INFO 508 --- [           main] c.n.d.DiscoveryClient                    : Registered Applications size is zero : true
+2026-02-24 06:55:17.979  INFO 508 --- [           main] c.n.d.DiscoveryClient                    : Application version is -1: true
+2026-02-24 06:55:17.979  INFO 508 --- [           main] c.n.d.DiscoveryClient                    : Getting all instance registry info from the eureka server
+2026-02-24 06:55:12.533 DEBUG 508 --- [           main] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/
+2026-02-24 06:55:12.578 DEBUG 508 --- [           main] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:12.605 DEBUG 508 --- [           main] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:12.606 DEBUG 508 --- [           main] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:12.616  INFO 508 --- [           main] c.n.d.DiscoveryClient                    : The response status is 200
+2026-02-24 06:55:12.617  INFO 508 --- [           main] c.n.d.DiscoveryClient                    : Starting heartbeat executor: renew interval is: 30
+2026-02-24 06:55:12.619  INFO 508 --- [           main] c.n.d.InstanceInfoReplicator             : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2026-02-24 06:55:12.622  INFO 508 --- [           main] c.n.d.DiscoveryClient                    : Discovery Client initialized at timestamp 1771916112621 with initial instances count: 2
+2026-02-24 06:55:12.622  INFO 508 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application EGOVADMINMAIN with eureka with status UP
+2026-02-24 06:55:12.622  INFO 508 --- [           main] c.n.d.DiscoveryClient                    : Saw local status change event StatusChangeEvent [timestamp=1771916112622, current=UP, previous=STARTING]
+2026-02-24 06:55:12.623  INFO 508 --- [nfoReplicator-0] c.n.d.DiscoveryClient                    : DiscoveryClient_EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020: registering service...
+Feb 24, 2026 6:55:12 AM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-nio-18020"]
+2026-02-24 06:55:12.625 DEBUG 508 --- [nfoReplicator-0] o.s.w.c.RestTemplate                     : HTTP POST http://localhost:8761/eureka/apps/EGOVADMINMAIN
+2026-02-24 06:55:12.626 DEBUG 508 --- [nfoReplicator-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:12.631  INFO 508 --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 18020 (http) with context path ''
+2026-02-24 06:55:12.632  INFO 508 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 18020
+2026-02-24 06:55:12.632 DEBUG 508 --- [nfoReplicator-0] o.s.w.c.RestTemplate                     : Writing [InstanceInfo [instanceId = carbosys-app:EgovAdminMain:18020, appName = EGOVADMINMAIN, hostName = carbosys-app, status = UP, ipAddr = 172.18.0.3, port = 18020, securePort = 443, dataCenterInfo = com.netflix.appinfo.MyDataCenterInfo@493da830] as "application/json"
+2026-02-24 06:55:12.640  INFO 508 --- [           main] e.c.EgovAdminMainApplication             : Started EgovAdminMainApplication in 1.438 seconds (JVM running for 1.75)
+2026-02-24 06:55:12.643 DEBUG 508 --- [nfoReplicator-0] o.s.w.c.RestTemplate                     : Response 204 NO_CONTENT
+2026-02-24 06:55:12.643  INFO 508 --- [nfoReplicator-0] c.n.d.DiscoveryClient                    : DiscoveryClient_EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020 - registration status: 204
+2026-02-24 06:55:17.619 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:17.619 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:17.623 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:17.623 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:22.125 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:22.127 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:22.132 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:22.132 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:26.629 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:26.630 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:26.633 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:26.634 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:31.160 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:31.161 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:31.164 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:31.164 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:35.642 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:35.643 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:35.648 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:35.648 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:40.126 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771916112622
+2026-02-24 06:55:40.132 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:40.136 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:40.166 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:40.166 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:40.169 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:40.169 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:44.671 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:44.671 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:44.675 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:44.675 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:49.176 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:49.176 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:49.180 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:49.180 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:53.698 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:53.698 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:53.702 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:53.702 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:58.183 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:58.183 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:58.186 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:58.186 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:02.703 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:02.704 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:02.707 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:02.707 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:07.640 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771916112622
+2026-02-24 06:56:07.640 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:07.644 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:07.713 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:07.713 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:07.717 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:07.717 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:12.215 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:12.216 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:12.219 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:12.219 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:16.726 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:16.727 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:16.732 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:16.733 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:21.229 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:21.230 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:21.244 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:21.244 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:25.753 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:25.754 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:25.758 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:25.758 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:30.255 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:30.256 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:30.260 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:30.260 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:34.640 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771916112622
+2026-02-24 06:56:34.641 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:34.646 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:34.766 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:34.767 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:34.771 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:34.772 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:39.283 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:39.283 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:39.287 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:39.287 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:43.777 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:43.778 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:43.781 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:43.781 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:48.291 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:48.291 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:48.296 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:48.296 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:52.789 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:52.790 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:52.794 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:52.794 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:57.796 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:57.797 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:57.800 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:57.800 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:02.140 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771916112622
+2026-02-24 06:57:02.140 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:02.144 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:02.311 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:02.311 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:02.314 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:02.315 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:06.803 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:06.803 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:06.806 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:06.806 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:11.322 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:11.322 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:11.326 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:11.326 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:15.835 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:15.835 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:15.839 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:15.839 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:20.332 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:20.332 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:20.335 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:20.335 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:24.842 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:24.842 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:24.845 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:24.845 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:29.139 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771916112622
+2026-02-24 06:57:29.139 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:29.143 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:29.349 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:29.349 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:29.353 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:29.353 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:33.865 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:33.865 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:33.868 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:33.869 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+Feb 24, 2026 6:57:38 AM org.apache.catalina.core.ApplicationContext log
+INFO: Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-24 06:57:38.058  INFO 508 --- [io-18020-exec-1] o.s.w.s.DispatcherServlet                : Initializing Servlet 'dispatcherServlet'
+2026-02-24 06:57:38.058 DEBUG 508 --- [io-18020-exec-1] o.s.w.s.DispatcherServlet                : Detected StandardServletMultipartResolver
+2026-02-24 06:57:38.058 DEBUG 508 --- [io-18020-exec-1] o.s.w.s.DispatcherServlet                : Detected SessionLocaleResolver
+2026-02-24 06:57:38.058 DEBUG 508 --- [io-18020-exec-1] o.s.w.s.DispatcherServlet                : Detected FixedThemeResolver
+2026-02-24 06:57:38.060 DEBUG 508 --- [io-18020-exec-1] o.s.w.s.DispatcherServlet                : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@12b5736c
+2026-02-24 06:57:38.060 DEBUG 508 --- [io-18020-exec-1] o.s.w.s.DispatcherServlet                : Detected org.springframework.web.servlet.support.SessionFlashMapManager@5ebffb44
+2026-02-24 06:57:38.060 DEBUG 508 --- [io-18020-exec-1] o.s.w.s.DispatcherServlet                : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-24 06:57:38.060  INFO 508 --- [io-18020-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 2 ms
+2026-02-24 06:57:38.067 DEBUG 508 --- [io-18020-exec-1] o.s.w.s.DispatcherServlet                : GET "/", parameters={}
+2026-02-24 06:57:38.072 DEBUG 508 --- [io-18020-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.web.EgovAdminMainManageController#index()
+2026-02-24 06:57:38.084 DEBUG 508 --- [io-18020-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8]
+2026-02-24 06:57:38.266 DEBUG 508 --- [io-18020-exec-1] o.s.w.s.DispatcherServlet                : Completed 200 OK
+2026-02-24 06:57:38.372 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:38.373 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:38.377 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:38.378 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:42.885 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:42.886 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:42.889 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:42.889 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:47.893 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:47.893 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:47.896 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:47.896 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:48.170 DEBUG 508 --- [io-18020-exec-2] o.s.w.s.DispatcherServlet                : GET "/", parameters={}
+2026-02-24 06:57:48.170 DEBUG 508 --- [io-18020-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.web.EgovAdminMainManageController#index()
+2026-02-24 06:57:48.171 DEBUG 508 --- [io-18020-exec-2] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8]
+2026-02-24 06:57:48.173 DEBUG 508 --- [io-18020-exec-2] o.s.w.s.DispatcherServlet                : Completed 200 OK
+2026-02-24 06:57:50.850 DEBUG 508 --- [io-18020-exec-3] o.s.w.s.DispatcherServlet                : GET "/member/stats", parameters={}
+2026-02-24 06:57:50.851 DEBUG 508 --- [io-18020-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.web.EgovAdminMainManageController#memberStats()
+2026-02-24 06:57:50.852 DEBUG 508 --- [io-18020-exec-3] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8]
+2026-02-24 06:57:50.859 DEBUG 508 --- [io-18020-exec-3] o.s.w.s.DispatcherServlet                : Completed 200 OK
+2026-02-24 06:57:52.391 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:52.391 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:52.394 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:52.395 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:56.645 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771916112622
+2026-02-24 06:57:56.645 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:56.649 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:56.893 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:56.894 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:56.897 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:56.897 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:01.395 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:01.396 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:01.399 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:01.399 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:05.889 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:05.889 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:05.892 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:05.892 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:10.410 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:10.410 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:10.413 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:10.413 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:14.914 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:14.915 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:14.918 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:14.918 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:19.410 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:19.410 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:19.413 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:19.413 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:23.649 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771916112622
+2026-02-24 06:58:23.649 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:23.652 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:23.921 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:23.921 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:23.924 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:23.924 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:28.428 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:28.428 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:28.431 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:28.431 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:32.922 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:32.922 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:32.925 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:32.925 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:37.880 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:37.880 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:37.883 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:37.883 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:42.435 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:42.435 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:42.438 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:42.438 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:46.935 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:46.936 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:46.940 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:46.940 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:51.139 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771916112622
+2026-02-24 06:58:51.139 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:51.142 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:51.437 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:51.438 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:51.440 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:51.440 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:55.946 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:55.946 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:55.948 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:55.949 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:00.454 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:00.455 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:00.457 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:00.458 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:04.943 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:04.943 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:04.946 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:04.946 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:09.446 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:09.446 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:09.449 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:09.449 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:13.964 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:13.964 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:13.966 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:13.967 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:18.157 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771916112622
+2026-02-24 06:59:18.158 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:18.161 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:18.478 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:18.478 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:18.481 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:18.481 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:22.977 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:22.978 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:22.980 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:22.980 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:27.982 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:27.982 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:27.985 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:27.986 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:32.476 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:32.476 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:32.482 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:32.482 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:36.978 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:36.978 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:36.981 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:36.981 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:41.499 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:41.500 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:41.502 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:41.502 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:45.416  INFO 508 --- [trap-executor-0] c.n.d.s.r.a.ConfigClusterResolver        : Resolving eureka endpoints via configuration
+2026-02-24 06:59:45.641 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771916112622
+2026-02-24 06:59:45.641 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:45.644 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:45.990 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:45.990 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:45.993 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:45.993 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:50.506 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:50.507 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:50.510 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:50.510 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:55.001 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:55.001 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:55.004 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:55.004 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:59.494 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:59.495 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:59.497 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:59.497 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:04.008 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:04.008 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:04.011 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:04.011 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:08.527 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:08.527 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:08.530 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:08.530 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:13.159 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771916112622
+2026-02-24 07:00:13.159 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:13.163 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:13.531 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:13.532 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:13.534 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:13.535 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:18.536 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:18.536 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:18.538 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:18.539 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:23.540 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:23.540 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:23.542 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:23.543 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:27.021 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:27.021 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:27.024 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:27.024 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:31.529 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:31.529 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:31.532 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:31.532 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:36.030 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:36.030 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:36.033 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:36.033 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:40.147 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINMAIN/carbosys-app:EgovAdminMain:18020?status=UP&lastDirtyTimestamp=1771916112622
+2026-02-24 07:00:40.148 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:40.151 DEBUG 508 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:40.546 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:40.546 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:40.548 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:40.549 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:45.056 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:45.056 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:45.059 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:45.059 DEBUG 508 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]

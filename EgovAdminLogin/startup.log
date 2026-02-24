@@ -574,3 +574,1055 @@ INFO: Initializing Spring DispatcherServlet 'dispatcherServlet'
 2026-02-24 06:51:29.509 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
 2026-02-24 06:51:29.514 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
 2026-02-24 06:51:29.514 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:51:34.015 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:51:34.016 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:51:34.020 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:51:34.020 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:51:37.968  INFO 417 --- [trap-executor-0] c.n.d.s.r.a.ConfigClusterResolver        : Resolving eureka endpoints via configuration
+2026-02-24 06:51:38.167 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771915625651
+2026-02-24 06:51:38.168 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:51:38.171 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:51:38.517 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:51:38.517 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:51:38.520 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:51:38.521 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:51:43.025 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:51:43.026 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:51:43.029 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:51:43.030 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:51:47.521 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:51:47.522 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:51:47.526 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:51:47.526 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:51:57.557 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:51:57.557 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:51:57.560 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:51:57.560 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:51:57.054 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:51:57.055 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:51:57.056 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:51:57.056 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:07.068 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:07.068 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:07.072 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:07.072 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:11.695 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771915625651
+2026-02-24 06:52:11.696 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:11.699 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:12.075 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:12.075 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:12.078 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:12.078 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:17.080 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:17.080 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:17.083 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:17.084 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:15.067 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:15.067 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:15.069 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:15.069 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:19.581 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:19.581 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:19.585 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:19.585 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:24.092 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:24.092 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:24.095 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:24.095 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:28.595 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:28.595 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:28.598 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:28.598 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:32.691 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771915625651
+2026-02-24 06:52:32.691 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:32.695 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:33.112 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:33.113 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:33.116 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:33.116 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:37.603 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:37.603 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:37.607 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:37.608 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:47.635 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:47.635 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:47.638 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:47.638 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:47.137 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:47.138 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:47.140 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:47.140 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:51.647 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:51.648 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:51.652 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:51.653 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:52:56.147 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:52:56.148 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:52:56.151 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:52:56.152 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:00.180 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771915625651
+2026-02-24 06:53:00.180 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:00.183 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:00.656 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:00.656 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:00.660 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:00.661 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:05.171 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:05.171 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:05.175 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:05.175 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:09.662 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:09.663 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:09.665 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:09.666 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:14.175 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:14.175 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:14.181 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:14.181 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:18.687 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:18.687 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:18.690 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:18.691 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:27.780 DEBUG 417 --- [io-18021-exec-7] o.s.w.s.DispatcherServlet                : GET "/admin/login/loginForbidden", parameters={}
+2026-02-24 06:53:27.781 DEBUG 417 --- [io-18021-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.uat.uia.web.EgovAdminLoginManageController#loginForbidden(String, Model)
+2026-02-24 06:53:27.782 DEBUG 417 --- [io-18021-exec-7] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8]
+2026-02-24 06:53:27.786 DEBUG 417 --- [io-18021-exec-7] o.s.w.s.DispatcherServlet                : Completed 200 OK
+2026-02-24 06:53:23.200 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:23.200 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:23.203 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:23.203 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:32.694 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771915625651
+2026-02-24 06:53:32.694 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:32.697 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:27.693 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:27.693 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:27.696 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:27.696 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:31.406 DEBUG 417 --- [io-18021-exec-8] o.s.w.s.DispatcherServlet                : GET "/admin/login", parameters={}
+2026-02-24 06:53:31.407 DEBUG 417 --- [io-18021-exec-8] o.s.w.s.h.SimpleUrlHandlerMapping        : Mapped to ResourceHttpRequestHandler [classpath [static/]]
+2026-02-24 06:53:31.407 DEBUG 417 --- [io-18021-exec-8] o.s.w.s.r.ResourceHttpRequestHandler     : Resource not found
+2026-02-24 06:53:31.407 DEBUG 417 --- [io-18021-exec-8] o.s.w.s.DispatcherServlet                : Completed 404 NOT_FOUND
+2026-02-24 06:53:31.408 DEBUG 417 --- [io-18021-exec-8] o.s.w.s.DispatcherServlet                : "ERROR" dispatch for GET "/error", parameters={}
+2026-02-24 06:53:31.408 DEBUG 417 --- [io-18021-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#errorHtml(HttpServletRequest, HttpServletResponse)
+2026-02-24 06:53:31.411 DEBUG 417 --- [io-18021-exec-8] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, text/html;q=0.8]
+2026-02-24 06:53:31.411 DEBUG 417 --- [io-18021-exec-8] o.s.w.s.DispatcherServlet                : Exiting from "ERROR" dispatch, status 404
+2026-02-24 06:53:37.714 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:37.715 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:37.717 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:37.717 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:37.097 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:37.098 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:37.101 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:37.101 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:41.707 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:41.708 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:41.711 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:41.711 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:46.208 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:46.208 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:46.212 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:46.213 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:50.724 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:50.724 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:50.727 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:50.727 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:53.379 DEBUG 417 --- [io-18021-exec-9] o.s.w.s.DispatcherServlet                : GET "/admin/login", parameters={}
+2026-02-24 06:53:53.380 DEBUG 417 --- [io-18021-exec-9] o.s.w.s.h.SimpleUrlHandlerMapping        : Mapped to ResourceHttpRequestHandler [classpath [static/]]
+2026-02-24 06:53:53.380 DEBUG 417 --- [io-18021-exec-9] o.s.w.s.r.ResourceHttpRequestHandler     : Resource not found
+2026-02-24 06:53:53.380 DEBUG 417 --- [io-18021-exec-9] o.s.w.s.DispatcherServlet                : Completed 404 NOT_FOUND
+2026-02-24 06:53:53.381 DEBUG 417 --- [io-18021-exec-9] o.s.w.s.DispatcherServlet                : "ERROR" dispatch for GET "/error", parameters={}
+2026-02-24 06:53:53.381 DEBUG 417 --- [io-18021-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#errorHtml(HttpServletRequest, HttpServletResponse)
+2026-02-24 06:53:53.383 DEBUG 417 --- [io-18021-exec-9] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, text/html;q=0.8]
+2026-02-24 06:53:53.383 DEBUG 417 --- [io-18021-exec-9] o.s.w.s.DispatcherServlet                : Exiting from "ERROR" dispatch, status 404
+2026-02-24 06:53:54.687 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771915625651
+2026-02-24 06:53:54.688 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:54.691 DEBUG 417 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:55.233 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:55.234 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:55.237 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:55.237 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:53:59.733 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:53:59.733 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:53:59.736 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:53:59.737 DEBUG 417 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< egovframework:EgovAdminLogin >--------------------
+[INFO] Building EgovAdminLogin 1.0.0
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot-maven-plugin:2.7.18:run (default-cli) > test-compile @ EgovAdminLogin >>>
+[INFO] 
+[INFO] --- apt-maven-plugin:1.1.3:process (default) @ EgovAdminLogin ---
+[WARNING] The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2: https://issues.sonatype.org/browse/MVNCENTRAL-244
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:resources (default-resources) @ EgovAdminLogin ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 1 resource
+[INFO] Copying 597 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ EgovAdminLogin ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 38 source files to /app/EgovAdminLogin/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:testResources (default-testResources) @ EgovAdminLogin ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory /app/EgovAdminLogin/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ EgovAdminLogin ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] <<< spring-boot-maven-plugin:2.7.18:run (default-cli) < test-compile @ EgovAdminLogin <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.7.18:run (default-cli) @ EgovAdminLogin ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.18)
+
+2026-02-24 06:55:07.175  INFO 414 --- [           main] e.c.EgovAdminLoginApplication            : Starting EgovAdminLoginApplication using Java 1.8.0_322 on carbosys-app with PID 414 (/app/EgovAdminLogin/target/classes started by root in /app/EgovAdminLogin)
+2026-02-24 06:55:07.177 DEBUG 414 --- [           main] e.c.EgovAdminLoginApplication            : Running with Spring Boot v2.7.18, Spring v5.3.37
+2026-02-24 06:55:07.177  INFO 414 --- [           main] e.c.EgovAdminLoginApplication            : The following 1 profile is active: "local"
+2026-02-24 06:55:07.194  INFO 414 --- [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888
+2026-02-24 06:55:07.194  INFO 414 --- [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=EgovAdminLogin, profiles=[default], label=null, version=null, state=null
+2026-02-24 06:55:07.194  INFO 414 --- [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888
+2026-02-24 06:55:07.194  INFO 414 --- [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=EgovAdminLogin, profiles=[local], label=null, version=null, state=null
+2026-02-24 06:55:07.723  INFO 414 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-24 06:55:12.785  INFO 414 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 44 ms. Found 4 JPA repository interfaces.
+2026-02-24 06:55:12.975  INFO 414 --- [           main] o.s.c.c.s.GenericScope                   : BeanFactory id=e11dea98-f382-36e0-bcc7-7855647a1b09
+2026-02-24 06:55:07.591  INFO 414 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2026-02-24 06:55:07.592  INFO 414 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2026-02-24 06:55:07.592  INFO 414 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2026-02-24 06:55:07.691  INFO 414 --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 18021 (http)
+Feb 24, 2026 6:55:07 AM org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["http-nio-18021"]
+Feb 24, 2026 6:55:07 AM org.apache.catalina.core.StandardService startInternal
+INFO: Starting service [Tomcat]
+Feb 24, 2026 6:55:07 AM org.apache.catalina.core.StandardEngine startInternal
+INFO: Starting Servlet engine: [Apache Tomcat/9.0.83]
+Feb 24, 2026 6:55:07 AM org.apache.catalina.core.ApplicationContext log
+INFO: Initializing Spring embedded WebApplicationContext
+2026-02-24 06:55:07.748  INFO 414 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 553 ms
+2026-02-24 06:55:07.791  INFO 414 --- [           main] c.z.h.HikariDataSource                   : HikariPool-1 - Starting...
+2026-02-24 06:55:07.819  INFO 414 --- [           main] c.z.h.p.PoolBase                         : HikariPool-1 - Driver does not support get/set network timeout for connections. (java.lang.UnsupportedOperationException)
+2026-02-24 06:55:07.822  INFO 414 --- [           main] c.z.h.HikariDataSource                   : HikariPool-1 - Start completed.
+2026-02-24 06:55:07.931  INFO 414 --- [           main] o.e.b.s.u.j.EgovJdbcUserDetailsManager   : No authentication manager set. Reauthentication of users when changing passwords will not be performed.
+2026-02-24 06:55:07.931  INFO 414 --- [           main] o.e.b.s.u.j.EgovJdbcUserDetailsManager   : ### EgovJdbcUserDetailsManager.initMappingSqlQueries >>> query : SELECT USER_ID, PASSWORD, 'TRUE' AS ENABLED FROM COMVNUSERMASTER WHERE USER_ID = ?
+}
+2026-02-24 06:55:07.931  INFO 414 --- [           main] o.e.b.s.u.j.EgovJdbcUserDetailsManager   : ### EgovJdbcUserDetailsManager.initMappingSqlQueries >>> Mapping Class : org.egovframe.boot.security.userdetails.DefaultMapUserDetailsMapping
+2026-02-24 06:55:07.968 DEBUG 414 --- [           main] e.c.f.AuthorizeFilter                    : Filter 'authorizeFilter' configured for use
+2026-02-24 06:55:07.993  INFO 414 --- [           main] o.h.j.i.u.LogHelper                      : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-24 06:55:08.010  INFO 414 --- [           main] o.h.Version                              : HHH000412: Hibernate ORM core version 5.6.15.Final
+2026-02-24 06:55:08.073  INFO 414 --- [           main] o.h.a.c.Version                          : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2026-02-24 06:55:08.148  INFO 414 --- [           main] o.h.d.Dialect                            : HHH000400: Using dialect: org.hibernate.dialect.CUBRIDDialect
+2026-02-24 06:55:08.159  INFO 414 --- [           main] o.h.o.beans                              : HHH10005002: No explicit CDI BeanManager reference was passed to Hibernate, but CDI is available on the Hibernate ClassLoader.
+2026-02-24 06:55:08.479  INFO 414 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2026-02-24 06:55:08.484  INFO 414 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-24 06:55:08.888  INFO 414 --- [           main] o.s.s.w.DefaultSecurityFilterChain       : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@31940d6b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@64cdc310, org.springframework.security.web.context.SecurityContextPersistenceFilter@33a7331, org.springframework.security.web.header.HeaderWriterFilter@6636448b, org.springframework.security.web.authentication.logout.LogoutFilter@f0381f0, org.springframework.security.web.session.ConcurrentSessionFilter@284bdeed, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@1b06dc57, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@50d4775b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@345540f9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7d563c13, org.springframework.security.web.session.SessionManagementFilter@3d12f065, org.springframework.security.web.access.ExceptionTranslationFilter@4088702d, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5e905f2c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7535307c]
+2026-02-24 06:55:08.952 DEBUG 414 --- [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-24 06:55:08.982 DEBUG 414 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : 15 mappings in 'requestMappingHandlerMapping'
+2026-02-24 06:55:08.991 DEBUG 414 --- [           main] o.s.w.s.h.SimpleUrlHandlerMapping        : Patterns [/webjars/**, /**, /admin/login/**] in 'resourceHandlerMapping'
+2026-02-24 06:55:08.995 DEBUG 414 --- [           main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-24 06:55:09.108  INFO 414 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2026-02-24 06:55:09.141  WARN 414 --- [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2026-02-24 06:55:09.143  INFO 414 --- [           main] o.s.b.a.e.w.EndpointLinksResolver        : Exposing 2 endpoint(s) beneath base path '/actuator'
+2026-02-24 06:55:09.158  INFO 414 --- [           main] o.s.c.n.e.InstanceInfoFactory            : Setting initial instance status as: STARTING
+2026-02-24 06:55:09.172  INFO 414 --- [           main] c.n.d.DiscoveryClient                    : Initializing Eureka in region us-east-1
+2026-02-24 06:55:09.174  INFO 414 --- [           main] c.n.d.s.r.a.ConfigClusterResolver        : Resolving eureka endpoints via configuration
+2026-02-24 06:55:09.183  INFO 414 --- [           main] c.n.d.DiscoveryClient                    : Disable delta property : false
+2026-02-24 06:55:09.183  INFO 414 --- [           main] c.n.d.DiscoveryClient                    : Single vip registry refresh property : null
+2026-02-24 06:55:09.183  INFO 414 --- [           main] c.n.d.DiscoveryClient                    : Force full registry fetch : false
+2026-02-24 06:55:09.183  INFO 414 --- [           main] c.n.d.DiscoveryClient                    : Application is null : false
+2026-02-24 06:55:09.183  INFO 414 --- [           main] c.n.d.DiscoveryClient                    : Registered Applications size is zero : true
+2026-02-24 06:55:09.183  INFO 414 --- [           main] c.n.d.DiscoveryClient                    : Application version is -1: true
+2026-02-24 06:55:09.183  INFO 414 --- [           main] c.n.d.DiscoveryClient                    : Getting all instance registry info from the eureka server
+2026-02-24 06:55:09.251 DEBUG 414 --- [           main] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/
+2026-02-24 06:55:09.270 DEBUG 414 --- [           main] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:09.290 DEBUG 414 --- [           main] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:09.291 DEBUG 414 --- [           main] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:09.294  INFO 414 --- [           main] c.n.d.DiscoveryClient                    : The response status is 200
+2026-02-24 06:55:09.296  INFO 414 --- [           main] c.n.d.DiscoveryClient                    : Starting heartbeat executor: renew interval is: 30
+2026-02-24 06:55:09.297  INFO 414 --- [           main] c.n.d.InstanceInfoReplicator             : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2026-02-24 06:55:09.300  INFO 414 --- [           main] c.n.d.DiscoveryClient                    : Discovery Client initialized at timestamp 1771916109300 with initial instances count: 1
+2026-02-24 06:55:09.301  INFO 414 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application EGOVADMINLOGIN with eureka with status UP
+2026-02-24 06:55:09.302  INFO 414 --- [           main] c.n.d.DiscoveryClient                    : Saw local status change event StatusChangeEvent [timestamp=1771916109302, current=UP, previous=STARTING]
+2026-02-24 06:55:09.303  INFO 414 --- [nfoReplicator-0] c.n.d.DiscoveryClient                    : DiscoveryClient_EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021: registering service...
+Feb 24, 2026 6:55:09 AM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-nio-18021"]
+2026-02-24 06:55:09.306 DEBUG 414 --- [nfoReplicator-0] o.s.w.c.RestTemplate                     : HTTP POST http://localhost:8761/eureka/apps/EGOVADMINLOGIN
+2026-02-24 06:55:09.307 DEBUG 414 --- [nfoReplicator-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:09.313  INFO 414 --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 18021 (http) with context path ''
+2026-02-24 06:55:09.313  INFO 414 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 18021
+2026-02-24 06:55:09.317 DEBUG 414 --- [nfoReplicator-0] o.s.w.c.RestTemplate                     : Writing [InstanceInfo [instanceId = carbosys-app:EgovAdminLogin:18021, appName = EGOVADMINLOGIN, hostName = carbosys-app, status = UP, ipAddr = 172.18.0.3, port = 18021, securePort = 443, dataCenterInfo = com.netflix.appinfo.MyDataCenterInfo@1ac2829e] as "application/json"
+2026-02-24 06:55:09.322  INFO 414 --- [           main] e.c.EgovAdminLoginApplication            : Started EgovAdminLoginApplication in 3.045 seconds (JVM running for 3.397)
+2026-02-24 06:55:09.330 DEBUG 414 --- [nfoReplicator-0] o.s.w.c.RestTemplate                     : Response 204 NO_CONTENT
+2026-02-24 06:55:09.330  INFO 414 --- [nfoReplicator-0] c.n.d.DiscoveryClient                    : DiscoveryClient_EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021 - registration status: 204
+2026-02-24 06:55:13.786 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:13.786 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:13.790 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:13.790 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:18.293 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:18.294 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:18.299 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:18.300 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:22.796 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:22.796 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:22.800 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:22.800 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+Feb 24, 2026 6:55:26 AM org.apache.catalina.core.ApplicationContext log
+INFO: Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-24 06:55:26.049  INFO 414 --- [io-18021-exec-1] o.s.w.s.DispatcherServlet                : Initializing Servlet 'dispatcherServlet'
+2026-02-24 06:55:26.049 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.DispatcherServlet                : Detected StandardServletMultipartResolver
+2026-02-24 06:55:26.049 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.DispatcherServlet                : Detected SessionLocaleResolver
+2026-02-24 06:55:26.049 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.DispatcherServlet                : Detected FixedThemeResolver
+2026-02-24 06:55:26.051 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.DispatcherServlet                : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@4b86a656
+2026-02-24 06:55:26.051 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.DispatcherServlet                : Detected org.springframework.web.servlet.support.SessionFlashMapManager@7187078a
+2026-02-24 06:55:26.051 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.DispatcherServlet                : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-24 06:55:26.051  INFO 414 --- [io-18021-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 2 ms
+2026-02-24 06:55:26.065 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.DispatcherServlet                : GET "/admin/login", parameters={}
+2026-02-24 06:55:26.071 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.h.SimpleUrlHandlerMapping        : Mapped to ResourceHttpRequestHandler [classpath [static/]]
+2026-02-24 06:55:26.072 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.r.ResourceHttpRequestHandler     : Resource not found
+2026-02-24 06:55:26.072 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.DispatcherServlet                : Completed 404 NOT_FOUND
+2026-02-24 06:55:26.076 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.DispatcherServlet                : "ERROR" dispatch for GET "/error", parameters={}
+2026-02-24 06:55:26.078 DEBUG 414 --- [io-18021-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#errorHtml(HttpServletRequest, HttpServletResponse)
+2026-02-24 06:55:26.091 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, text/html;q=0.8]
+2026-02-24 06:55:26.095 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.DispatcherServlet                : Exiting from "ERROR" dispatch, status 404
+2026-02-24 06:55:32.830 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:32.830 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:32.834 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:32.834 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:32.333 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:32.334 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:32.338 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:32.338 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:33.470 DEBUG 414 --- [io-18021-exec-2] o.s.w.s.DispatcherServlet                : GET "/admin/login/loginForbidden", parameters={}
+2026-02-24 06:55:33.470 DEBUG 414 --- [io-18021-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.uat.uia.web.EgovAdminLoginManageController#loginForbidden(String, Model)
+2026-02-24 06:55:33.484 DEBUG 414 --- [io-18021-exec-2] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8]
+2026-02-24 06:55:33.612 DEBUG 414 --- [io-18021-exec-2] o.s.w.s.DispatcherServlet                : Completed 200 OK
+2026-02-24 06:55:36.777 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771916109302
+2026-02-24 06:55:36.783 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:36.787 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:36.816 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:36.816 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:36.819 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:36.819 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:38.419 DEBUG 414 --- [io-18021-exec-3] o.s.w.s.DispatcherServlet                : GET "/admin/login", parameters={}
+2026-02-24 06:55:38.420 DEBUG 414 --- [io-18021-exec-3] o.s.w.s.h.SimpleUrlHandlerMapping        : Mapped to ResourceHttpRequestHandler [classpath [static/]]
+2026-02-24 06:55:38.421 DEBUG 414 --- [io-18021-exec-3] o.s.w.s.r.ResourceHttpRequestHandler     : Resource not found
+2026-02-24 06:55:38.421 DEBUG 414 --- [io-18021-exec-3] o.s.w.s.DispatcherServlet                : Completed 404 NOT_FOUND
+2026-02-24 06:55:38.421 DEBUG 414 --- [io-18021-exec-3] o.s.w.s.DispatcherServlet                : "ERROR" dispatch for GET "/error", parameters={}
+2026-02-24 06:55:38.422 DEBUG 414 --- [io-18021-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#errorHtml(HttpServletRequest, HttpServletResponse)
+2026-02-24 06:55:38.424 DEBUG 414 --- [io-18021-exec-3] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, text/html;q=0.8]
+2026-02-24 06:55:38.424 DEBUG 414 --- [io-18021-exec-3] o.s.w.s.DispatcherServlet                : Exiting from "ERROR" dispatch, status 404
+2026-02-24 06:55:41.105 DEBUG 414 --- [io-18021-exec-4] o.s.w.s.DispatcherServlet                : GET "/admin/login/loginView", parameters={}
+2026-02-24 06:55:41.106 DEBUG 414 --- [io-18021-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.uat.uia.web.EgovAdminLoginManageController#loginView(LoginVO, Model, HttpServletRequest)
+2026-02-24 06:55:41.115 DEBUG 414 --- [io-18021-exec-4] o.s.w.s.v.RedirectView                   : View name 'redirect:', model {}
+2026-02-24 06:55:41.115 DEBUG 414 --- [io-18021-exec-4] o.s.w.s.DispatcherServlet                : Completed 302 FOUND
+2026-02-24 06:55:41.130 DEBUG 414 --- [io-18021-exec-5] o.s.w.s.DispatcherServlet                : GET "/admin/login/loginForbidden", parameters={}
+2026-02-24 06:55:41.130 DEBUG 414 --- [io-18021-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.uat.uia.web.EgovAdminLoginManageController#loginForbidden(String, Model)
+2026-02-24 06:55:41.131 DEBUG 414 --- [io-18021-exec-5] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8]
+2026-02-24 06:55:41.133 DEBUG 414 --- [io-18021-exec-5] o.s.w.s.DispatcherServlet                : Completed 200 OK
+2026-02-24 06:55:41.335 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:41.335 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:41.338 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:41.338 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:43.270 DEBUG 414 --- [io-18021-exec-6] o.s.w.s.DispatcherServlet                : GET "/admin/login", parameters={}
+2026-02-24 06:55:43.271 DEBUG 414 --- [io-18021-exec-6] o.s.w.s.h.SimpleUrlHandlerMapping        : Mapped to ResourceHttpRequestHandler [classpath [static/]]
+2026-02-24 06:55:43.271 DEBUG 414 --- [io-18021-exec-6] o.s.w.s.r.ResourceHttpRequestHandler     : Resource not found
+2026-02-24 06:55:43.271 DEBUG 414 --- [io-18021-exec-6] o.s.w.s.DispatcherServlet                : Completed 404 NOT_FOUND
+2026-02-24 06:55:43.272 DEBUG 414 --- [io-18021-exec-6] o.s.w.s.DispatcherServlet                : "ERROR" dispatch for GET "/error", parameters={}
+2026-02-24 06:55:43.272 DEBUG 414 --- [io-18021-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#errorHtml(HttpServletRequest, HttpServletResponse)
+2026-02-24 06:55:43.273 DEBUG 414 --- [io-18021-exec-6] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, text/html;q=0.8]
+2026-02-24 06:55:43.273 DEBUG 414 --- [io-18021-exec-6] o.s.w.s.DispatcherServlet                : Exiting from "ERROR" dispatch, status 404
+2026-02-24 06:55:45.841 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:45.841 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:45.845 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:45.845 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:50.138 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:50.139 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:50.143 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:50.143 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:54.869 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:54.869 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:54.873 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:54.874 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:55:59.355 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:55:59.355 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:55:59.359 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:55:59.360 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:03.803 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771916109302
+2026-02-24 06:56:03.804 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:03.818 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:03.877 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:03.877 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:03.881 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:03.881 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:08.375 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:08.376 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:08.383 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:08.383 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:12.891 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:12.892 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:12.896 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:12.896 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:22.911 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:22.911 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:22.915 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:22.915 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:22.402 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:22.402 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:22.405 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:22.405 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:26.912 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:26.912 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:26.917 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:26.917 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:31.311 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771916109302
+2026-02-24 06:56:31.312 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:31.315 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:31.415 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:31.415 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:31.418 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:31.418 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:35.924 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:35.925 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:35.928 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:35.928 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:40.444 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:40.444 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:40.448 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:40.448 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:44.783 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:44.783 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:44.788 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:44.788 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:49.451 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:49.452 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:49.458 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:49.458 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:53.949 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:53.950 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:53.953 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:53.953 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:56:58.312 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771916109302
+2026-02-24 06:56:58.313 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:58.316 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:58.460 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:56:58.461 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:56:58.464 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:56:58.464 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:02.954 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:02.954 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:02.958 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:02.958 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:07.963 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:07.963 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:12.996 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:12.996 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:12.089 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:12.090 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:12.092 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:12.093 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:16.996 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:16.996 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:16.999 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:16.999 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:21.491 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:21.491 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:21.496 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:21.496 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:25.812 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771916109302
+2026-02-24 06:57:25.813 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:25.817 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:26.002 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:26.003 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:26.008 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:26.009 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:30.517 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:30.517 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:30.523 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:30.523 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:30.604 DEBUG 414 --- [io-18021-exec-8] o.s.w.s.DispatcherServlet                : GET "/admin/login/loginView", parameters={}
+2026-02-24 06:57:30.604 DEBUG 414 --- [io-18021-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.uat.uia.web.EgovAdminLoginManageController#loginView(LoginVO, Model, HttpServletRequest)
+2026-02-24 06:57:30.606 DEBUG 414 --- [io-18021-exec-8] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8]
+2026-02-24 06:57:30.617 DEBUG 414 --- [io-18021-exec-8] o.s.w.s.DispatcherServlet                : Completed 200 OK
+2026-02-24 06:57:35.031 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:35.031 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:35.034 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:35.034 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:35.046 DEBUG 414 --- [io-18021-exec-9] o.s.w.s.DispatcherServlet                : GET "/admin/login/loginView", parameters={}
+2026-02-24 06:57:35.047 DEBUG 414 --- [io-18021-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.uat.uia.web.EgovAdminLoginManageController#loginView(LoginVO, Model, HttpServletRequest)
+2026-02-24 06:57:35.047 DEBUG 414 --- [io-18021-exec-9] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8]
+2026-02-24 06:57:35.049 DEBUG 414 --- [io-18021-exec-9] o.s.w.s.DispatcherServlet                : Completed 200 OK
+2026-02-24 06:57:43.084 DEBUG 414 --- [o-18021-exec-10] o.s.w.s.DispatcherServlet                : POST "/admin/login/actionLogin", parameters={}
+2026-02-24 06:57:43.084 DEBUG 414 --- [o-18021-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.uat.uia.web.EgovAdminLoginManageAPIController#actionLogin(LoginVO, HttpServletRequest, HttpServletResponse)
+2026-02-24 06:57:43.090 DEBUG 414 --- [o-18021-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [EgovDefaultVO(searchCondition=, searchKeyword=, searchUseYn=, pageIndex=1, pageUnit=10, pageSize=10, (truncated)...]
+Hibernate: 
+    select
+        loginpolic0_.EMPLYR_ID as emplyr_i1_4_0_,
+        loginpolic0_.DPLCT_PERM_AT as dplct_pe2_4_0_,
+        loginpolic0_.FRST_REGISTER_ID as frst_reg3_4_0_,
+        loginpolic0_.FRST_REGIST_PNTTM as frst_reg4_4_0_,
+        loginpolic0_.IP_INFO as ip_info5_4_0_,
+        loginpolic0_.LAST_UPDT_PNTTM as last_upd6_4_0_,
+        loginpolic0_.LAST_UPDUSR_ID as last_upd7_4_0_,
+        loginpolic0_.LMTT_AT as lmtt_at8_4_0_ 
+    from
+        COMTNLOGINPOLICY loginpolic0_ 
+    where
+        loginpolic0_.EMPLYR_ID=?
+Hibernate: 
+    select
+        emplyrinfo0_.EMPLYR_ID as emplyr_i1_0_0_,
+        emplyrinfo0_.AREA_NO as area_no2_0_0_,
+        emplyrinfo0_.BRTHDY as brthdy3_0_0_,
+        emplyrinfo0_.CHG_PWD_LAST_PNTTM as chg_pwd_4_0_0_,
+        emplyrinfo0_.CRTFC_DN_VALUE as crtfc_dn5_0_0_,
+        emplyrinfo0_.DETAIL_ADRES as detail_a6_0_0_,
+        emplyrinfo0_.EMAIL_ADRES as email_ad7_0_0_,
+        emplyrinfo0_.EMPL_NO as empl_no8_0_0_,
+        emplyrinfo0_.EMPLYR_STTUS_CODE as emplyr_s9_0_0_,
+        emplyrinfo0_.ESNTL_ID as esntl_i10_0_0_,
+        emplyrinfo0_.FXNUM as fxnum11_0_0_,
+        emplyrinfo0_.GROUP_ID as group_i12_0_0_,
+        emplyrinfo0_.HOUSE_ADRES as house_a13_0_0_,
+        emplyrinfo0_.HOUSE_END_TELNO as house_e14_0_0_,
+        emplyrinfo0_.HOUSE_MIDDLE_TELNO as house_m15_0_0_,
+        emplyrinfo0_.IHIDNUM as ihidnum16_0_0_,
+        emplyrinfo0_.LOCK_AT as lock_at17_0_0_,
+        emplyrinfo0_.LOCK_CNT as lock_cn18_0_0_,
+        emplyrinfo0_.LOCK_LAST_PNTTM as lock_la19_0_0_,
+        emplyrinfo0_.MBTLNUM as mbtlnum20_0_0_,
+        emplyrinfo0_.OFCPS_NM as ofcps_n21_0_0_,
+        emplyrinfo0_.OFFM_TELNO as offm_te22_0_0_,
+        emplyrinfo0_.ORGNZT_ID as orgnzt_23_0_0_,
+        emplyrinfo0_.PASSWORD as passwor24_0_0_,
+        emplyrinfo0_.PASSWORD_CNSR as passwor25_0_0_,
+        emplyrinfo0_.PASSWORD_HINT as passwor26_0_0_,
+        emplyrinfo0_.PSTINST_CODE as pstinst27_0_0_,
+        emplyrinfo0_.SBSCRB_DE as sbscrb_28_0_0_,
+        emplyrinfo0_.SEXDSTN_CODE as sexdstn29_0_0_,
+        emplyrinfo0_.USER_NM as user_nm30_0_0_,
+        emplyrinfo0_.ZIP as zip31_0_0_ 
+    from
+        COMTNEMPLYRINFO emplyrinfo0_ 
+    where
+        emplyrinfo0_.EMPLYR_ID=?
+Hibernate: 
+    select
+        emplyrinfo0_.EMPLYR_ID as emplyr_i1_0_0_,
+        emplyrinfo0_.AREA_NO as area_no2_0_0_,
+        emplyrinfo0_.BRTHDY as brthdy3_0_0_,
+        emplyrinfo0_.CHG_PWD_LAST_PNTTM as chg_pwd_4_0_0_,
+        emplyrinfo0_.CRTFC_DN_VALUE as crtfc_dn5_0_0_,
+        emplyrinfo0_.DETAIL_ADRES as detail_a6_0_0_,
+        emplyrinfo0_.EMAIL_ADRES as email_ad7_0_0_,
+        emplyrinfo0_.EMPL_NO as empl_no8_0_0_,
+        emplyrinfo0_.EMPLYR_STTUS_CODE as emplyr_s9_0_0_,
+        emplyrinfo0_.ESNTL_ID as esntl_i10_0_0_,
+        emplyrinfo0_.FXNUM as fxnum11_0_0_,
+        emplyrinfo0_.GROUP_ID as group_i12_0_0_,
+        emplyrinfo0_.HOUSE_ADRES as house_a13_0_0_,
+        emplyrinfo0_.HOUSE_END_TELNO as house_e14_0_0_,
+        emplyrinfo0_.HOUSE_MIDDLE_TELNO as house_m15_0_0_,
+        emplyrinfo0_.IHIDNUM as ihidnum16_0_0_,
+        emplyrinfo0_.LOCK_AT as lock_at17_0_0_,
+        emplyrinfo0_.LOCK_CNT as lock_cn18_0_0_,
+        emplyrinfo0_.LOCK_LAST_PNTTM as lock_la19_0_0_,
+        emplyrinfo0_.MBTLNUM as mbtlnum20_0_0_,
+        emplyrinfo0_.OFCPS_NM as ofcps_n21_0_0_,
+        emplyrinfo0_.OFFM_TELNO as offm_te22_0_0_,
+        emplyrinfo0_.ORGNZT_ID as orgnzt_23_0_0_,
+        emplyrinfo0_.PASSWORD as passwor24_0_0_,
+        emplyrinfo0_.PASSWORD_CNSR as passwor25_0_0_,
+        emplyrinfo0_.PASSWORD_HINT as passwor26_0_0_,
+        emplyrinfo0_.PSTINST_CODE as pstinst27_0_0_,
+        emplyrinfo0_.SBSCRB_DE as sbscrb_28_0_0_,
+        emplyrinfo0_.SEXDSTN_CODE as sexdstn29_0_0_,
+        emplyrinfo0_.USER_NM as user_nm30_0_0_,
+        emplyrinfo0_.ZIP as zip31_0_0_ 
+    from
+        COMTNEMPLYRINFO emplyrinfo0_ 
+    where
+        emplyrinfo0_.EMPLYR_ID=?
+Hibernate: 
+    select
+        emplyrinfo0_.EMPLYR_ID as emplyr_i1_0_0_,
+        emplyrinfo0_.AREA_NO as area_no2_0_0_,
+        emplyrinfo0_.BRTHDY as brthdy3_0_0_,
+        emplyrinfo0_.CHG_PWD_LAST_PNTTM as chg_pwd_4_0_0_,
+        emplyrinfo0_.CRTFC_DN_VALUE as crtfc_dn5_0_0_,
+        emplyrinfo0_.DETAIL_ADRES as detail_a6_0_0_,
+        emplyrinfo0_.EMAIL_ADRES as email_ad7_0_0_,
+        emplyrinfo0_.EMPL_NO as empl_no8_0_0_,
+        emplyrinfo0_.EMPLYR_STTUS_CODE as emplyr_s9_0_0_,
+        emplyrinfo0_.ESNTL_ID as esntl_i10_0_0_,
+        emplyrinfo0_.FXNUM as fxnum11_0_0_,
+        emplyrinfo0_.GROUP_ID as group_i12_0_0_,
+        emplyrinfo0_.HOUSE_ADRES as house_a13_0_0_,
+        emplyrinfo0_.HOUSE_END_TELNO as house_e14_0_0_,
+        emplyrinfo0_.HOUSE_MIDDLE_TELNO as house_m15_0_0_,
+        emplyrinfo0_.IHIDNUM as ihidnum16_0_0_,
+        emplyrinfo0_.LOCK_AT as lock_at17_0_0_,
+        emplyrinfo0_.LOCK_CNT as lock_cn18_0_0_,
+        emplyrinfo0_.LOCK_LAST_PNTTM as lock_la19_0_0_,
+        emplyrinfo0_.MBTLNUM as mbtlnum20_0_0_,
+        emplyrinfo0_.OFCPS_NM as ofcps_n21_0_0_,
+        emplyrinfo0_.OFFM_TELNO as offm_te22_0_0_,
+        emplyrinfo0_.ORGNZT_ID as orgnzt_23_0_0_,
+        emplyrinfo0_.PASSWORD as passwor24_0_0_,
+        emplyrinfo0_.PASSWORD_CNSR as passwor25_0_0_,
+        emplyrinfo0_.PASSWORD_HINT as passwor26_0_0_,
+        emplyrinfo0_.PSTINST_CODE as pstinst27_0_0_,
+        emplyrinfo0_.SBSCRB_DE as sbscrb_28_0_0_,
+        emplyrinfo0_.SEXDSTN_CODE as sexdstn29_0_0_,
+        emplyrinfo0_.USER_NM as user_nm30_0_0_,
+        emplyrinfo0_.ZIP as zip31_0_0_ 
+    from
+        COMTNEMPLYRINFO emplyrinfo0_ 
+    where
+        emplyrinfo0_.EMPLYR_ID=?
+Hibernate: 
+    select
+        emplyrinfo0_.EMPLYR_ID as emplyr_i1_0_0_,
+        emplyrscrt1_.SCRTY_DTRMN_TRGET_ID as scrty_dt1_1_1_,
+        emplyrinfo0_.AREA_NO as area_no2_0_0_,
+        emplyrinfo0_.BRTHDY as brthdy3_0_0_,
+        emplyrinfo0_.CHG_PWD_LAST_PNTTM as chg_pwd_4_0_0_,
+        emplyrinfo0_.CRTFC_DN_VALUE as crtfc_dn5_0_0_,
+        emplyrinfo0_.DETAIL_ADRES as detail_a6_0_0_,
+        emplyrinfo0_.EMAIL_ADRES as email_ad7_0_0_,
+        emplyrinfo0_.EMPL_NO as empl_no8_0_0_,
+        emplyrinfo0_.EMPLYR_STTUS_CODE as emplyr_s9_0_0_,
+        emplyrinfo0_.ESNTL_ID as esntl_i10_0_0_,
+        emplyrinfo0_.FXNUM as fxnum11_0_0_,
+        emplyrinfo0_.GROUP_ID as group_i12_0_0_,
+        emplyrinfo0_.HOUSE_ADRES as house_a13_0_0_,
+        emplyrinfo0_.HOUSE_END_TELNO as house_e14_0_0_,
+        emplyrinfo0_.HOUSE_MIDDLE_TELNO as house_m15_0_0_,
+        emplyrinfo0_.IHIDNUM as ihidnum16_0_0_,
+        emplyrinfo0_.LOCK_AT as lock_at17_0_0_,
+        emplyrinfo0_.LOCK_CNT as lock_cn18_0_0_,
+        emplyrinfo0_.LOCK_LAST_PNTTM as lock_la19_0_0_,
+        emplyrinfo0_.MBTLNUM as mbtlnum20_0_0_,
+        emplyrinfo0_.OFCPS_NM as ofcps_n21_0_0_,
+        emplyrinfo0_.OFFM_TELNO as offm_te22_0_0_,
+        emplyrinfo0_.ORGNZT_ID as orgnzt_23_0_0_,
+        emplyrinfo0_.PASSWORD as passwor24_0_0_,
+        emplyrinfo0_.PASSWORD_CNSR as passwor25_0_0_,
+        emplyrinfo0_.PASSWORD_HINT as passwor26_0_0_,
+        emplyrinfo0_.PSTINST_CODE as pstinst27_0_0_,
+        emplyrinfo0_.SBSCRB_DE as sbscrb_28_0_0_,
+        emplyrinfo0_.SEXDSTN_CODE as sexdstn29_0_0_,
+        emplyrinfo0_.USER_NM as user_nm30_0_0_,
+        emplyrinfo0_.ZIP as zip31_0_0_,
+        emplyrscrt1_.AUTHOR_CODE as author_c2_1_1_,
+        emplyrscrt1_.MBER_TY_CODE as mber_ty_3_1_1_ 
+    from
+        COMTNEMPLYRINFO emplyrinfo0_ 
+    inner join
+        COMTNEMPLYRSCRTYESTBS emplyrscrt1_ 
+            on (
+                emplyrinfo0_.ESNTL_ID=emplyrscrt1_.SCRTY_DTRMN_TRGET_ID
+            ) 
+    where
+        emplyrinfo0_.EMPLYR_ID=? 
+        and emplyrinfo0_.PASSWORD=? 
+        and emplyrinfo0_.EMPLYR_STTUS_CODE=?
+2026-02-24 06:57:37.787 DEBUG 414 --- [o-18021-exec-10] .u.u.w.EgovAdminLoginManageAPIController : EgovAdminLoginManageAPIController actionLogin isAuthenticated >>> true
+2026-02-24 06:57:37.788 DEBUG 414 --- [o-18021-exec-10] .u.u.w.EgovAdminLoginManageAPIController : EgovAdminLoginManageAPIController actionLogin accessiblePatterns >>> /uat/uia/**,/uat/uap/**,/sec/ram/**,/sec/rgm/**,/sec/gmt/**,/sec/rmt/**,/mip/**,/cop/bls/**,/cop/bbs/**,/cop/brd/**,/cop/cmy/**,/uss/olp/qmc/**,/uss/olp/qri/**,/uss/olp/qtm/**,/uss/olp/qrm/**,/uss/olp/qqm/**,/uss/olp/qim/**,/sym/ccm/ccc/**,/sym/ccm/cde/**,/sym/ccm/cca/**,/ext/ops/**,/adminmain/**
+2026-02-24 06:57:37.881 DEBUG 414 --- [o-18021-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2026-02-24 06:57:37.881 DEBUG 414 --- [o-18021-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{userInfo=웹마스터(webmaster), errors=, status=loginSuccess}]
+2026-02-24 06:57:37.884 DEBUG 414 --- [o-18021-exec-10] o.s.w.s.DispatcherServlet                : Completed 200 OK
+2026-02-24 06:57:37.906 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.DispatcherServlet                : POST "/admin/login/loginView", parameters={masked}
+2026-02-24 06:57:37.906 DEBUG 414 --- [io-18021-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.uat.uia.web.EgovAdminLoginManageController#loginView(LoginVO, Model, HttpServletRequest)
+2026-02-24 06:57:37.988 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.v.RedirectView                   : View name 'redirect:', model {}
+2026-02-24 06:57:37.988 DEBUG 414 --- [io-18021-exec-1] o.s.w.s.DispatcherServlet                : Completed 302 FOUND
+2026-02-24 06:57:39.418 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:39.418 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:39.421 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:39.421 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:44.049 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:44.050 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:44.054 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:44.054 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:45.263 DEBUG 414 --- [io-18021-exec-2] o.s.w.s.DispatcherServlet                : POST "/admin/login/actionLogout", parameters={}
+2026-02-24 06:57:45.263 DEBUG 414 --- [io-18021-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.uat.uia.web.EgovAdminLoginManageAPIController#actionLogout(HttpServletRequest, HttpServletResponse)
+2026-02-24 06:57:45.263 DEBUG 414 --- [io-18021-exec-2] .u.u.w.EgovAdminLoginManageAPIController : ##### EgovAdminLoginManageAPIController logout started #####
+2026-02-24 06:57:45.264 DEBUG 414 --- [io-18021-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2026-02-24 06:57:45.264 DEBUG 414 --- [io-18021-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{error=, status=success}]
+2026-02-24 06:57:45.264 DEBUG 414 --- [io-18021-exec-2] o.s.w.s.DispatcherServlet                : Completed 200 OK
+2026-02-24 06:57:45.282 DEBUG 414 --- [io-18021-exec-3] o.s.w.s.DispatcherServlet                : GET "/admin/login/loginView", parameters={}
+2026-02-24 06:57:45.282 DEBUG 414 --- [io-18021-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.uat.uia.web.EgovAdminLoginManageController#loginView(LoginVO, Model, HttpServletRequest)
+2026-02-24 06:57:45.283 DEBUG 414 --- [io-18021-exec-3] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8]
+2026-02-24 06:57:45.284 DEBUG 414 --- [io-18021-exec-3] o.s.w.s.DispatcherServlet                : Completed 200 OK
+2026-02-24 06:57:48.068 DEBUG 414 --- [io-18021-exec-4] o.s.w.s.DispatcherServlet                : POST "/admin/login/actionLogin", parameters={}
+2026-02-24 06:57:48.069 DEBUG 414 --- [io-18021-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.uat.uia.web.EgovAdminLoginManageAPIController#actionLogin(LoginVO, HttpServletRequest, HttpServletResponse)
+2026-02-24 06:57:48.069 DEBUG 414 --- [io-18021-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [EgovDefaultVO(searchCondition=, searchKeyword=, searchUseYn=, pageIndex=1, pageUnit=10, pageSize=10, (truncated)...]
+Hibernate: 
+    select
+        loginpolic0_.EMPLYR_ID as emplyr_i1_4_0_,
+        loginpolic0_.DPLCT_PERM_AT as dplct_pe2_4_0_,
+        loginpolic0_.FRST_REGISTER_ID as frst_reg3_4_0_,
+        loginpolic0_.FRST_REGIST_PNTTM as frst_reg4_4_0_,
+        loginpolic0_.IP_INFO as ip_info5_4_0_,
+        loginpolic0_.LAST_UPDT_PNTTM as last_upd6_4_0_,
+        loginpolic0_.LAST_UPDUSR_ID as last_upd7_4_0_,
+        loginpolic0_.LMTT_AT as lmtt_at8_4_0_ 
+    from
+        COMTNLOGINPOLICY loginpolic0_ 
+    where
+        loginpolic0_.EMPLYR_ID=?
+Hibernate: 
+    select
+        emplyrinfo0_.EMPLYR_ID as emplyr_i1_0_0_,
+        emplyrinfo0_.AREA_NO as area_no2_0_0_,
+        emplyrinfo0_.BRTHDY as brthdy3_0_0_,
+        emplyrinfo0_.CHG_PWD_LAST_PNTTM as chg_pwd_4_0_0_,
+        emplyrinfo0_.CRTFC_DN_VALUE as crtfc_dn5_0_0_,
+        emplyrinfo0_.DETAIL_ADRES as detail_a6_0_0_,
+        emplyrinfo0_.EMAIL_ADRES as email_ad7_0_0_,
+        emplyrinfo0_.EMPL_NO as empl_no8_0_0_,
+        emplyrinfo0_.EMPLYR_STTUS_CODE as emplyr_s9_0_0_,
+        emplyrinfo0_.ESNTL_ID as esntl_i10_0_0_,
+        emplyrinfo0_.FXNUM as fxnum11_0_0_,
+        emplyrinfo0_.GROUP_ID as group_i12_0_0_,
+        emplyrinfo0_.HOUSE_ADRES as house_a13_0_0_,
+        emplyrinfo0_.HOUSE_END_TELNO as house_e14_0_0_,
+        emplyrinfo0_.HOUSE_MIDDLE_TELNO as house_m15_0_0_,
+        emplyrinfo0_.IHIDNUM as ihidnum16_0_0_,
+        emplyrinfo0_.LOCK_AT as lock_at17_0_0_,
+        emplyrinfo0_.LOCK_CNT as lock_cn18_0_0_,
+        emplyrinfo0_.LOCK_LAST_PNTTM as lock_la19_0_0_,
+        emplyrinfo0_.MBTLNUM as mbtlnum20_0_0_,
+        emplyrinfo0_.OFCPS_NM as ofcps_n21_0_0_,
+        emplyrinfo0_.OFFM_TELNO as offm_te22_0_0_,
+        emplyrinfo0_.ORGNZT_ID as orgnzt_23_0_0_,
+        emplyrinfo0_.PASSWORD as passwor24_0_0_,
+        emplyrinfo0_.PASSWORD_CNSR as passwor25_0_0_,
+        emplyrinfo0_.PASSWORD_HINT as passwor26_0_0_,
+        emplyrinfo0_.PSTINST_CODE as pstinst27_0_0_,
+        emplyrinfo0_.SBSCRB_DE as sbscrb_28_0_0_,
+        emplyrinfo0_.SEXDSTN_CODE as sexdstn29_0_0_,
+        emplyrinfo0_.USER_NM as user_nm30_0_0_,
+        emplyrinfo0_.ZIP as zip31_0_0_ 
+    from
+        COMTNEMPLYRINFO emplyrinfo0_ 
+    where
+        emplyrinfo0_.EMPLYR_ID=?
+Hibernate: 
+    select
+        emplyrinfo0_.EMPLYR_ID as emplyr_i1_0_0_,
+        emplyrinfo0_.AREA_NO as area_no2_0_0_,
+        emplyrinfo0_.BRTHDY as brthdy3_0_0_,
+        emplyrinfo0_.CHG_PWD_LAST_PNTTM as chg_pwd_4_0_0_,
+        emplyrinfo0_.CRTFC_DN_VALUE as crtfc_dn5_0_0_,
+        emplyrinfo0_.DETAIL_ADRES as detail_a6_0_0_,
+        emplyrinfo0_.EMAIL_ADRES as email_ad7_0_0_,
+        emplyrinfo0_.EMPL_NO as empl_no8_0_0_,
+        emplyrinfo0_.EMPLYR_STTUS_CODE as emplyr_s9_0_0_,
+        emplyrinfo0_.ESNTL_ID as esntl_i10_0_0_,
+        emplyrinfo0_.FXNUM as fxnum11_0_0_,
+        emplyrinfo0_.GROUP_ID as group_i12_0_0_,
+        emplyrinfo0_.HOUSE_ADRES as house_a13_0_0_,
+        emplyrinfo0_.HOUSE_END_TELNO as house_e14_0_0_,
+        emplyrinfo0_.HOUSE_MIDDLE_TELNO as house_m15_0_0_,
+        emplyrinfo0_.IHIDNUM as ihidnum16_0_0_,
+        emplyrinfo0_.LOCK_AT as lock_at17_0_0_,
+        emplyrinfo0_.LOCK_CNT as lock_cn18_0_0_,
+        emplyrinfo0_.LOCK_LAST_PNTTM as lock_la19_0_0_,
+        emplyrinfo0_.MBTLNUM as mbtlnum20_0_0_,
+        emplyrinfo0_.OFCPS_NM as ofcps_n21_0_0_,
+        emplyrinfo0_.OFFM_TELNO as offm_te22_0_0_,
+        emplyrinfo0_.ORGNZT_ID as orgnzt_23_0_0_,
+        emplyrinfo0_.PASSWORD as passwor24_0_0_,
+        emplyrinfo0_.PASSWORD_CNSR as passwor25_0_0_,
+        emplyrinfo0_.PASSWORD_HINT as passwor26_0_0_,
+        emplyrinfo0_.PSTINST_CODE as pstinst27_0_0_,
+        emplyrinfo0_.SBSCRB_DE as sbscrb_28_0_0_,
+        emplyrinfo0_.SEXDSTN_CODE as sexdstn29_0_0_,
+        emplyrinfo0_.USER_NM as user_nm30_0_0_,
+        emplyrinfo0_.ZIP as zip31_0_0_ 
+    from
+        COMTNEMPLYRINFO emplyrinfo0_ 
+    where
+        emplyrinfo0_.EMPLYR_ID=?
+Hibernate: 
+    select
+        emplyrinfo0_.EMPLYR_ID as emplyr_i1_0_0_,
+        emplyrinfo0_.AREA_NO as area_no2_0_0_,
+        emplyrinfo0_.BRTHDY as brthdy3_0_0_,
+        emplyrinfo0_.CHG_PWD_LAST_PNTTM as chg_pwd_4_0_0_,
+        emplyrinfo0_.CRTFC_DN_VALUE as crtfc_dn5_0_0_,
+        emplyrinfo0_.DETAIL_ADRES as detail_a6_0_0_,
+        emplyrinfo0_.EMAIL_ADRES as email_ad7_0_0_,
+        emplyrinfo0_.EMPL_NO as empl_no8_0_0_,
+        emplyrinfo0_.EMPLYR_STTUS_CODE as emplyr_s9_0_0_,
+        emplyrinfo0_.ESNTL_ID as esntl_i10_0_0_,
+        emplyrinfo0_.FXNUM as fxnum11_0_0_,
+        emplyrinfo0_.GROUP_ID as group_i12_0_0_,
+        emplyrinfo0_.HOUSE_ADRES as house_a13_0_0_,
+        emplyrinfo0_.HOUSE_END_TELNO as house_e14_0_0_,
+        emplyrinfo0_.HOUSE_MIDDLE_TELNO as house_m15_0_0_,
+        emplyrinfo0_.IHIDNUM as ihidnum16_0_0_,
+        emplyrinfo0_.LOCK_AT as lock_at17_0_0_,
+        emplyrinfo0_.LOCK_CNT as lock_cn18_0_0_,
+        emplyrinfo0_.LOCK_LAST_PNTTM as lock_la19_0_0_,
+        emplyrinfo0_.MBTLNUM as mbtlnum20_0_0_,
+        emplyrinfo0_.OFCPS_NM as ofcps_n21_0_0_,
+        emplyrinfo0_.OFFM_TELNO as offm_te22_0_0_,
+        emplyrinfo0_.ORGNZT_ID as orgnzt_23_0_0_,
+        emplyrinfo0_.PASSWORD as passwor24_0_0_,
+        emplyrinfo0_.PASSWORD_CNSR as passwor25_0_0_,
+        emplyrinfo0_.PASSWORD_HINT as passwor26_0_0_,
+        emplyrinfo0_.PSTINST_CODE as pstinst27_0_0_,
+        emplyrinfo0_.SBSCRB_DE as sbscrb_28_0_0_,
+        emplyrinfo0_.SEXDSTN_CODE as sexdstn29_0_0_,
+        emplyrinfo0_.USER_NM as user_nm30_0_0_,
+        emplyrinfo0_.ZIP as zip31_0_0_ 
+    from
+        COMTNEMPLYRINFO emplyrinfo0_ 
+    where
+        emplyrinfo0_.EMPLYR_ID=?
+Hibernate: 
+    select
+        emplyrinfo0_.EMPLYR_ID as emplyr_i1_0_0_,
+        emplyrscrt1_.SCRTY_DTRMN_TRGET_ID as scrty_dt1_1_1_,
+        emplyrinfo0_.AREA_NO as area_no2_0_0_,
+        emplyrinfo0_.BRTHDY as brthdy3_0_0_,
+        emplyrinfo0_.CHG_PWD_LAST_PNTTM as chg_pwd_4_0_0_,
+        emplyrinfo0_.CRTFC_DN_VALUE as crtfc_dn5_0_0_,
+        emplyrinfo0_.DETAIL_ADRES as detail_a6_0_0_,
+        emplyrinfo0_.EMAIL_ADRES as email_ad7_0_0_,
+        emplyrinfo0_.EMPL_NO as empl_no8_0_0_,
+        emplyrinfo0_.EMPLYR_STTUS_CODE as emplyr_s9_0_0_,
+        emplyrinfo0_.ESNTL_ID as esntl_i10_0_0_,
+        emplyrinfo0_.FXNUM as fxnum11_0_0_,
+        emplyrinfo0_.GROUP_ID as group_i12_0_0_,
+        emplyrinfo0_.HOUSE_ADRES as house_a13_0_0_,
+        emplyrinfo0_.HOUSE_END_TELNO as house_e14_0_0_,
+        emplyrinfo0_.HOUSE_MIDDLE_TELNO as house_m15_0_0_,
+        emplyrinfo0_.IHIDNUM as ihidnum16_0_0_,
+        emplyrinfo0_.LOCK_AT as lock_at17_0_0_,
+        emplyrinfo0_.LOCK_CNT as lock_cn18_0_0_,
+        emplyrinfo0_.LOCK_LAST_PNTTM as lock_la19_0_0_,
+        emplyrinfo0_.MBTLNUM as mbtlnum20_0_0_,
+        emplyrinfo0_.OFCPS_NM as ofcps_n21_0_0_,
+        emplyrinfo0_.OFFM_TELNO as offm_te22_0_0_,
+        emplyrinfo0_.ORGNZT_ID as orgnzt_23_0_0_,
+        emplyrinfo0_.PASSWORD as passwor24_0_0_,
+        emplyrinfo0_.PASSWORD_CNSR as passwor25_0_0_,
+        emplyrinfo0_.PASSWORD_HINT as passwor26_0_0_,
+        emplyrinfo0_.PSTINST_CODE as pstinst27_0_0_,
+        emplyrinfo0_.SBSCRB_DE as sbscrb_28_0_0_,
+        emplyrinfo0_.SEXDSTN_CODE as sexdstn29_0_0_,
+        emplyrinfo0_.USER_NM as user_nm30_0_0_,
+        emplyrinfo0_.ZIP as zip31_0_0_,
+        emplyrscrt1_.AUTHOR_CODE as author_c2_1_1_,
+        emplyrscrt1_.MBER_TY_CODE as mber_ty_3_1_1_ 
+    from
+        COMTNEMPLYRINFO emplyrinfo0_ 
+    inner join
+        COMTNEMPLYRSCRTYESTBS emplyrscrt1_ 
+            on (
+                emplyrinfo0_.ESNTL_ID=emplyrscrt1_.SCRTY_DTRMN_TRGET_ID
+            ) 
+    where
+        emplyrinfo0_.EMPLYR_ID=? 
+        and emplyrinfo0_.PASSWORD=? 
+        and emplyrinfo0_.EMPLYR_STTUS_CODE=?
+2026-02-24 06:57:48.097 DEBUG 414 --- [io-18021-exec-4] .u.u.w.EgovAdminLoginManageAPIController : EgovAdminLoginManageAPIController actionLogin isAuthenticated >>> true
+2026-02-24 06:57:48.097 DEBUG 414 --- [io-18021-exec-4] .u.u.w.EgovAdminLoginManageAPIController : EgovAdminLoginManageAPIController actionLogin accessiblePatterns >>> /uat/uia/**,/uat/uap/**,/sec/ram/**,/sec/rgm/**,/sec/gmt/**,/sec/rmt/**,/mip/**,/cop/bls/**,/cop/bbs/**,/cop/brd/**,/cop/cmy/**,/uss/olp/qmc/**,/uss/olp/qri/**,/uss/olp/qtm/**,/uss/olp/qrm/**,/uss/olp/qqm/**,/uss/olp/qim/**,/sym/ccm/ccc/**,/sym/ccm/cde/**,/sym/ccm/cca/**,/ext/ops/**,/adminmain/**
+2026-02-24 06:57:48.100 DEBUG 414 --- [io-18021-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2026-02-24 06:57:48.100 DEBUG 414 --- [io-18021-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{userInfo=웹마스터(webmaster), errors=, status=loginSuccess}]
+2026-02-24 06:57:48.101 DEBUG 414 --- [io-18021-exec-4] o.s.w.s.DispatcherServlet                : Completed 200 OK
+2026-02-24 06:57:48.117 DEBUG 414 --- [io-18021-exec-5] o.s.w.s.DispatcherServlet                : POST "/admin/login/loginView", parameters={masked}
+2026-02-24 06:57:48.118 DEBUG 414 --- [io-18021-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to egovframework.com.uat.uia.web.EgovAdminLoginManageController#loginView(LoginVO, Model, HttpServletRequest)
+2026-02-24 06:57:48.156 DEBUG 414 --- [io-18021-exec-5] o.s.w.s.v.RedirectView                   : View name 'redirect:', model {}
+2026-02-24 06:57:48.156 DEBUG 414 --- [io-18021-exec-5] o.s.w.s.DispatcherServlet                : Completed 302 FOUND
+2026-02-24 06:57:48.546 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:48.547 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:48.551 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:48.551 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:52.817 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771916109302
+2026-02-24 06:57:52.817 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:52.821 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:53.050 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:53.050 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:53.053 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:53.053 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:57:58.055 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:57:58.056 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:57:58.060 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:57:58.060 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:02.561 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:02.561 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:02.565 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:02.565 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:06.717 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:06.717 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:06.721 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:06.721 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:11.580 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:11.580 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:11.584 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:11.584 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:16.086 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:16.086 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:16.089 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:16.089 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:20.313 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771916109302
+2026-02-24 06:58:20.314 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:20.320 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:20.581 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:20.582 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:20.585 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:20.585 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:25.093 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:25.094 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:25.096 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:25.097 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:29.600 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:29.600 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:29.603 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:29.603 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:34.047 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:34.047 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:34.050 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:34.050 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:38.602 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:38.602 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:38.605 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:38.605 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:43.102 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:43.102 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:43.104 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:43.104 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:47.818 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771916109302
+2026-02-24 06:58:47.818 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:47.821 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:48.106 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:48.106 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:48.108 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:48.109 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:52.606 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:52.606 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:52.608 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:52.608 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:58:57.113 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:58:57.113 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:58:57.116 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:58:57.116 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:01.327 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:01.327 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:01.330 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:01.330 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:06.110 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:06.111 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:06.113 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:06.113 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:10.613 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:10.614 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:10.617 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:10.617 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:14.822 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771916109302
+2026-02-24 06:59:14.822 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:14.825 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:15.132 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:15.132 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:15.135 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:15.135 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:19.646 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:19.647 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:19.649 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:19.650 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:24.147 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:24.147 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:24.149 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:24.150 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:28.639 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:28.640 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:28.642 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:28.642 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:33.147 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:33.147 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:33.150 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:33.150 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:38.152 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:38.152 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:38.155 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:38.155 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:42.143  INFO 414 --- [trap-executor-0] c.n.d.s.r.a.ConfigClusterResolver        : Resolving eureka endpoints via configuration
+2026-02-24 06:59:42.330 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771916109302
+2026-02-24 06:59:42.331 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:42.334 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:42.673 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:42.674 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:42.676 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:42.676 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:47.163 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:47.164 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:47.166 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:47.166 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:51.680 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:51.680 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:51.683 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:51.683 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 06:59:55.935 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 06:59:55.935 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 06:59:55.938 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 06:59:55.938 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:00.667 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:00.667 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:00.670 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:00.670 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:05.181 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:05.181 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:05.184 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:05.184 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:09.335 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771916109302
+2026-02-24 07:00:09.335 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:09.338 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:09.700 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:09.700 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:09.703 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:09.703 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:14.704 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:14.704 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:14.707 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:14.707 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:19.708 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:19.708 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:19.713 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:19.713 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:23.192 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:23.192 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:23.195 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:23.195 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:28.196 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:28.196 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:28.199 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:28.199 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:32.704 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:32.704 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:32.707 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:32.707 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:36.812 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : HTTP PUT http://localhost:8761/eureka/apps/EGOVADMINLOGIN/carbosys-app:EgovAdminLogin:18021?status=UP&lastDirtyTimestamp=1771916109302
+2026-02-24 07:00:36.813 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:36.816 DEBUG 414 --- [tbeatExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:37.202 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:37.202 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:37.205 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:37.205 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2026-02-24 07:00:41.718 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : HTTP GET http://localhost:8761/eureka/apps/delta
+2026-02-24 07:00:41.718 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Accept=[application/json, application/*+json]
+2026-02-24 07:00:41.721 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Response 200 OK
+2026-02-24 07:00:41.721 DEBUG 414 --- [freshExecutor-0] o.s.w.c.RestTemplate                     : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
