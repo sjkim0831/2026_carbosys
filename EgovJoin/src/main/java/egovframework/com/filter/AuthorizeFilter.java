@@ -20,7 +20,8 @@ public class AuthorizeFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String secretCodeId = request.getHeader("X-CODE-ID");
 
-        if (!request.getRequestURI().contains("/uat/uia") && !request.getRequestURI().contains("/uss/umt")) {
+        if (!request.getRequestURI().contains("/uat/uia") && !request.getRequestURI().contains("/uss/umt")
+                && !request.getRequestURI().startsWith("/join")) {
             String secretCode = "-WzAnecnlNewSEQwDgJ2BQ";
             if (ObjectUtils.isEmpty(secretCodeId) || !secretCode.equals(secretCodeId)) {
                 log.warn("##### Access Denied: Unauthorized Access Attempt");
