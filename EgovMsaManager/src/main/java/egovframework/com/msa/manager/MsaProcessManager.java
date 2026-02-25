@@ -40,7 +40,7 @@ public class MsaProcessManager {
         new Thread(() -> {
             try {
                 List<String> cmd = new ArrayList<>(
-                        Arrays.asList("java", "-jar", "target/" + mod.getArtifactId() + ".jar"));
+                        Arrays.asList("java", "-Xms64m", "-Xmx192m", "-jar", "target/" + mod.getArtifactId() + ".jar"));
                 // Enforce central port if registered
                 if (mod.getPort() != null && mod.getPort() != 0) {
                     cmd.add("--server.port=" + mod.getPort());
