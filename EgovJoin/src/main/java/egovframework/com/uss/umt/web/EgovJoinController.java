@@ -451,6 +451,13 @@ public class EgovJoinController {
         return "uss/umt/step4_company_complete";
     }
 
+    @GetMapping("/checkCompanyNameDplct")
+    @org.springframework.web.bind.annotation.ResponseBody
+    public String checkCompanyNameDplct(@RequestParam("agencyName") String agencyName) throws Exception {
+        int count = entrprsManageService.checkCompanyNameDplct(agencyName);
+        return String.valueOf(count);
+    }
+
     @GetMapping("/searchCompanyAPI")
     @org.springframework.web.bind.annotation.ResponseBody
     public java.util.List<?> searchCompanyAPI(@RequestParam("keyword") String keyword) throws Exception {

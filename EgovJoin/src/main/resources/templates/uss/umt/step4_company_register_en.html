@@ -129,12 +129,18 @@
                                 <label class="form-label" for="agency-name">Agency/Company Name <span aria-hidden="true"
                                         class="text-red-500">*</span></label>
                                 <div class="flex gap-2">
-                                    <input class="form-input" id="agency-name" name="agencyName"
-                                        placeholder="Enter formal name (e.g., Korea Energy Technology Co., Ltd.)"
-                                        required type="text" />
-                                    <button type="button" id="btn-check-duplicate"
-                                        class="px-4 h-[42px] bg-gray-100 text-[14px] text-gray-700 font-medium rounded border border-gray-300 hover:bg-gray-200 transition-colors whitespace-nowrap">Check
-                                        Duplicate</button>
+                                    <div class="relative flex-grow">
+                                        <input class="form-input pr-20" id="agency-name" name="agencyName"
+                                            placeholder="Enter formal name (e.g., Korea Energy Technology Co., Ltd.)"
+                                            required type="text" />
+                                        <button id="btnCompanySearch"
+                                            class="absolute right-2 top-2 bottom-2 px-3 bg-[var(--kr-gov-blue)] text-white text-xs font-bold rounded-[var(--kr-gov-radius)] flex items-center gap-1"
+                                            type="button">
+                                            <span class="material-symbols-outlined text-[18px]">search</span> Search
+                                        </button>
+                                    </div>
+                                    <button type="button" id="idCheckBtn"
+                                        class="px-4 bg-gray-800 text-white text-sm font-bold rounded-[var(--kr-gov-radius)] whitespace-nowrap">Check</button>
                                 </div>
                                 <p id="duplicate-check-msg" class="mt-1 text-xs hidden"></p>
                                 <input type="hidden" id="is-name-checked" value="N" />
@@ -223,7 +229,7 @@
     <script>
         // Duplicate check logic
         const agencyNameInput = document.getElementById('agency-name');
-        const btnCheckDuplicate = document.getElementById('btn-check-duplicate');
+        const btnCheckDuplicate = document.getElementById('idCheckBtn');
         const duplicateMsg = document.getElementById('duplicate-check-msg');
         const isNameChecked = document.getElementById('is-name-checked');
 
