@@ -126,8 +126,15 @@
                             <div class="md:col-span-2 space-y-1">
                                 <label class="form-label" for="agency-name">기관/기업명 <span aria-hidden="true"
                                         class="text-red-500">*</span></label>
-                                <input class="form-input" id="agency-name" name="agencyName"
-                                    placeholder="정식 명칭을 입력하세요 (예: (주)한국에너지기술)" required type="text" />
+                                <div class="flex gap-2">
+                                    <input class="form-input" id="agency-name" name="agencyName"
+                                        placeholder="정식 명칭을 입력하세요 (예: (주)한국에너지기술)" required type="text" />
+                                    <button type="button" id="btn-check-duplicate"
+                                        class="px-4 h-[42px] bg-gray-100 text-[14px] text-gray-700 font-medium rounded border border-gray-300 hover:bg-gray-200 transition-colors whitespace-nowrap">중복
+                                        확인</button>
+                                </div>
+                                <p id="duplicate-check-msg" class="mt-1 text-xs hidden"></p>
+                                <input type="hidden" id="is-name-checked" value="N" />
                             </div>
                             <div class="space-y-1">
                                 <label class="form-label" for="representative-name">대표자명 <span aria-hidden="true"
@@ -170,20 +177,23 @@
                         <div class="space-y-4">
                             <label class="form-label">사업자등록증 또는 법인 검증 서류 <span aria-hidden="true"
                                     class="text-red-500">*</span></label>
-                            <label class="drop-zone block" for="file-upload">
-                                <div class="space-y-3 text-center">
-                                    <span class="material-symbols-outlined text-5xl text-gray-400">cloud_upload</span>
+                            <div class="drop-zone block" id="drop-zone"
+                                onclick="document.getElementById('file-upload').click();">
+                                <div class="space-y-3 text-center pointer-events-none">
+                                    <span class="material-symbols-outlined text-5xl text-gray-400"
+                                        id="upload-icon">cloud_upload</span>
                                     <div class="flex items-center justify-center gap-2">
-                                        <span
+                                        <span id="upload-btn-text"
                                             class="bg-[var(--kr-gov-blue)] text-white px-4 py-2 rounded-[var(--kr-gov-radius)] text-sm font-bold hover:bg-[var(--kr-gov-blue-hover)] transition-all">파일
                                             선택</span>
-                                        <input class="sr-only" id="file-upload" name="fileUpload" type="file"
-                                            required />
                                     </div>
-                                    <p class="text-xs text-gray-500 mt-2">PDF, JPG, PNG 파일만 업로드 가능하며, 최대 용량은 10MB입니다.
+                                    <p class="text-xs text-gray-500 mt-2" id="file-name-display">PDF, JPG, PNG 파일만 업로드
+                                        가능하며, 최대 용량은 10MB입니다.
                                     </p>
                                 </div>
-                            </label>
+                            </div>
+                            <input class="hidden" id="file-upload" name="fileUpload" type="file" required
+                                accept=".pdf,.jpg,.jpeg,.png" />
                         </div>
                     </section>
 
@@ -194,7 +204,7 @@
                         <button
                             class="flex-[2] h-14 bg-[var(--kr-gov-blue)] text-white text-lg font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors shadow-lg flex items-center justify-center gap-2"
                             type="submit">
-                            회원사 등록 및 계속하기 <span class="material-symbols-outlined">arrow_forward</span>
+                            회원사 등록 신청 <span class="material-symbols-outlined">arrow_forward</span>
                         </button>
                     </div>
                 </form>
@@ -209,18 +219,68 @@
 
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
-            (function loadSharedLayout() {
-                fetch('/home3/fragments/header').then(r => r.text()).then(html => {
-                    document.getElementById('shared-header').innerHTML = html;
-                    const ko = document.getElementById('langKoBtn');
-                    const en = document.getElementById('langEnBtn');
-                    if (ko) ko.onclick = () => location.href = '/join/companyRegister';
-                    if (en) en.onclick = () => location.href = '/join/en/companyRegister';
-                }).catch(() => { });
-                fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
-                    document.getElementById('shared-footer').innerHTML = html;
-                }).catch(() => { });
-            })();
+        // Duplicate check logic
+        const agencyNameInput = document.getElementById('agency-name');
+        const btnCheckDuplicate = document.getElementById('btn-check-duplicate');
+        const duplicateMsg = document.getElementById('duplicate-check-msg');
+        const isNameChecked = document.getElementById('is-name-checked');
+
+        agencyNameInput.addEventListener('input', () => {
+            isNameChecked.value = 'N';
+            duplicateMsg.classList.add('hidden');
+        });
+
+        btnCheckDuplicate.addEventListener('click', () => {
+            const name = agencyNameInput.value.trim();
+            if (!name) {
+                alert('기관/회사명을 입력해 주세요.');
+                agencyNameInput.focus();
+                return;
+            }
+
+            fetch(`/join/checkCompanyNameDplct?agencyName=${encodeURIComponent(name)}`)
+                .then(r => r.text())
+                .then(count => {
+                    duplicateMsg.classList.remove('hidden');
+                    if (parseInt(count) > 0) {
+                        duplicateMsg.textContent = '이미 등록된 기관/회사명입니다.';
+                        duplicateMsg.classList.remove('text-emerald-600');
+                        duplicateMsg.classList.add('text-red-600');
+                        isNameChecked.value = 'N';
+                    } else {
+                        duplicateMsg.textContent = '사용 가능한 기관/회사명입니다.';
+                        duplicateMsg.classList.remove('text-red-600');
+                        duplicateMsg.classList.add('text-emerald-600');
+                        isNameChecked.value = 'Y';
+                    }
+                })
+                .catch(() => {
+                    alert('중복 확인 중 오류가 발생했습니다.');
+                });
+        });
+
+        const regForm = document.getElementById('regForm');
+        regForm.addEventListener('submit', function (e) {
+            if (isNameChecked.value !== 'Y') {
+                e.preventDefault();
+                alert('기관/회사명 중복 확인이 필요합니다.');
+                btnCheckDuplicate.focus();
+                return false;
+            }
+        });
+
+        (function loadSharedLayout() {
+            fetch('/home3/fragments/header').then(r => r.text()).then(html => {
+                document.getElementById('shared-header').innerHTML = html;
+                const ko = document.getElementById('langKoBtn');
+                const en = document.getElementById('langEnBtn');
+                if (ko) ko.onclick = () => location.href = '/join/companyRegister';
+                if (en) en.onclick = () => location.href = '/join/en/companyRegister';
+            }).catch(() => { });
+            fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
+                document.getElementById('shared-footer').innerHTML = html;
+            }).catch(() => { });
+        })();
 
         // 다음 우편번호 검색 API
         function execDaumPostcode() {
@@ -245,6 +305,30 @@
                 }
             }).open();
         }
+        // 파일 선택 시 피드백 표시
+        document.getElementById('file-upload').addEventListener('change', function (e) {
+            var fileNameDisplay = document.getElementById('file-name-display');
+            var uploadIcon = document.getElementById('upload-icon');
+            var uploadBtnText = document.getElementById('upload-btn-text');
+            var dropZone = document.getElementById('drop-zone');
+
+            if (this.files && this.files.length > 0) {
+                var fileName = this.files[0].name;
+                fileNameDisplay.textContent = '선택된 파일: ' + fileName;
+                fileNameDisplay.className = 'text-sm font-bold text-[var(--kr-gov-blue)] mt-2';
+                uploadIcon.textContent = 'description';
+                uploadIcon.className = 'material-symbols-outlined text-5xl text-[var(--kr-gov-blue)]';
+                uploadBtnText.textContent = '파일 변경';
+                dropZone.className = 'drop-zone block border-[var(--kr-gov-blue)] bg-blue-50';
+            } else {
+                fileNameDisplay.textContent = 'PDF, JPG, PNG 파일만 업로드 가능하며, 최대 용량은 10MB입니다.';
+                fileNameDisplay.className = 'text-xs text-gray-500 mt-2';
+                uploadIcon.textContent = 'cloud_upload';
+                uploadIcon.className = 'material-symbols-outlined text-5xl text-gray-400';
+                uploadBtnText.textContent = '파일 선택';
+                dropZone.className = 'drop-zone block border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer';
+            }
+        });
     </script>
 </body>
 

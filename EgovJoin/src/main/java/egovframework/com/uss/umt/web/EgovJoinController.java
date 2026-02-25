@@ -11,9 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.File;
+import java.util.UUID;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import egovframework.com.uss.umt.service.EgovEntrprsManageService;
 import egovframework.com.uss.umt.service.EntrprsManageVO;
+import egovframework.com.uss.umt.service.InsttInfoVO;
+import egovframework.com.uss.umt.service.MberManageVO;
 
 @Controller
 @RequestMapping("/join")
@@ -146,6 +152,16 @@ public class EgovJoinController {
         session.setAttribute("joinVO", joinVO);
         model.addAttribute("joinVO", joinVO);
         model.addAttribute("mberNm", joinVO.getApplcntNm());
+        return "uss/umt/step4_info";
+    }
+
+    @GetMapping("/step4")
+    public String step4View(HttpSession session, Model model) {
+        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
+        if (joinVO != null) {
+            model.addAttribute("joinVO", joinVO);
+            model.addAttribute("mberNm", joinVO.getApplcntNm());
+        }
         return "uss/umt/step4_info";
     }
 
@@ -383,32 +399,56 @@ public class EgovJoinController {
             @RequestParam("zipCode") String zipCode,
             @RequestParam("companyAddress") String addr,
             @RequestParam(value = "companyAddressDetail", required = false) String detailAddr,
-            @RequestParam(value = "lang", defaultValue = "ko") String lang) throws Exception {
+            @RequestParam(value = "lang", defaultValue = "ko") String lang,
+            @RequestParam("fileUpload") MultipartFile fileUpload,
+            org.springframework.ui.Model model) throws Exception {
 
-        EntrprsManageVO vo = new EntrprsManageVO();
-        String tempId = "COMP_" + System.currentTimeMillis();
-        // ID 길이를 맞추거나 유일하게 쓰기 위한 임시 처리. COMTNENTRPRSMBER 의 요구 규격에 맞게
+        InsttInfoVO vo = new InsttInfoVO();
+        String tempId = "INSTT_" + System.currentTimeMillis();
         if (tempId.length() > 20)
             tempId = tempId.substring(0, 20);
 
-        vo.setEntrprsmberId(tempId);
-        vo.setEntrprsSeCode("USR02");
-        vo.setEntrprsMberPassword("Dummy123!@#"); // Dummy as it's not a real user account
-        vo.setCmpnyNm(agencyName);
-        vo.setCxfc(repName);
+        vo.setInsttId(tempId);
+        vo.setInsttNm(agencyName);
+        vo.setReprsntNm(repName);
         vo.setBizrno(bizNo);
         vo.setZip(zipCode);
         vo.setAdres(addr);
         vo.setDetailAdres(detailAddr);
-        vo.setEntrprsMberSttus("P"); // P: 가입 승인 대기? P or A -> A로 하면 검색에서 쉽게 뜸. But search is for IN ('P', 'A')
-        vo.setApplcntNm(repName);
+        vo.setInsttSttus("P");
 
-        entrprsManageService.insertEntrprsmber(vo);
+        // Upload directory from user specifications (subfolder added)
+        String uploadDir = "/srv/file/carbosys/upload/instt";
+        File dir = new File(uploadDir);
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new Exception("Cannot create upload directory: " + uploadDir);
+        }
+        if (fileUpload != null && !fileUpload.isEmpty()) {
+            String originalFileName = fileUpload.getOriginalFilename();
+            if (originalFileName != null && originalFileName.contains(".")) {
+                String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String newFileName = tempId + ext; // use the generated ID for filename uniqueness
+                File targetFile = new File(dir, newFileName);
+                fileUpload.transferTo(targetFile);
+                vo.setBizRegFilePath(targetFile.getAbsolutePath());
+            }
+        }
+
+        entrprsManageService.insertInsttInfo(vo);
+
+        java.time.LocalDateTime now = java.time.LocalDateTime.now();
+        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter
+                .ofPattern("yyyy.MM.dd HH:mm:ss");
+        String regDate = now.format(formatter);
+
+        model.addAttribute("insttNm", agencyName);
+        model.addAttribute("bizrno", bizNo);
+        model.addAttribute("regDate", regDate);
 
         if ("en".equals(lang)) {
-            return "redirect:/join/en/step4?newCompany=true";
+            return "uss/umt/step4_company_complete_en";
         }
-        return "redirect:/join/step4?newCompany=true";
+        return "uss/umt/step4_company_complete";
     }
 
     @GetMapping("/searchCompanyAPI")

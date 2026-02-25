@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
 import egovframework.com.uss.umt.service.EntrprsManageVO;
+import egovframework.com.uss.umt.service.InsttInfoVO;
 import egovframework.com.uss.umt.service.StplatVO;
 import egovframework.com.uss.umt.service.UserDefaultVO;
 
@@ -148,5 +149,24 @@ public class EntrprsManageDAO extends EgovComAbstractDAO {
      */
     public int checkEmailDplct(String checkEmail) {
         return (Integer) selectOne("entrprsManageDAO.checkEmailDplct_S", checkEmail);
+    }
+
+    /**
+     * 회원사(기관) 정보를 등록한다.
+     * 
+     * @param insttInfoVO 회원사정보
+     */
+    public void insertInsttInfo(InsttInfoVO insttInfoVO) {
+        insert("entrprsManageDAO.insertInsttInfo", insttInfoVO);
+    }
+
+    /**
+     * 입력한 회사명(기관명)의 중복여부를 체크하여 사용가능여부를 확인
+     * 
+     * @param checkNm 중복체크대상 회사명
+     * @return int 중복횟수(0이면 사용가능)
+     */
+    public int checkCompanyNameDplct(String checkNm) {
+        return (Integer) selectOne("entrprsManageDAO.checkCompanyNameDplct", checkNm);
     }
 }

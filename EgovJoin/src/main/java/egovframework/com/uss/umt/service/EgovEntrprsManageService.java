@@ -129,4 +129,21 @@ public interface EgovEntrprsManageService {
 	 */
 	public int checkEmailDplct(String checkEmail) throws Exception;
 
+	/**
+	 * 회원사(기관) 정보를 등록한다.
+	 * 
+	 * @param insttInfoVO 회원사정보
+	 * @throws Exception
+	 */
+	public void insertInsttInfo(InsttInfoVO insttInfoVO) throws Exception;
+
+	/**
+	 * 회사명(기관명) 중복 여부를 체크한다.
+	 * 
+	 * @param checkNm 중복체크대상 회사명
+	 * @return int 중복횟수(0이면 사용가능)
+	 * @throws Exception
+	 */
+	public int checkCompanyNameDplct(String checkNm) throws Exception;
+
 }

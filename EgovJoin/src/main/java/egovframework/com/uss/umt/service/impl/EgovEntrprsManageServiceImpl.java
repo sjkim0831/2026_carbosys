@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.com.uss.umt.service.EgovEntrprsManageService;
 import egovframework.com.uss.umt.service.EntrprsManageVO;
+import egovframework.com.uss.umt.service.InsttInfoVO;
 import egovframework.com.uss.umt.service.StplatVO;
 import egovframework.com.uss.umt.service.UserDefaultVO;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
@@ -228,5 +229,15 @@ public class EgovEntrprsManageServiceImpl extends EgovAbstractServiceImpl implem
 	@Override
 	public int checkEmailDplct(String checkEmail) throws Exception {
 		return entrprsManageDAO.checkEmailDplct(checkEmail);
+	}
+
+	@Override
+	public void insertInsttInfo(InsttInfoVO insttInfoVO) throws Exception {
+		entrprsManageDAO.insertInsttInfo(insttInfoVO);
+	}
+
+	@Override
+	public int checkCompanyNameDplct(String checkNm) throws Exception {
+		return entrprsManageDAO.checkCompanyNameDplct(checkNm);
 	}
 }

@@ -33,6 +33,8 @@ services:
     hostname: carbosys-app
     networks:
       - carbosys-net
+    volumes:
+      - "/srv/file/carbosys/upload/instt:/srv/file/carbosys/upload/instt"
     extra_hosts:
       - "localhost:127.0.0.1"
 

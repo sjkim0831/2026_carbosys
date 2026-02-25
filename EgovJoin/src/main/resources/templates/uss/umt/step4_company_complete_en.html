@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Registration Request Complete | CCUS Portal</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+            --kr-gov-error: #d32f2f;
+            --kr-gov-success: #2e7d32;
+        }
+        @layer base {
+            body { 
+                font-family: 'Public Sans', 'Noto Sans KR', sans-serif; 
+                -webkit-font-smoothing: antialiased; 
+                @apply bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)];
+            }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "gov-gray": "#767676",
+                    },
+                    borderRadius: {
+                        'gov': '5px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <div id="shared-header"></div>
+
+    <main class="flex-grow py-16 px-4" id="main-content">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-emerald-50 rounded-full mb-6">
+                    <span class="material-symbols-outlined text-5xl text-emerald-600"
+                        style="font-variation-settings: 'wght' 600;">check_circle</span>
+                </div>
+                <h2 class="text-3xl font-bold text-[var(--kr-gov-text-primary)] mb-4">Registration Request Complete</h2>
+                <p class="text-lg text-[var(--kr-gov-text-secondary)]">Your request for new member company registration
+                    has been successfully submitted.</p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white border border-blue-100 rounded-lg p-8 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1.5 h-full bg-[var(--kr-gov-blue)]"></div>
+                    <div class="flex items-start gap-4">
+                        <span class="material-symbols-outlined text-blue-600 mt-0.5">info</span>
+                        <div>
+                            <h3 class="font-bold text-[var(--kr-gov-text-primary)] mb-2">Approval Process Information
+                            </h3>
+                            <p class="text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                                The submitted documents will be reviewed by the administrator, and the approval decision
+                                will be made within <span class="text-[var(--kr-gov-blue)] font-bold">2-3 business
+                                    days</span>.<br />
+                                The final approval result will be sent individually via <span class="font-bold">SMS and
+                                    email</span> registered in your member information.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="bg-white border border-[var(--kr-gov-border-light)] rounded-lg overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-4 border-b border-[var(--kr-gov-border-light)]">
+                        <h3 class="font-bold text-[var(--kr-gov-text-primary)]">Application Summary</h3>
+                    </div>
+                    <div class="p-6">
+                        <dl class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-y-4 text-sm">
+                            <dt class="text-[var(--kr-gov-text-secondary)] font-medium">Agency Name</dt>
+                            <dd class="text-[var(--kr-gov-text-primary)] font-bold" th:text="${insttNm}">Korea Energy
+                                Technology Research Institute</dd>
+                            <dt class="text-[var(--kr-gov-text-secondary)] font-medium">Business Reg. No.</dt>
+                            <dd class="text-[var(--kr-gov-text-primary)] font-bold" th:text="${bizrno}">123-45-67890
+                            </dd>
+                            <dt class="text-[var(--kr-gov-text-secondary)] font-medium">Application Date</dt>
+                            <dd class="text-[var(--kr-gov-text-primary)] font-bold" th:text="${regDate}">2025.08.14
+                                14:30:45</dd>
+                        </dl>
+                    </div>
+                </section>
+
+                <div class="flex flex-col items-center gap-6 pt-6">
+                    <a class="w-full sm:w-64 h-14 flex items-center justify-center bg-[var(--kr-gov-blue)] text-white text-lg font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors shadow-lg shadow-blue-900/10"
+                        th:href="@{/home3}">
+                        Go to Home
+                    </a>
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="text-[var(--kr-gov-text-secondary)]">Curious about your application status?</span>
+                        <a class="text-[var(--kr-gov-blue)] font-bold hover:underline underline-offset-4 flex items-center gap-1"
+                            href="#">
+                            Status Inquiry <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="shared-footer"></div>
+    <script>
+            (function loadSharedLayout() {
+                fetch('/home3/fragments/header')
+                    .then(r => r.text())
+                    .then(html => {
+                        document.getElementById('shared-header').innerHTML = html;
+                        // Reset logo link
+                        const logoLink = document.querySelector('#shared-header a[href="/home3"]');
+                        if (logoLink) logoLink.href = '/join/reset';
+                    })
+                    .catch(() => { });
+
+                fetch('/home3/fragments/footer')
+                    .then(r => r.text())
+                    .then(html => { document.getElementById('shared-footer').innerHTML = html; })
+                    .catch(() => { });
+            })();
+    </script>
+
+</body>
+
+</html>

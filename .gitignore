@@ -41,7 +41,12 @@ sonar-project.properties
 model/
 target/
 
+# Build artifacts
+*.jar
+*.war
+*.out
+
 # Database data and log files
 docker-compose/cubrid/data/
 *.log
-*.log
+csql.err

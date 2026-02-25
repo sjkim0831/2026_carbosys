@@ -144,6 +144,17 @@ public class EntrprsManageVO extends UserDefaultVO {
 		this.marketingYn = marketingYn;
 	}
 
+	/** 사업자등록증 파일 경로 */
+	private String bizRegFilePath;
+
+	public String getBizRegFilePath() {
+		return bizRegFilePath;
+	}
+
+	public void setBizRegFilePath(String bizRegFilePath) {
+		this.bizRegFilePath = bizRegFilePath;
+	}
+
 	/** 본인확인 유형 (SIMPLE, ONEPASS, JOINT, FINANCIAL, EMAIL) */
 	private String authTy;
 	/** 인증서 DN */

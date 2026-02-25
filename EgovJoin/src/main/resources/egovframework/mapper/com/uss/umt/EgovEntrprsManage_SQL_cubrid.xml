@@ -42,7 +42,8 @@
                     AUTH_DN                      ,
                     AUTH_CI                      ,
                     AUTH_DI                      ,
-                    AUTH_EMAIL                  )
+                    AUTH_EMAIL                  ,
+                    BIZ_REG_FILE_PATH           )
             VALUES (
                     #{uniqId},
                     #{entrprsmberId},
@@ -74,7 +75,8 @@
                     #{authDn},
                     #{authCi},
                     #{authDi},
-                    #{authEmail}        )
+                    #{authEmail}                ,
+                    #{bizRegFilePath}           )
         
     </insert>
 
@@ -119,6 +121,7 @@
                 AUTH_CI                      authCi,
                 AUTH_DI                      authDi,
                 AUTH_EMAIL                   authEmail,
+                BIZ_REG_FILE_PATH            bizRegFilePath,
                 LOCK_AT        				 lockAt
             FROM COMTNENTRPRSMBER
             WHERE ESNTL_ID=#{uniqId}
@@ -154,7 +157,8 @@
                 AUTH_DN                      = #{authDn},
                 AUTH_CI                      = #{authCi},
                 AUTH_DI                      = #{authDi},
-                AUTH_EMAIL                   = #{authEmail}
+                AUTH_EMAIL                   = #{authEmail},
+                BIZ_REG_FILE_PATH            = #{bizRegFilePath}
             WHERE ESNTL_ID=#{uniqId}
         
     </update>
@@ -189,7 +193,46 @@
         
     </select>
 
+    <insert id="insertInsttInfo">
+        INSERT INTO COMTNINSTTINFO
+        (
+            INSTT_ID,
+            INSTT_NM,
+            REPRSNT_NM,
+            BIZRNO,
+            ZIP,
+            ADRES,
+            DETAIL_ADRES,
+            BIZ_REG_FILE_PATH,
+            INSTT_STTUS,
+            FRST_REGIST_PNTTM,
+            LAST_UPDT_PNTTM
+        )
+        VALUES
+        (
+            #{insttId},
+            #{insttNm},
+            #{reprsntNm},
+            #{bizrno},
+            #{zip},
+            #{adres},
+            #{detailAdres},
+            #{bizRegFilePath},
+            'P',
+            SYSDATETIME,
+            SYSDATETIME
+        )
+    </insert>
+
     <select id="searchCompanyList" resultType="egovMap">
+        SELECT 
+            INSTT_NM          as CMPNY_NM,
+            BIZRNO            as BIZRNO,
+            REPRSNT_NM        as CXFC
+        FROM    COMTNINSTTINFO
+        WHERE (INSTT_NM LIKE '%' || #{searchKeyword} || '%' OR BIZRNO LIKE '%' || #{searchKeyword} || '%')
+          AND INSTT_STTUS IN ('P', 'A')
+        UNION ALL
         SELECT 
             CMPNY_NM          as CMPNY_NM,
             BIZRNO            as BIZRNO,
@@ -197,6 +240,7 @@
         FROM    COMTNENTRPRSMBER
         WHERE (CMPNY_NM LIKE '%' || #{searchKeyword} || '%' OR BIZRNO LIKE '%' || #{searchKeyword} || '%')
           AND ENTRPRS_MBER_STTUS IN ('P', 'A')
+          AND BIZRNO NOT IN (SELECT BIZRNO FROM COMTNINSTTINFO)
         ORDER BY CMPNY_NM ASC
     </select>
 
@@ -215,7 +259,8 @@
                 ''                    as MOBLPHON_NO,
                 GROUP_ID              as GROUP_ID,
                 ENTRPRS_MBER_STTUS    as STTUS,
-                SBSCRB_DE             as SBSCRB_DE
+                SBSCRB_DE             as SBSCRB_DE,
+                BIZ_REG_FILE_PATH     as BIZ_REG_FILE_PATH
             FROM    COMTNENTRPRSMBER
             WHERE 1=1
         <if test='sbscrbSttus != null and sbscrbSttus neq "0" and sbscrbSttus neq ""'>
@@ -275,6 +320,14 @@
             FROM    COMVNUSERMASTER
             WHERE   USER_EMAIL_ADRES = #{checkEmail}
         
+    </select>
+
+    <select id="checkCompanyNameDplct" resultType="int">
+        SELECT (
+            SELECT COUNT(1) FROM COMTNINSTTINFO WHERE INSTT_NM = #{checkNm}
+        ) + (
+            SELECT COUNT(1) FROM COMTNENTRPRSMBER WHERE CMPNY_NM = #{checkNm}
+        ) as totcnt
     </select>
 
 </mapper>
