@@ -7,11 +7,18 @@
 docker-compose/cubrid/data/
 docker-compose/cubrid/init/
 
+# Exclude source code and project/build configs
+**/src/
+**/pom.xml
+**/.settings/
+**/.classpath
+**/.project
+
 # Keep mappings and ports for MsaManager
 !msa-mappings.yml
 !msa-ports.yml
 
-# We need to scan folders to see modules, so we include everything 
-# but ignore the heavy target folders unless it's a JAR we need.
+# Exclude heavy target folders...
 **/target/*
+# ...but KEEP the JAR files inside them!
 !**/target/*.jar

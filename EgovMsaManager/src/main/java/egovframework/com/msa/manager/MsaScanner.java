@@ -34,17 +34,27 @@ public class MsaScanner {
         if (!root.exists() || !root.isDirectory())
             return modules;
 
-        File[] entries = root.listFiles();
-        if (entries == null)
-            return modules;
+        for (Map.Entry<String, Integer> entry : registry.entrySet()) {
+            String id = entry.getKey();
+            Integer port = entry.getValue();
 
-        for (File entry : entries) {
-            if (entry.isDirectory()) {
-                File pom = new File(entry, "pom.xml");
-                File src = new File(entry, "src/main");
-                if (pom.exists() && src.exists()) {
-                    modules.add(parseModule(entry, registry));
-                }
+            // Infrastructure modules are started separately in entrypoint
+            if (id.equals("EurekaServer") || id.equals("ConfigServer") || id.equals("GatewayServer")
+                    || id.equals("EgovMsaManager"))
+                continue;
+
+            File dir = new File(root, id);
+            File jar = new File(dir, "target/" + id + ".jar");
+
+            if (jar.exists()) {
+                modules.add(ModuleInfo.builder()
+                        .id(id)
+                        .name(id) // Without application.yml, we fallback to id as name
+                        .dir(dir.getAbsolutePath())
+                        .port(port)
+                        .artifactId(id)
+                        .registered(true)
+                        .build());
             }
         }
         return modules;

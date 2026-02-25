@@ -6,15 +6,14 @@ RUN apt-get update && apt-get install -y procps net-tools iproute2 curl && rm -r
 
 WORKDIR /app
 
-# Copy ALL source code/config files needed by MsaManager for scanning
+# Copy ONLY required files (configs and JAR files) based on .dockerignore exclusions
 COPY . .
 
-# Copy existing JAR files from the host to the container
+# Copy core infrastructure JAR files explicitly to root for entrypoint.sh to run
 COPY EurekaServer/target/EurekaServer.jar /app/EurekaServer.jar
 COPY ConfigServer/target/ConfigServer.jar /app/ConfigServer.jar
 COPY GatewayServer/target/GatewayServer.jar /app/GatewayServer.jar
 COPY EgovMsaManager/target/EgovMsaManager.jar /app/EgovMsaManager.jar
-COPY signin/target/signin.jar /app/signin/target/signin.jar
 
 # Copy entrypoint script
 RUN chmod +x /app/entrypoint.sh
