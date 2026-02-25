@@ -31,7 +31,7 @@ public class EgovLoginManageServiceImpl extends EgovAbstractServiceImpl implemen
     private final EgovGeneralMemberRepository genRepository; // 일반회원
     private final EgovEnterpriseMemberRepository entRepository; // 기업회원
     private final EgovEmployMemberRepository empRepository; // 업무사용자
-	private final EgovLoginPolicyRepository loginPolicyRepository; // 로그인정책관리
+    private final EgovLoginPolicyRepository loginPolicyRepository; // 로그인정책관리
     private final JPAQueryFactory queryFactory;
 
     @Override
@@ -64,7 +64,7 @@ public class EgovLoginManageServiceImpl extends EgovAbstractServiceImpl implemen
                 es = tuple.get(emplyrscrtyestbs);
                 authorCode = es != null && es.getAuthorCode() != null ? es.getAuthorCode() : "";
 
-                return new LoginDTO(
+                LoginDTO gnrDto = new LoginDTO(
                         Objects.requireNonNull(gm).getMberId(),
                         gm.getMberNm(),
                         gm.getPassword(),
@@ -74,11 +74,15 @@ public class EgovLoginManageServiceImpl extends EgovAbstractServiceImpl implemen
                         "",
                         gm.getEsntlId(),
                         "",
-                        authorCode
-                );
+                        authorCode);
+                gnrDto.setAuthTy(gm.getAuthTy());
+                gnrDto.setAuthDn(gm.getAuthDn());
+                gnrDto.setAuthCi(gm.getAuthCi());
+                gnrDto.setAuthDi(gm.getAuthDi());
+                return gnrDto;
             case "ENT":
                 tuple = queryFactory
-                        .select(entrprsMber,emplyrscrtyestbs)
+                        .select(entrprsMber, emplyrscrtyestbs)
                         .from(entrprsMber)
                         .innerJoin(emplyrscrtyestbs)
                         .on(entrprsMber.esntlId.eq(emplyrscrtyestbs.scrtyDtrmnTrgetId))
@@ -89,7 +93,7 @@ public class EgovLoginManageServiceImpl extends EgovAbstractServiceImpl implemen
                 EntrprsMber em = Objects.requireNonNull(tuple).get(entrprsMber);
                 es = tuple.get(emplyrscrtyestbs);
                 authorCode = es != null && es.getAuthorCode() != null ? es.getAuthorCode() : "";
-                return new LoginDTO(
+                LoginDTO entDto = new LoginDTO(
                         Objects.requireNonNull(em).getEntrprsMberId(),
                         em.getCmpnyNm(),
                         em.getEntrprsMberPassword(),
@@ -99,11 +103,15 @@ public class EgovLoginManageServiceImpl extends EgovAbstractServiceImpl implemen
                         "",
                         em.getEsntlId(),
                         "",
-                        authorCode
-                );
+                        authorCode);
+                entDto.setAuthTy(em.getAuthTy());
+                entDto.setAuthDn(em.getAuthDn());
+                entDto.setAuthCi(em.getAuthCi());
+                entDto.setAuthDi(em.getAuthDi());
+                return entDto;
             case "USR":
                 tuple = queryFactory
-                        .select(emplyrInfo,emplyrscrtyestbs)
+                        .select(emplyrInfo, emplyrscrtyestbs)
                         .from(emplyrInfo)
                         .innerJoin(emplyrscrtyestbs)
                         .on(emplyrInfo.esntlId.eq(emplyrscrtyestbs.scrtyDtrmnTrgetId))
@@ -114,7 +122,7 @@ public class EgovLoginManageServiceImpl extends EgovAbstractServiceImpl implemen
                 EmplyrInfo ei = Objects.requireNonNull(tuple).get(emplyrInfo);
                 es = tuple.get(emplyrscrtyestbs);
                 authorCode = es != null && es.getAuthorCode() != null ? es.getAuthorCode() : "";
-                return new LoginDTO(
+                LoginDTO usrDto = new LoginDTO(
                         Objects.requireNonNull(ei).getEmplyrId(),
                         ei.getUserNm(),
                         ei.getPassword(),
@@ -124,8 +132,12 @@ public class EgovLoginManageServiceImpl extends EgovAbstractServiceImpl implemen
                         ei.getOrgnztId(),
                         ei.getEsntlId(),
                         "",
-                        authorCode
-                );
+                        authorCode);
+                usrDto.setAuthTy(ei.getAuthTy());
+                usrDto.setAuthDn(ei.getAuthDn());
+                usrDto.setAuthCi(ei.getAuthCi());
+                usrDto.setAuthDi(ei.getAuthDi());
+                return usrDto;
             default:
                 return null;
         }
@@ -155,24 +167,22 @@ public class EgovLoginManageServiceImpl extends EgovAbstractServiceImpl implemen
             case "GNR": // 일반회원
                 return getLoginInfo(genRepository::findById, userId, result -> new LoginIncorrectVO(
                         result.getMberId(), result.getPassword(), result.getMberNm(), userSe,
-                        result.getEsntlId(), getLockAt(result.getLockAt()), getLockCnt(result.getLockCnt())
-                ));
+                        result.getEsntlId(), getLockAt(result.getLockAt()), getLockCnt(result.getLockCnt())));
             case "ENT": // 기업회원
                 return getLoginInfo(entRepository::findById, userId, result -> new LoginIncorrectVO(
                         result.getEntrprsMberId(), result.getEntrprsMberPassword(), result.getCmpnyNm(), userSe,
-                        result.getEsntlId(), getLockAt(result.getLockAt()), getLockCnt(result.getLockCnt())
-                ));
+                        result.getEsntlId(), getLockAt(result.getLockAt()), getLockCnt(result.getLockCnt())));
             case "USR": // 업무사용자
                 return getLoginInfo(empRepository::findById, userId, result -> new LoginIncorrectVO(
                         result.getEmplyrId(), result.getPassword(), result.getUserNm(), userSe,
-                        result.getEsntlId(), getLockAt(result.getLockAt()), getLockCnt(result.getLockCnt())
-                ));
+                        result.getEsntlId(), getLockAt(result.getLockAt()), getLockCnt(result.getLockCnt())));
             default:
                 return null;
         }
     }
 
-    private <T> LoginIncorrectVO getLoginInfo(Function<String, Optional<T>> findByIdFunction, String userId, Function<T, LoginIncorrectVO> mapper) {
+    private <T> LoginIncorrectVO getLoginInfo(Function<String, Optional<T>> findByIdFunction, String userId,
+            Function<T, LoginIncorrectVO> mapper) {
         return findByIdFunction.apply(userId)
                 .map(mapper)
                 .orElse(null);
@@ -279,6 +289,40 @@ public class EgovLoginManageServiceImpl extends EgovAbstractServiceImpl implemen
         } catch (NoSuchAlgorithmException e) {
             log.debug("##### EgovLoginManageServiceImpl NoSuchAlgorithmException >>> {}", e.getMessage());
             return "0";
+        }
+    }
+
+    @Override
+    public void updateAuthInfo(String userId, String userSe, String authTy, String authDn, String authCi,
+            String authDi) {
+        switch (userSe) {
+            case "GNR":
+                genRepository.findById(userId).ifPresent(entity -> {
+                    entity.setAuthTy(authTy);
+                    entity.setAuthDn(authDn);
+                    entity.setAuthCi(authCi);
+                    entity.setAuthDi(authDi);
+                    genRepository.save(entity);
+                });
+                break;
+            case "ENT":
+                entRepository.findById(userId).ifPresent(entity -> {
+                    entity.setAuthTy(authTy);
+                    entity.setAuthDn(authDn);
+                    entity.setAuthCi(authCi);
+                    entity.setAuthDi(authDi);
+                    entRepository.save(entity);
+                });
+                break;
+            case "USR":
+                empRepository.findById(userId).ifPresent(entity -> {
+                    entity.setAuthTy(authTy);
+                    entity.setAuthDn(authDn);
+                    entity.setAuthCi(authCi);
+                    entity.setAuthDi(authDi);
+                    empRepository.save(entity);
+                });
+                break;
         }
     }
 

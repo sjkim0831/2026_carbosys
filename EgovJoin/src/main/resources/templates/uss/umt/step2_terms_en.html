@@ -196,7 +196,8 @@
                         </div>
                         <div class="flex justify-end">
                             <label class="flex items-center cursor-pointer">
-                                <input name="marketing_agree"
+                                <input name="marketing_agree" id="marketing_agree"
+                                    th:checked="${joinVO.marketingYn == 'Y'}"
                                     class="w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
                                     type="checkbox" />
                                 <span class="ml-2 text-[15px] font-medium text-[var(--kr-gov-text-secondary)]">I agree
@@ -244,6 +245,19 @@
         allCheck.addEventListener('change', function () {
             termChecks.forEach(check => check.checked = this.checked);
         });
+
+        // 마케팅 동의 실시간 세션 저장 (Marketing consent real-time save)
+        const marketingCheck = document.getElementById('marketing_agree');
+        if (marketingCheck) {
+            marketingCheck.addEventListener('change', function () {
+                const isChecked = this.checked ? 'Y' : 'N';
+                const timestamp = new Date().getTime();
+                fetch(`/join/saveStep2?marketing_yn=${isChecked}&t=${timestamp}`, {
+                    method: 'GET',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+            });
+        }
     </script>
 </body>
 

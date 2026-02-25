@@ -112,18 +112,17 @@
                                 <div class="flex gap-2">
                                     <input class="form-input" id="user-id" name="mberId"
                                         placeholder="6–16 alphanumeric characters" type="text" required />
-                                    <button
+                                    <button id="idCheckBtn"
                                         class="px-4 bg-gray-800 text-white text-sm font-bold rounded-[var(--kr-gov-radius)] whitespace-nowrap"
                                         type="button">Check</button>
                                 </div>
+                                <div id="id-check-msg"></div>
                             </div>
                             <div class="space-y-1">
                                 <label class="form-label" for="user-name">Name <span
                                         class="text-red-500">*</span></label>
-                                <input class="form-input bg-gray-50" id="user-name" name="mberNm" readonly=""
-                                    type="text" th:value="${mberNm}" value="John Doe" />
-                                <p class="text-[12px] text-gray-500 mt-1 italic">Auto-filled from identity verification.
-                                </p>
+                                <input class="form-input" id="user-name" name="mberNm" type="text" th:value="${mberNm}"
+                                    required />
                             </div>
                             <div class="space-y-1">
                                 <label class="form-label" for="password">Password <span
@@ -151,6 +150,19 @@
                                     <span class="flex items-center">-</span>
                                     <input class="flex-1 form-input" name="moblphonNo3" type="text" required />
                                 </div>
+                            </div>
+                            <div class="md:col-span-2 space-y-1">
+                                <label class="form-label" for="email">Email Address <span
+                                        class="text-red-500">*</span></label>
+                                <div class="flex gap-2">
+                                    <input class="form-input" id="email" name="applcntEmailAdres"
+                                        th:value="${joinVO != null ? joinVO.authEmail : ''}"
+                                        placeholder="example@email.com" type="email" required />
+                                    <button id="emailCheckBtn"
+                                        class="px-4 bg-gray-800 text-white text-sm font-bold rounded-[var(--kr-gov-radius)] whitespace-nowrap"
+                                        type="button">Check</button>
+                                </div>
+                                <div id="email-check-msg"></div>
                             </div>
                         </div>
                     </section>
@@ -234,7 +246,6 @@
             (function loadSharedLayout() {
                 fetch('/home3/fragments/header').then(r => r.text()).then(html => {
                     document.getElementById('shared-header').innerHTML = html;
-                    // Switch KO/EN buttons (POST-only steps → redirect to step1)
                     const ko = document.getElementById('langKoBtn');
                     const en = document.getElementById('langEnBtn');
                     if (ko) ko.onclick = () => location.href = '/join/step1';
@@ -244,6 +255,101 @@
                     document.getElementById('shared-footer').innerHTML = html;
                 }).catch(() => { });
             })();
+
+        let isIdChecked = false;
+        let isEmailChecked = false;
+
+        document.getElementById('idCheckBtn').onclick = async function () {
+            const mberId = document.getElementById('user-id').value;
+            const msg = document.getElementById('id-check-msg');
+
+            if (!mberId || mberId.length < 5) {
+                msg.textContent = "Please enter at least 5 characters.";
+                msg.className = "text-[12px] text-red-500 mt-1";
+                return;
+            }
+
+            try {
+                const response = await fetch(`/join/checkId?mberId=${encodeURIComponent(mberId)}`);
+                const data = await response.json();
+
+                if (data.isDuplicated) {
+                    msg.textContent = "This ID is already in use.";
+                    msg.className = "text-[12px] text-red-500 mt-1";
+                    isIdChecked = false;
+                } else {
+                    msg.textContent = "This ID is available.";
+                    msg.className = "text-[12px] text-green-600 mt-1 font-bold";
+                    isIdChecked = true;
+                }
+            } catch (e) {
+                msg.textContent = "An error occurred during verification.";
+                msg.className = "text-[12px] text-red-500 mt-1";
+            }
+        };
+
+        document.getElementById('user-id').oninput = function () {
+            isIdChecked = false;
+            document.getElementById('id-check-msg').textContent = "";
+        };
+
+        // ─── Email duplication check ───
+        document.getElementById('emailCheckBtn').onclick = async function () {
+            const email = document.getElementById('email').value;
+            const msg = document.getElementById('email-check-msg');
+
+            if (!email || !email.includes('@')) {
+                msg.textContent = "Please enter a valid email address.";
+                msg.className = "text-[12px] text-red-500 mt-1";
+                return;
+            }
+
+            try {
+                const response = await fetch(`/join/checkEmail?email=${encodeURIComponent(email)}`);
+                const data = await response.json();
+
+                if (data.isDuplicated) {
+                    msg.textContent = "This email is already in use.";
+                    msg.className = "text-[12px] text-red-500 mt-1";
+                    isEmailChecked = false;
+                } else {
+                    msg.textContent = "This email is available.";
+                    msg.className = "text-[12px] text-green-600 mt-1 font-bold";
+                    isEmailChecked = true;
+                }
+            } catch (e) {
+                msg.textContent = "An error occurred during verification.";
+                msg.className = "text-[12px] text-red-500 mt-1";
+            }
+        };
+
+        document.getElementById('email').oninput = function () {
+            isEmailChecked = false;
+            document.getElementById('email-check-msg').textContent = "";
+        };
+
+        document.querySelector('form').onsubmit = function (e) {
+            if (!isIdChecked) {
+                alert("Please check ID duplication first.");
+                document.getElementById('user-id').focus();
+                e.preventDefault();
+                return false;
+            }
+            if (!isEmailChecked) {
+                alert("Please check email duplication first.");
+                document.getElementById('email').focus();
+                e.preventDefault();
+                return false;
+            }
+            const pw = document.getElementById('password').value;
+            const pwConfirm = document.getElementById('password-confirm').value;
+            if (pw !== pwConfirm) {
+                alert("Passwords do not match.");
+                document.getElementById('password-confirm').focus();
+                e.preventDefault();
+                return false;
+            }
+        };
     </script>
 </body>
 

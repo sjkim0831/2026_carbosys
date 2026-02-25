@@ -103,10 +103,17 @@ public class MsaController {
     @ResponseBody
     @PostMapping("/api/modules/{id}/stop")
     public Map<String, Object> stopModule(@PathVariable String id) {
-        processManager.stopModule(id);
-        Map<String, Object> result = new HashMap<>();
-        result.put("status", "ok");
-        return result;
+        // Find module to get its port for robust killing
+        MsaScanner.ModuleInfo mod = scanner.scan().stream()
+                .filter(m -> m.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        processManager.stopModule(id, mod != null ? mod.getPort() : null);
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("status", "ok");
+        return res;
     }
 
     @ResponseBody
@@ -136,7 +143,7 @@ public class MsaController {
         for (MsaScanner.ModuleInfo mod : modules) {
             String status = processManager.getStatus(mod.getId(), mod.getPort());
             if ("running".equals(status) || "starting".equals(status)) {
-                processManager.stopModule(mod.getId());
+                processManager.stopModule(mod.getId(), mod.getPort());
                 stopped.add(mod.getId());
             }
         }

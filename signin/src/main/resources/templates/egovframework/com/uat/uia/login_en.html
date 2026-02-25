@@ -270,6 +270,19 @@
                 document.getElementById("id").value = userInputId;
                 document.getElementById("saveId").checked = true;
             }
+
+            // Auto-Login Processing
+            let autoLoginFlag = getCookie("autoLoginFlag");
+            if (autoLoginFlag === "true" && userInputId !== "") {
+                document.getElementById("autoLogin").checked = true;
+                // Executing with slight delay for browser autofill
+                setTimeout(function () {
+                    let userPw = document.getElementById("password").value;
+                    if (userPw.length > 0) {
+                        loginProcess();
+                    }
+                }, 500);
+            }
         });
 
         function getCookie(cookieName) {
@@ -321,7 +334,14 @@
                 } else {
                     deleteCookie("userInputId");
                 }
+
                 const autoLogin = document.getElementById("autoLogin").checked;
+                if (autoLogin) {
+                    setCookie("autoLoginFlag", "true", 7);
+                } else {
+                    deleteCookie("autoLoginFlag");
+                }
+
                 const param = { userId: userId, userPw: userPw, userSe: userSe, autoLogin: autoLogin };
                 fetch('/signin/actionLogin', {
                     method: 'POST',
@@ -336,18 +356,20 @@
                             alert(response.errors);
                             location.reload();
                         } else {
-                            contentView(response.userInfo);
+                            if (response.certified === false) {
+                                // Redirect to auth choice if not certified
+                                location.href = '/signin/authChoice?language=en';
+                            } else {
+                                contentView(response.userInfo);
+                            }
                         }
                     })
             }
         }
 
         function contentView(userInfo) {
-            document.getElementById('userInfo').value = userInfo;
-            const form = document.getElementById('loginContentForm');
-            form.setAttribute('method', 'post');
-            form.setAttribute('action', '/signin/loginView');
-            form.submit();
+            // Success -> go to home3
+            location.href = '/home3';
         }
     </script>
 

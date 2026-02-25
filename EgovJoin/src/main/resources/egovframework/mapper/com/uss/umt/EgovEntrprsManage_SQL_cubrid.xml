@@ -8,7 +8,7 @@
         <result property="useStplatCn" column="USE_STPLAT_CN"/>
         <result property="infoProvdAgeCn" column="INFO_PROVD_AGRE_CN"/>
     </resultMap>
-       
+
     <insert id="insertEntrprs_S">
         
             INSERT INTO COMTNENTRPRSMBER 
@@ -36,7 +36,13 @@
                     AREA_NO                      ,
                     APPLCNT_EMAIL_ADRES          ,
                     APPLCNT_IHIDNUM              ,
-                    CHG_PWD_LAST_PNTTM			)
+                    CHG_PWD_LAST_PNTTM           ,
+                    MARKETING_YN                 ,
+                    AUTH_TY                      ,
+                    AUTH_DN                      ,
+                    AUTH_CI                      ,
+                    AUTH_DI                      ,
+                    AUTH_EMAIL                  )
             VALUES (
                     #{uniqId},
                     #{entrprsmberId},
@@ -60,19 +66,25 @@
 	                #{detailAdres},
 	                #{entrprsEndTelno},
 	                #{areaNo},
-	                #{applcntEmailAdres},
-	                #{applcntIhidnum},
-	                SYSDATETIME        )
+                    #{applcntEmailAdres},
+                    #{applcntIhidnum},
+                    SYSDATETIME,
+                    #{marketingYn},
+                    #{authTy},
+                    #{authDn},
+                    #{authCi},
+                    #{authDi},
+                    #{authEmail}        )
         
     </insert>
-    
+
     <delete id="deleteEntrprs_S">
         
             DELETE FROM COMTNENTRPRSMBER 
             WHERE ESNTL_ID=#{delId}
         
     </delete>
-    
+
     <select id="selectEntrprs_S" resultType="egovframework.com.uss.umt.service.EntrprsManageVO">
         
             SELECT
@@ -101,6 +113,12 @@
                 AREA_NO                      areaNo,
                 APPLCNT_IHIDNUM              applcntIhidnum,
                 APPLCNT_EMAIL_ADRES          applcntEmailAdres,
+                MARKETING_YN                 marketingYn,
+                AUTH_TY                      authTy,
+                AUTH_DN                      authDn,
+                AUTH_CI                      authCi,
+                AUTH_DI                      authDi,
+                AUTH_EMAIL                   authEmail,
                 LOCK_AT        				 lockAt
             FROM COMTNENTRPRSMBER
             WHERE ESNTL_ID=#{uniqId}
@@ -130,11 +148,17 @@
                 DETAIL_ADRES                 = #{detailAdres},
                 ENTRPRS_END_TELNO            = #{entrprsEndTelno},
                 AREA_NO                      = #{areaNo},
-                APPLCNT_EMAIL_ADRES          = #{applcntEmailAdres}
+                APPLCNT_EMAIL_ADRES          = #{applcntEmailAdres},
+                MARKETING_YN                 = #{marketingYn},
+                AUTH_TY                      = #{authTy},
+                AUTH_DN                      = #{authDn},
+                AUTH_CI                      = #{authCi},
+                AUTH_DI                      = #{authDi},
+                AUTH_EMAIL                   = #{authEmail}
             WHERE ESNTL_ID=#{uniqId}
         
     </update>
-    
+
     <select id="selectStplat_S" resultMap="stplatMap">
         
             SELECT
@@ -145,7 +169,7 @@
             WHERE USE_STPLAT_ID=#{stplatId}
         
     </select>
-    
+
     <update id="updatePassword_S">
         
             UPDATE COMTNENTRPRSMBER 
@@ -155,16 +179,16 @@
             WHERE  ESNTL_ID  = #{uniqId}
         
     </update>
-    
+
     <select id="selectPassword_S" resultType="egovframework.com.uss.umt.service.EntrprsManageVO">
         
             SELECT
                     ENTRPRS_MBER_PASSWORD          entrprsMberPassword 
             FROM    COMTNENTRPRSMBER
-            WHERE   ESNTL_ID=#{uniqId}
+            WHERE ESNTL_ID=#{uniqId}
         
     </select>
-    
+
     <select id="selectEntrprsMberList" resultType="egovMap">
         SELECT * FROM ( SELECT rownum rn, TB.* FROM (
             SELECT 
@@ -187,21 +211,21 @@
             AND ENTRPRS_MBER_STTUS LIKE  #{sbscrbSttus}
         </if>
         <if test="@egovframework.com.cmm.util.EgovMybatisUtil@isNotEmpty(searchKeyword)">
-        <if test="searchCondition == 0">
+            <if test="searchCondition == 0">
             AND ENTRPRS_MBER_ID LIKE '%' || #{searchKeyword} || '%'
-        </if>
-        <if test="searchCondition == 1">
+            </if>
+            <if test="searchCondition == 1">
             AND APPLCNT_NM LIKE '%' ||#{searchKeyword}|| '%'
-        </if>
+            </if>
         </if>
         <![CDATA[
         ORDER BY 13 DESC
         ) TB ) Z WHERE rn BETWEEN #{firstIndex} + 1 AND #{firstIndex} + #{recordCountPerPage}
         ]]>
     </select>
-    
-    
-        <select id="selectEntrprsMberListTotCnt" resultType="int">
+
+
+    <select id="selectEntrprsMberListTotCnt" resultType="int">
             SELECT COUNT(1) totcnt
             FROM    COMTNENTRPRSMBER
 	        WHERE 1=1
@@ -209,15 +233,15 @@
             AND ENTRPRS_MBER_STTUS LIKE  #{sbscrbSttus}
         </if>
         <if test="@egovframework.com.cmm.util.EgovMybatisUtil@isNotEmpty(searchKeyword)">
-        <if test="searchCondition == 0">
+            <if test="searchCondition == 0">
             AND ENTRPRS_MBER_ID LIKE '%' || #{searchKeyword} || '%'
-        </if>
-        <if test="searchCondition == 1">
+            </if>
+            <if test="searchCondition == 1">
             AND APPLCNT_NM LIKE '%' || #{searchKeyword} || '%'
-        </if>
+            </if>
         </if>
     </select>
-    
+
     <update id="updateLockIncorrect">
             UPDATE COMTNENTRPRSMBER 
  			   SET  LOCK_AT = NULL 
@@ -225,5 +249,21 @@
 			     ,  LOCK_LAST_PNTTM = NULL 
             WHERE  ESNTL_ID  = #{uniqId}
     </update>
+
+    <select id="checkIdDplct_S" resultType="int">
+        
+            SELECT COUNT(1) totcnt
+            FROM    COMVNUSERMASTER
+            WHERE   USER_ID = #{checkId}
+        
+    </select>
+
+    <select id="checkEmailDplct_S" resultType="int">
+        
+            SELECT COUNT(1) totcnt
+            FROM    COMVNUSERMASTER
+            WHERE   USER_EMAIL_ADRES = #{checkEmail}
+        
+    </select>
 
 </mapper>

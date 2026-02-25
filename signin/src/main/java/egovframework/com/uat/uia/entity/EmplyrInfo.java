@@ -9,104 +9,122 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
-@Entity(name="uiaEmplyrInfo")
+@Entity(name = "uiaEmplyrInfo")
 @Getter
 @Setter
-@Table(name="COMTNEMPLYRINFO")
+@Table(name = "COMTNEMPLYRINFO")
 public class EmplyrInfo implements CommonEntity {
 
     @Id
-    @Column(name="EMPLYR_ID")
+    @Column(name = "EMPLYR_ID")
     private String emplyrId;
 
-    @Column(name="ORGNZT_ID")
+    @Column(name = "ORGNZT_ID")
     private String orgnztId;
 
-    @Column(name="USER_NM")
+    @Column(name = "USER_NM")
     private String userNm;
 
-    @Column(name="PASSWORD")
+    @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name="EMPL_NO")
+    @Column(name = "EMPL_NO")
     private String empNo;
 
-    @Column(name="IHIDNUM")
+    @Column(name = "IHIDNUM")
     private String ihidNum;
 
-    @Column(name="SEXDSTN_CODE")
+    @Column(name = "SEXDSTN_CODE")
     private String sexdstnCode;
 
-    @Column(name="BRTHDY")
+    @Column(name = "BRTHDY")
     private String brthDy;
 
-    @Column(name="FXNUM")
+    @Column(name = "FXNUM")
     private String fxNum;
 
-    @Column(name="HOUSE_ADRES")
+    @Column(name = "HOUSE_ADRES")
     private String houseAdres;
 
-    @Column(name="PASSWORD_HINT")
+    @Column(name = "PASSWORD_HINT")
     private String passwordHint;
 
-    @Column(name="PASSWORD_CNSR")
+    @Column(name = "PASSWORD_CNSR")
     private String passwordCnsr;
 
-    @Column(name="HOUSE_END_TELNO")
+    @Column(name = "HOUSE_END_TELNO")
     private String houseEndTelno;
 
-    @Column(name="AREA_NO")
+    @Column(name = "AREA_NO")
     private String areaNo;
 
-    @Column(name="DETAIL_ADRES")
+    @Column(name = "DETAIL_ADRES")
     private String detailAdres;
 
-    @Column(name="ZIP")
+    @Column(name = "ZIP")
     private String zip;
 
-    @Column(name="OFFM_TELNO")
+    @Column(name = "OFFM_TELNO")
     private String offmTelno;
 
-    @Column(name="MBTLNUM")
+    @Column(name = "MBTLNUM")
     private String mbtlNum;
 
-    @Column(name="EMAIL_ADRES")
+    @Column(name = "EMAIL_ADRES")
     private String emailAdres;
 
-    @Column(name="OFCPS_NM")
+    @Column(name = "OFCPS_NM")
     private String ofcpsNm;
 
-    @Column(name="HOUSE_MIDDLE_TELNO")
+    @Column(name = "HOUSE_MIDDLE_TELNO")
     private String houseMiddleTelno;
 
-    @Column(name="GROUP_ID")
+    @Column(name = "GROUP_ID")
     private String groupId;
 
-    @Column(name="PSTINST_CODE")
+    @Column(name = "PSTINST_CODE")
     private String pstinstCode;
 
-    @Column(name="EMPLYR_STTUS_CODE")
+    @Column(name = "EMPLYR_STTUS_CODE")
     private String emplyrStusCode;
 
-    @Column(name="ESNTL_ID")
+    @Column(name = "ESNTL_ID")
     private String esntlId;
 
-    @Column(name="CRTFC_DN_VALUE")
+    @Column(name = "CRTFC_DN_VALUE")
     private String crtfcDnValue;
 
-    @Column(name="SBSCRB_DE")
+    @Column(name = "SBSCRB_DE")
     private LocalDateTime sbscrbDe;
 
-    @Column(name="LOCK_AT")
+    @Column(name = "LOCK_AT")
     private String lockAt;
 
-    @Column(name="LOCK_CNT")
+    @Column(name = "LOCK_CNT")
     private Integer lockCnt;
 
-    @Column(name="LOCK_LAST_PNTTM")
+    @Column(name = "LOCK_LAST_PNTTM")
     private LocalDateTime lockLastPnttm;
 
-    @Column(name="CHG_PWD_LAST_PNTTM")
+    @Column(name = "CHG_PWD_LAST_PNTTM")
     private LocalDateTime chgPwdLastPnttm;
+
+    @Column(name = "MARKETING_YN")
+    private String marketingYn;
+
+    @Column(name = "AUTH_TY")
+    private String authTy;
+
+    @Column(name = "AUTH_DN")
+    private String authDn;
+
+    @Column(name = "AUTH_CI")
+    private String authCi;
+
+    @Column(name = "AUTH_DI")
+    private String authDi;
+
+    @Column(name = "AUTH_EMAIL")
+    private String authEmail;
 
 }

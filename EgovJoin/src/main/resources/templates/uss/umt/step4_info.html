@@ -150,16 +150,16 @@
                                 <div class="flex gap-2">
                                     <input class="form-input" id="user-id" name="mberId" placeholder="6~16자 영문, 숫자"
                                         type="text" required />
-                                    <button
+                                    <button id="idCheckBtn"
                                         class="px-4 bg-gray-800 text-white text-sm font-bold rounded-[var(--kr-gov-radius)] whitespace-nowrap"
                                         type="button">중복확인</button>
                                 </div>
+                                <div id="id-check-msg"></div>
                             </div>
                             <div class="space-y-1">
                                 <label class="form-label" for="user-name">이름 <span class="text-red-500">*</span></label>
-                                <input class="form-input bg-gray-50" id="user-name" name="mberNm" readonly=""
-                                    type="text" value="홍길동" />
-                                <p class="text-[12px] text-gray-500 mt-1 italic">본인인증 정보로 자동 입력되었습니다.</p>
+                                <input class="form-input" id="user-name" name="mberNm" type="text" th:value="${mberNm}"
+                                    required />
                             </div>
                             <div class="space-y-1">
                                 <label class="form-label" for="password">비밀번호 <span
@@ -186,6 +186,18 @@
                                     <span class="flex items-center">-</span>
                                     <input class="flex-1 form-input" name="moblphonNo3" type="text" required />
                                 </div>
+                            </div>
+                            <div class="md:col-span-2 space-y-1">
+                                <label class="form-label" for="email">이메일 <span class="text-red-500">*</span></label>
+                                <div class="flex gap-2">
+                                    <input class="form-input" id="email" name="applcntEmailAdres"
+                                        th:value="${joinVO != null ? joinVO.authEmail : ''}"
+                                        placeholder="example@email.com" type="email" required />
+                                    <button id="emailCheckBtn"
+                                        class="px-4 bg-gray-800 text-white text-sm font-bold rounded-[var(--kr-gov-radius)] whitespace-nowrap"
+                                        type="button">중복확인</button>
+                                </div>
+                                <div id="email-check-msg"></div>
                             </div>
                         </div>
                     </section>
@@ -268,17 +280,112 @@
                 fetch('/home3/fragments/header')
                     .then(r => r.text()).then(html => {
                         document.getElementById('shared-header').innerHTML = html;
-                        // KO/EN 버튼에 링크 연결 (POST 전용 step이라 step1으로 이동)
                         const ko = document.getElementById('langKoBtn');
                         const en = document.getElementById('langEnBtn');
                         if (ko) ko.onclick = () => location.href = '/join/step1';
                         if (en) en.onclick = () => location.href = '/join/en/step1';
-                    })
-                    .catch(() => { });
+                    }).catch(() => { });
                 fetch('/home3/fragments/footer')
                     .then(r => r.text()).then(html => { document.getElementById('shared-footer').innerHTML = html; })
                     .catch(() => { });
             })();
+
+        let isIdChecked = false;
+        let isEmailChecked = false;
+
+        // ─── 아이디 중복 확인 ───
+        document.getElementById('idCheckBtn').onclick = async function () {
+            const mberId = document.getElementById('user-id').value;
+            const msg = document.getElementById('id-check-msg');
+
+            if (!mberId || mberId.length < 5) {
+                msg.textContent = "아이디를 5자 이상 입력해 주세요.";
+                msg.className = "text-[12px] text-red-500 mt-1";
+                return;
+            }
+
+            try {
+                const response = await fetch(`/join/checkId?mberId=${encodeURIComponent(mberId)}`);
+                const data = await response.json();
+
+                if (data.isDuplicated) {
+                    msg.textContent = "이미 사용 중인 아이디입니다.";
+                    msg.className = "text-[12px] text-red-500 mt-1";
+                    isIdChecked = false;
+                } else {
+                    msg.textContent = "사용 가능한 아이디입니다.";
+                    msg.className = "text-[12px] text-green-600 mt-1 font-bold";
+                    isIdChecked = true;
+                }
+            } catch (e) {
+                msg.textContent = "확인 중 오류가 발생했습니다.";
+                msg.className = "text-[12px] text-red-500 mt-1";
+            }
+        };
+
+        document.getElementById('user-id').oninput = function () {
+            isIdChecked = false;
+            document.getElementById('id-check-msg').textContent = "";
+        };
+
+        // ─── 이메일 중복 확인 ───
+        document.getElementById('emailCheckBtn').onclick = async function () {
+            const email = document.getElementById('email').value;
+            const msg = document.getElementById('email-check-msg');
+
+            if (!email || !email.includes('@')) {
+                msg.textContent = "유효한 이메일 주소를 입력해 주세요.";
+                msg.className = "text-[12px] text-red-500 mt-1";
+                return;
+            }
+
+            try {
+                const response = await fetch(`/join/checkEmail?email=${encodeURIComponent(email)}`);
+                const data = await response.json();
+
+                if (data.isDuplicated) {
+                    msg.textContent = "이미 사용 중인 이메일입니다.";
+                    msg.className = "text-[12px] text-red-500 mt-1";
+                    isEmailChecked = false;
+                } else {
+                    msg.textContent = "사용 가능한 이메일입니다.";
+                    msg.className = "text-[12px] text-green-600 mt-1 font-bold";
+                    isEmailChecked = true;
+                }
+            } catch (e) {
+                msg.textContent = "확인 중 오류가 발생했습니다.";
+                msg.className = "text-[12px] text-red-500 mt-1";
+            }
+        };
+
+        document.getElementById('email').oninput = function () {
+            isEmailChecked = false;
+            document.getElementById('email-check-msg').textContent = "";
+        };
+
+        // ─── 폼 제출 전 검증 ───
+        document.querySelector('form').onsubmit = function (e) {
+            if (!isIdChecked) {
+                alert("아이디 중복 확인을 진행해 주세요.");
+                document.getElementById('user-id').focus();
+                e.preventDefault();
+                return false;
+            }
+            if (!isEmailChecked) {
+                alert("이메일 중복 확인을 진행해 주세요.");
+                document.getElementById('email').focus();
+                e.preventDefault();
+                return false;
+            }
+            const pw = document.getElementById('password').value;
+            const pwConfirm = document.getElementById('password-confirm').value;
+            if (pw !== pwConfirm) {
+                alert("비밀번호가 일치하지 않습니다.");
+                document.getElementById('password-confirm').focus();
+                e.preventDefault();
+                return false;
+            }
+        };
     </script>
 </body>
 

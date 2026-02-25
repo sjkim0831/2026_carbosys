@@ -271,6 +271,19 @@
                 document.getElementById("userId").value = userInputId;
                 document.getElementById("saveId").checked = true;
             }
+
+            // 자동 로그인 처리 (Auto-Login processing)
+            let autoLoginFlag = getCookie("autoLoginFlag");
+            if (autoLoginFlag === "true" && userInputId !== "") {
+                document.getElementById("autoLogin").checked = true;
+                // 브라우저 자동완성을 위해 약간의 지연 후 실행
+                setTimeout(function () {
+                    let userPw = document.getElementById("userPw").value;
+                    if (userPw.length > 0) {
+                        loginProcess();
+                    }
+                }, 500);
+            }
         });
 
         function getCookie(cookieName) {
@@ -322,7 +335,14 @@
                 } else {
                     deleteCookie("userInputId");
                 }
+
                 const autoLogin = document.getElementById("autoLogin").checked;
+                if (autoLogin) {
+                    setCookie("autoLoginFlag", "true", 7);
+                } else {
+                    deleteCookie("autoLoginFlag");
+                }
+
                 const param = { userId: userId, userPw: userPw, userSe: userSe, autoLogin: autoLogin };
                 fetch('/signin/actionLogin', {
                     method: 'POST',
@@ -337,7 +357,12 @@
                             alert(response.errors);
                             location.reload();
                         } else {
-                            contentView(response.userInfo);
+                            if (response.certified === false) {
+                                // 인증 정보가 없으면 인증 수단 선택 화면으로 이동
+                                location.href = '/signin/authChoice';
+                            } else {
+                                contentView(response.userInfo);
+                            }
                         }
                     })
             }

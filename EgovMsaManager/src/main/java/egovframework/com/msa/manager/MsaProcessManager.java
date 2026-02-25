@@ -88,7 +88,7 @@ public class MsaProcessManager {
         }
     }
 
-    public void stopModule(String id) {
+    public void stopModule(String id, Integer port) {
         ProcessEntry entry = processMap.get(id);
         if (entry != null && entry.process != null) {
             entry.process.destroy();
@@ -100,6 +100,18 @@ public class MsaProcessManager {
                 } catch (Exception e) {
                 }
             }).start();
+        }
+
+        // Fallback: Kill by port if the process wasn't started by this manager or is
+        // hanging
+        if (port != null && port != 0) {
+            try {
+                // Find and kill PID using port (Linux/Docker environment)
+                String killCmd = "fuser -k " + port + "/tcp || kill -9 $(lsof -t -i:" + port + ")";
+                new ProcessBuilder("sh", "-c", killCmd).start().waitFor();
+            } catch (Exception e) {
+                // ignore
+            }
         }
     }
 

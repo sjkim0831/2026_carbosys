@@ -134,33 +134,61 @@
             </div>
 
             <form id="authForm" action="/join/step4" method="post"
-                class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
                 <input type="hidden" name="auth_method" id="auth_method" value="" />
-                <button onclick="submitAuth('GNR')" class="auth-card group" type="button">
+
+                <!-- 1. 디지털 원패스 -->
+                <button onclick="submitAuth('ONEPASS')" class="auth-card group" type="button">
                     <div class="icon-box">
                         <span class="material-symbols-outlined">smartphone</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">디지털 원패스</h3>
-                    <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
-                        하나의 아이디로<br />모든 정부 서비스를 이용합니다.
+                    <h3 class="text-lg font-bold mb-3">디지털 원패스</h3>
+                    <p class="text-xs text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        하나의 아이디로 모든<br />정부 서비스를 이용합니다.
                     </p>
                 </button>
-                <button onclick="submitAuth('CERT')" class="auth-card group" type="button">
+
+                <!-- 2. 공동인증서 -->
+                <button onclick="submitAuth('JOINT')" class="auth-card group" type="button">
                     <div class="icon-box">
                         <span class="material-symbols-outlined">verified_user</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">공동 / 금융인증서</h3>
-                    <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
-                        발급받으신 공동인증서 또는<br />금융인증서를 사용하여 확인합니다.
+                    <h3 class="text-lg font-bold mb-3">공동인증서</h3>
+                    <p class="text-xs text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        기존 공인인증서를 사용하여<br />본인을 확인합니다.
                     </p>
                 </button>
-                <button onclick="submitAuth('EASY')" class="auth-card group" type="button">
+
+                <!-- 3. 금융인증서 -->
+                <button onclick="submitAuth('FINANCIAL')" class="auth-card group" type="button">
+                    <div class="icon-box">
+                        <span class="material-symbols-outlined">account_balance</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">금융인증서</h3>
+                    <p class="text-xs text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        클라우드 기반의 금융인증서로<br />간편하게 인증합니다.
+                    </p>
+                </button>
+
+                <!-- 4. 간편인증 -->
+                <button onclick="submitAuth('SIMPLE')" class="auth-card group" type="button">
                     <div class="icon-box">
                         <span class="material-symbols-outlined">qr_code_scanner</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">간편인증 (카카오, 토스 등)</h3>
-                    <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
-                        카카오, 토스 등 민간 인증서의<br />간편한 인증 절차를 이용합니다.
+                    <h3 class="text-lg font-bold mb-3">간편인증 (카카오, 토스 등)</h3>
+                    <p class="text-xs text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        민간 인증서의 간편한<br />인증 절차를 이용합니다.
+                    </p>
+                </button>
+
+                <!-- 5. 이메일 인증 (해외 사용자) -->
+                <button onclick="submitAuth('EMAIL')" class="auth-card group" type="button">
+                    <div class="icon-box">
+                        <span class="material-symbols-outlined">mail</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">이메일 인증</h3>
+                    <p class="text-xs text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        해외 거주자 또는 이메일을 통한<br />본인확인이 필요한 경우 이용합니다.
                     </p>
                 </button>
             </form>
@@ -208,21 +236,30 @@
             })();
 
         function submitAuth(method) {
-            if (method === 'CERT') {
-                window.open('http://localhost:9000/certlogin/utl/sec/certVar.do', 'certPopup', 'width=500,height=600');
-            } else if (method === 'GNR') {
+            // 실제 모듈 연결 전까지는 Mock 데이터를 세션에 저장하도록 처리
+            document.getElementById('auth_method').value = method;
+
+            if (method === 'JOINT' || method === 'FINANCIAL') {
+                // 인증서 팝업 시뮬레이션
+                const url = method === 'JOINT' ? 'http://localhost:9000/certlogin/utl/sec/certVar.do' : 'http://localhost:9000/certlogin/utl/sec/certVar.do';
+                window.open(url, 'certPopup', 'width=500,height=600');
+                // 실제로는 팝업 콜백에서 폼을 전송하겠지만, 여기서는 예시로 바로 전송
+                setTimeout(() => document.getElementById('authForm').submit(), 1000);
+            } else if (method === 'ONEPASS') {
                 window.open('http://localhost:9000/gnrlogin/utl/sec/certVar.do', 'gnrPopup', 'width=500,height=600');
-            } else if (method === 'EASY') {
-                fetch('http://localhost:9000/saas/v2.0/kcert/v1.0/prepare', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(res => res.json()).then(data => {
-                    alert("간편인증 요청 성공 (Mock): " + JSON.stringify(data));
-                    document.getElementById('auth_method').value = method;
+                setTimeout(() => document.getElementById('authForm').submit(), 1000);
+            } else if (method === 'SIMPLE') {
+                // 간편인증 API 호출 시뮬레이션
+                console.log("간편인증 요청 시작");
+                document.getElementById('authForm').submit();
+            } else if (method === 'EMAIL') {
+                // 이메일 인증 유동적 처리 (실제로는 이메일 입력창 등이 뜰 것)
+                const userEmail = prompt("인증할 이메일 주소를 입력해 주세요.");
+                if (userEmail) {
+                    alert(userEmail + " 경로로 인증번호를 발송했습니다. (Mock)");
                     document.getElementById('authForm').submit();
-                }).catch(err => { alert("간편인증 모듈 연결 실패: " + err); });
+                }
             } else {
-                document.getElementById('auth_method').value = method;
                 document.getElementById('authForm').submit();
             }
         }

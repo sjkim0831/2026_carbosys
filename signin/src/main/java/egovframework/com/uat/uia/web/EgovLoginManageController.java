@@ -33,19 +33,27 @@ public class EgovLoginManageController {
             loginVO = new LoginVO();
             model.addAttribute("loginVO", loginVO);
             if ("en".equals(language)) {
-                return "uat/uia/login_en";
+                return "egovframework/com/uat/uia/login_en"; // Fix path
             }
-            return "uat/uia/login";
+            return "egovframework/com/uat/uia/login"; // Fix path
         } else {
             return "redirect:/home3";
         }
+    }
+
+    @GetMapping("/authChoice")
+    public String authChoice(@RequestParam(value = "language", required = false) String language, Model model) {
+        if ("en".equals(language)) {
+            return "egovframework/com/uat/uia/auth_choice_en";
+        }
+        return "egovframework/com/uat/uia/auth_choice";
     }
 
     @RequestMapping(value = "/loginForbidden", method = { RequestMethod.GET, RequestMethod.POST })
     public String loginForbidden(
             @RequestParam(value = "pathCode", required = false, defaultValue = "1") String pathCode, Model model) {
         model.addAttribute("pathCode", pathCode);
-        return "uat/uia/forbidden";
+        return "egovframework/com/uat/uia/forbidden";
     }
 
 }

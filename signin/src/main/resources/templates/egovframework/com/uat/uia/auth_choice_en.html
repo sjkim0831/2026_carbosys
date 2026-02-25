@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Select Authentication Method - CCUS Integrated Management Portal</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+            --kr-gov-error: #d32f2f;
+        }
+        @layer base {
+            body { font-family: 'Public Sans', 'Noto Sans KR', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+            .focus-visible:focus-visible {
+                outline: 3px solid var(--kr-gov-focus);
+                outline-offset: 2px;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+        }
+        .auth-card {
+            @apply flex flex-col items-center p-8 bg-white border border-[var(--kr-gov-border-light)] rounded-lg transition-all hover:border-[var(--kr-gov-blue)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--kr-gov-focus)] text-center w-full min-h-[260px];
+        }
+        .auth-icon-wrapper {
+            @apply w-12 h-12 flex items-center justify-center bg-gray-50 text-[var(--kr-gov-blue)] rounded-[5px] mb-4 border border-gray-100;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "gov-gray": "#767676",
+                    },
+                    borderRadius: {
+                        'gov': '5px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
+    <a class="skip-link" href="#main-content">Skip to Main Content</a>
+    <header class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3">
+                    <a class="flex items-center gap-2" href="/">
+                        <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]"
+                            style="font-variation-settings: 'wght' 600;">eco</span>
+                        <div class="flex flex-col">
+                            <h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)]">CCUS
+                                Integrated Management Portal</h1>
+                            <p
+                                class="text-[10px] text-[var(--kr-gov-text-secondary)] font-bold uppercase tracking-wider">
+                                Carbon Capture, Utilization and Storage</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div
+                        class="flex border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] overflow-hidden">
+                        <button
+                            class="px-3 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold"
+                            onclick="location.href='/signin/authChoice'">KO</button>
+                        <button
+                            class="px-3 py-1 text-xs bg-[var(--kr-gov-blue)] text-white font-bold border-l border-[var(--kr-gov-border-light)]"
+                            onclick="location.href='/signin/authChoice?language=en'">EN</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="flex-grow flex flex-col items-center justify-center py-16 px-4" id="main-content">
+        <div
+            class="w-full max-w-4xl bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm overflow-hidden p-10 lg:p-14">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[var(--kr-gov-text-primary)] mb-4">Select Authentication Method</h2>
+                <p class="text-[var(--kr-gov-text-secondary)]">Please select your preferred authentication method for
+                    convenient and secure access.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <button class="auth-card" onclick="processAuth('SIMPLE')">
+                    <div class="auth-icon-wrapper">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'wght' 400;">verified_user</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Simple Authentication</h3>
+                    <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        Fast authentication via various<br />popular mobile apps
+                    </p>
+                </button>
+                <button class="auth-card" onclick="processAuth('JOINT')">
+                    <div class="auth-icon-wrapper">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'wght' 400;">badge</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Joint Certificate</h3>
+                    <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        Secure verification based on<br />former Accredited Certificates
+                    </p>
+                </button>
+                <button class="auth-card" onclick="processAuth('FINANCIAL')">
+                    <div class="auth-icon-wrapper">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'wght' 400;">account_balance</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Financial Certificate</h3>
+                    <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        Cloud-based certificate for<br />convenient browser authentication
+                    </p>
+                </button>
+            </div>
+            <div class="mt-12 pt-8 border-t border-[var(--kr-gov-border-light)] flex flex-col items-center gap-6">
+                <button
+                    class="px-10 h-12 border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors focus-visible"
+                    onclick="history.back()">
+                    Cancel
+                </button>
+                <div
+                    class="flex items-center gap-1.5 text-xs font-medium text-emerald-600 px-3 py-1.5 bg-emerald-50 rounded-full border border-emerald-100">
+                    <span class="material-symbols-outlined text-[14px]">shield</span>
+                    The security module is operating safely
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-white border-t border-[var(--kr-gov-border-light)]">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8 py-10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <img alt="Government of the Republic of Korea Emblem" class="h-8 grayscale"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE" />
+                        <span class="text-xl font-black text-[var(--kr-gov-text-primary)] uppercase">CCUS Integration
+                            Management HQ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script th:inline="javascript">
+        function processAuth(method) {
+            // Create Mock auth info
+            const mockData = {
+                userId: sessionStorage.getItem('loginUserId'),
+                userSe: sessionStorage.getItem('loginUserSe'),
+                authTy: method,
+                authDn: method === 'JOINT' ? 'cn=MockUser,ou=User,o=test,c=KR' : null,
+                authCi: (method === 'SIMPLE' || method === 'ONEPASS') ? 'CI_MOCK_' + Date.now() : null,
+                authDi: (method === 'SIMPLE' || method === 'ONEPASS') ? 'DI_MOCK_' + Date.now() : null
+            };
+
+            // Automatically save auth info to server
+            fetch('/signin/updateAuthInfo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(mockData)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert(method + " authentication completed and saved.");
+                        location.href = '/home3';
+                    }
+                });
+        }
+    </script>
+</body>
+
+</html>

@@ -53,7 +53,8 @@ public class EgovLoginManageAPIController {
     private final EgovReloadableFilterInvocationSecurityMetadataSource securityMetadataSource;
 
     @PostMapping("/actionLogin")
-    public ResponseEntity<?> actionLogin(@RequestBody LoginVO loginVO, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> actionLogin(@RequestBody LoginVO loginVO, HttpServletRequest request,
+            HttpServletResponse response) {
         if (ObjectUtils.isEmpty(loginVO)) {
             return ResponseEntity.ok(messageSource.getMessage("fail.common.login", null, request.getLocale()));
         }
@@ -73,12 +74,16 @@ public class EgovLoginManageAPIController {
             return ResponseEntity.ok(message);
         } else {
             // 권한 가져오기
-            Authentication authentication = new UsernamePasswordAuthenticationToken(loginDTO.getId(), loginDTO.getPassword());
-            ApplicationContext act = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getSession().getServletContext());
-            AuthenticationManager authenticationManager = act.getBean("authenticationManager", AuthenticationManager.class);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(loginDTO.getId(),
+                    loginDTO.getPassword());
+            ApplicationContext act = WebApplicationContextUtils
+                    .getRequiredWebApplicationContext(request.getSession().getServletContext());
+            AuthenticationManager authenticationManager = act.getBean("authenticationManager",
+                    AuthenticationManager.class);
             // SecurityContextHolder 설정
             SecurityContextHolder.getContext().setAuthentication(authenticationManager.authenticate(authentication));
-            log.debug("EgovLoginManageAPIController actionLogin isAuthenticated >>> {}", EgovUserDetailsHelper.isAuthenticated());
+            log.debug("EgovLoginManageAPIController actionLogin isAuthenticated >>> {}",
+                    EgovUserDetailsHelper.isAuthenticated());
 
             List<Map.Entry<String, String>> rolePatternList = EgovUserDetailsHelper.getRoleAndPatternList();
             List<String> authorList = EgovUserDetailsHelper.getAuthorities();
@@ -102,17 +107,25 @@ public class EgovLoginManageAPIController {
             if (loginVO.isAutoLogin()) {
                 refreshCookieMaxAge = 60 * 60 * 24 * 30; // 30 days
             } else {
-                refreshCookieMaxAge = Duration.ofMillis(Long.parseLong(jwtProvider.getRefreshExpiration())).getSeconds();
+                refreshCookieMaxAge = Duration.ofMillis(Long.parseLong(jwtProvider.getRefreshExpiration()))
+                        .getSeconds();
             }
 
             ResponseCookie accessTokenCookie = jwtProvider.createCookie("accessToken", accessToken, accessCookieMaxAge);
             response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
 
-            ResponseCookie refreshTokenCookie = jwtProvider.createCookie("refreshToken", refreshToken,refreshCookieMaxAge);
+            ResponseCookie refreshTokenCookie = jwtProvider.createCookie("refreshToken", refreshToken,
+                    refreshCookieMaxAge);
             response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
 
             message.put("status", "loginSuccess");
             message.put("userInfo", loginDTO.getName() + "(" + loginDTO.getId() + ")");
+
+            // 인증 정보 존재 여부 확인 (Check if authentication info exists)
+            boolean isCertified = !ObjectUtils.isEmpty(loginDTO.getAuthTy())
+                    || !ObjectUtils.isEmpty(loginDTO.getAuthDn());
+            message.put("certified", isCertified);
+
             message.put("errors", "");
             return ResponseEntity.ok(message);
         }
@@ -149,7 +162,7 @@ public class EgovLoginManageAPIController {
             if ("L".equals(incorrectCode)) {
                 response.put("status", "loginFailure");
                 response.put("errors", messageSource.getMessage("fail.common.loginIncorrect",
-                        new Object[]{lockCount, request.getLocale()}, request.getLocale()));
+                        new Object[] { lockCount, request.getLocale() }, request.getLocale()));
             } else if ("C".equals(incorrectCode)) {
                 response.put("status", "loginFailure");
                 response.put("errors", messageSource.getMessage("fail.common.login", null, request.getLocale()));
@@ -161,7 +174,8 @@ public class EgovLoginManageAPIController {
 
     @GetMapping("/validateRefreshToken")
     @ResponseBody
-    public Mono<Boolean> validateRefreshToken(@RequestHeader String refreshToken, HttpServletRequest request, HttpServletResponse response) {
+    public Mono<Boolean> validateRefreshToken(@RequestHeader String refreshToken, HttpServletRequest request,
+            HttpServletResponse response) {
         String username = jwtProvider.decrypt(jwtProvider.extractUserId(refreshToken));
         if (ObjectUtils.isEmpty(username)) {
             jwtProvider.deleteCookie(request, response, "accessToken");
@@ -230,6 +244,22 @@ public class EgovLoginManageAPIController {
     @RequestMapping("/csrfAccessDenied")
     public String csrfAccessDenied() {
         return "csrf Access Denied!";
+    }
+
+    @PostMapping("/updateAuthInfo")
+    public ResponseEntity<?> updateAuthInfo(@RequestBody Map<String, String> params) {
+        String userId = params.get("userId");
+        String userSe = params.get("userSe");
+        String authTy = params.get("authTy");
+        String authDn = params.get("authDn");
+        String authCi = params.get("authCi");
+        String authDi = params.get("authDi");
+
+        service.updateAuthInfo(userId, userSe, authTy, authDn, authCi, authDi);
+
+        Map<String, Object> message = new HashMap<>();
+        message.put("status", "success");
+        return ResponseEntity.ok(message);
     }
 
 }

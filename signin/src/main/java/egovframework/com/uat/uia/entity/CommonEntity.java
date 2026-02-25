@@ -10,4 +10,12 @@ public interface CommonEntity {
 
     void setLockLastPnttm(LocalDateTime lockLastPnttm);
 
+    void setAuthTy(String authTy);
+
+    void setAuthDn(String authDn);
+
+    void setAuthCi(String authCi);
+
+    void setAuthDi(String authDi);
+
 }

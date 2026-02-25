@@ -102,33 +102,61 @@
             </div>
 
             <form id="authForm" action="/join/en/step4" method="post"
-                class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
                 <input type="hidden" name="auth_method" id="auth_method" value="" />
-                <button onclick="submitAuth('GNR')" class="auth-card group" type="button">
+
+                <!-- 1. Digital One-Pass -->
+                <button onclick="submitAuth('ONEPASS')" class="auth-card group" type="button">
                     <div class="icon-box">
                         <span class="material-symbols-outlined">smartphone</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Digital One-Pass</h3>
-                    <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                    <h3 class="text-lg font-bold mb-3">Digital One-Pass</h3>
+                    <p class="text-xs text-[var(--kr-gov-text-secondary)] leading-relaxed">
                         Access all government services<br />with a single account.
                     </p>
                 </button>
-                <button onclick="submitAuth('CERT')" class="auth-card group" type="button">
+
+                <!-- 2. Joint Certificate -->
+                <button onclick="submitAuth('JOINT')" class="auth-card group" type="button">
                     <div class="icon-box">
                         <span class="material-symbols-outlined">verified_user</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Joint / Financial Certificate</h3>
-                    <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
-                        Verify using your joint<br />or financial certificate.
+                    <h3 class="text-lg font-bold mb-3">Joint Certificate</h3>
+                    <p class="text-xs text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        Verify using your existing<br />joint certificate.
                     </p>
                 </button>
-                <button onclick="submitAuth('EASY')" class="auth-card group" type="button">
+
+                <!-- 3. Financial Certificate -->
+                <button onclick="submitAuth('FINANCIAL')" class="auth-card group" type="button">
+                    <div class="icon-box">
+                        <span class="material-symbols-outlined">account_balance</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Financial Certificate</h3>
+                    <p class="text-xs text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        Easy verification via<br />cloud-based financial certificate.
+                    </p>
+                </button>
+
+                <!-- 4. Easy Auth -->
+                <button onclick="submitAuth('SIMPLE')" class="auth-card group" type="button">
                     <div class="icon-box">
                         <span class="material-symbols-outlined">qr_code_scanner</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Easy Auth (Kakao, Toss, etc.)</h3>
-                    <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
-                        Use simple authentication<br />via private certificates.
+                    <h3 class="text-lg font-bold mb-3">Easy Auth (Kakao, Toss, etc.)</h3>
+                    <p class="text-xs text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        Simple process via popular<br />private certificates.
+                    </p>
+                </button>
+
+                <!-- 5. Email Verification -->
+                <button onclick="submitAuth('EMAIL')" class="auth-card group" type="button">
+                    <div class="icon-box">
+                        <span class="material-symbols-outlined">mail</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Email Verification</h3>
+                    <p class="text-xs text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        Verification for overseas users<br />via registered email address.
                     </p>
                 </button>
             </form>
@@ -177,21 +205,24 @@
             })();
 
         function submitAuth(method) {
-            if (method === 'CERT') {
-                window.open('http://localhost:9000/certlogin/utl/sec/certVar.do', 'certPopup', 'width=500,height=600');
-            } else if (method === 'GNR') {
+            document.getElementById('auth_method').value = method;
+
+            if (method === 'JOINT' || method === 'FINANCIAL') {
+                const url = 'http://localhost:9000/certlogin/utl/sec/certVar.do';
+                window.open(url, 'certPopup', 'width=500,height=600');
+                setTimeout(() => document.getElementById('authForm').submit(), 1000);
+            } else if (method === 'ONEPASS') {
                 window.open('http://localhost:9000/gnrlogin/utl/sec/certVar.do', 'gnrPopup', 'width=500,height=600');
-            } else if (method === 'EASY') {
-                fetch('http://localhost:9000/saas/v2.0/kcert/v1.0/prepare', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(res => res.json()).then(data => {
-                    alert("Easy Auth Request Success (Mock): " + JSON.stringify(data));
-                    document.getElementById('auth_method').value = method;
+                setTimeout(() => document.getElementById('authForm').submit(), 1000);
+            } else if (method === 'SIMPLE') {
+                document.getElementById('authForm').submit();
+            } else if (method === 'EMAIL') {
+                const userEmail = prompt("Please enter your email address for verification.");
+                if (userEmail) {
+                    alert("A verification code has been sent to " + userEmail + ". (Mock)");
                     document.getElementById('authForm').submit();
-                }).catch(err => { alert("Easy Auth connection failed: " + err); });
+                }
             } else {
-                document.getElementById('auth_method').value = method;
                 document.getElementById('authForm').submit();
             }
         }

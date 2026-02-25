@@ -220,7 +220,8 @@
                         </div>
                         <div class="flex justify-end">
                             <label class="flex items-center cursor-pointer">
-                                <input name="marketing_agree"
+                                <input name="marketing_agree" id="marketing_agree"
+                                    th:checked="${joinVO.marketingYn == 'Y'}"
                                     class="w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
                                     type="checkbox" />
                                 <span class="ml-2 text-[15px] font-medium text-[var(--kr-gov-text-secondary)]">마케팅 정보
@@ -256,7 +257,11 @@
                     .then(r => r.text())
                     .then(html => {
                         document.getElementById('shared-header').innerHTML = html;
-                        // KO/EN 버튼에 링크 연결 (step2+ 는 POST 전용이라 step1으로 이동)
+                        // 1. 로고 클릭 시 세션 초기화 후 메인으로
+                        const logoLink = document.querySelector('#shared-header a[href="/home3"]');
+                        if (logoLink) logoLink.href = '/join/reset';
+
+                        // 2. 언어 변경 시 세션 초기화 후 해당 언어 1단계로 이동
                         const ko = document.getElementById('langKoBtn');
                         const en = document.getElementById('langEnBtn');
                         if (ko) ko.onclick = () => location.href = '/join/step1';
@@ -264,8 +269,7 @@
                     })
                     .catch(() => { });
                 fetch('/home3/fragments/footer')
-                    .then(r => r.text())
-                    .then(html => { document.getElementById('shared-footer').innerHTML = html; })
+                    .then(r => r.text()).then(html => { document.getElementById('shared-footer').innerHTML = html; })
                     .catch(() => { });
             })();
 
@@ -274,7 +278,21 @@
         allCheck.addEventListener('change', function () {
             termChecks.forEach(check => check.checked = this.checked);
         });
+
+        // 마케팅 동의 실시간 세션 저장
+        const marketingCheck = document.getElementById('marketing_agree');
+        if (marketingCheck) {
+            marketingCheck.addEventListener('change', function () {
+                const isChecked = this.checked ? 'Y' : 'N';
+                const timestamp = new Date().getTime();
+                fetch(`/join/saveStep2?marketing_yn=${isChecked}&t=${timestamp}`, {
+                    method: 'GET',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+            });
+        }
     </script>
 </body>
 
 </html>
+```
