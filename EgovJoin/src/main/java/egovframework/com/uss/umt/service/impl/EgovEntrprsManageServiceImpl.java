@@ -87,6 +87,11 @@ public class EgovEntrprsManageServiceImpl extends EgovAbstractServiceImpl implem
 		return entrprsManageVO;
 	}
 
+	@Override
+	public List<?> searchCompanyList(String searchKeyword) throws Exception {
+		return entrprsManageDAO.searchCompanyList(searchKeyword);
+	}
+
 	/**
 	 * 화면에 조회된 기업회원의 기본정보를 수정하여 항목의 정합성을 체크하고 수정된 데이터를 데이터베이스에 반영
 	 * 

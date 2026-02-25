@@ -313,7 +313,7 @@
                                 <input aria-label="기관명 또는 사업자등록번호 입력" class="form-input pl-11" id="modal-search"
                                     placeholder="기관명 또는 사업자등록번호를 입력하세요" type="text" />
                             </div>
-                            <button
+                            <button id="modalInnerSearchBtn"
                                 class="px-8 bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors"
                                 type="button">검색</button>
                         </div>
@@ -381,7 +381,7 @@
                         <span class="material-symbols-outlined text-blue-600 text-[18px]">info</span>
                         찾으시는 정보가 없는 경우 <span
                             class="font-bold text-[var(--kr-gov-blue)] text-sm cursor-pointer hover:underline"
-                            onclick="window.location.href='/join/step1'">[신규 회원사 등록]</span>을 진행해 주세요.
+                            onclick="window.location.href='/join/companyRegister'">[신규 회원사 등록]</span>을 진행해 주세요.
                     </p>
                 </div>
             </div>
@@ -424,15 +424,67 @@
         if (modalCloseBtn) modalCloseBtn.onclick = closeModal;
         if (modalCancelBtn) modalCancelBtn.onclick = closeModal;
 
-        document.querySelectorAll('.modal-select-btn').forEach(btn => {
-            btn.onclick = function () {
-                const name = this.getAttribute('data-name');
-                const biz = this.getAttribute('data-biz');
-                document.getElementById('company-search').value = name;
-                document.getElementById('biz-number').value = biz;
-                closeModal();
+        // AJAX를 통한 검색
+        const modalInnerSearchBtn = document.getElementById('modalInnerSearchBtn');
+        const modalSearchInput = document.getElementById('modal-search');
+        if (modalInnerSearchBtn) {
+            modalInnerSearchBtn.onclick = function () {
+                const keyword = modalSearchInput.value.trim();
+                if (!keyword) {
+                    alert('검색어를 입력해주세요.');
+                    return;
+                }
+                const tbody = document.querySelector('#companySearchModal tbody');
+                tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-gray-500">검색 중...</td></tr>';
+                fetch('/join/searchCompanyAPI?keyword=' + encodeURIComponent(keyword))
+                    .then(res => res.json())
+                    .then(data => {
+                        tbody.innerHTML = '';
+                        if (!data || data.length === 0) {
+                            tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-gray-500">검색 결과가 없습니다.</td></tr>';
+                            return;
+                        }
+                        data.forEach((item, index) => {
+                            const name = item.cmpnyNm || '';
+                            const rep = item.cxfc || '';
+                            const biz = item.bizrno || '';
+                            const tr = document.createElement('tr');
+                            tr.className = 'hover:bg-blue-50/50 transition-colors';
+                            tr.innerHTML = `
+                                <td class="px-4 py-4 text-center text-gray-500">${index + 1}</td>
+                                <td class="px-4 py-4 font-medium">${name}</td>
+                                <td class="px-4 py-4 text-gray-600">${biz}</td>
+                                <td class="px-4 py-4 text-gray-600">${rep}</td>
+                                <td class="px-4 py-4 text-center">
+                                    <button class="modal-select-btn px-3 py-1.5 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-xs font-bold rounded-md hover:bg-[var(--kr-gov-blue)] hover:text-white transition-all" type="button" data-name="${name}" data-biz="${biz}">선택</button>
+                                </td>
+                            `;
+                            tbody.appendChild(tr);
+                        });
+                        // 이벤트 다시 바인딩
+                        document.querySelectorAll('.modal-select-btn').forEach(btn => {
+                            btn.onclick = function () {
+                                document.getElementById('company-search').value = this.getAttribute('data-name');
+                                document.getElementById('biz-number').value = this.getAttribute('data-biz');
+                                closeModal();
+                            };
+                        });
+                    })
+                    .catch(e => {
+                        tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-red-500">검색 중 오류가 발생했습니다.</td></tr>';
+                    });
             };
-        });
+        }
+
+        // 엔터키 검색
+        if (modalSearchInput) {
+            modalSearchInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    modalInnerSearchBtn.click();
+                }
+            });
+        }
 
         let isIdChecked = false;
         let isEmailChecked = false;

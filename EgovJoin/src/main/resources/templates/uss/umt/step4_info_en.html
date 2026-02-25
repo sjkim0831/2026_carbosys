@@ -276,7 +276,7 @@
                                     placeholder="Enter company/institution name or business registration number"
                                     type="text" />
                             </div>
-                            <button
+                            <button id="modalInnerSearchBtn"
                                 class="px-8 bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors"
                                 type="button">Search</button>
                         </div>
@@ -346,7 +346,8 @@
                         <span class="material-symbols-outlined text-blue-600 text-[18px]">info</span>
                         If you cannot find the information you are looking for, please proceed with <span
                             class="font-bold text-[var(--kr-gov-blue)] text-sm cursor-pointer hover:underline"
-                            onclick="window.location.href='/join/en/step1'">[Register New Member Company]</span>.
+                            onclick="window.location.href='/join/en/companyRegister'">[Register New Member
+                            Company]</span>.
                     </p>
                 </div>
             </div>
@@ -388,15 +389,67 @@
         if (modalCloseBtn) modalCloseBtn.onclick = closeModal;
         if (modalCancelBtn) modalCancelBtn.onclick = closeModal;
 
-        document.querySelectorAll('.modal-select-btn').forEach(btn => {
-            btn.onclick = function () {
-                const name = this.getAttribute('data-name');
-                const biz = this.getAttribute('data-biz');
-                document.getElementById('company-search').value = name;
-                document.getElementById('biz-number').value = biz;
-                closeModal();
+        // AJAX Company Search
+        const modalInnerSearchBtn = document.getElementById('modalInnerSearchBtn');
+        const modalSearchInput = document.getElementById('modal-search');
+        if (modalInnerSearchBtn) {
+            modalInnerSearchBtn.onclick = function () {
+                const keyword = modalSearchInput.value.trim();
+                if (!keyword) {
+                    alert('Please enter a search term.');
+                    return;
+                }
+                const tbody = document.querySelector('#companySearchModal tbody');
+                tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-gray-500">Searching...</td></tr>';
+                fetch('/join/searchCompanyAPI?keyword=' + encodeURIComponent(keyword))
+                    .then(res => res.json())
+                    .then(data => {
+                        tbody.innerHTML = '';
+                        if (!data || data.length === 0) {
+                            tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-gray-500">No results found.</td></tr>';
+                            return;
+                        }
+                        data.forEach((item, index) => {
+                            const name = item.cmpnyNm || '';
+                            const rep = item.cxfc || '';
+                            const biz = item.bizrno || '';
+                            const tr = document.createElement('tr');
+                            tr.className = 'hover:bg-blue-50/50 transition-colors';
+                            tr.innerHTML = `
+                                <td class="px-4 py-4 text-center text-gray-500">${index + 1}</td>
+                                <td class="px-4 py-4 font-medium">${name}</td>
+                                <td class="px-4 py-4 text-gray-600">${biz}</td>
+                                <td class="px-4 py-4 text-gray-600">${rep}</td>
+                                <td class="px-4 py-4 text-center">
+                                    <button class="modal-select-btn px-3 py-1.5 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-xs font-bold rounded-md hover:bg-[var(--kr-gov-blue)] hover:text-white transition-all" type="button" data-name="${name}" data-biz="${biz}">Select</button>
+                                </td>
+                            `;
+                            tbody.appendChild(tr);
+                        });
+                        // Re-bind events
+                        document.querySelectorAll('.modal-select-btn').forEach(btn => {
+                            btn.onclick = function () {
+                                document.getElementById('company-search').value = this.getAttribute('data-name');
+                                document.getElementById('biz-number').value = this.getAttribute('data-biz');
+                                closeModal();
+                            };
+                        });
+                    })
+                    .catch(e => {
+                        tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-red-500">An error occurred during search.</td></tr>';
+                    });
             };
-        });
+        }
+
+        // Enter key search
+        if (modalSearchInput) {
+            modalSearchInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    modalInnerSearchBtn.click();
+                }
+            });
+        }
 
         let isIdChecked = false;
         let isEmailChecked = false;

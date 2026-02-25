@@ -189,6 +189,17 @@
         
     </select>
 
+    <select id="searchCompanyList" resultType="egovMap">
+        SELECT 
+            CMPNY_NM          as CMPNY_NM,
+            BIZRNO            as BIZRNO,
+            CXFC              as CXFC
+        FROM    COMTNENTRPRSMBER
+        WHERE (CMPNY_NM LIKE '%' || #{searchKeyword} || '%' OR BIZRNO LIKE '%' || #{searchKeyword} || '%')
+          AND ENTRPRS_MBER_STTUS IN ('P', 'A')
+        ORDER BY CMPNY_NM ASC
+    </select>
+
     <select id="selectEntrprsMberList" resultType="egovMap">
         SELECT * FROM ( SELECT rownum rn, TB.* FROM (
             SELECT 

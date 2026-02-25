@@ -360,4 +360,61 @@ public class EgovJoinController {
         }
         return "uss/umt/step5_complete_en";
     }
+
+    // ==========================================
+    // 신규 회원사(기업/기관) 등록 및 모달 검색 API
+    // ==========================================
+
+    @GetMapping("/companyRegister")
+    public String companyRegisterView() {
+        return "uss/umt/step4_company_register";
+    }
+
+    @GetMapping("/en/companyRegister")
+    public String companyRegisterViewEn() {
+        return "uss/umt/step4_company_register_en";
+    }
+
+    @PostMapping("/companyRegisterSubmit")
+    public String companyRegisterSubmit(
+            @RequestParam("agencyName") String agencyName,
+            @RequestParam("representativeName") String repName,
+            @RequestParam("bizRegistrationNumber") String bizNo,
+            @RequestParam("zipCode") String zipCode,
+            @RequestParam("companyAddress") String addr,
+            @RequestParam(value = "companyAddressDetail", required = false) String detailAddr,
+            @RequestParam(value = "lang", defaultValue = "ko") String lang) throws Exception {
+
+        EntrprsManageVO vo = new EntrprsManageVO();
+        String tempId = "COMP_" + System.currentTimeMillis();
+        // ID 길이를 맞추거나 유일하게 쓰기 위한 임시 처리. COMTNENTRPRSMBER 의 요구 규격에 맞게
+        if (tempId.length() > 20)
+            tempId = tempId.substring(0, 20);
+
+        vo.setEntrprsmberId(tempId);
+        vo.setEntrprsSeCode("USR02");
+        vo.setEntrprsMberPassword("Dummy123!@#"); // Dummy as it's not a real user account
+        vo.setCmpnyNm(agencyName);
+        vo.setCxfc(repName);
+        vo.setBizrno(bizNo);
+        vo.setZip(zipCode);
+        vo.setAdres(addr);
+        vo.setDetailAdres(detailAddr);
+        vo.setEntrprsMberSttus("P"); // P: 가입 승인 대기? P or A -> A로 하면 검색에서 쉽게 뜸. But search is for IN ('P', 'A')
+        vo.setApplcntNm(repName);
+
+        entrprsManageService.insertEntrprsmber(vo);
+
+        if ("en".equals(lang)) {
+            return "redirect:/join/en/step4?newCompany=true";
+        }
+        return "redirect:/join/step4?newCompany=true";
+    }
+
+    @GetMapping("/searchCompanyAPI")
+    @org.springframework.web.bind.annotation.ResponseBody
+    public java.util.List<?> searchCompanyAPI(@RequestParam("keyword") String keyword) throws Exception {
+        return entrprsManageService.searchCompanyList(keyword);
+    }
+
 }
