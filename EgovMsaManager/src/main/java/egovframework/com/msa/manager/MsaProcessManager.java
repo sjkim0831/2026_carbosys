@@ -39,16 +39,17 @@ public class MsaProcessManager {
 
         new Thread(() -> {
             try {
-                List<String> cmd = new ArrayList<>(Arrays.asList("mvn", "spring-boot:run"));
+                List<String> cmd = new ArrayList<>(
+                        Arrays.asList("java", "-jar", "target/" + mod.getArtifactId() + ".jar"));
                 // Enforce central port if registered
                 if (mod.getPort() != null && mod.getPort() != 0) {
-                    cmd.add("-Dspring-boot.run.arguments=--server.port=" + mod.getPort());
+                    cmd.add("--server.port=" + mod.getPort());
                 }
 
                 ProcessBuilder pb = new ProcessBuilder(cmd);
                 pb.directory(new File(mod.getDir()));
                 pb.redirectErrorStream(true);
-                pb.environment().put("MAVEN_OPTS", "-Djava.awt.headless=true");
+                pb.environment().put("JAVA_OPTS", "-Djava.awt.headless=true");
 
                 Process proc = pb.start();
                 entry.process = proc;

@@ -40,8 +40,10 @@ public class Home3ManageController {
      */
     @GetMapping(value = "/home3/fragments/header", produces = "text/html; charset=UTF-8")
     @ResponseBody
-    public String headerFragment() {
+    public String headerFragment(
+            @org.springframework.web.bind.annotation.CookieValue(value = "accessToken", required = false) String accessToken) {
         Context ctx = new Context();
+        ctx.setVariable("isLoggedIn", accessToken != null);
         String full = templateEngine.process("fragments/header", ctx);
 
         // <body> 태그 내 fragment 부분만 추출

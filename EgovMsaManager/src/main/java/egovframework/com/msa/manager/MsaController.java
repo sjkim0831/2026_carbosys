@@ -24,6 +24,11 @@ public class MsaController {
     private final MsaScanner scanner = new MsaScanner();
     private static final String MAPPING_FILE = "/app/msa-mappings.yml";
 
+    @GetMapping("")
+    public String index() {
+        return "redirect:/admin/msa/manager";
+    }
+
     @GetMapping("/manager")
     public String managerView(Model model) {
         return "msaManager";

@@ -20,13 +20,14 @@ public class EgovLoginManageController {
 
     private final EgovJwtProvider jwtProvider;
 
-    @GetMapping(value="/index")
+    @GetMapping(value = "/index")
     public String login(LoginVO loginVO, Model model, HttpServletRequest request) {
         return this.loginView(null, loginVO, model, request);
     }
 
-    @RequestMapping(value="/loginView", method={RequestMethod.GET, RequestMethod.POST})
-    public String loginView(@RequestParam(value = "language", required = false) String language, LoginVO loginVO, Model model, HttpServletRequest request) {
+    @RequestMapping(value = "/loginView", method = { RequestMethod.GET, RequestMethod.POST })
+    public String loginView(@RequestParam(value = "language", required = false) String language, LoginVO loginVO,
+            Model model, HttpServletRequest request) {
         String accessToken = jwtProvider.getCookie(request, "accessToken");
         if (ObjectUtils.isEmpty(accessToken)) {
             loginVO = new LoginVO();
@@ -36,16 +37,13 @@ public class EgovLoginManageController {
             }
             return "uat/uia/login";
         } else {
-            String userId = jwtProvider.decrypt(jwtProvider.extractUserId(accessToken));
-            String userNm = jwtProvider.decrypt(jwtProvider.extractUserNm(accessToken));
-            loginVO.setUserInfo(userNm + "(" + userId + ")");
-            model.addAttribute("loginVO", loginVO);
-            return "uat/uia/content";
+            return "redirect:/home3";
         }
     }
 
-    @RequestMapping(value="/loginForbidden", method={RequestMethod.GET, RequestMethod.POST})
-    public String loginForbidden(@RequestParam(value = "pathCode", required = false, defaultValue = "1") String pathCode, Model model) {
+    @RequestMapping(value = "/loginForbidden", method = { RequestMethod.GET, RequestMethod.POST })
+    public String loginForbidden(
+            @RequestParam(value = "pathCode", required = false, defaultValue = "1") String pathCode, Model model) {
         model.addAttribute("pathCode", pathCode);
         return "uat/uia/forbidden";
     }

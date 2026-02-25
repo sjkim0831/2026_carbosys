@@ -1,27 +1,27 @@
-FROM maven:3.8.4-openjdk-8
+# Runtime Stage (Lightweight JRE)
+FROM eclipse-temurin:8-jre
 
-# Install essential tools
-RUN apt-get update && apt-get install -y procps net-tools iproute2 && rm -rf /var/lib/apt/lists/*
+# Install essential tools for monitoring inside container
+RUN apt-get update && apt-get install -y procps net-tools iproute2 curl && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy the entire workspace
+# Copy ALL source code/config files needed by MsaManager for scanning
+# Specifically: pom.xml, msa-mappings.yml, msa-ports.yml, and src/main structure of all modules
 COPY . .
 
-# Copy and install local dependencies to local maven repo inside Docker
-COPY libs/cubrid-jdbc-11.2.0.0035.jar /app/libs/cubrid-jdbc-11.2.0.0035.jar
-RUN mvn install:install-file -Dfile=/app/libs/cubrid-jdbc-11.2.0.0035.jar -DgroupId=cubrid -DartifactId=cubrid-jdbc -Dversion=11.2.0.0035 -Dpackaging=jar
+# Copy existing JAR files from the host to the container
+# Redefine COPY for JARs to ensure they overwrite the copies from "COPY . ." if necessary
+# or just ensure they are in the right places.
+COPY EurekaServer/target/EurekaServer.jar /app/EurekaServer.jar
+COPY ConfigServer/target/ConfigServer.jar /app/ConfigServer.jar
+COPY GatewayServer/target/GatewayServer.jar /app/GatewayServer.jar
+COPY EgovMsaManager/target/EgovMsaManager.jar /app/EgovMsaManager.jar
 
-# Build infrastructure modules one by one to identify failures
-RUN mvn install -DskipTests -pl EurekaServer -am
-RUN mvn install -DskipTests -pl ConfigServer -am
-RUN mvn install -DskipTests -pl GatewayServer -am
-RUN mvn install -DskipTests -pl EgovMsaManager -am
-
-# Expose only the required ports
-EXPOSE 8761 9000 18030
-
-# Ensure entrypoint is executable
+# Copy entrypoint script
 RUN chmod +x /app/entrypoint.sh
+
+# Expose required ports
+EXPOSE 8761 9000 18030
 
 ENTRYPOINT ["/app/entrypoint.sh"]

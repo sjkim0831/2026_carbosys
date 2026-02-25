@@ -33,9 +33,6 @@ services:
     hostname: carbosys-app
     networks:
       - carbosys-net
-    volumes:
-      - ".:/app"
-      - "/root/.m2:/root/.m2"
     extra_hosts:
       - "localhost:127.0.0.1"
 

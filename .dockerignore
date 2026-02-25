@@ -1,7 +1,17 @@
-**/target/
 **/node_modules/
-**/.git/
-**/.idea/
-**/.vscode/
-**/*.log
-**/*.tmp
+.git/
+.idea/
+.vscode/
+*.log
+*.tmp
+docker-compose/cubrid/data/
+docker-compose/cubrid/init/
+
+# Keep mappings and ports for MsaManager
+!msa-mappings.yml
+!msa-ports.yml
+
+# We need to scan folders to see modules, so we include everything 
+# but ignore the heavy target folders unless it's a JAR we need.
+**/target/*
+!**/target/*.jar

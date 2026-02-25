@@ -44,3 +44,4 @@ target/
 # Database data and log files
 docker-compose/cubrid/data/
 *.log
+*.log

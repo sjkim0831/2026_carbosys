@@ -53,13 +53,17 @@
                                 class="px-2 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold focus-visible border-l border-[var(--kr-gov-border-light)]"
                                 onclick="location.href='/home3/en'">EN</button>
                         </div>
-                        <button id="loginBtn"
+                        <button th:if="${isLoggedIn}" id="logoutBtn"
+                            class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"
+                            onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type': 'application/json'}}).then(r => r.json()).then(d => {if(d.status === 'success') location.reload();});">로그아웃</button>
+                        <button th:unless="${isLoggedIn}" id="loginBtn"
                             class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"
                             onclick="location.href='/signin/loginView'">로그인</button>
                     </div>
                 </div>
             </div>
         </header>
+    </div>
     </div>
 </body>
 

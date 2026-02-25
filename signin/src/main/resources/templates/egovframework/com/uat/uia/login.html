@@ -120,10 +120,12 @@
         <div
             class="w-full max-w-[480px] bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm overflow-hidden">
             <div class="flex border-b border-[var(--kr-gov-border-light)] bg-gray-50">
-                <button type="button" class="flex-1 py-4 text-[16px] login-tab login-tab-active" data-value="GNR">국내
-                    사용자</button>
-                <button type="button" class="flex-1 py-4 text-[16px] login-tab login-tab-inactive" data-value="ENT">해외
-                    사업자</button>
+                <button type="button" class="flex-1 py-4 text-[16px] login-tab login-tab-active" data-value="ENT"
+                    data-join="/join/step1">국내
+                    기업 회원</button>
+                <button type="button" class="flex-1 py-4 text-[16px] login-tab login-tab-inactive" data-value="ENT"
+                    data-join="/join/en/step1">해외
+                    기업 회원</button>
             </div>
             <div class="p-8 lg:p-10">
                 <form id="loginForm" name="loginForm" th:object="${loginVO}" class="space-y-6">
@@ -170,7 +172,8 @@
                         <span class="w-px h-3 bg-[var(--kr-gov-border-light)]"></span>
                         <a class="hover:underline" href="#">비밀번호 재설정</a>
                         <span class="w-px h-3 bg-[var(--kr-gov-border-light)]"></span>
-                        <a class="text-[var(--kr-gov-blue)] font-bold hover:underline" href="/join/step1">회원가입</a>
+                        <a id="joinLink" class="text-[var(--kr-gov-blue)] font-bold hover:underline"
+                            href="/join/step1">회원가입</a>
                     </div>
                     <div class="relative py-4">
                         <div class="absolute inset-0 flex items-center">
@@ -255,6 +258,9 @@
                 });
                 this.classList.remove("login-tab-inactive");
                 this.classList.add("login-tab-active");
+                // 탭 선택에 따라 회원가입 링크 변경
+                const joinHref = this.getAttribute('data-join') || '/join/step1';
+                document.getElementById('joinLink').href = joinHref;
             });
         });
 
@@ -338,11 +344,8 @@
         }
 
         function contentView(userInfo) {
-            document.getElementById('userInfo').value = userInfo;
-            const form = document.getElementById('loginContentForm');
-            form.setAttribute('method', 'post');
-            form.setAttribute('action', '/signin/loginView');
-            form.submit();
+            // 로그인 성공 → /home3으로 바로 이동
+            location.href = '/home3';
         }
     </script>
 </body>
