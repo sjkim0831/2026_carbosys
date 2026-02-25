@@ -147,14 +147,16 @@
                                 <label class="form-label" for="company-address">사업장 주소 <span aria-hidden="true"
                                         class="text-red-500">*</span></label>
                                 <div class="flex gap-2 mb-2">
-                                    <input class="form-input w-32" id="zip-code" name="zipCode" placeholder="우편번호"
-                                        type="text" required />
+                                    <input class="form-input w-32 bg-gray-50 cursor-pointer" id="zip-code"
+                                        name="zipCode" placeholder="우편번호" type="text" required readonly
+                                        onclick="execDaumPostcode()" />
                                     <button
                                         class="px-5 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-sm font-bold rounded-[var(--kr-gov-radius)] hover:bg-blue-50 transition-colors"
-                                        type="button">주소 검색</button>
+                                        type="button" onclick="execDaumPostcode()">주소 검색</button>
                                 </div>
-                                <input class="form-input mb-2" id="company-address" name="companyAddress"
-                                    placeholder="기본 주소를 입력하세요" type="text" required />
+                                <input class="form-input mb-2 bg-gray-50 cursor-pointer" id="company-address"
+                                    name="companyAddress" placeholder="기본 주소를 입력하세요" type="text" required readonly
+                                    onclick="execDaumPostcode()" />
                                 <input class="form-input" id="company-address-detail" name="companyAddressDetail"
                                     placeholder="상세 주소를 입력하세요" type="text" />
                             </div>
@@ -205,7 +207,7 @@
         </div>
     </main>
 
-    <div id="shared-footer"></div>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
             (function loadSharedLayout() {
                 fetch('/home3/fragments/header').then(r => r.text()).then(html => {
@@ -219,6 +221,30 @@
                     document.getElementById('shared-footer').innerHTML = html;
                 }).catch(() => { });
             })();
+
+        // 다음 우편번호 검색 API
+        function execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('zip-code').value = data.zonecode;
+                    document.getElementById("company-address").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("company-address-detail").focus();
+                }
+            }).open();
+        }
     </script>
 </body>
 

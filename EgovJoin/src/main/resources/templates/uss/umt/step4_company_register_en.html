@@ -150,14 +150,16 @@
                                 <label class="form-label" for="company-address">Company Address <span aria-hidden="true"
                                         class="text-red-500">*</span></label>
                                 <div class="flex gap-2 mb-2">
-                                    <input class="form-input w-32" id="zip-code" name="zipCode" placeholder="Zip Code"
-                                        type="text" required />
+                                    <input class="form-input w-32 bg-gray-50 cursor-pointer" id="zip-code"
+                                        name="zipCode" placeholder="Zip Code" type="text" required readonly
+                                        onclick="execDaumPostcode()" />
                                     <button
                                         class="px-5 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-sm font-bold rounded-[var(--kr-gov-radius)] hover:bg-blue-50 transition-colors"
-                                        type="button">Find Address</button>
+                                        type="button" onclick="execDaumPostcode()">Find Address</button>
                                 </div>
-                                <input class="form-input mb-2" id="company-address" name="companyAddress"
-                                    placeholder="Address will be auto-filled" type="text" required />
+                                <input class="form-input mb-2 bg-gray-50 cursor-pointer" id="company-address"
+                                    name="companyAddress" placeholder="Address will be auto-filled" type="text" required
+                                    readonly onclick="execDaumPostcode()" />
                                 <input class="form-input" id="company-address-detail" name="companyAddressDetail"
                                     placeholder="Enter detailed address" type="text" />
                             </div>
@@ -207,7 +209,7 @@
             </div>
         </div>
     </main>
-    <div id="shared-footer"></div>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
             (function loadSharedLayout() {
                 fetch('/home3/fragments/header').then(r => r.text()).then(html => {
@@ -221,6 +223,29 @@
                     document.getElementById('shared-footer').innerHTML = html;
                 }).catch(() => { });
             })();
+
+        // Daum Postcode API
+        function execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    var addr = '';
+
+                    if (data.userSelectedType === 'R') {
+                        // roadAddressEnglish usually available when language or english query is used.
+                        // Road Addr is sometimes returned in Korean if missing english.
+                        addr = data.roadAddressEnglish || data.roadAddress;
+                    } else {
+                        addr = data.jibunAddressEnglish || data.jibunAddress;
+                    }
+
+                    document.getElementById('zip-code').value = data.zonecode;
+                    document.getElementById("company-address").value = addr;
+                    document.getElementById("company-address-detail").focus();
+                }
+            }).open({
+                q: ''
+            });
+        }
     </script>
 </body>
 
