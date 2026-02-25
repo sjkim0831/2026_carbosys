@@ -69,6 +69,12 @@
         .step-completed .step-line {
             @apply bg-[var(--kr-gov-blue)];
         }
+        .modal-overlay {
+            @apply fixed inset-0 bg-black bg-opacity-50 z-[1000] flex items-center justify-center p-4 backdrop-blur-sm;
+        }
+        .modal-container {
+            @apply bg-white w-full max-w-[800px] rounded-lg shadow-2xl overflow-hidden flex flex-col max-h-[90vh];
+        }
         /* 회원가입 페이지: 헤더 로그인 버튼/내비게이션 숨김 */
         #loginBtn { display: none !important; }
         header nav { display: none !important; }
@@ -213,7 +219,7 @@
                                 <div class="relative">
                                     <input class="form-input pr-24" id="company-search" name="insttNm"
                                         placeholder="기관명 또는 기업명을 검색하세요" type="text" required />
-                                    <button
+                                    <button id="btnCompanySearch"
                                         class="absolute right-2 top-2 bottom-2 px-4 bg-[var(--kr-gov-blue)] text-white text-sm font-bold rounded-[var(--kr-gov-radius)] flex items-center gap-1"
                                         type="button">
                                         <span class="material-symbols-outlined text-sm">search</span> 검색
@@ -275,6 +281,115 @@
     </main>
     <!-- 푸터: home3에서 공유 -->
     <div id="shared-footer"></div>
+
+    <!-- 기관/기업 찾기 모달 -->
+    <div aria-labelledby="modal-title" aria-modal="true" class="modal-overlay hidden" id="companySearchModal"
+        role="dialog">
+        <div class="modal-container">
+            <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+                <h2 class="text-xl font-bold text-[var(--kr-gov-text-primary)] flex items-center gap-2"
+                    id="modal-title">
+                    <span class="material-symbols-outlined text-[var(--kr-gov-blue)]">corporate_fare</span>
+                    기관/기업 검색
+                </h2>
+                <button id="modalCloseBtn" aria-label="닫기"
+                    class="text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--kr-gov-focus)] rounded-full p-1"
+                    type="button">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <div class="mb-8">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="modal-search">검색어
+                            입력</label>
+                        <div class="flex gap-2">
+                            <div class="relative flex-grow">
+                                <span
+                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                                <input aria-label="기관명 또는 사업자등록번호 입력" class="form-input pl-11" id="modal-search"
+                                    placeholder="기관명 또는 사업자등록번호를 입력하세요" type="text" />
+                            </div>
+                            <button
+                                class="px-8 bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors"
+                                type="button">검색</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="border border-[var(--kr-gov-border-light)] rounded-lg overflow-hidden mb-4">
+                    <table class="w-full text-sm text-left">
+                        <thead
+                            class="bg-[var(--kr-gov-bg-gray)] border-b border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-primary)]">
+                            <tr>
+                                <th class="px-4 py-3 font-bold text-center w-12" scope="col">No</th>
+                                <th class="px-4 py-3 font-bold" scope="col">기관/기업명</th>
+                                <th class="px-4 py-3 font-bold" scope="col">사업자등록번호</th>
+                                <th class="px-4 py-3 font-bold" scope="col">대표자명</th>
+                                <th class="px-4 py-3 font-bold text-center" scope="col">선택</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr class="hover:bg-blue-50/50 transition-colors">
+                                <td class="px-4 py-4 text-center text-gray-500">1</td>
+                                <td class="px-4 py-4 font-medium">(주)한국탄소기술연구원</td>
+                                <td class="px-4 py-4 text-gray-600">123-45-67890</td>
+                                <td class="px-4 py-4 text-gray-600">김탄소</td>
+                                <td class="px-4 py-4 text-center">
+                                    <button
+                                        class="modal-select-btn px-3 py-1.5 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-xs font-bold rounded-md hover:bg-[var(--kr-gov-blue)] hover:text-white transition-all"
+                                        type="button" data-name="(주)한국탄소기술연구원" data-biz="123-45-67890">선택</button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50 transition-colors">
+                                <td class="px-4 py-4 text-center text-gray-500">2</td>
+                                <td class="px-4 py-4 font-medium">에코그린 솔루션즈</td>
+                                <td class="px-4 py-4 text-gray-600">987-65-43210</td>
+                                <td class="px-4 py-4 text-gray-600">이환경</td>
+                                <td class="px-4 py-4 text-center">
+                                    <button
+                                        class="modal-select-btn px-3 py-1.5 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-xs font-bold rounded-md hover:bg-[var(--kr-gov-blue)] hover:text-white transition-all"
+                                        type="button" data-name="에코그린 솔루션즈" data-biz="987-65-43210">선택</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav aria-label="검색 결과 페이지" class="flex justify-center items-center gap-1 my-6">
+                    <button type="button"
+                        class="w-9 h-9 flex items-center justify-center border border-gray-200 rounded text-gray-400 hover:bg-gray-50"><span
+                            class="material-symbols-outlined text-xl">first_page</span></button>
+                    <button type="button"
+                        class="w-9 h-9 flex items-center justify-center border border-gray-200 rounded text-gray-400 hover:bg-gray-50"><span
+                            class="material-symbols-outlined text-xl">chevron_left</span></button>
+                    <button type="button"
+                        class="w-9 h-9 flex items-center justify-center bg-[var(--kr-gov-blue)] text-white font-bold rounded">1</button>
+                    <button type="button"
+                        class="w-9 h-9 flex items-center justify-center border border-gray-200 rounded text-gray-600 hover:bg-gray-50 font-medium">2</button>
+                    <button type="button"
+                        class="w-9 h-9 flex items-center justify-center border border-gray-200 rounded text-gray-400 hover:bg-gray-50"><span
+                            class="material-symbols-outlined text-xl">chevron_right</span></button>
+                    <button type="button"
+                        class="w-9 h-9 flex items-center justify-center border border-gray-200 rounded text-gray-400 hover:bg-gray-50"><span
+                            class="material-symbols-outlined text-xl">last_page</span></button>
+                </nav>
+                <div class="bg-gray-50 border-t border-b border-gray-200 p-4 rounded-md">
+                    <p
+                        class="text-[13px] text-[var(--kr-gov-text-secondary)] flex items-center gap-1.5 leading-relaxed">
+                        <span class="material-symbols-outlined text-blue-600 text-[18px]">info</span>
+                        찾으시는 정보가 없는 경우 <span
+                            class="font-bold text-[var(--kr-gov-blue)] text-sm cursor-pointer hover:underline"
+                            onclick="window.location.href='/join/step1'">[신규 회원사 등록]</span>을 진행해 주세요.
+                    </p>
+                </div>
+            </div>
+            <div class="px-6 py-4 bg-gray-100 flex justify-end gap-2">
+                <button id="modalCancelBtn"
+                    class="px-6 py-2.5 bg-white border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-primary)] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50"
+                    type="button">취소</button>
+            </div>
+        </div>
+    </div>
+
     <script>
             (function loadSharedLayout() {
                 fetch('/home3/fragments/header')
@@ -289,6 +404,32 @@
                     .then(r => r.text()).then(html => { document.getElementById('shared-footer').innerHTML = html; })
                     .catch(() => { });
             })();
+
+        // ─── 모달 로직 ───
+        const companySearchModal = document.getElementById('companySearchModal');
+        const btnCompanySearch = document.getElementById('btnCompanySearch');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const modalCancelBtn = document.getElementById('modalCancelBtn');
+
+        if (btnCompanySearch) {
+            btnCompanySearch.onclick = function () {
+                companySearchModal.classList.remove('hidden');
+            };
+        }
+
+        const closeModal = () => companySearchModal.classList.add('hidden');
+        if (modalCloseBtn) modalCloseBtn.onclick = closeModal;
+        if (modalCancelBtn) modalCancelBtn.onclick = closeModal;
+
+        document.querySelectorAll('.modal-select-btn').forEach(btn => {
+            btn.onclick = function () {
+                const name = this.getAttribute('data-name');
+                const biz = this.getAttribute('data-biz');
+                document.getElementById('company-search').value = name;
+                document.getElementById('biz-number').value = biz;
+                closeModal();
+            };
+        });
 
         let isIdChecked = false;
         let isEmailChecked = false;
