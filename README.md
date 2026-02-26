@@ -101,6 +101,24 @@ mvn clean install
 5. EgovLogin 실행 (로그인 후 인증토큰이 있어야 컴포넌트 사용 가능)
 6. 필요한 컴포넌트 실행
 
+## DBeaver에서 CUBRID 접속
+
+### 기본 연결 정보
+- **Host**: `localhost`
+- **Port**: `33000`
+- **Database**: `com`
+- **User**: `dba`
+- **Password**: 빈 값(공백)
+- **JDBC URL 예시**: `jdbc:cubrid:localhost:33000:com:::?charset=UTF-8`
+
+> 애플리케이션 컨테이너 내부 설정(`jdbc:cubrid:cubrid:33000:com:::?charset=UTF-8`)과 달리,
+> DBeaver는 호스트(내 PC)에서 붙기 때문에 Host를 `localhost`로 설정해야 합니다.
+
+### 접속 실패 시 확인 순서
+1. `docker compose ps`에서 `cubrid` 컨테이너가 `Up` 상태인지 확인
+2. `docker compose logs cubrid`에서 브로커가 정상 기동되었는지 확인
+3. 이미 생성된 볼륨 상태가 꼬였으면 `docker compose down -v` 후 재기동하여 DB 재초기화
+
 ## 화면 구성
 
 ### KRDS (대한민국정부 디자인 시스템)
