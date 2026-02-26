@@ -62,27 +62,6 @@ spring:
           filters:
             - RewritePath=/main/(?<segment>.*), /${segment}
 
-        - id: home
-          uri: lb://HOME
-          predicates:
-            - Path=/home/**
-          filters:
-            - RewritePath=/home/(?<segment>.*), /home/${segment}
-
-        - id: home1
-          uri: lb://HOME1
-          predicates:
-            - Path=/home1/**
-          filters:
-            - RewritePath=/home1/(?<segment>.*), /home1/${segment}
-
-        - id: home2
-          uri: lb://HOME2
-          predicates:
-            - Path=/home2/**
-          filters:
-            - RewritePath=/home2/(?<segment>.*), /home2/${segment}
-
         - id: home3
           uri: lb://HOME3
           predicates:

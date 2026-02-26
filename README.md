@@ -28,18 +28,32 @@
 
 ```
   NCC-Project
-    ├ ConfigServer
-    ├ EgovAuthor
-    ├ EgovBoard
-    ├ EgovCmmnCode
-    ├ EgovLogin
-    ├ EgovMobileId
-    ├ EgovQuestionnaire
-    ├ EgovSearch-Config
-    ├ EgovSearch
-    ├ EurekaServer
-    └ GatewayServer
+    ├ module/ConfigServer
+    ├ module/EgovAuthor
+    ├ module/EgovBoard
+    ├ module/EgovCmmnCode
+    ├ module/EgovLogin
+    ├ module/EgovMobileId
+    ├ module/EgovQuestionnaire
+    ├ module/EgovSearch-Config
+    ├ module/EgovSearch
+    ├ module/EurekaServer
+    └ module/GatewayServer
 ```
+
+### 루트(aggregator) 빌드 기준
+
+- 루트 `pom.xml`은 **운영 대상 top-level 모듈(`module/<서비스명>`)**만 `<modules>`에 포함한다.
+- 포함 기준: `module` 하위에 직접 위치한 서비스 모듈의 `pom.xml`.
+- 제외 기준:
+  - 존재하지 않는 모듈(`home`, `home1`, `home2` 등)
+  - 중첩/중복 구조(`module/EgovLogin/EgovLogin`, `module/EgovAdminLogin/EgovAdminLogin`)
+  - 운영 대상이 아닌 실험성 모듈(`module/EgovCertLogin`, `module/EgovGnrLogin`, `module/EgovSimpleAuth`, `module/home3`)
+
+```bash
+mvn clean install
+```
+
 
 ### 공통컴포넌트 목록
 
@@ -75,7 +89,8 @@
   - OpenSearch 검색엔진
  
 ## 프로젝트 구동 방법
-0. docker-compose/mysql 실행 `docker-compose up -d`
+0. 프로젝트 루트에서 docker-compose 실행 `docker compose up -d`
+   - CUBRID 초기화 스크립트 경로: `infra/cubrid/init/`
 1. EurekaService 실행
 2. ConfigServer
    - `ConfigServer/src/main/resources/config/application-local.yml`

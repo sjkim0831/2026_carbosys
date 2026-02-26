@@ -735,23 +735,8 @@ mappings:
         calls: ["/uat/uia/actionLogin"]
 
   # ============================================================
-  # Home Modules
+  # Home Modules (운영 중: home3만 배포)
   # ============================================================
-  - path: "/home"
-    module: "home"
-    description: "메인 홈페이지"
-    method: "GET"
-
-  - path: "/home2"
-    module: "home2"
-    description: "홈페이지 테마 2 (KR)"
-    method: "GET"
-
-  - path: "/home2/en"
-    module: "home2"
-    description: "홈페이지 테마 2 (EN)"
-    method: "GET"
-
   - path: "/home3"
     module: "home3"
     description: "홈페이지 테마 3 (KR)"

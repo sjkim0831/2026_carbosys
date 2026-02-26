@@ -7,18 +7,19 @@
 docker-compose/cubrid/data/
 docker-compose/cubrid/init/
 
-# Exclude source code and project/build configs
-**/src/
-**/pom.xml
+# IDE metadata is not required for container builds.
 **/.settings/
 **/.classpath
 **/.project
+
+# Container-internal Maven build needs full module sources and build descriptors.
+# Keep module/** available (src, pom.xml, .mvn, etc.) so Dockerfile COPY + mvn package works.
 
 # Keep mappings and ports for MsaManager
 !msa-mappings.yml
 !msa-ports.yml
 
-# Exclude heavy target folders...
+# Exclude local build outputs from host context.
 **/target/*
-# ...but KEEP the JAR files inside them!
+# Keep prebuilt JARs if any image path still references them.
 !**/target/*.jar

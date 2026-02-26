@@ -1,10 +1,12 @@
 # Build Stage
-FROM eclipse-temurin:8-jdk AS builder
+FROM eclipse-temurin:17-jdk AS builder
 
 # Install Maven
 RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
+
+RUN mkdir -p /output
 
 # Copy all module sources
 COPY module/ConfigServer /build/ConfigServer
@@ -57,7 +59,7 @@ COPY msa-mappings.yml /output/
 COPY msa-ports.yml /output/
 
 # Runtime Stage
-FROM eclipse-temurin:8-jre
+FROM eclipse-temurin:17-jre
 
 RUN apt-get update && apt-get install -y procps net-tools iproute2 curl && rm -rf /var/lib/apt/lists/*
 

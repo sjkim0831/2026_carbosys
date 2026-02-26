@@ -425,13 +425,18 @@ public class EgovJoinController {
         }
         if (fileUpload != null && !fileUpload.isEmpty()) {
             String originalFileName = fileUpload.getOriginalFilename();
-            if (originalFileName != null && originalFileName.contains(".")) {
-                String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
-                String newFileName = tempId + ext; // use the generated ID for filename uniqueness
-                File targetFile = new File(dir, newFileName);
-                fileUpload.transferTo(targetFile);
-                vo.setBizRegFilePath(targetFile.getAbsolutePath());
+            String ext = "";
+            if (originalFileName != null) {
+                int lastDotIndex = originalFileName.lastIndexOf(".");
+                if (lastDotIndex > -1) {
+                    ext = originalFileName.substring(lastDotIndex);
+                }
             }
+
+            String newFileName = tempId + ext; // use the generated ID for filename uniqueness
+            File targetFile = new File(dir, newFileName);
+            fileUpload.transferTo(targetFile);
+            vo.setBizRegFilePath(targetFile.getAbsolutePath());
         }
 
         entrprsManageService.insertInsttInfo(vo);

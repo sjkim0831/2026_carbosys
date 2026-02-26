@@ -54,7 +54,7 @@ java -jar /app/EgovSimpleAuth.jar &
 java -jar /app/EgovGnrLogin.jar &
 
 # Start UI Services
-echo "Starting UI services..."
+echo "Starting UI services (msa-mappings.yml 기준 운영 대상만 기동)..."
 
 java -jar /app/home3.jar &
 java -jar /app/signin.jar &

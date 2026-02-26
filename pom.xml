@@ -8,27 +8,23 @@
 	<name>ncc</name>
 
 	<modules>
-		<module>ConfigServer</module>
-		<module>EgovAuthor</module>
-		<module>EgovBoard</module>
-		<module>EgovCmmnCode</module>
-		<module>EgovLogin</module>
-		<module>EgovAdminLogin</module>
-		<module>EgovLoginPolicy</module>
-		<module>EgovMain</module>
-		<module>EgovAdminMain</module>
-		<module>home</module>
-		<module>home1</module>
-		<module>home2</module>
-		<module>home3</module>
-		<module>signin</module>
-		<module>EgovMobileId</module>
-		<module>EgovQuestionnaire</module>
-		<module>EgovSearch</module>
-		<module>EgovJoin</module>
-		<module>EgovMsaManager</module>
-		<module>EurekaServer</module>
-		<module>GatewayServer</module>
+		<module>module/ConfigServer</module>
+		<module>module/EgovAuthor</module>
+		<module>module/EgovBoard</module>
+		<module>module/EgovCmmnCode</module>
+		<module>module/EgovLogin</module>
+		<module>module/EgovAdminLogin</module>
+		<module>module/EgovLoginPolicy</module>
+		<module>module/EgovMain</module>
+		<module>module/EgovAdminMain</module>
+		<module>module/signin</module>
+		<module>module/EgovMobileId</module>
+		<module>module/EgovQuestionnaire</module>
+		<module>module/EgovSearch</module>
+		<module>module/EgovJoin</module>
+		<module>module/EgovMsaManager</module>
+		<module>module/EurekaServer</module>
+		<module>module/GatewayServer</module>
 	</modules>
 
 </project>

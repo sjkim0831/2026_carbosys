@@ -30,8 +30,5 @@ ports:
   EgovGnrLogin: 18033
   
   # UI/Home Modules
-  home: 18050
-  home1: 18051
-  home2: 18052
   home3: 18053
   signin: 18060
