@@ -266,10 +266,10 @@
                 document.body.style.overflow = '';
             }
 
-            btnCompanySearch.addEventListener('click', openModal);
-            modalCloseBtn.addEventListener('click', closeModal);
-            modalCancelBtn.addEventListener('click', closeModal);
-            modalBackdrop.addEventListener('click', closeModal);
+            if (btnCompanySearch) btnCompanySearch.addEventListener('click', openModal);
+            if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+            if (modalCancelBtn) modalCancelBtn.addEventListener('click', closeModal);
+            if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
             /* ── 검색 실행 ── */
@@ -290,10 +290,14 @@
                     });
             }
 
-            modalInnerSearchBtn.addEventListener('click', () => doSearch(1));
-            modalSearchInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') doSearch(1);
-            });
+            if (modalInnerSearchBtn) {
+                modalInnerSearchBtn.addEventListener('click', () => doSearch(1));
+            }
+            if (modalSearchInput) {
+                modalSearchInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') doSearch(1);
+                });
+            }
 
             /* ── tbody 렌더 ── */
             function renderEmptyTbody(msg) {
@@ -489,7 +493,7 @@
                     dropZone.className = 'drop-zone block border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer';
                 }
             });
-        })();
+        });
     </script>
     <!-- ============================================================
          기관/기업 검색 모달
