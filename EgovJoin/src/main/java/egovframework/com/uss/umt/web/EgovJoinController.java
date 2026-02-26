@@ -458,6 +458,33 @@ public class EgovJoinController {
         return String.valueOf(count);
     }
 
+    @GetMapping("/searchCompany")
+    @org.springframework.web.bind.annotation.ResponseBody
+    public java.util.Map<String, Object> searchCompany(
+            @RequestParam(value = "keyword", defaultValue = "") String keyword,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size,
+            @RequestParam(value = "status", required = false, defaultValue = "") String status) throws Exception {
+
+        int offset = (page - 1) * size;
+        java.util.Map<String, Object> params = new java.util.HashMap<>();
+        params.put("keyword", keyword.trim());
+        params.put("offset", offset);
+        params.put("pageSize", size);
+        params.put("status", status.trim());
+
+        java.util.List<?> list = entrprsManageService.searchCompanyListPaged(params);
+        int totalCnt = entrprsManageService.searchCompanyListTotCnt(params);
+
+        java.util.Map<String, Object> result = new java.util.HashMap<>();
+        result.put("list", list);
+        result.put("totalCnt", totalCnt);
+        result.put("page", page);
+        result.put("size", size);
+        result.put("totalPages", (int) Math.ceil((double) totalCnt / size));
+        return result;
+    }
+
     @GetMapping("/searchCompanyAPI")
     @org.springframework.web.bind.annotation.ResponseBody
     public java.util.List<?> searchCompanyAPI(@RequestParam("keyword") String keyword) throws Exception {

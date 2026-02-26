@@ -138,6 +138,7 @@
                                         class="text-red-500">*</span></label>
                                 <input class="form-input" id="password-confirm" placeholder="Re-enter your password"
                                     type="password" required />
+                                <div id="pw-check-msg"></div>
                             </div>
                             <div class="md:col-span-2 space-y-1">
                                 <label class="form-label" for="contact">Phone Number <span
@@ -487,6 +488,32 @@
             isIdChecked = false;
             document.getElementById('id-check-msg').textContent = "";
         };
+
+        // --- Password Match (Real-time) ---
+        const passwordInput = document.getElementById('password');
+        const passwordConfirmInput = document.getElementById('password-confirm');
+        const pwCheckMsg = document.getElementById('pw-check-msg');
+
+        function validatePasswordMatch() {
+            const pw = passwordInput.value;
+            const pwConfirm = passwordConfirmInput.value;
+
+            if (!pw || !pwConfirm) {
+                pwCheckMsg.textContent = "";
+                return;
+            }
+
+            if (pw === pwConfirm) {
+                pwCheckMsg.textContent = "Passwords match.";
+                pwCheckMsg.className = "text-[12px] text-green-600 mt-1 font-bold";
+            } else {
+                pwCheckMsg.textContent = "Passwords do not match.";
+                pwCheckMsg.className = "text-[12px] text-red-500 mt-1";
+            }
+        }
+
+        passwordInput.addEventListener('input', validatePasswordMatch);
+        passwordConfirmInput.addEventListener('input', validatePasswordMatch);
 
         // ─── Email duplication check ───
         document.getElementById('emailCheckBtn').onclick = async function () {

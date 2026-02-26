@@ -1,0 +1,810 @@
+# MSA Route/Controller Mappings with API Schema
+# Each entry includes: path, module, description, method, params, requestBody, response
+
+mappings:
+
+  # ============================================================
+  # EgovAdminMain (Port: 18020)
+  # ============================================================
+  - path: "/"
+    module: "EgovAdminMain"
+    gatewayPrefix: "/adminmain"
+    description: "관리자 운영 대시보드 메인"
+    method: "GET"
+    uiElements:
+      - element: "사이드바 메뉴 (운영 대시보드)"
+        function: "링크 (A)"
+        details: "관리자 메인 페이지(대시보드)로 이동합니다."
+        url: "/adminmain/"
+      - element: "사이드바 메뉴 (회원·권한 관리)"
+        function: "Accordion Menu"
+        details: "회원 목록, 통계, 권한 그룹 및 관리자 계정 설정 하위 메뉴를 포함하는 섹션입니다."
+      - element: "새로고침 버튼"
+        function: "location.reload()"
+        details: "현재 대시보드의 데이터를 최신 상태로 갱신합니다."
+      - element: "전체 활성 회원 카드"
+        function: "Data Display"
+        details: "시스템에 등록된 전체 활성 회원 수를 표시합니다."
+      - element: "이달의 탄소저감 통계 카드"
+        function: "Data Display"
+        details: "당월 집계된 총 탄소저감량(tCO2e)을 시각화합니다."
+      - element: "미승인 업체 신청 카드"
+        function: "Data Display"
+        details: "승인 대기 중인 신규 업체 등록 신청 건수를 표시합니다."
+      - element: "시스템 연계 현황"
+        function: "Status Indicator"
+        details: "KEPCO, 탄소거래소 등 유관 시스템과의 API 연계 상태를 실시간으로 표시합니다."
+      - element: "로그아웃 버튼"
+        function: "logout()"
+        details: "관리자 세션을 종료하고 로그인 화면으로 이동합니다."
+        calls: ["/admin/login/actionLogout"]
+
+  - path: "/member/stats"
+    module: "EgovAdminMain"
+    description: "회원·통계 조회"
+    method: "GET"
+    uiElements:
+      - element: "기간 설정 버튼 (Period Settings)"
+        function: "Modal/DatePicker"
+        details: "통계 데이터의 조회 기간을 설정하기 위한 달력 팝업을 호출합니다."
+      - element: "데이터 갱신 버튼 (Data Refresh)"
+        function: "location.reload()"
+        details: "서버로부터 최신 회원 통계 데이터를 다시 로드합니다."
+      - element: "보고서 생성 버튼"
+        function: "JS 함수/External API"
+        details: "현재 조회된 통계 지표를 바탕으로 관리 보고서용 문서(PDF 등)를 생성합니다."
+      - element: "회원 유형 비율 (Donut Chart)"
+        function: "SVG Visualization"
+        details: "기업 회원과 개인 회원의 비율 및 총 회원 수를 시각화하여 표시합니다."
+      - element: "월별 신규 가입 추이 (Bar Chart)"
+        function: "CSS/Group Hover"
+        details: "최근 5개월간의 월별 신규 가입자 수 변화를 바 차트로 비교 분석합니다."
+      - element: "지역별 분포 현황 (Progress Bar)"
+        function: "Data Meter"
+        details: "수도권, 영남권, 충청권 등 권역별 기업 회원 소재지 분포를 백분율과 함께 표시합니다."
+      - element: "데이터 내려받기 (CSV)"
+        function: "JS 함수"
+        details: "현재 시점의 권역별/유형별 통계 원천 데이터를 CSV 형식으로 다운로드합니다."
+    response:
+      - name: "memberCount"
+        type: "int"
+        description: "전체 회원 수"
+      - name: "activeCount"
+        type: "int"
+        description: "활성 회원 수"
+      - name: "statData"
+        type: "List<Map>"
+        description: "지역별/유형별 통계 데이터 셋"
+
+  - path: "/member/list"
+    module: "EgovAdminMain"
+    description: "회원 목록 조회"
+    method: "GET"
+    uiElements:
+      - element: "신규 회원 등록 버튼"
+        function: "링크 (A)"
+        details: "수동으로 신규 회원(기업/개인) 계정을 생성하는 화면으로 이동합니다."
+      - element: "회원 정보 테이블"
+        function: "List Mapping (Thymeleaf)"
+        details: "ID, 성명/기업명, 유형, 회원상태(정상/정지), 가입일 정보를 리스트로 표시합니다."
+      - element: "회원 상태 배지"
+        function: "UI Badge"
+        details: "회원의 현재 활동 상태를 색상별(Green/Red) 배지로 구분하여 시각화합니다."
+      - element: "회원 수정 버튼"
+        function: "editUser(id)"
+        details: "특정 회원의 상세 정보 조회 및 수정 팝업/페이지를 호출합니다."
+    params:
+      - name: "searchKeyword"
+        type: "String"
+        description: "검색어"
+      - name: "searchCondition"
+        type: "String"
+        description: "검색 조건 (ID, 이름 등)"
+      - name: "pageIndex"
+        type: "int"
+        required: false
+        description: "페이지 번호"
+      - name: "pageSize"
+        type: "int"
+        required: false
+        description: "페이지당 노출 행 수"
+
+  - path: "/member/auth-group"
+    module: "EgovAdminMain"
+    description: "권한 그룹 관리"
+    method: "GET"
+    uiElements:
+      - element: "설정 대상 그룹 선택 (Select)"
+        function: "Tab/Group Change"
+        details: "운영자, 일괄운영팀, 기업사용자 등 편집할 권한 대상을 선택합니다."
+      - element: "권한 매트릭스 테이블"
+        function: "CRUD Checkboxes"
+        details: "메뉴별 조회/작성/승인 권한을 체크박스로 개별 또는 일괄 할당합니다."
+      - element: "설정 저장 버튼"
+        function: "submit/apply"
+        details: "변경된 그룹별 접근 권한 및 기능 제한 설정을 DB에 영구 반영합니다."
+      - element: "취소 버튼"
+        function: "Redirect"
+        details: "변경 내용을 폐기하고 이전 화면으로 돌아갑니다."
+
+  - path: "/member/admin-account"
+    module: "EgovAdminMain"
+    description: "관리자 계정 관리"
+    method: "GET"
+    uiElements:
+      - element: "아이디 중복 확인 버튼"
+        function: "API Call / validation"
+        details: "입력된 아이디의 사용 가능 여부를 서버 API를 통해 실시간 검증합니다."
+      - element: "계정 정보 입력 폼"
+        function: "Input Field Group"
+        details: "성명, 임시 비밀번호, 부서명, 연락처 등 관리자 프로필 정보를 입력합니다."
+      - element: "계정 생성 버튼"
+        function: "submitForm()"
+        details: "새로운 운영자 계정을 생성하고 초기 권한을 부여합니다."
+      - element: "취소 버튼"
+        function: "Reset Form/Back"
+        details: "입력 내용을 초기화하거나 목록 페이지로 이동합니다."
+
+  # ============================================================
+  # EgovAdminLogin (Port: 18021)
+  # ============================================================
+  - path: "/admin/login/loginView"
+    module: "EgovAdminLogin"
+    description: "관리자 로그인 화면"
+    method: "GET"
+    uiElements:
+      - element: "관리자 아이디 입력"
+        function: "입력"
+        details: "관리자 전용 계정 아이디를 입력합니다."
+      - element: "관리자 비밀번호 입력"
+        function: "입력"
+        details: "관리자 전용 계정 비밀번호를 입력합니다."
+      - element: "로그인 버튼"
+        function: "loginProcess()"
+        details: "관리자 인증을 진행하며, 성공 시 관리자 메인으로 이동합니다."
+        inputs: ["userId", "userPw", "userSe"]
+        calls: ["/admin/login/actionLogin"]
+
+  - path: "/admin/login/actionLogin"
+    module: "EgovAdminLogin"
+    gatewayPrefix: ""
+    description: "관리자 로그인 처리 (JWT 발급)"
+    method: "POST"
+    requestBody:
+      - name: "userId"
+        type: "String"
+        required: true
+        description: "관리자 아이디"
+      - name: "password"
+        type: "String"
+        required: true
+        description: "비밀번호"
+    response:
+      - name: "status"
+        type: "String"
+        description: "loginSuccess / loginFailure"
+      - name: "userInfo"
+        type: "String"
+        description: "사용자 이름(아이디)"
+      - name: "errors"
+        type: "String"
+        description: "오류 메시지"
+
+  - path: "/admin/login/actionLogout"
+    module: "EgovAdminLogin"
+    description: "관리자 로그아웃"
+    method: "POST"
+    response:
+      - name: "status"
+        type: "String"
+        description: "success / error"
+
+  - path: "/admin/login/validateRefreshToken"
+    module: "EgovAdminLogin"
+    description: "Refresh Token 유효성 검증"
+    method: "GET"
+    params:
+      - name: "refreshToken"
+        type: "String"
+        required: true
+        description: "검증할 Refresh Token"
+    response:
+      - name: "valid"
+        type: "boolean"
+        description: "토큰 유효 여부"
+
+  - path: "/admin/login/recreateAccessToken"
+    module: "EgovAdminLogin"
+    description: "Access Token 재발급"
+    method: "GET"
+    params:
+      - name: "refreshToken"
+        type: "String"
+        required: true
+        description: "유효한 Refresh Token (Header)"
+    response:
+      - name: "accessToken"
+        type: "String"
+        description: "새로 발급된 Access Token"
+
+  - path: "/admin/login/loginForbidden"
+    module: "EgovAdminLogin"
+    description: "접근 거부 화면"
+    method: "GET"
+    params:
+      - name: "pathCode"
+        type: "String"
+        description: "거부 사유 코드"
+
+  - path: "/admin/login/reload"
+    module: "EgovAdminLogin"
+    description: "보안 메타데이터(권한) 갱신"
+    method: "POST"
+    response:
+      - name: "status"
+        type: "String"
+        description: "Success"
+
+  # ============================================================
+  # EgovMsaManager (Port: 18030)
+  # ============================================================
+  - path: "/admin/msa/manager"
+    module: "EgovMsaManager"
+    description: "MSA 통합 관리 UI"
+    method: "GET"
+    uiElements:
+      - element: "전체 동기화 버튼 (refreshData)"
+        function: "refreshData()"
+        details: "모든 모듈의 상태와 API 매핑 정보를 서버에서 다시 조회하여 화면을 갱신합니다."
+        calls: ["/admin/msa/api/modules", "/admin/msa/api/mappings"]
+      - element: "전체 종료 버튼 (killAllJava)"
+        function: "killAllJava()"
+        details: "모든 Java 프로세스를 강제 종료하고 Manager를 재시작합니다."
+        calls: ["/admin/msa/api/killall"]
+      - element: "모듈 시작 버튼"
+        function: "startMod(id)"
+        details: "선택한 모듈을 백그라운드에서 실행합니다."
+        inputs: ["moduleId"]
+        calls: ["/admin/msa/api/modules/{id}/start"]
+      - element: "모듈 중지 버튼"
+        function: "stopMod(id)"
+        details: "실행 중인 모듈 인스턴스를 중지합니다."
+        inputs: ["moduleId"]
+        calls: ["/admin/msa/api/modules/{id}/stop"]
+      - element: "로그 조회 버튼"
+        function: "showLogs(id)"
+        details: "실시간 로그 스트리밍을 시작하고 로그 섹션을 표시합니다."
+        inputs: ["moduleId"]
+        calls: ["/admin/msa/api/modules/{id}/logs"]
+      - element: "매핑 검색 입력"
+        function: "filterMappings()"
+        details: "입력된 키워드로 경로, 모듈, 설명 등을 실시간 필터링합니다."
+        inputs: ["query"]
+
+  - path: "/admin/msa/api/modules"
+    module: "EgovMsaManager"
+    description: "전체 모듈 목록 및 상태 조회"
+    method: "GET"
+    response:
+      - name: "[].id"
+        type: "String"
+        description: "모듈 디렉토리명"
+      - name: "[].name"
+        type: "String"
+        description: "애플리케이션명 (spring.application.name)"
+      - name: "[].port"
+        type: "int"
+        description: "서비스 포트"
+      - name: "[].status"
+        type: "String"
+        description: "running / stopped / starting / error"
+      - name: "[].pid"
+        type: "Long"
+        description: "프로세스 ID (이 도구로 시작된 경우)"
+
+  - path: "/admin/msa/api/modules/{id}/start"
+    module: "EgovMsaManager"
+    description: "모듈 시작 (mvn spring-boot:run)"
+    method: "POST"
+    params:
+      - name: "id"
+        type: "String"
+        required: true
+        description: "모듈 ID (Path Variable)"
+    response:
+      - name: "status"
+        type: "String"
+        description: "ok / error"
+      - name: "message"
+        type: "String"
+        description: "오류 메시지 (error 시)"
+
+  - path: "/admin/msa/api/modules/{id}/stop"
+    module: "EgovMsaManager"
+    description: "모듈 중지"
+    method: "POST"
+    params:
+      - name: "id"
+        type: "String"
+        required: true
+        description: "모듈 ID (Path Variable)"
+    response:
+      - name: "status"
+        type: "String"
+        description: "ok"
+
+  - path: "/admin/msa/api/modules/{id}/logs"
+    module: "EgovMsaManager"
+    description: "모듈 로그 조회 (최근 200줄)"
+    method: "GET"
+    params:
+      - name: "id"
+        type: "String"
+        required: true
+        description: "모듈 ID (Path Variable)"
+    response:
+      - name: "logs"
+        type: "List<String>"
+        description: "로그 라인 목록 (startup.log 또는 actuator)"
+
+  - path: "/admin/msa/api/mappings"
+    module: "EgovMsaManager"
+    description: "컨트롤러 매핑 목록 조회"
+    method: "GET"
+    response:
+      - name: "[].path"
+        type: "String"
+        description: "URL 경로 패턴"
+      - name: "[].module"
+        type: "String"
+        description: "담당 모듈명"
+      - name: "[].status"
+        type: "String"
+        description: "running / stopped / unknown"
+      - name: "[].port"
+        type: "int"
+        description: "담당 모듈 포트"
+
+  # ============================================================
+  # EgovLogin (Port: 18002)
+  # ============================================================
+  - path: "/uat/uia/loginView"
+    module: "EgovLogin"
+    description: "사용자 로그인 화면"
+    method: "GET"
+    uiElements:
+      - element: "아이디 입력창 (userId)"
+        function: "입력"
+        details: "로그인을 위한 사용자 아이디를 입력합니다."
+      - element: "비밀번호 입력창 (userPw)"
+        function: "입력"
+        details: "로그인을 위한 비밀번호를 입력합니다."
+      - element: "로그인 버튼"
+        function: "loginProcess()"
+        details: "입력된 계정 정보를 검증하기 위해 서버로 요청을 보냅니다."
+        inputs: ["userId", "userPw", "userSe"]
+        calls: ["/uat/uia/actionLogin"]
+      - element: "비밀번호 보기 토글"
+        function: "loginView()"
+        details: "비밀번호 입력창의 타입을 text/password로 전환합니다."
+
+  - path: "/uat/uia/actionLogin"
+    module: "EgovLogin"
+    description: "사용자 로그인 처리"
+    method: "POST"
+    requestBody:
+      - name: "userId"
+        type: "String"
+        required: true
+        description: "사용자 ID"
+      - name: "password"
+        type: "String"
+        required: true
+        description: "비밀번호"
+    response:
+      - name: "status"
+        type: "String"
+        description: "success / error"
+      - name: "accessToken"
+        type: "String"
+        description: "JWT Access Token"
+      - name: "refreshToken"
+        type: "String"
+        description: "JWT Refresh Token"
+
+  - path: "/uat/uia/actionLogout"
+    module: "EgovLogin"
+    description: "사용자 로그아웃"
+    method: "POST"
+    response:
+      - name: "status"
+        type: "String"
+        description: "success"
+
+  - path: "/uat/uia/validateRefreshToken"
+    module: "EgovLogin"
+    description: "Refresh Token 검증"
+    method: "GET"
+    params:
+      - name: "refreshToken"
+        type: "String"
+        required: true
+        description: "검증할 Refresh Token"
+    response:
+      - name: "valid"
+        type: "boolean"
+        description: "토큰 유효 여부"
+
+  - path: "/uat/uia/recreateAccessToken"
+    module: "EgovLogin"
+    description: "Access Token 재발급"
+    method: "GET"
+    params:
+      - name: "refreshToken"
+        type: "String"
+        required: true
+        description: "유효한 Refresh Token"
+    response:
+      - name: "accessToken"
+        type: "String"
+        description: "새로 발급된 Access Token"
+
+  # ============================================================
+  # EgovJoin (Port: 18004)
+  # ============================================================
+  - path: "/join/**"
+    module: "EgovJoin"
+    description: "회원가입 서비스 전체"
+    method: "GET/POST"
+    uiElements:
+      - element: "회원유형 선택 (Step 1)"
+        function: "radio selection"
+        details: "사용자의 회원 유형(배출기업, 수송기업 등)을 선택합니다."
+      - element: "약관 동의 체크 (Step 2)"
+        function: "checkbox"
+        details: "서비스 이용약관 및 개인정보 보침에 동의합니다."
+      - element: "본인 인증 (Step 3)"
+        function: "JS 가상 인증"
+        details: "휴대폰 또는 기타 수단으로 본인임을 확인합니다."
+      - element: "회원정보 입력 (Step 4)"
+        function: "Form 입력"
+        details: "아이디, 비밀번호, 업체명, 사업자번호 등을 입력합니다."
+      - element: "가입 완료 버튼 (Step 5)"
+        function: "submit"
+        details: "최종 회원가입 정보를 서버에 등록합니다."
+        calls: ["/join/step5"]
+
+  # ============================================================
+  # EgovAuthor (Port: 18005)
+  # ============================================================
+  - path: "/sec/gmt/**"
+    module: "EgovAuthor"
+    description: "권한 그룹 정보 관리 (Author Group Management)"
+    method: "GET/POST"
+
+  - path: "/sec/ram/**"
+    module: "EgovAuthor"
+    description: "권한 정보 관리 (Role-Auth Mapping)"
+    method: "GET/POST"
+
+  - path: "/sec/rmt/**"
+    module: "EgovAuthor"
+    description: "롤 정보 관리 (Role Management)"
+    method: "GET/POST"
+
+  # ============================================================
+  # EgovCmmnCode (Port: 18006)
+  # ============================================================
+  - path: "/sym/ccm/cca/**"
+    module: "EgovCmmnCode"
+    description: "공통 코드 관리"
+    method: "GET/POST"
+    params:
+      - name: "codeId"
+        type: "String"
+        required: false
+        description: "코드 ID"
+
+  - path: "/sym/ccm/ccc/**"
+    module: "EgovCmmnCode"
+    description: "공통 분류 코드 관리"
+    method: "GET/POST"
+
+  - path: "/sym/ccm/cde/**"
+    module: "EgovCmmnCode"
+    description: "공통 상세 코드 관리"
+    method: "GET/POST"
+
+  # ============================================================
+  # EgovBoard (Port: 18003)
+  # ============================================================
+  - path: "/cop/brd/**"
+    module: "EgovBoard"
+    description: "게시판 (Board) 서비스"
+    method: "GET/POST"
+    uiElements:
+      - element: "검색 필터 (searchCondition)"
+        function: "셀렉트"
+        details: "제목, 내용, 등록자 등 검색 조건을 선택합니다."
+      - element: "검색어 입력 (searchKeyword)"
+        function: "입력"
+        details: "검색할 키워드를 입력합니다."
+      - element: "조회 버튼"
+        function: "boardSearch()"
+        details: "입력된 조건으로 게시물 목록을 필터링합니다."
+        inputs: ["searchCondition", "searchKeyword"]
+        calls: ["/cop/brd/boardList"]
+      - element: "글쓰기 버튼"
+        function: "boardCreate()"
+        details: "게시물 등록 화면으로 이동합니다."
+      - element: "게시물 제목 링크"
+        function: "boardDetail(nttId)"
+        details: "상세 내용을 보기 위해 상세 화면으로 이동합니다."
+        inputs: ["nttId"]
+    params:
+      - name: "bbsId"
+        type: "String"
+        required: false
+        description: "게시판 ID"
+      - name: "nttId"
+        type: "long"
+        required: false
+        description: "게시물 ID"
+
+  - path: "/cop/cmy/**"
+    module: "EgovBoard"
+    description: "커뮤니티 (Community) 서비스"
+    method: "GET/POST"
+
+  - path: "/cop/bls/**"
+    module: "EgovBoard"
+    description: "블로그 (Blog) 서비스"
+    method: "GET/POST"
+
+  - path: "/cop/bbs/**"
+    module: "EgovBoard"
+    description: "게시판 마스터 관리"
+    method: "GET/POST"
+
+  # ============================================================
+  # EgovSearch (Port: 18008)
+  # ============================================================
+  - path: "/ext/ops/**"
+    module: "EgovSearch"
+    description: "통합 검색 (OpenSearch) 서비스"
+    method: "GET/POST"
+    params:
+      - name: "searchKeyword"
+        type: "String"
+        required: false
+        description: "검색 키워드"
+      - name: "pageIndex"
+        type: "int"
+        required: false
+        description: "페이지 번호"
+
+  # ============================================================
+  # EgovQuestionnaire (Port: 18007)
+  # ============================================================
+  - path: "/uss/olp/qmc/**"
+    module: "EgovQuestionnaire"
+    description: "설문 관리 (Questionnaire Management)"
+    method: "GET/POST"
+
+  - path: "/uss/olp/qri/**"
+    module: "EgovQuestionnaire"
+    description: "설문 응답 결과 관리"
+    method: "GET/POST"
+
+  - path: "/uss/olp/qim/**"
+    module: "EgovQuestionnaire"
+    description: "설문 문항 관리"
+    method: "GET/POST"
+
+  - path: "/uss/olp/qtm/**"
+    module: "EgovQuestionnaire"
+    description: "설문 템플릿 관리"
+    method: "GET/POST"
+
+  - path: "/uss/olp/qqm/**"
+    module: "EgovQuestionnaire"
+    description: "설문 질문 관리"
+    method: "GET/POST"
+
+  - path: "/uss/olp/qrm/**"
+    module: "EgovQuestionnaire"
+    description: "설문 응답자 정보 관리"
+    method: "GET/POST"
+
+  # ============================================================
+  # EgovLoginPolicy (Port: 18010)
+  # ============================================================
+  - path: "/uat/uap/**"
+    module: "EgovLoginPolicy"
+    description: "로그인 정책 관리"
+    method: "GET/POST"
+
+  # ============================================================
+  # EgovMobileId (Port: 18009)
+  # ============================================================
+  - path: "/mip/**"
+    module: "EgovMobileId"
+    description: "모바일 신분증 인증 (MIP 프로토콜)"
+    method: "GET/POST"
+    uiElements:
+      - element: "신분증 유형 탭"
+        function: "location.href 전환"
+        details: "운전면허증(driver), 국가유공자증(honor), 재외국민증(expat) 중 하나를 선택합니다."
+        inputs: ["license"]
+      - element: "QR정보 요청 버튼"
+        function: "qrInfoReqBtn 클릭"
+        details: "모바일 신분증 인증을 위한 QR 코드를 생성 요청합니다."
+      - element: "진행상태 확인 버튼"
+        function: "trxstsBtn 클릭"
+        details: "현재 인증 진행 상태를 서버에서 조회하여 결과 영역에 표시합니다."
+      - element: "상태 초기화 버튼"
+        function: "resetTrxstsBtn 클릭"
+        details: "진행 중인 인증 트랜잭션을 초기화합니다."
+      - element: "인증 결과 영역"
+        function: "결과 데이터 바인딩"
+        details: "이름, 생년월일, 주소 및 사진 정보를 복호화하여 화면에 출력합니다."
+
+  - path: "/qrcpm/**"
+    module: "EgovMobileId"
+    description: "QR Code 제시 방식 (QR CPM)"
+    method: "GET/POST"
+
+  - path: "/qrmpm/**"
+    module: "EgovMobileId"
+    description: "QR Code 판독 방식 (QR MPM)"
+    method: "GET/POST"
+
+  - path: "/push/**"
+    module: "EgovMobileId"
+    description: "PUSH 방식 인증"
+    method: "POST"
+    requestBody:
+      - name: "spDid"
+        type: "String"
+        required: true
+        description: "서비스 제공자 DID"
+
+  - path: "/app2app/**"
+    module: "EgovMobileId"
+    description: "App-to-App 인증"
+    method: "GET/POST"
+
+  - path: "/web/**"
+    module: "EgovMobileId"
+    description: "웹 기반 모바일 신분증 인증 (Test Page)"
+    method: "GET/POST"
+    uiElements:
+      - element: "PC 테스트 뷰"
+        function: "リンク (A)"
+        url: "/web/pcView"
+        details: "PC 환경에서의 모바일 신분증 인증 테스트 화면입니다."
+      - element: "모바일 테스트 뷰"
+        function: "リンク (A)"
+        url: "/web/mobileView"
+        details: "모바일 환경에서의 모바일 신분증 인증 테스트 화면입니다."
+      - element: "서비스 리스트"
+        function: "Thymeleaf each"
+        details: "설정된 검증 서비스 목록을 표시합니다."
+
+  # ============================================================
+  # EgovSimpleAuth (Port: 18032)
+  # ============================================================
+  - path: "/saas/v2.0/kcert/v1.0/**"
+    module: "EgovSimpleAuth"
+    description: "간편인증 (카카오/PASS 등)"
+    method: "POST"
+
+  # ============================================================
+  # EgovCertLogin (Port: 18031)
+  # ============================================================
+  - path: "/uat/uia/loginView"
+    module: "EgovCertLogin"
+    description: "공동인증서 로그인 화면"
+    method: "GET"
+    uiElements:
+      - element: "인증서 선택 창"
+        function: "GPKI/NPKI 연동"
+        details: "사용자의 PC 또는 토큰에 저장된 공동인증서를 목록에 표시합니다."
+      - element: "비밀번호 입력"
+        function: "인증서 암호 확인"
+        details: "선택한 인증서의 개인키 암호를 확인합니다."
+      - element: "인증서 로그인 버튼"
+        function: "actionLogin()"
+        details: "인증서 서명 값을 서버로 전달하여 본인 확인을 수행합니다."
+        calls: ["/uat/uia/actionLogin"]
+
+  # ============================================================
+  # EgovGnrLogin (Port: 18033)
+  # ============================================================
+  - path: "/uat/uia/loginView"
+    module: "EgovGnrLogin"
+    description: "일반 로그인 화면"
+    method: "GET"
+    uiElements:
+      - element: "아이디/비밀번호 입력"
+        function: "Input"
+        details: "표준 아이디 및 패스워드 방식을 통한 로그인입니다."
+      - element: "로그인 버튼"
+        function: "actionLogin()"
+        details: "입력된 계정 정보를 동기 방식으로 처리합니다."
+        calls: ["/uat/uia/actionLogin"]
+
+  # ============================================================
+  # Home Modules
+  # ============================================================
+  - path: "/home"
+    module: "home"
+    description: "메인 홈페이지"
+    method: "GET"
+
+  - path: "/home2"
+    module: "home2"
+    description: "홈페이지 테마 2 (KR)"
+    method: "GET"
+
+  - path: "/home2/en"
+    module: "home2"
+    description: "홈페이지 테마 2 (EN)"
+    method: "GET"
+
+  - path: "/home3"
+    module: "home3"
+    description: "홈페이지 테마 3 (KR)"
+    method: "GET"
+
+  - path: "/home3/en"
+    module: "home3"
+    description: "홈페이지 테마 3 (EN)"
+    method: "GET"
+
+  # ============================================================
+  # signin (Port: 18060)
+  # ============================================================
+  - path: "/signin/**"
+    module: "signin"
+    description: "통합 사인인 서비스 (Unified Login)"
+    method: "GET/POST"
+    uiElements:
+      - element: "사용자 유형 탭 (국내/해외)"
+        function: "탭 전환 (JS)"
+        details: "국내 사용자(GNR) 또는 해외 사업자(ENT) 유형을 선택합니다."
+      - element: "아이디/비밀번호 입력"
+        function: "Form Input"
+        details: "로그인 정보를 입력합니다."
+      - element: "자동 로그인/ID 저장"
+        function: "체크박스"
+        details: "브라우저 쿠키를 통해 정보를 저장합니다."
+      - element: "로그인 버튼"
+        function: "loginProcess()"
+        details: "통합 인증 서버로 계정 정보를 검증 요청합니다."
+        calls: ["/signin/actionLogin"]
+      - element: "간편인증 버튼"
+        function: "외부 연동"
+        details: "카카오, 토스 등 외부 인증 수단을 호출합니다."
+      - element: "증명인증 버튼"
+        function: "인증서 호출"
+        details: "공동인증서 또는 금융인증서를 통한 로그인을 시도합니다."
+
+  # ============================================================
+  # EgovMain (Port: 18001)
+  # ============================================================
+  - path: "/"
+    module: "EgovMain"
+    description: "사용자 메인 페이지 (Layout)"
+    method: "GET"
+    uiElements:
+      - element: "메인 레이아웃 (Side Menu)"
+        function: "loadContent(url)"
+        details: "사이드바 메뉴 클릭 시 해당 컨텐츠를 중앙 뷰어(custom-viewer)에 비동기로 로드합니다."
+        inputs: ["data-url"]
+      - element: "중앙 컨텐츠 뷰어"
+        function: "custom-viewer"
+        details: "선택된 페이지의 내용을 iframe 형태로 표시하고 높이를 자동 조절합니다."
+      - element: "본문 바로가기"
+        function: "Skip Link"
+        details: "접근성을 위한 본문 영역 이동 링크입니다."
