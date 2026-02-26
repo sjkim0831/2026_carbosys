@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CCUS Integrated Management Portal - Government of the Republic of Korea</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+        }
+        @layer base {
+            body { font-family: 'Public Sans', 'Noto Sans KR', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+            .focus-visible:focus-visible {
+                outline: 3px solid var(--kr-gov-focus);
+                outline-offset: 2px;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;}
+        .gov-btn {
+            @apply px-5 py-2.5 font-bold rounded-[var(--kr-gov-radius)] transition-colors focus-visible;
+        }
+        .gov-card {
+            @apply border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white transition-all hover:shadow-lg focus-visible;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "secondary": "#006b5d",
+                        "gov-gray": "#767676",
+                    },
+                    borderRadius: {
+                        'gov': '5px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-white text-[var(--kr-gov-text-primary)]">
+    <a class="skip-link" href="#main-content">Skip to Main Content</a>
+    <div class="bg-[var(--kr-gov-bg-gray)] border-b border-[var(--kr-gov-border-light)]">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8 py-2 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <img alt="Government Symbol of the Republic of Korea" class="h-4"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BPzqtzSLVGSrjt4mzhhVBy9SocCRDssk1F3XRVu7Xq9jHh7qzzt48wFi8qduCiJmB0LRQczPB7waPe3h0gkjn3jOEDxt6UJSJjdXNf8P-4WlM2BEZrfg2SL91uSiZrFcCk9KYrsdg-biTS9dtJ_OIghDBEVoAzMc33XcCYR_UP0QQdoYzBe840YrtH40xGyB9MSr0QH4D0foqlvOhG0jX8CDayXNlDsSKlfClVd3K2aodlwg4xSxgXHB3vnnnA0L2yNBNihQQg0" />
+                <span class="text-[13px] font-medium text-[var(--kr-gov-text-secondary)]">Official Service of the
+                    Government of the Republic of Korea</span>
+            </div>
+            <div class="hidden md:flex items-center gap-4 text-xs font-medium text-[var(--kr-gov-text-secondary)]">
+                <p>This website is operated according to government guidelines.</p>
+            </div>
+        </div>
+    </div>
+    <header class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3">
+                    <a href="/signin/loginView?language=en" class="flex items-center gap-2 focus-visible">
+                        <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]"
+                            style="font-variation-settings: 'wght' 600;">eco</span>
+                        <div class="flex flex-col">
+                            <h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)]">CCUS
+                                Management Portal</h1>
+                            <p
+                                class="text-[10px] text-[var(--kr-gov-text-secondary)] font-bold uppercase tracking-wider">
+                                Carbon Capture, Utilization and Storage</p>
+                        </div>
+                    </a>
+                </div>
+                <nav class="hidden lg:flex items-center space-x-8 h-full">
+                    <a class="h-full flex items-center px-2 text-[16px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible"
+                        href="#">About</a>
+                    <a class="h-full flex items-center px-2 text-[16px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible"
+                        href="#">Calculation &amp; Simulation</a>
+                    <a class="h-full flex items-center px-2 text-[16px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible"
+                        href="#">Certification &amp; Reports</a>
+                    <a class="h-full flex items-center px-2 text-[16px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible"
+                        href="#">Support Center</a>
+                    <a class="h-full flex items-center px-2 text-[16px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible"
+                        href="#">My Page</a>
+                </nav>
+                <div class="flex items-center gap-3">
+                    <div
+                        class="flex border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] overflow-hidden">
+                        <button
+                            class="px-2 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold focus-visible"
+                            onclick="location.href='/home3'">KO</button>
+                        <button
+                            class="px-2 py-1 text-xs bg-[var(--kr-gov-blue)] text-white font-bold focus-visible border-l border-[var(--kr-gov-border-light)]"
+                            onclick="location.href='/home3/en'">EN</button>
+                    </div>
+                    <button th:if="${isLoggedIn}" id="logoutBtn"
+                        class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"
+                        onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type': 'application/json'}}).then(r => r.json()).then(d => {if(d.status === 'success') location.reload();});">Logout</button>
+                    <button th:unless="${isLoggedIn}" id="loginBtn"
+                        class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"
+                        onclick="location.href='/signin/loginView?language=en'">Login</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main id="main-content">
+        <section class="relative h-[480px] bg-slate-900 overflow-hidden">
+            <div class="absolute inset-0">
+                <img alt="Carbon capture facility" class="w-full h-full object-cover opacity-60"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKzEmq3B_kHRl3FWheD0HIdd3wasUtuhFVFgeRS05lgvAoyZS3TAjbi14ilZx1_L6i6qxmVk4OP8cNbisdlZRCSUAOwrKOVimb-EXOsS8PU1Sp_cB__QUog96l3-0MOv1ytGr46E0DjQVE-xJZF1mpIl3qWUAcm0bMOOwwT95WOqhuzJ6n0e5xjS85Oh5ccEJ0Qba6PTC5EnaLQDnyXFxNQr1hHjf034PZnFbSRLt8rRWDtjPZZpYhIo1_brXQ_xjIQqT4XK8kvPM" />
+                <div
+                    class="absolute inset-0 bg-gradient-to-r from-[var(--kr-gov-blue)]/90 via-[var(--kr-gov-blue)]/40 to-transparent">
+                </div>
+            </div>
+            <div
+                class="relative max-w-7xl mx-auto px-4 lg:px-8 h-full flex flex-col justify-center items-start text-white">
+                <span
+                    class="px-4 py-1.5 rounded-full bg-white/20 border border-white/30 text-sm font-bold mb-6 backdrop-blur-sm">2050
+                    Carbon Neutral Initiative</span>
+                <h2 class="text-5xl font-extrabold mb-4 leading-tight">A Sustainable Future,<br />Your Partner in Carbon
+                    Neutrality</h2>
+                <p class="text-xl text-blue-50/90 mb-10 max-w-2xl font-medium leading-relaxed">Supporting the activation
+                    of Korea's CCUS industrial ecosystem through accurate greenhouse gas calculation and fair
+                    certification.</p>
+                <div class="flex gap-4">
+                    <button
+                        class="gov-btn bg-white text-[var(--kr-gov-blue)] px-8 py-4 text-lg hover:bg-gray-100 flex items-center gap-2">
+                        View Service Guide <span class="material-symbols-outlined">arrow_forward</span>
+                    </button>
+                    <div class="flex items-center gap-2 mt-auto self-end pb-4 ml-8">
+                        <button
+                            class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10"><span
+                                class="material-symbols-outlined">chevron_left</span></button>
+                        <span class="text-sm font-bold tracking-widest">1 / 4</span>
+                        <button
+                            class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10"><span
+                                class="material-symbols-outlined">chevron_right</span></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="bg-[var(--kr-gov-bg-gray)] py-14 border-b border-[var(--kr-gov-border-light)]">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <h3 class="text-2xl font-bold mb-8 text-[var(--kr-gov-text-primary)]">How can we help you today?</h3>
+                <div class="relative group max-w-3xl mx-auto">
+                    <input
+                        class="w-full h-18 pl-8 pr-20 text-lg border-2 border-[var(--kr-gov-blue)] rounded-[var(--kr-gov-radius)] focus:ring-4 focus:ring-[var(--kr-gov-blue)]/10 focus:border-[var(--kr-gov-blue)] transition-all focus-visible shadow-sm"
+                        placeholder="Integrated search (Title, Body, Attachments)" type="text" />
+                    <button
+                        class="absolute right-2 top-1/2 -translate-y-1/2 w-14 h-14 bg-[var(--kr-gov-blue)] text-white rounded-[var(--kr-gov-radius)] flex items-center justify-center hover:bg-[var(--kr-gov-blue-hover)] focus-visible">
+                        <span class="material-symbols-outlined text-[28px]">search</span>
+                    </button>
+                </div>
+                <div class="mt-6 flex flex-wrap justify-center items-center gap-3 text-sm">
+                    <span class="font-bold text-[var(--kr-gov-text-secondary)]">Popular Keywords</span>
+                    <a class="px-3 py-1 bg-white border border-[var(--kr-gov-border-light)] rounded-full hover:border-[var(--kr-gov-blue)] hover:text-[var(--kr-gov-blue)] transition-colors"
+                        href="#">#EmissionsTrading</a>
+                    <a class="px-3 py-1 bg-white border border-[var(--kr-gov-border-light)] rounded-full hover:border-[var(--kr-gov-blue)] hover:text-[var(--kr-gov-blue)] transition-colors"
+                        href="#">#CaptureCoefficient</a>
+                    <a class="px-3 py-1 bg-white border border-[var(--kr-gov-border-light)] rounded-full hover:border-[var(--kr-gov-blue)] hover:text-[var(--kr-gov-blue)] transition-colors"
+                        href="#">#CertifiedAuditor</a>
+                    <a class="px-3 py-1 bg-white border border-[var(--kr-gov-border-light)] rounded-full hover:border-[var(--kr-gov-blue)] hover:text-[var(--kr-gov-blue)] transition-colors"
+                        href="#">#DataCenter</a>
+                </div>
+            </div>
+        </section>
+        <section class="max-w-7xl mx-auto px-4 lg:px-8 py-20">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <a class="gov-card p-8 group" href="#">
+                    <div
+                        class="w-14 h-14 bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-blue)] rounded-[var(--kr-gov-radius)] flex items-center justify-center mb-6 group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'wght' 400;">monitoring</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Emission Simulation</h3>
+                    <p class="text-[var(--kr-gov-text-secondary)] text-[15px] leading-relaxed">Precisely predict CO2
+                        emissions across capture, transport, and storage stages.</p>
+                </a>
+                <a class="gov-card p-8 group" href="#">
+                    <div
+                        class="w-14 h-14 bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-blue)] rounded-[var(--kr-gov-radius)] flex items-center justify-center mb-6 group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'wght' 400;">verified</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Certification Service</h3>
+                    <p class="text-[var(--kr-gov-text-secondary)] text-[15px] leading-relaxed">Process official
+                        certification and issuance for CCUS project achievements.</p>
+                </a>
+                <a class="gov-card p-8 group" href="#">
+                    <div
+                        class="w-14 h-14 bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-blue)] rounded-[var(--kr-gov-radius)] flex items-center justify-center mb-6 group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'wght' 400;">sell</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">CO2 Tag Search</h3>
+                    <p class="text-[var(--kr-gov-text-secondary)] text-[15px] leading-relaxed">Real-time inquiry of CO2
+                        sources and carbon concentration information.</p>
+                </a>
+                <a class="gov-card p-8 group" href="#">
+                    <div
+                        class="w-14 h-14 bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-blue)] rounded-[var(--kr-gov-radius)] flex items-center justify-center mb-6 group-hover:bg-[var(--kr-gov-blue)] group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'wght' 400;">dashboard</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Data Dashboard</h3>
+                    <p class="text-[var(--kr-gov-text-secondary)] text-[15px] leading-relaxed">View visualized
+                        statistics on the current status of the national CCUS industry.</p>
+                </a>
+            </div>
+        </section>
+        <section class="bg-gray-50 border-y border-[var(--kr-gov-border-light)] py-20">
+            <div class="max-w-7xl mx-auto px-4 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-2">Real-time Data Summary</h2>
+                        <p class="text-[var(--kr-gov-text-secondary)] font-medium">Key indicators for monitoring
+                            national CCUS activities (2025 Cumulative)</p>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-[var(--kr-gov-text-secondary)] font-bold">
+                        <span class="material-symbols-outlined text-[18px]">update</span>
+                        Last Updated: 2025.08.14 09:00
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)]">
+                        <div class="flex justify-between items-start mb-6">
+                            <h4 class="font-bold text-[var(--kr-gov-text-secondary)]">Cumulative CO2 Captured</h4>
+                            <span
+                                class="px-2 py-0.5 bg-emerald-50 text-emerald-700 text-xs font-bold rounded">Live</span>
+                        </div>
+                        <div class="flex items-baseline gap-2 mb-6">
+                            <span class="text-4xl font-black text-[var(--kr-gov-blue)] tracking-tight">1,452,890</span>
+                            <span class="text-lg font-bold text-gray-400">tCO2</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-xs font-bold">
+                                <span>Yearly Target (2,000,000 tCO2)</span>
+                                <span class="text-[var(--kr-gov-blue)]">72.6%</span>
+                            </div>
+                            <div class="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-[var(--kr-gov-blue)]" style="width: 72.6%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)]">
+                        <h4 class="font-bold text-[var(--kr-gov-text-secondary)] mb-6">Ongoing Active Projects</h4>
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <div class="text-center p-4 bg-gray-50 rounded-[var(--kr-gov-radius)]">
+                                <p class="text-xs font-bold text-gray-400 mb-1">Commercial Stage</p>
+                                <p class="text-2xl font-black">18<span class="text-sm ml-1">Projects</span></p>
+                            </div>
+                            <div class="text-center p-4 bg-gray-50 rounded-[var(--kr-gov-radius)]">
+                                <p class="text-xs font-bold text-gray-400 mb-1">Demonstration Stage</p>
+                                <p class="text-2xl font-black">27<span class="text-sm ml-1">Projects</span></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm font-bold text-[var(--kr-gov-blue)]">
+                            <span class="material-symbols-outlined">trending_up</span>
+                            15% increase in activity from last quarter
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)]">
+                        <h4 class="font-bold text-[var(--kr-gov-text-secondary)] mb-6">Certification Service Status</h4>
+                        <div class="flex items-center justify-between gap-6">
+                            <div class="relative w-24 h-24">
+                                <svg class="w-full h-full -rotate-90">
+                                    <circle class="text-gray-100" cx="48" cy="48" fill="transparent" r="42"
+                                        stroke="currentColor" stroke-width="8"></circle>
+                                    <circle class="text-secondary" cx="48" cy="48" fill="transparent" r="42"
+                                        stroke="currentColor" stroke-dasharray="263.8" stroke-dashoffset="39.5"
+                                        stroke-linecap="round" stroke-width="8"></circle>
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span class="text-xl font-bold">85%</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium">Completed</span>
+                                    <span class="text-sm font-bold">124 Cases</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium">In Review</span>
+                                    <span class="text-sm font-bold">22 Cases</span>
+                                </div>
+                                <div class="pt-2 border-t border-gray-100">
+                                    <p class="text-[11px] font-bold text-emerald-600 flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[14px]">check_circle</span> Review
+                                        backlog is clearing
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-white border-t border-[var(--kr-gov-border-light)]">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8 pt-12 pb-8">
+            <div
+                class="flex flex-col md:flex-row justify-between gap-10 pb-10 border-b border-[var(--kr-gov-border-light)]">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <img alt="Government Symbol" class="h-8 grayscale"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE" />
+                        <span class="text-xl font-black text-[var(--kr-gov-text-primary)]">Carbon Neutral CCUS
+                            Management Headquarters</span>
+                    </div>
+                    <address class="not-italic text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        (04551) 110 Sejong-daero, Jung-gu, Seoul | Tel: 02-1234-5678 (Weekdays 09:00~18:00)<br />
+                        This service manages greenhouse gas reduction performance in accordance with relevant laws and
+                        regulations.
+                    </address>
+                </div>
+                <div class="flex flex-wrap gap-x-8 gap-y-4 text-sm font-bold">
+                    <a class="text-[var(--kr-gov-blue)] hover:underline" href="#">Privacy Policy</a>
+                    <a class="text-[var(--kr-gov-text-primary)] hover:underline" href="#">Terms of Use</a>
+                    <a class="text-[var(--kr-gov-text-primary)] hover:underline" href="#">Refusal of Unauthorized Email
+                        Collection</a>
+                    <a class="text-[var(--kr-gov-text-primary)] hover:underline" href="#">Directions</a>
+                </div>
+            </div>
+            <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-xs font-medium text-[var(--kr-gov-text-secondary)]">
+                    <p>© 2025 CCUS Integration Management Portal. All rights reserved.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div
+                        class="flex items-center gap-2 px-3 py-1 bg-[var(--kr-gov-bg-gray)] rounded-[var(--kr-gov-radius)] text-xs font-bold text-[var(--kr-gov-text-secondary)]">
+                        <span>Last Modified:</span>
+                        <time datetime="2025-08-14">2025.08.14</time>
+                    </div>
+                    <img alt="Web Accessibility Quality Certification Mark" class="h-10"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzkKwREcbsB7LV3B2b7fBK7y2M_9Exa0vlGVzxNy2qM0n1LFMRlBCIa_XiIBeCfvv3DkMb9Z0D05Y-RMuAytisqlCS8QTpbtebgKnMnWoefEx5uJOgRW5H_8Pw9jmaRvkiW6sVRrifgIhrWc5hi2PRUGHgXn-q8-veHvu9wSwDhtcvbHKYyokgnP-hqdR10ahEAdBe4vFFkR88N_By8pjpp34KH9TwHOouRLBwdfVCsRGmDCS6wnvQZDwf6s4HyScSMXyJJGQjl8Y" />
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

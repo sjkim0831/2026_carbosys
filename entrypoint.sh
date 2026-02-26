@@ -1,42 +1,66 @@
 #!/bin/bash
 
-# Navigate to the app directory
-cd /app
+set -e
 
-echo "===================================================="
-echo "Starting Carbosys Core Infrastructure..."
-echo "===================================================="
+echo "Starting Carbosys MSA Services..."
 
-# 1. Start Eureka Server
-echo "[1/4] Starting Eureka Server (8761)..."
-nohup java -Xms128m -Xmx256m -jar /app/EurekaServer.jar > /app/eureka.log 2>&1 &
+# Wait for CUBRID to be ready
+echo "Waiting for CUBRID database..."
+sleep 10
 
-# Wait for Eureka to stabilize
-sleep 15
+# Start Infrastructure Services (Eureka, Config, Gateway)
+echo "Starting EurekaServer..."
+java -jar /app/EurekaServer.jar &
 
-# 2. Start Config Server
-echo "[2/4] Starting Config Server (8888)..."
-nohup java -Xms128m -Xmx256m -jar /app/ConfigServer.jar > /app/config.log 2>&1 &
+echo "Starting ConfigServer..."
+java -jar /app/ConfigServer.jar &
 
-# Wait for Config Server to fetch settings
-sleep 20
+# Wait for Eureka and Config to be ready
+echo "Waiting for infrastructure services..."
+sleep 30
 
-# 3. Start Gateway Server
-echo "[3/4] Starting Gateway Server (9000)..."
-nohup java -Xms128m -Xmx256m -jar /app/GatewayServer.jar > /app/gateway.log 2>&1 &
+echo "Starting GatewayServer..."
+java -jar /app/GatewayServer.jar &
 
-# 4. Start EgovJoin
-echo "[4/5] Starting EgovJoin (18004)..."
-nohup java -Xms128m -Xmx256m -jar /app/EgovJoin.jar > /app/join.log 2>&1 &
+# Start MSA Manager
+echo "Starting EgovMsaManager..."
+java -jar /app/EgovMsaManager.jar &
 
-# Wait for EgovJoin
-sleep 15
+# Start Business Services
+echo "Starting business services..."
 
-# 5. Start MSA Manager (Main Process)
-echo "[5/5] Starting MSA Manager (18030)..."
-echo "All infrastructure services are running in background."
-echo "You can now manage other modules via http://localhost:18030/admin/msa/"
-echo "===================================================="
+java -jar /app/EgovMain.jar &
+java -jar /app/EgovLogin.jar &
+java -jar /app/EgovBoard.jar &
+java -jar /app/EgovJoin.jar &
+java -jar /app/EgovAuthor.jar &
+java -jar /app/EgovCmmnCode.jar &
+java -jar /app/EgovQuestionnaire.jar &
+java -jar /app/EgovSearch.jar &
+java -jar /app/EgovMobileId.jar &
+java -jar /app/EgovLoginPolicy.jar &
 
-# Run MsaManager in foreground to keep container alive
-java -Xms128m -Xmx256m -jar /app/EgovMsaManager.jar
+# Start Admin Services
+echo "Starting admin services..."
+
+java -jar /app/EgovAdminMain.jar &
+java -jar /app/EgovAdminLogin.jar &
+
+# Start Auth Services
+echo "Starting auth services..."
+
+java -jar /app/EgovCertLogin.jar &
+java -jar /app/EgovSimpleAuth.jar &
+java -jar /app/EgovGnrLogin.jar &
+
+# Start UI Services
+echo "Starting UI services..."
+
+java -jar /app/home3.jar &
+java -jar /app/signin.jar &
+
+echo "All services started!"
+echo "Waiting for all processes..."
+
+# Keep container running
+tail -f /dev/null

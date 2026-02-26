@@ -6,9 +6,10 @@ services:
       CUBRID_DB: com
       CUBRID_LOCALE: ko_KR.utf8
       DB_ROOT_PASSWORD: ""
+      CUBRID_DATABASES: /opt/carbosys/data
     volumes:
       - "./docker-compose/cubrid/init/:/docker-entrypoint-initdb.d/"
-      - "./docker-compose/cubrid/data:/var/lib/cubrid"
+      - "/opt/carbosys/data:/opt/carbosys/data"
     platform: linux/x86_64
     hostname: cubrid
     shm_size: '2gb'
@@ -34,7 +35,7 @@ services:
     networks:
       - carbosys-net
     volumes:
-      - "/srv/file/carbosys/upload/instt:/srv/file/carbosys/upload/instt"
+      - "/opt/carbosys/file:/opt/carbosys/file"
     extra_hosts:
       - "localhost:127.0.0.1"
 

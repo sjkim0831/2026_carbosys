@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <div th:fragment="header">
+        <div class="bg-[var(--kr-gov-bg-gray)] border-b border-[var(--kr-gov-border-light)]">
+            <div class="max-w-7xl mx-auto px-4 lg:px-8 py-2 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <img alt="대한민국 정부 상징" class="h-4"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BPzqtzSLVGSrjt4mzhhVBy9SocCRDssk1F3XRVu7Xq9jHh7qzzt48wFi8qduCiJmB0LRQczPB7waPe3h0gkjn3jOEDxt6UJSJjdXNf8P-4WlM2BEZrfg2SL91uSiZrFcCk9KYrsdg-biTS9dtJ_OIghDBEVoAzMc33XcCYR_UP0QQdoYzBe840YrtH40xGyB9MSr0QH4D0foqlvOhG0jX8CDayXNlDsSKlfClVd3K2aodlwg4xSxgXHB3vnnnA0L2yNBNihQQg0" />
+                    <span class="text-[13px] font-medium text-[var(--kr-gov-text-secondary)]">대한민국 정부 공식 서비스</span>
+                </div>
+                <div class="hidden md:flex items-center gap-4 text-xs font-medium text-[var(--kr-gov-text-secondary)]">
+                    <p>이 누리집은 정부 지침에 따라 운영됩니다.</p>
+                </div>
+            </div>
+        </div>
+        <header class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    <div class="flex items-center gap-3">
+                        <a href="/home3" class="flex items-center gap-2 focus-visible">
+                            <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]"
+                                style="font-variation-settings: 'wght' 600;">eco</span>
+                            <div class="flex flex-col">
+                                <span class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)]">CCUS
+                                    통합관리 포털</span>
+                                <p
+                                    class="text-[10px] text-[var(--kr-gov-text-secondary)] font-bold uppercase tracking-wider">
+                                    Carbon Capture, Utilization and Storage</p>
+                            </div>
+                        </a>
+                    </div>
+                    <nav class="hidden lg:flex items-center space-x-8 h-full">
+                        <a class="h-full flex items-center px-2 text-[17px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible"
+                            href="#">소개</a>
+                        <a class="h-full flex items-center px-2 text-[17px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible"
+                            href="#">산정·시뮬레이션</a>
+                        <a class="h-full flex items-center px-2 text-[17px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible"
+                            href="#">인증·보고서</a>
+                        <a class="h-full flex items-center px-2 text-[17px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible"
+                            href="#">고객센터</a>
+                        <a class="h-full flex items-center px-2 text-[17px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible"
+                            href="#">마이페이지</a>
+                    </nav>
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="flex border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] overflow-hidden">
+                            <button id="langKoBtn"
+                                class="px-2 py-1 text-xs bg-[var(--kr-gov-blue)] text-white font-bold focus-visible"
+                                onclick="location.href='/home3'">KO</button>
+                            <button id="langEnBtn"
+                                class="px-2 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold focus-visible border-l border-[var(--kr-gov-border-light)]"
+                                onclick="location.href='/home3/en'">EN</button>
+                        </div>
+                        <button th:if="${isLoggedIn}" id="logoutBtn"
+                            class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"
+                            onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type': 'application/json'}}).then(r => r.json()).then(d => {if(d.status === 'success') location.reload();});">로그아웃</button>
+                        <button th:unless="${isLoggedIn}" id="loginBtn"
+                            class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"
+                            onclick="location.href='/signin/loginView'">로그인</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+    </div>
+</body>
+
+</html>

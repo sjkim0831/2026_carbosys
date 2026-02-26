@@ -50,3 +50,4 @@ target/
 docker-compose/cubrid/data/
 *.log
 csql.err
+/data
