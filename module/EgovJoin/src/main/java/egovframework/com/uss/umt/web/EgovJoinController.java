@@ -521,7 +521,28 @@ public class EgovJoinController {
     }
 
     @GetMapping("/companyJoinStatusDetail")
-    public String companyJoinStatusDetail() {
+    public String companyJoinStatusDetail(
+            @RequestParam(value = "bizNo", required = false) String bizNo,
+            @RequestParam(value = "appNo", required = false) String appNo,
+            @RequestParam("repName") String repName,
+            org.springframework.ui.Model model) throws Exception {
+
+        InsttInfoVO searchVO = new InsttInfoVO();
+        searchVO.setReprsntNm(repName);
+        searchVO.setBizrno(bizNo);
+        searchVO.setInsttId(appNo);
+
+        java.util.Map<String, Object> result = entrprsManageService.selectInsttInfoForStatus(searchVO);
+
+        if (result == null || result.isEmpty()) {
+            model.addAttribute("errorMessage", "입력하신 정보와 일치하는 신청 내역이 없습니다.");
+            return "uss/umt/company_join_status_search";
+        }
+
+        System.out.println("DEBUG result keys: " + result.keySet());
+        System.out.println("DEBUG result values: " + result);
+
+        model.addAttribute("result", result);
         return "uss/umt/company_join_status_detail";
     }
 

@@ -250,4 +250,9 @@ public class EgovEntrprsManageServiceImpl extends EgovAbstractServiceImpl implem
 	public int checkCompanyNameDplct(String checkNm) throws Exception {
 		return entrprsManageDAO.checkCompanyNameDplct(checkNm);
 	}
+
+	@Override
+	public java.util.Map<String, Object> selectInsttInfoForStatus(InsttInfoVO insttInfoVO) throws Exception {
+		return entrprsManageDAO.selectInsttInfoForStatus(insttInfoVO);
+	}
 }

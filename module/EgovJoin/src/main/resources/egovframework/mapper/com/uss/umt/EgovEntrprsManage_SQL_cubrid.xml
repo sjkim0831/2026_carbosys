@@ -365,4 +365,27 @@
         ) as totcnt
     </select>
 
+    <select id="selectInsttInfoForStatus" resultType="egovMap">
+        SELECT
+            INSTT_ID,
+            INSTT_NM,
+            REPRSNT_NM,
+            BIZRNO,
+            ZIP,
+            ADRES,
+            DETAIL_ADRES,
+            BIZ_REG_FILE_PATH,
+            INSTT_STTUS,
+            TO_CHAR(FRST_REGIST_PNTTM, 'YYYY.MM.DD HH24:MI:SS') as FRST_REGIST_PNTTM,
+            TO_CHAR(LAST_UPDT_PNTTM, 'YYYY.MM.DD HH24:MI:SS') as LAST_UPDT_PNTTM
+        FROM COMTNINSTTINFO
+        WHERE REPRSNT_NM = #{reprsntNm}
+          <if test="bizrno != null and bizrno != ''">
+            AND BIZRNO = #{bizrno}
+          </if>
+          <if test="insttId != null and insttId != ''">
+            AND INSTT_ID = #{insttId}
+          </if>
+    </select>
+
 </mapper>

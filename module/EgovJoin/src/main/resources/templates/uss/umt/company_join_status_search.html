@@ -70,6 +70,10 @@
             <p class="text-[var(--kr-gov-text-secondary)] text-lg leading-relaxed">
                 회원사 등록 신청 시 입력한 정보를 통해 현재 진행 상태를 조회하실 수 있습니다.
             </p>
+            <div th:if="${errorMessage}"
+                class="mt-6 p-4 bg-red-50 border border-red-200 rounded-gov text-red-600 font-bold">
+                <p th:text="${errorMessage}"></p>
+            </div>
         </div>
         <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div
@@ -187,9 +191,26 @@
                 return;
             }
 
-            // For demo purposes, we direct to the guide/detail page
-            // In a real app, you would validate the registration info here
-            location.href = '/join/companyJoinStatusDetail';
+            const isBizTab = !inputBiz.classList.contains('hidden');
+            let query = "?repName=" + encodeURIComponent(repName);
+
+            if (isBizTab) {
+                const bizNo = document.getElementById('biz-no').value.trim();
+                if (!bizNo) {
+                    alert('사업자등록번호를 입력해주세요.');
+                    return;
+                }
+                query += "&bizNo=" + encodeURIComponent(bizNo);
+            } else {
+                const appNo = document.getElementById('app-no').value.trim();
+                if (!appNo) {
+                    alert('신청번호를 입력해주세요.');
+                    return;
+                }
+                query += "&appNo=" + encodeURIComponent(appNo);
+            }
+
+            location.href = '/join/companyJoinStatusDetail' + query;
         });
 
         (function loadSharedLayout() {
