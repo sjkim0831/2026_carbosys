@@ -5,9 +5,12 @@ services:
       TZ: Asia/Seoul
       CUBRID_DB: com
       CUBRID_LOCALE: ko_KR.utf8
+      CUBRID_CHARSET: utf8
       DB_ROOT_PASSWORD: ""
       CUBRID_COMPONENTS: ALL
       CUBRID_DATABASES: /opt/carbosys/data
+      CUBRID_CONF: /home/cubrid/CUBRID/conf/cubrid.conf
+      CUBRID_BROKER_CONF: /home/cubrid/CUBRID/conf/cubrid_broker.conf
     volumes:
       - "./infra/cubrid/init:/docker-entrypoint-initdb.d"
       - "./infra/cubrid/conf/cubrid.conf:/home/cubrid/CUBRID/conf/cubrid.conf"
