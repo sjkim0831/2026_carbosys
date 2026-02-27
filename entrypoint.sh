@@ -26,38 +26,37 @@ java -jar /app/GatewayServer.jar &
 echo "Starting EgovMsaManager..."
 java -jar /app/EgovMsaManager.jar &
 
-# Start Business Services
-echo "Starting business services..."
+echo "Core services (Eureka, Config, Gateway, Manager) started!"
+echo "Other modules should be managed via MSA Manager UI."
 
-java -jar /app/EgovMain.jar &
-java -jar /app/EgovLogin.jar &
-java -jar /app/EgovBoard.jar &
-java -jar /app/EgovJoin.jar &
-java -jar /app/EgovAuthor.jar &
-java -jar /app/EgovCmmnCode.jar &
-java -jar /app/EgovQuestionnaire.jar &
-java -jar /app/EgovSearch.jar &
-java -jar /app/EgovMobileId.jar &
-java -jar /app/EgovLoginPolicy.jar &
+# Start Business Services (Commented out to allow Manager control)
+# echo "Starting business services..."
+# java -jar /app/EgovMain.jar &
+# java -jar /app/EgovLogin.jar &
+# java -jar /app/EgovBoard.jar &
+# java -jar /app/EgovJoin.jar &
+# java -jar /app/EgovAuthor.jar &
+# java -jar /app/EgovCmmnCode.jar &
+# java -jar /app/EgovQuestionnaire.jar &
+# java -jar /app/EgovSearch.jar &
+# java -jar /app/EgovMobileId.jar &
+# java -jar /app/EgovLoginPolicy.jar &
 
-# Start Admin Services
-echo "Starting admin services..."
+# Start Admin Services (Commented out)
+# echo "Starting admin services..."
+# java -jar /app/EgovAdminMain.jar &
+# java -jar /app/EgovAdminLogin.jar &
 
-java -jar /app/EgovAdminMain.jar &
-java -jar /app/EgovAdminLogin.jar &
+# Start Auth Services (Commented out)
+# echo "Starting auth services..."
+# java -jar /app/EgovCertLogin.jar &
+# java -jar /app/EgovSimpleAuth.jar &
+# java -jar /app/EgovGnrLogin.jar &
 
-# Start Auth Services
-echo "Starting auth services..."
-
-java -jar /app/EgovCertLogin.jar &
-java -jar /app/EgovSimpleAuth.jar &
-java -jar /app/EgovGnrLogin.jar &
-
-# Start UI Services
-echo "Starting UI services (msa-mappings.yml 기준 운영 대상만 기동)..."
-
-java -jar /app/home3.jar &
-java -jar /app/signin.jar &
+# Start UI Services (Commented out)
+# echo "Starting UI services..."
+# java -jar /app/home3.jar &
+# java -jar /app/signin.jar &
 
 echo "All services started!"
 echo "Waiting for all processes..."

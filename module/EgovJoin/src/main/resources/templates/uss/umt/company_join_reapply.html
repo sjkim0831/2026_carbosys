@@ -85,17 +85,17 @@
             <span class="material-symbols-outlined text-[var(--kr-gov-error)] text-[32px]">warning</span>
             <div class="flex-grow">
                 <h3 class="font-bold text-[var(--kr-gov-error)] mb-1">가입 신청 반려 사유</h3>
-                <p class="text-[var(--kr-gov-text-primary)] leading-relaxed" th:text="${result.rjctRsn}">
+                <p class="text-[var(--kr-gov-text-primary)] leading-relaxed" th:text="${result['rjctRsn']}">
                     반려 사유 내용이 표시됩니다.
                 </p>
-                <p class="mt-2 text-xs text-[var(--kr-gov-text-secondary)]" th:if="${result.rjctPnttm != null}"
-                    th:text="'(처리일시: ' + ${result.rjctPnttm} + ')'">(2025.08.18 10:20)</p>
+                <p class="mt-2 text-xs text-[var(--kr-gov-text-secondary)]" th:if="${result['rjctPnttm'] != null}"
+                    th:text="'(처리일시: ' + ${result['rjctPnttm']} + ')'">(2025.08.18 10:20)</p>
             </div>
         </div>
 
         <form id="reapplyForm" action="/join/companyReapplySubmit" method="post" enctype="multipart/form-data"
             class="space-y-12">
-            <input type="hidden" name="insttId" th:value="${result.insttId}" />
+            <input type="hidden" name="insttId" th:value="${result['insttId']}" />
 
             <section>
                 <h3 class="form-section-title">기본 정보</h3>
@@ -104,19 +104,19 @@
                         <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="charger-name">담당자 성명
                             <span class="text-[var(--kr-gov-error)]">*</span></label>
                         <input class="input-field" id="charger-name" name="chargerName" type="text"
-                            th:value="${result.chargerNm}" required />
+                            th:value="${result['chargerNm']}" required />
                     </div>
                     <div class="space-y-1.5">
                         <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="charger-email">이메일 주소
                             <span class="text-[var(--kr-gov-error)]">*</span></label>
                         <input class="input-field" id="charger-email" name="chargerEmail" type="email"
-                            th:value="${result.chargerEmail}" required />
+                            th:value="${result['chargerEmail']}" required />
                     </div>
                     <div class="space-y-1.5">
                         <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="charger-tel">연락처 <span
                                 class="text-[var(--kr-gov-error)]">*</span></label>
                         <input class="input-field" id="charger-tel" name="chargerTel" type="tel"
-                            th:value="${result.chargerTel}" required />
+                            th:value="${result['chargerTel']}" required />
                     </div>
                 </div>
             </section>
@@ -128,37 +128,37 @@
                         <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="company-name">업체명
                             <span class="text-[var(--kr-gov-error)]">*</span></label>
                         <input class="input-field" id="company-name" name="agencyName" type="text"
-                            th:value="${result.insttNm}" required />
+                            th:value="${result['insttNm']}" required />
                     </div>
                     <div class="space-y-1.5">
                         <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]"
                             for="biz-number">사업자등록번호</label>
                         <input class="input-field readonly-field" id="biz-number" name="bizRegistrationNumber"
-                            readonly="" type="text" th:value="${result.bizrno}" />
+                            readonly="" type="text" th:value="${result['bizrno']}" />
                         <p class="text-xs text-[var(--kr-gov-text-secondary)]">사업자등록번호는 수정할 수 없습니다.</p>
                     </div>
                     <div class="space-y-1.5">
                         <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="rep-name">대표자 성명 <span
                                 class="text-[var(--kr-gov-error)]">*</span></label>
                         <input class="input-field" id="rep-name" name="representativeName" type="text"
-                            th:value="${result.reprsntNm}" required />
+                            th:value="${result['reprsntNm']}" required />
                     </div>
                     <div class="md:col-span-2 space-y-1.5">
                         <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="company-address">사업장
                             주소 <span class="text-[var(--kr-gov-error)]">*</span></label>
                         <div class="flex gap-2 mb-2">
                             <input class="input-field max-w-[200px] readonly-field" id="zip-code" name="zipCode"
-                                placeholder="우편번호" readonly="" type="text" th:value="${result.zip}" required
+                                placeholder="우편번호" readonly="" type="text" th:value="${result['zip']}" required
                                 onclick="execDaumPostcode()" />
                             <button
                                 class="px-6 h-12 bg-gray-800 text-white font-bold rounded-[var(--kr-gov-radius)] text-sm whitespace-nowrap"
                                 type="button" onclick="execDaumPostcode()">주소 검색</button>
                         </div>
                         <input class="input-field mb-2 bg-gray-50 cursor-pointer" id="company-address"
-                            name="companyAddress" type="text" th:value="${result.adres}" readonly
+                            name="companyAddress" type="text" th:value="${result['adres']}" readonly
                             onclick="execDaumPostcode()" required />
                         <input class="input-field" id="company-address-detail" name="companyAddressDetail"
-                            placeholder="상세주소를 입력하세요" type="text" th:value="${result.detailAdres}" />
+                            placeholder="상세주소를 입력하세요" type="text" th:value="${result['detailAdres']}" />
                     </div>
                 </div>
             </section>
