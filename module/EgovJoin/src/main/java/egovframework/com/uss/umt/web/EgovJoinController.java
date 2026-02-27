@@ -515,4 +515,14 @@ public class EgovJoinController {
         return entrprsManageService.searchCompanyList(keyword);
     }
 
+    @GetMapping("/companyJoinStatusSearch")
+    public String companyJoinStatusSearch() {
+        return "uss/umt/company_join_status_search";
+    }
+
+    @GetMapping("/companyJoinStatusDetail")
+    public String companyJoinStatusDetail() {
+        return "uss/umt/company_join_status_detail";
+    }
+
 }

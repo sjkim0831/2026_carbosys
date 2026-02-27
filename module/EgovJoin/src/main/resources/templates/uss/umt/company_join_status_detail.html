@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>회원사 가입 현황 상세 - CCUS 통합관리 포털</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.material.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-emerald: #059669;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f8fafc;
+            --kr-gov-radius: 8px;
+        }
+        @layer base {
+            body { font-family: 'Noto Sans KR', 'Public Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+            stroke-width: 1.6px;
+        }
+        .stepper-active .stepper-circle {
+            @apply bg-[var(--kr-gov-blue)] text-white border-[var(--kr-gov-blue)];
+        }
+        .stepper-complete .stepper-circle {
+            @apply bg-emerald-500 text-white border-emerald-500;
+        }
+        .stepper-pending .stepper-circle {
+            @apply bg-white text-gray-400 border-gray-200;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "gov-gray": "#767676",
+                    },
+                    borderRadius: {
+                        'gov': '8px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
+    <div id="shared-header"></div>
+    <main class="flex-grow max-w-5xl mx-auto w-full py-12 px-4" id="main-content">
+        <div class="mb-10 text-center">
+            <h2 class="text-3xl font-bold text-[var(--kr-gov-text-primary)] mb-3">회원사 가입 현황 조회</h2>
+            <p class="text-lg text-[var(--kr-gov-text-secondary)]">신청하신 회원사 가입 내역 및 처리 상태를 확인하실 수 있습니다.</p>
+        </div>
+        <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-8">
+            <div class="bg-gray-50 px-8 py-4 border-b border-gray-200 flex justify-between items-center">
+                <span
+                    class="text-sm font-bold text-[var(--kr-gov-blue)] bg-blue-50 px-3 py-1 rounded-full border border-blue-100">신청
+                    번호: APP-20260227-001</span>
+                <span class="text-xs text-[var(--kr-gov-text-secondary)] font-medium">최상 업데이트: 2026.02.27 12:00</span>
+            </div>
+            <div class="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="space-y-1">
+                    <p class="text-sm font-bold text-[var(--kr-gov-text-secondary)]">신청 기관명</p>
+                    <p class="text-base font-medium text-[var(--kr-gov-text-primary)]">(주)탄소제로 에너지연구소</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-sm font-bold text-[var(--kr-gov-text-secondary)]">사업자등록번호</p>
+                    <p class="text-base font-medium text-[var(--kr-gov-text-primary)]">123-45-67890</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-sm font-bold text-[var(--kr-gov-text-secondary)]">대표자명</p>
+                    <p class="text-base font-medium text-[var(--kr-gov-text-primary)]">김승진</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-sm font-bold text-[var(--kr-gov-text-secondary)]">신청일</p>
+                    <p class="text-base font-medium text-[var(--kr-gov-text-primary)]">2026.02.27</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-10 mb-8">
+            <div class="relative flex justify-between items-center max-w-3xl mx-auto mb-12">
+                <div class="relative z-10 flex flex-col items-center gap-3 stepper-complete">
+                    <div
+                        class="stepper-circle w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-lg">
+                        01</div>
+                    <span class="text-sm font-bold text-[var(--kr-gov-text-primary)]">신청 완료</span>
+                </div>
+                <div class="flex-grow h-0.5 bg-emerald-500 mx-4"></div>
+                <div class="relative z-10 flex flex-col items-center gap-3 stepper-active">
+                    <div
+                        class="stepper-circle w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-lg ring-4 ring-blue-50">
+                        02</div>
+                    <span class="text-sm font-bold text-[var(--kr-gov-blue)]">운영자 검토 중</span>
+                </div>
+                <div class="flex-grow h-0.5 bg-gray-200 mx-4"></div>
+                <div class="relative z-10 flex flex-col items-center gap-3 stepper-pending">
+                    <div
+                        class="stepper-circle w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-lg">
+                        03</div>
+                    <span class="text-sm font-bold text-gray-400">승인 완료 / 반려</span>
+                </div>
+            </div>
+            <div class="bg-blue-50 border border-blue-100 rounded-lg p-6 flex items-start gap-4">
+                <span class="material-symbols-outlined text-[var(--kr-gov-blue)] mt-0.5">query_stats</span>
+                <div class="space-y-1">
+                    <h4 class="text-base font-bold text-blue-900">현재 운영자의 서류 검토가 진행 중입니다.</h4>
+                    <p class="text-sm text-blue-800 leading-relaxed">신청하신 서류에 대해 담당 운영자가 적정성 검토를 진행하고 있습니다. 통상적으로 업무일 기준
+                        3~5일이 소요됩니다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-8 mb-12">
+            <h3 class="text-lg font-bold text-[var(--kr-gov-text-primary)] mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[var(--kr-gov-text-secondary)]">description</span>
+                첨부 서류 내역
+            </h3>
+            <ul class="divide-y divide-gray-100 border border-gray-100 rounded-lg overflow-hidden">
+                <li class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-gray-400">picture_as_pdf</span>
+                        <span class="text-sm font-medium text-[var(--kr-gov-text-primary)]">사업자등록증_탄소제로에너지연구소.pdf</span>
+                        <span class="text-xs text-gray-400">(1.5 MB)</span>
+                    </div>
+                    <button class="flex items-center gap-1 text-[var(--kr-gov-blue)] font-bold text-xs hover:underline">
+                        <span class="material-symbols-outlined text-[18px]">visibility</span>
+                        미리보기
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="flex items-center justify-center gap-4">
+            <button onclick="location.href='/join/companyJoinStatusSearch'"
+                class="px-8 h-14 border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-primary)] font-bold rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2">
+                <span class="material-symbols-outlined">search</span>
+                목록으로
+            </button>
+            <button onclick="location.href='/home3'"
+                class="px-8 h-14 bg-[var(--kr-gov-blue)] text-white font-bold rounded-lg hover:bg-[var(--kr-gov-blue-hover)] transition-colors flex items-center gap-2">
+                <span class="material-symbols-outlined">home</span>
+                홈으로 이동
+            </button>
+        </div>
+    </main>
+    <div id="shared-footer"></div>
+    <script>
+            (function loadSharedLayout() {
+                fetch('/home3/fragments/header')
+                    .then(r => r.text())
+                    .then(html => { document.getElementById('shared-header').innerHTML = html; })
+                    .catch(() => { });
+
+                fetch('/home3/fragments/footer')
+                    .then(r => r.text())
+                    .then(html => { document.getElementById('shared-footer').innerHTML = html; })
+                    .catch(() => { });
+            })();
+    </script>
+</body>
+
+</html>
