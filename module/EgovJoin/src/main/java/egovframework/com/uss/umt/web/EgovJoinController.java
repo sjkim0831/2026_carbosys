@@ -391,7 +391,7 @@ public class EgovJoinController {
         return "uss/umt/step4_company_register_en";
     }
 
-            @PostMapping("/companyRegisterSubmit")
+    @PostMapping("/companyRegisterSubmit")
     public String companyRegisterSubmit(
             @RequestParam("agencyName") String agencyName,
             @RequestParam("representativeName") String repName,
@@ -401,70 +401,78 @@ public class EgovJoinController {
             @RequestParam(value = "companyAddressDetail", required = false) String detailAddr,
             @RequestParam(value = "lang", defaultValue = "ko") String lang,
             @RequestParam("fileUploads") java.util.List<org.springframework.web.multipart.MultipartFile> fileUploads,
-            org.springframework.ui.Model model) throws Exception {
+            org.springframework.ui.Model model) {
 
-        InsttInfoVO vo = new InsttInfoVO();
-        String tempId = "INSTT_" + System.currentTimeMillis();
-        if (tempId.length() > 20)
-            tempId = tempId.substring(0, 20);
+        try {
+            InsttInfoVO vo = new InsttInfoVO();
+            String tempId = "INSTT_" + System.currentTimeMillis();
+            if (tempId.length() > 20)
+                tempId = tempId.substring(0, 20);
 
-        vo.setInsttId(tempId);
-        vo.setInsttNm(agencyName);
-        vo.setReprsntNm(repName);
-        vo.setBizrno(bizNo);
-        vo.setZip(zipCode);
-        vo.setAdres(addr);
-        vo.setDetailAdres(detailAddr);
-        vo.setInsttSttus("P");
+            vo.setInsttId(tempId);
+            vo.setInsttNm(agencyName);
+            vo.setReprsntNm(repName);
+            vo.setBizrno(bizNo);
+            vo.setZip(zipCode);
+            vo.setAdres(addr);
+            vo.setDetailAdres(detailAddr);
+            vo.setInsttSttus("P");
 
-        // Upload directory
-        String uploadDir = "/opt/carbosys/file/instt";
-        java.io.File dir = new java.io.File(uploadDir);
-        if (!dir.exists() && !dir.mkdirs()) {
-            throw new Exception("Cannot create upload directory: " + uploadDir);
-        }
-
-        java.util.List<String> savedPaths = new java.util.ArrayList<>();
-        if (fileUploads != null && !fileUploads.isEmpty()) {
-            for (int i = 0; i < fileUploads.size(); i++) {
-                org.springframework.web.multipart.MultipartFile file = fileUploads.get(i);
-                if (file == null || file.isEmpty()) continue;
-
-                String originalFileName = file.getOriginalFilename();
-                String ext = "";
-                if (originalFileName != null) {
-                    int lastDotIndex = originalFileName.lastIndexOf(".");
-                    if (lastDotIndex > -1) {
-                        ext = originalFileName.substring(lastDotIndex);
-                    }
-                }
-
-                String newFileName = tempId + (fileUploads.size() > 1 ? "_" + i : "") + ext;
-                java.io.File targetFile = new java.io.File(dir, newFileName);
-                file.transferTo(targetFile);
-                savedPaths.add(targetFile.getAbsolutePath());
+            // Upload directory
+            String uploadDir = "/opt/carbosys/file/instt";
+            java.io.File dir = new java.io.File(uploadDir);
+            if (!dir.exists() && !dir.mkdirs()) {
+                throw new Exception("Cannot create upload directory: " + uploadDir);
             }
+
+            java.util.List<String> savedPaths = new java.util.ArrayList<>();
+            if (fileUploads != null && !fileUploads.isEmpty()) {
+                for (int i = 0; i < fileUploads.size(); i++) {
+                    org.springframework.web.multipart.MultipartFile file = fileUploads.get(i);
+                    if (file == null || file.isEmpty())
+                        continue;
+
+                    String originalFileName = file.getOriginalFilename();
+                    String ext = "";
+                    if (originalFileName != null) {
+                        int lastDotIndex = originalFileName.lastIndexOf(".");
+                        if (lastDotIndex > -1) {
+                            ext = originalFileName.substring(lastDotIndex);
+                        }
+                    }
+
+                    String newFileName = tempId + (fileUploads.size() > 1 ? "_" + i : "") + ext;
+                    java.io.File targetFile = new java.io.File(dir, newFileName);
+                    file.transferTo(targetFile);
+                    savedPaths.add(targetFile.getAbsolutePath());
+                }
+            }
+
+            if (!savedPaths.isEmpty()) {
+                vo.setBizRegFilePath(String.join(",", savedPaths));
+            }
+
+            entrprsManageService.insertInsttInfo(vo);
+
+            java.time.LocalDateTime now = java.time.LocalDateTime.now();
+            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter
+                    .ofPattern("yyyy.MM.dd HH:mm:ss");
+            String regDate = now.format(formatter);
+
+            model.addAttribute("insttNm", agencyName);
+            model.addAttribute("bizrno", bizNo);
+            model.addAttribute("regDate", regDate);
+
+            if ("en".equals(lang)) {
+                return "uss/umt/step4_company_complete_en";
+            }
+            return "uss/umt/step4_company_complete";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", e.getMessage());
+            return "uss/umt/step4_company_register" + ("en".equals(lang) ? "_en" : "");
         }
-
-        if (!savedPaths.isEmpty()) {
-            vo.setBizRegFilePath(String.join(",", savedPaths));
-        }
-
-        entrprsManageService.insertInsttInfo(vo);
-
-        java.time.LocalDateTime now = java.time.LocalDateTime.now();
-        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter
-                .ofPattern("yyyy.MM.dd HH:mm:ss");
-        String regDate = now.format(formatter);
-
-        model.addAttribute("insttNm", agencyName);
-        model.addAttribute("bizrno", bizNo);
-        model.addAttribute("regDate", regDate);
-
-        if ("en".equals(lang)) {
-            return "uss/umt/step4_company_complete_en";
-        }
-        return "uss/umt/step4_company_complete";
     }
 
     @GetMapping("/checkCompanyNameDplct")

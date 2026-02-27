@@ -106,6 +106,14 @@
                 class="bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm overflow-hidden p-8 md:p-12">
                 <div class="mb-8">
                     <h3 class="text-2xl font-bold text-[var(--kr-gov-text-primary)] mb-4">Register New Company</h3>
+                    <div th:if="${errorMessage}"
+                        class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm flex items-start gap-2">
+                        <span class="material-symbols-outlined text-[20px] shrink-0">error</span>
+                        <div class="flex-grow">
+                            <p class="font-bold mb-1">An error occurred during registration.</p>
+                            <p th:text="${errorMessage}">Error message here</p>
+                        </div>
+                    </div>
                     <div class="notification-banner">
                         <span class="material-symbols-outlined text-blue-600">info</span>
                         <p class="text-[15px] text-blue-800 leading-relaxed">
@@ -184,25 +192,40 @@
                             Supporting Documents
                         </h4>
                         <div class="space-y-4">
-                            <label class="form-label">Business License or Corporate Verification Document <span
-                                    aria-hidden="true" class="text-red-500">*</span></label>
-                            <div class="drop-zone block" id="drop-zone"
-                                onclick="document.getElementById('file-upload').click();">
-                                <div class="space-y-3 text-center pointer-events-none">
-                                    <span class="material-symbols-outlined text-5xl text-gray-400"
-                                        id="upload-icon">cloud_upload</span>
-                                    <div class="flex items-center justify-center gap-2">
-                                        <span id="upload-btn-text"
-                                            class="bg-[var(--kr-gov-blue)] text-white px-4 py-2 rounded-[var(--kr-gov-radius)] text-sm font-bold hover:bg-[var(--kr-gov-blue-hover)] transition-all">Select
-                                            File</span>
+                            <div class="flex items-center justify-between">
+                                <label class="form-label mb-0">Business License or Corporate Verification Document <span
+                                        aria-hidden="true" class="text-red-500">*</span></label>
+                                <button type="button" id="add-file-btn"
+                                    class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded transition-colors border border-gray-200">
+                                    <span class="material-symbols-outlined text-[18px]">add</span>
+                                    Add File
+                                </button>
+                            </div>
+
+                            <div id="file-list-container" class="space-y-2">
+                                <!-- File rows will be added here -->
+                                <div class="file-row flex items-center gap-3 p-3 border border-gray-200 rounded-lg bg-white group hover:border-[var(--kr-gov-blue)] transition-all cursor-pointer"
+                                    onclick="this.querySelector('.file-input').click()">
+                                    <span
+                                        class="material-symbols-outlined text-gray-400 group-hover:text-[var(--kr-gov-blue)]">attach_file</span>
+                                    <div class="flex-grow min-w-0">
+                                        <input type="file" name="fileUploads" class="hidden file-input"
+                                            accept=".pdf,.jpg,.jpeg,.png" required onchange="handleFileChange(this)" />
+                                        <div class="file-info flex items-center justify-between">
+                                            <span class="file-name text-sm text-gray-500 truncate">Please select a
+                                                file.</span>
+                                            <span class="file-size text-xs text-gray-400"></span>
+                                        </div>
                                     </div>
-                                    <p class="text-xs text-gray-500 mt-2" id="file-name-display">Only PDF, JPG, PNG
-                                        files are allowed. Max size
-                                        10MB.</p>
+                                    <button type="button"
+                                        class="remove-file-btn text-gray-400 hover:text-red-500 transition-colors hidden"
+                                        onclick="event.stopPropagation(); removeFileRow(this)">
+                                        <span class="material-symbols-outlined">close</span>
+                                    </button>
                                 </div>
                             </div>
-                            <input class="hidden" id="file-upload" name="fileUploads" type="file" required
-                                accept=".pdf,.jpg,.jpeg,.png" multiple />
+                            <p class="text-xs text-gray-500 mt-2">Only PDF, JPG, PNG files are allowed. Max size 10MB.
+                            </p>
                         </div>
                     </section>
 
@@ -312,34 +335,74 @@
                 q: ''
             });
         }
-        // File selection feedback
-        document.getElementById('file-upload').addEventListener('change', function (e) {
-            var fileNameDisplay = document.getElementById('file-name-display');
-            var uploadIcon = document.getElementById('upload-icon');
-            var uploadBtnText = document.getElementById('upload-btn-text');
-            var dropZone = document.getElementById('drop-zone');
+        /* ── File Upload Management ── */
+        const addFileBtn = document.getElementById('add-file-btn');
+        const fileListContainer = document.getElementById('file-list-container');
 
-            if (this.files && this.files.length > 0) {
-                var fileName = this.files[0].name;
-                if (this.files.length === 1) {
-                    fileNameDisplay.textContent = 'Selected file: ' + fileName;
-                } else {
-                    fileNameDisplay.textContent = 'Selected file: ' + fileName + ' and ' + (this.files.length - 1) + ' more';
-                }
-                fileNameDisplay.className = 'text-sm font-bold text-[var(--kr-gov-blue)] mt-2';
-                uploadIcon.textContent = 'description_teacher';
-                uploadIcon.className = 'material-symbols-outlined text-5xl text-[var(--kr-gov-blue)]';
-                uploadBtnText.textContent = 'Change File';
-                dropZone.className = 'drop-zone block border-[var(--kr-gov-blue)] bg-blue-50';
+        if (addFileBtn) {
+            addFileBtn.addEventListener('click', () => {
+                const newRow = document.createElement('div');
+                newRow.className = 'file-row flex items-center gap-3 p-3 border border-gray-200 rounded-lg bg-white group hover:border-[var(--kr-gov-blue)] transition-all cursor-pointer';
+                newRow.onclick = function () { this.querySelector('.file-input').click(); };
+                newRow.innerHTML = `
+                    <span class="material-symbols-outlined text-gray-400 group-hover:text-[var(--kr-gov-blue)]">attach_file</span>
+                    <div class="flex-grow min-w-0">
+                        <input type="file" name="fileUploads" class="hidden file-input" accept=".pdf,.jpg,.jpeg,.png" required onchange="handleFileChange(this)" />
+                        <div class="file-info flex items-center justify-between">
+                            <span class="file-name text-sm text-gray-500 truncate">Please select a file.</span>
+                            <span class="file-size text-xs text-gray-400"></span>
+                        </div>
+                    </div>
+                    <button type="button" class="remove-file-btn text-gray-400 hover:text-red-500 transition-colors" onclick="event.stopPropagation(); removeFileRow(this)">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                `;
+                fileListContainer.appendChild(newRow);
+            });
+        }
+
+        window.handleFileChange = function (input) {
+            const row = input.closest('.file-row');
+            const nameSpan = row.querySelector('.file-name');
+            const sizeSpan = row.querySelector('.file-size');
+            const removeBtn = row.querySelector('.remove-file-btn');
+
+            if (input.files && input.files.length > 0) {
+                const file = input.files[0];
+                nameSpan.textContent = file.name;
+                nameSpan.className = 'file-name text-sm font-bold text-[var(--kr-gov-blue)] truncate';
+                sizeSpan.textContent = formatBytes(file.size);
+                row.classList.add('border-[var(--kr-gov-blue)]', 'bg-blue-50/30');
+                removeBtn.classList.remove('hidden');
             } else {
-                fileNameDisplay.textContent = 'Only PDF, JPG, PNG files are allowed. Max size 10MB.';
-                fileNameDisplay.className = 'text-xs text-gray-500 mt-2';
-                uploadIcon.textContent = 'cloud_upload';
-                uploadIcon.className = 'material-symbols-outlined text-5xl text-gray-400';
-                uploadBtnText.textContent = 'Select File';
-                dropZone.className = 'drop-zone block border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer';
+                nameSpan.textContent = 'Please select a file.';
+                nameSpan.className = 'file-name text-sm text-gray-500 truncate';
+                sizeSpan.textContent = '';
+                row.classList.remove('border-[var(--kr-gov-blue)]', 'bg-blue-50/30');
             }
-        });
+        };
+
+        window.removeFileRow = function (btn) {
+            const rows = fileListContainer.querySelectorAll('.file-row');
+            if (rows.length > 1) {
+                btn.closest('.file-row').remove();
+            } else {
+                const row = btn.closest('.file-row');
+                const input = row.querySelector('.file-input');
+                input.value = '';
+                handleFileChange(input);
+                btn.classList.add('hidden');
+            }
+        };
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
     </script>
 </body>
 

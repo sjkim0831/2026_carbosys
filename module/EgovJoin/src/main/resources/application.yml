@@ -32,6 +32,9 @@ spring:
   messages:
     encoding: UTF-8
   servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
     encoding:
       charset: UTF-8
       enabled: true
