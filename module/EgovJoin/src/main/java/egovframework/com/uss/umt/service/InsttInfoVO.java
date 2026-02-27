@@ -31,6 +31,16 @@ public class InsttInfoVO implements Serializable {
     private String frstRegistPnttm;
     /** 최종 수정 시점 */
     private String lastUpdtPnttm;
+    /** 반려 사유 */
+    private String rjctRsn;
+    /** 반려 시점 */
+    private String rjctPnttm;
+    /** 담당자 성명 */
+    private String chargerNm;
+    /** 담당자 이메일 */
+    private String chargerEmail;
+    /** 담당자 연락처 */
+    private String chargerTel;
 
     public String getInsttId() {
         return insttId;
@@ -118,5 +128,45 @@ public class InsttInfoVO implements Serializable {
 
     public void setLastUpdtPnttm(String lastUpdtPnttm) {
         this.lastUpdtPnttm = lastUpdtPnttm;
+    }
+
+    public String getRjctRsn() {
+        return rjctRsn;
+    }
+
+    public void setRjctRsn(String rjctRsn) {
+        this.rjctRsn = rjctRsn;
+    }
+
+    public String getRjctPnttm() {
+        return rjctPnttm;
+    }
+
+    public void setRjctPnttm(String rjctPnttm) {
+        this.rjctPnttm = rjctPnttm;
+    }
+
+    public String getChargerNm() {
+        return chargerNm;
+    }
+
+    public void setChargerNm(String chargerNm) {
+        this.chargerNm = chargerNm;
+    }
+
+    public String getChargerEmail() {
+        return chargerEmail;
+    }
+
+    public void setChargerEmail(String chargerEmail) {
+        this.chargerEmail = chargerEmail;
+    }
+
+    public String getChargerTel() {
+        return chargerTel;
+    }
+
+    public void setChargerTel(String chargerTel) {
+        this.chargerTel = chargerTel;
     }
 }

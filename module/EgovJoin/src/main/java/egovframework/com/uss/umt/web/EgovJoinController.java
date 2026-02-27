@@ -1,6 +1,8 @@
 package egovframework.com.uss.umt.web;
 
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -399,6 +401,9 @@ public class EgovJoinController {
             @RequestParam("zipCode") String zipCode,
             @RequestParam("companyAddress") String addr,
             @RequestParam(value = "companyAddressDetail", required = false) String detailAddr,
+            @RequestParam(value = "chargerName", required = false) String chargerNm,
+            @RequestParam(value = "chargerEmail", required = false) String chargerEmail,
+            @RequestParam(value = "chargerTel", required = false) String chargerTel,
             @RequestParam(value = "lang", defaultValue = "ko") String lang,
             @RequestParam("fileUploads") java.util.List<org.springframework.web.multipart.MultipartFile> fileUploads,
             org.springframework.ui.Model model) {
@@ -416,6 +421,9 @@ public class EgovJoinController {
             vo.setZip(zipCode);
             vo.setAdres(addr);
             vo.setDetailAdres(detailAddr);
+            vo.setChargerNm(chargerNm);
+            vo.setChargerEmail(chargerEmail);
+            vo.setChargerTel(chargerTel);
             vo.setInsttSttus("P");
 
             // Upload directory
@@ -539,11 +547,131 @@ public class EgovJoinController {
             return "uss/umt/company_join_status_search";
         }
 
-        System.out.println("DEBUG result keys: " + result.keySet());
-        System.out.println("DEBUG result values: " + result);
-
         model.addAttribute("result", result);
         return "uss/umt/company_join_status_detail";
     }
 
+    @GetMapping("/companyReapply")
+    public String companyReapply(
+            @RequestParam("bizNo") String bizNo,
+            @RequestParam("repName") String repName,
+            org.springframework.ui.Model model) throws Exception {
+
+        InsttInfoVO searchVO = new InsttInfoVO();
+        searchVO.setReprsntNm(repName);
+        searchVO.setBizrno(bizNo);
+
+        java.util.Map<String, Object> result = entrprsManageService.selectInsttInfoForStatus(searchVO);
+
+        if (result == null || result.isEmpty()) {
+            model.addAttribute("errorMessage", "입력하신 정보와 일치하는 신청 내역이 없습니다.");
+            return "uss/umt/company_join_status_search";
+        }
+
+        if (!"X".equals(result.get("insttSttus"))) {
+            model.addAttribute("errorMessage", "반려된 건만 재신청이 가능합니다.");
+            return "redirect:/join/companyJoinStatusDetail?bizNo=" + bizNo + "&repName=" + repName;
+        }
+
+        model.addAttribute("result", result);
+        return "uss/umt/company_join_reapply";
+    }
+
+    @PostMapping("/companyReapplySubmit")
+    public String companyReapplySubmit(
+            @RequestParam("insttId") String insttId,
+            @RequestParam("agencyName") String agencyName,
+            @RequestParam("representativeName") String repName,
+            @RequestParam("bizRegistrationNumber") String bizNo,
+            @RequestParam("zipCode") String zipCode,
+            @RequestParam("companyAddress") String addr,
+            @RequestParam(value = "companyAddressDetail", required = false) String detailAddr,
+            @RequestParam(value = "chargerName", required = false) String chargerNm,
+            @RequestParam(value = "chargerEmail", required = false) String chargerEmail,
+            @RequestParam(value = "chargerTel", required = false) String chargerTel,
+            @RequestParam(value = "fileUploads", required = false) java.util.List<org.springframework.web.multipart.MultipartFile> fileUploads,
+            org.springframework.ui.Model model) {
+
+        try {
+            InsttInfoVO vo = new InsttInfoVO();
+            vo.setInsttId(insttId);
+            vo.setInsttNm(agencyName);
+            vo.setReprsntNm(repName);
+            vo.setBizrno(bizNo);
+            vo.setZip(zipCode);
+            vo.setAdres(addr);
+            vo.setDetailAdres(detailAddr);
+            vo.setChargerNm(chargerNm);
+            vo.setChargerEmail(chargerEmail);
+            vo.setChargerTel(chargerTel);
+            vo.setInsttSttus("P");
+
+            // Handle file uploads
+            String uploadDir = "/opt/carbosys/file/instt";
+            java.util.List<String> savedPaths = new java.util.ArrayList<>();
+            if (fileUploads != null && !fileUploads.isEmpty()) {
+                for (int i = 0; i < fileUploads.size(); i++) {
+                    org.springframework.web.multipart.MultipartFile file = fileUploads.get(i);
+                    if (file == null || file.isEmpty())
+                        continue;
+
+                    String originalFileName = file.getOriginalFilename();
+                    String ext = "";
+                    if (originalFileName != null) {
+                        int lastDotIndex = originalFileName.lastIndexOf(".");
+                        if (lastDotIndex > -1)
+                            ext = originalFileName.substring(lastDotIndex);
+                    }
+                    String newFileName = insttId + "_" + System.currentTimeMillis() + "_" + i + ext;
+                    java.io.File targetFile = new java.io.File(uploadDir, newFileName);
+                    file.transferTo(targetFile);
+                    savedPaths.add(targetFile.getAbsolutePath());
+                }
+            }
+
+            if (!savedPaths.isEmpty()) {
+                vo.setBizRegFilePath(String.join(",", savedPaths));
+            }
+
+            entrprsManageService.updateInsttInfo(vo);
+
+            model.addAttribute("insttNm", agencyName);
+            model.addAttribute("bizrno", bizNo);
+            model.addAttribute("regDate", java.time.LocalDateTime.now()
+                    .format(java.time.format.DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss")));
+
+            return "uss/umt/step4_company_complete";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", e.getMessage());
+            return "uss/umt/company_join_reapply";
+        }
+    }
+
+    @GetMapping("/downloadInsttFile")
+    public void downloadInsttFile(@RequestParam("filePath") String filePath,
+            javax.servlet.http.HttpServletResponse response) throws Exception {
+        java.io.File file = new java.io.File(filePath);
+        // Security check: only allow files within the instt directory
+        if (!file.exists() || !file.getCanonicalPath().startsWith("/opt/carbosys/file/instt")) {
+            response.sendError(404, "File not found or access denied.");
+            return;
+        }
+
+        String fileName = file.getName();
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition",
+                "attachment; filename=\"" + java.net.URLEncoder.encode(fileName, "UTF-8") + "\"");
+
+        try (java.io.FileInputStream fis = new java.io.FileInputStream(file);
+                java.io.OutputStream os = response.getOutputStream()) {
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+            os.flush();
+        }
+    }
 }

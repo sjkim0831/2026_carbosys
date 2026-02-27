@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>사업자 회원 재신청 - CCUS 통합관리 포털</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+            --kr-gov-error: #d32f2f;
+            --kr-gov-warning-bg: #fff4f4;
+            --kr-gov-warning-border: #fca5a5;
+        }
+        @layer base {
+            body { font-family: 'Noto Sans KR', 'Public Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+            .focus-visible:focus-visible {
+                outline: 3px solid var(--kr-gov-focus);
+                outline-offset: 2px;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+        }
+        .form-section-title {
+            @apply text-lg font-bold text-[var(--kr-gov-text-primary)] border-l-4 border-[var(--kr-gov-blue)] pl-3 mb-6 flex items-center gap-2;
+        }
+        .input-field {
+            @apply w-full h-12 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all outline-none bg-white font-medium;
+        }
+        .readonly-field {
+            @apply bg-gray-50 text-[var(--kr-gov-text-secondary)] border-gray-200 cursor-not-allowed;
+        }
+        .upload-zone {
+            @apply border-2 border-dashed border-[var(--kr-gov-error)] rounded-[var(--kr-gov-radius)] p-8 bg-red-50/30 flex flex-col items-center justify-center gap-3 hover:bg-red-50 transition-colors cursor-pointer;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "gov-gray": "#767676",
+                    },
+                    borderRadius: {
+                        'gov': '5px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
+    <a class="skip-link" href="#main-content">본문 바로가기</a>
+    <div id="shared-header"></div>
+
+    <main class="flex-grow max-w-5xl mx-auto w-full py-10 px-4" id="main-content">
+        <div class="mb-8">
+            <h2 class="text-3xl font-black mb-2">사업자 회원 재신청</h2>
+            <p class="text-[var(--kr-gov-text-secondary)]">반려 사유를 확인하신 후 정보를 수정하여 다시 신청해 주시기 바랍니다.</p>
+        </div>
+
+        <div
+            class="mb-10 bg-[var(--kr-gov-warning-bg)] border border-[var(--kr-gov-warning-border)] p-6 rounded-[var(--kr-gov-radius)] flex gap-4">
+            <span class="material-symbols-outlined text-[var(--kr-gov-error)] text-[32px]">warning</span>
+            <div class="flex-grow">
+                <h3 class="font-bold text-[var(--kr-gov-error)] mb-1">가입 신청 반려 사유</h3>
+                <p class="text-[var(--kr-gov-text-primary)] leading-relaxed" th:text="${result.rjctRsn}">
+                    반려 사유 내용이 표시됩니다.
+                </p>
+                <p class="mt-2 text-xs text-[var(--kr-gov-text-secondary)]" th:if="${result.rjctPnttm != null}"
+                    th:text="'(처리일시: ' + ${result.rjctPnttm} + ')'">(2025.08.18 10:20)</p>
+            </div>
+        </div>
+
+        <form id="reapplyForm" action="/join/companyReapplySubmit" method="post" enctype="multipart/form-data"
+            class="space-y-12">
+            <input type="hidden" name="insttId" th:value="${result.insttId}" />
+
+            <section>
+                <h3 class="form-section-title">기본 정보</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="charger-name">담당자 성명
+                            <span class="text-[var(--kr-gov-error)]">*</span></label>
+                        <input class="input-field" id="charger-name" name="chargerName" type="text"
+                            th:value="${result.chargerNm}" required />
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="charger-email">이메일 주소
+                            <span class="text-[var(--kr-gov-error)]">*</span></label>
+                        <input class="input-field" id="charger-email" name="chargerEmail" type="email"
+                            th:value="${result.chargerEmail}" required />
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="charger-tel">연락처 <span
+                                class="text-[var(--kr-gov-error)]">*</span></label>
+                        <input class="input-field" id="charger-tel" name="chargerTel" type="tel"
+                            th:value="${result.chargerTel}" required />
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="form-section-title">사업자 정보</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="company-name">업체명
+                            <span class="text-[var(--kr-gov-error)]">*</span></label>
+                        <input class="input-field" id="company-name" name="agencyName" type="text"
+                            th:value="${result.insttNm}" required />
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]"
+                            for="biz-number">사업자등록번호</label>
+                        <input class="input-field readonly-field" id="biz-number" name="bizRegistrationNumber"
+                            readonly="" type="text" th:value="${result.bizrno}" />
+                        <p class="text-xs text-[var(--kr-gov-text-secondary)]">사업자등록번호는 수정할 수 없습니다.</p>
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="rep-name">대표자 성명 <span
+                                class="text-[var(--kr-gov-error)]">*</span></label>
+                        <input class="input-field" id="rep-name" name="representativeName" type="text"
+                            th:value="${result.reprsntNm}" required />
+                    </div>
+                    <div class="md:col-span-2 space-y-1.5">
+                        <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="company-address">사업장
+                            주소 <span class="text-[var(--kr-gov-error)]">*</span></label>
+                        <div class="flex gap-2 mb-2">
+                            <input class="input-field max-w-[200px] readonly-field" id="zip-code" name="zipCode"
+                                placeholder="우편번호" readonly="" type="text" th:value="${result.zip}" required
+                                onclick="execDaumPostcode()" />
+                            <button
+                                class="px-6 h-12 bg-gray-800 text-white font-bold rounded-[var(--kr-gov-radius)] text-sm whitespace-nowrap"
+                                type="button" onclick="execDaumPostcode()">주소 검색</button>
+                        </div>
+                        <input class="input-field mb-2 bg-gray-50 cursor-pointer" id="company-address"
+                            name="companyAddress" type="text" th:value="${result.adres}" readonly
+                            onclick="execDaumPostcode()" required />
+                        <input class="input-field" id="company-address-detail" name="companyAddressDetail"
+                            placeholder="상세주소를 입력하세요" type="text" th:value="${result.detailAdres}" />
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="form-section-title">증빙 서류</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-sm font-bold text-[var(--kr-gov-text-secondary)]">사업자등록증 재업로드 <span
+                                class="text-[var(--kr-gov-error)]">*</span></label>
+                        <button type="button" id="add-file-btn"
+                            class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded transition-colors border border-gray-200">
+                            <span class="material-symbols-outlined text-[18px]">add</span>
+                            파일 추가
+                        </button>
+                    </div>
+
+                    <div id="file-list-container" class="space-y-3">
+                        <!-- 기존 파일 정보 안내 -->
+                        <div th:if="${result.bizRegFilePath != null and result.bizRegFilePath != ''}"
+                            class="p-4 bg-gray-50 border border-gray-200 rounded-[var(--kr-gov-radius)] mb-4">
+                            <p
+                                class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mb-2 uppercase tracking-wider">
+                                현재 등록된 서류</p>
+                            <div th:each="filePath : ${#strings.arraySplit(result.bizRegFilePath, ',')}"
+                                class="flex items-center gap-2 py-1">
+                                <span class="material-symbols-outlined text-gray-400 text-sm">attach_file</span>
+                                <span class="text-sm text-[var(--kr-gov-text-primary)]"
+                                    th:text="${filePath.substring(filePath.lastIndexOf('/') + 1)}">파일명.pdf</span>
+                                <span
+                                    class="text-[10px] text-[var(--kr-gov-error)] font-bold px-1.5 py-0.5 border border-red-200 bg-red-50 rounded">반려됨</span>
+                            </div>
+                        </div>
+
+                        <div class="file-row flex items-center gap-3 p-4 border-2 border-dashed border-[var(--kr-gov-error)] rounded-[var(--kr-gov-radius)] bg-red-50/20 group hover:bg-red-50 transition-all cursor-pointer"
+                            onclick="this.querySelector('.file-input').click()">
+                            <span
+                                class="material-symbols-outlined text-[var(--kr-gov-error)] group-hover:scale-110 transition-transform">cloud_upload</span>
+                            <div class="flex-grow min-w-0">
+                                <input type="file" name="fileUploads" class="hidden file-input"
+                                    accept=".pdf,.jpg,.jpeg,.png" required onchange="handleFileChange(this)" />
+                                <div class="file-info flex items-center justify-between">
+                                    <span class="file-name text-sm font-bold text-[var(--kr-gov-error)] truncate">새 서류를
+                                        선택하거나 여기로 끌어다 놓으세요.</span>
+                                    <span class="file-size text-xs text-gray-400"></span>
+                                </div>
+                            </div>
+                            <button type="button"
+                                class="remove-file-btn text-gray-400 hover:text-red-500 transition-colors hidden"
+                                onclick="event.stopPropagation(); removeFileRow(this)">
+                                <span class="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="flex justify-center items-center gap-4 pt-8 border-t border-[var(--kr-gov-border-light)]">
+                <button
+                    class="min-w-[160px] h-14 border border-[var(--kr-gov-border-light)] bg-white text-[var(--kr-gov-text-primary)] text-lg font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors"
+                    type="button" onclick="history.back()">취소</button>
+                <button
+                    class="min-w-[160px] h-14 bg-[var(--kr-gov-blue)] text-white text-lg font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors focus-visible shadow-lg shadow-blue-900/10"
+                    type="submit">재신청 완료</button>
+            </div>
+        </form>
+    </main>
+
+    <div id="shared-footer"></div>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            /* ── 헤더/푸터 로드 ── */
+            (function loadSharedLayout() {
+                fetch('/home3/fragments/header').then(r => r.text()).then(html => {
+                    document.getElementById('shared-header').innerHTML = html;
+                }).catch(() => { });
+                fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
+                    document.getElementById('shared-footer').innerHTML = html;
+                }).catch(() => { });
+            })();
+
+            /* ── 다음 우편번호 검색 API ── */
+            window.execDaumPostcode = function () {
+                new daum.Postcode({
+                    oncomplete: function (data) {
+                        var addr = data.userSelectedType === 'R' ? data.roadAddress : data.jibunAddress;
+                        document.getElementById('zip-code').value = data.zonecode;
+                        document.getElementById('company-address').value = addr;
+                        document.getElementById('company-address-detail').focus();
+                    }
+                }).open();
+            };
+
+            /* ── 파일 업로드 관리 ── */
+            const addFileBtn = document.getElementById('add-file-btn');
+            const fileListContainer = document.getElementById('file-list-container');
+
+            if (addFileBtn) {
+                addFileBtn.addEventListener('click', () => {
+                    const newRow = document.createElement('div');
+                    newRow.className = 'file-row flex items-center gap-3 p-4 border border-gray-200 rounded-lg bg-white group hover:border-[var(--kr-gov-blue)] transition-all cursor-pointer';
+                    newRow.onclick = function () { this.querySelector('.file-input').click(); };
+                    newRow.innerHTML = `
+                        <span class="material-symbols-outlined text-gray-400 group-hover:text-[var(--kr-gov-blue)] transition-all">attach_file</span>
+                        <div class="flex-grow min-w-0">
+                            <input type="file" name="fileUploads" class="hidden file-input" accept=".pdf,.jpg,.jpeg,.png" required onchange="handleFileChange(this)" />
+                            <div class="file-info flex items-center justify-between">
+                                <span class="file-name text-sm text-gray-500 truncate">파일을 선택해 주세요.</span>
+                                <span class="file-size text-xs text-gray-400"></span>
+                            </div>
+                        </div>
+                        <button type="button" class="remove-file-btn text-gray-400 hover:text-red-500 transition-colors" onclick="event.stopPropagation(); removeFileRow(this)">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                    `;
+                    fileListContainer.appendChild(newRow);
+                });
+            }
+
+            window.handleFileChange = function (input) {
+                const row = input.closest('.file-row');
+                const nameSpan = row.querySelector('.file-name');
+                const sizeSpan = row.querySelector('.file-size');
+                const removeBtn = row.querySelector('.remove-file-btn');
+                const icon = row.querySelector('.material-symbols-outlined');
+
+                if (input.files && input.files.length > 0) {
+                    const file = input.files[0];
+                    nameSpan.textContent = file.name;
+                    nameSpan.className = 'file-name text-sm font-bold text-[var(--kr-gov-blue)] truncate';
+                    sizeSpan.textContent = formatBytes(file.size);
+                    row.classList.remove('border-dashed', 'border-[var(--kr-gov-error)]', 'bg-red-50/20');
+                    row.classList.add('border-solid', 'border-[var(--kr-gov-blue)]', 'bg-blue-50/20');
+                    icon.className = 'material-symbols-outlined text-[var(--kr-gov-blue)]';
+                    icon.textContent = 'check_circle';
+                    removeBtn.classList.remove('hidden');
+                } else {
+                    nameSpan.textContent = '파일을 선택해 주세요.';
+                    nameSpan.className = 'file-name text-sm text-gray-500 truncate';
+                    sizeSpan.textContent = '';
+                    row.classList.remove('border-solid', 'border-[var(--kr-gov-blue)]', 'bg-blue-50/20');
+                    icon.textContent = 'attach_file';
+                }
+            };
+
+            window.removeFileRow = function (btn) {
+                const rows = fileListContainer.querySelectorAll('.file-row');
+                if (rows.length > 1) {
+                    btn.closest('.file-row').remove();
+                } else {
+                    const row = btn.closest('.file-row');
+                    const input = row.querySelector('.file-input');
+                    input.value = '';
+                    const icon = row.querySelector('.material-symbols-outlined');
+                    const nameSpan = row.querySelector('.file-name');
+                    const sizeSpan = row.querySelector('.file-size');
+
+                    nameSpan.textContent = '새 서류를 선택하거나 여기로 끌어다 놓으세요.';
+                    nameSpan.className = 'file-name text-sm font-bold text-[var(--kr-gov-error)] truncate';
+                    sizeSpan.textContent = '';
+                    row.classList.add('border-dashed', 'border-[var(--kr-gov-error)]', 'bg-red-50/20');
+                    row.classList.remove('border-solid', 'border-[var(--kr-gov-blue)]', 'bg-blue-50/20');
+                    icon.textContent = 'cloud_upload';
+                    icon.className = 'material-symbols-outlined text-[var(--kr-gov-error)]';
+                    btn.classList.add('hidden');
+                }
+            };
+
+            function formatBytes(bytes, decimals = 2) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const dm = decimals < 0 ? 0 : decimals;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+            }
+        });
+    </script>
+</body>
+
+</html>

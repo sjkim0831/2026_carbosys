@@ -159,4 +159,12 @@ public interface EgovEntrprsManageService {
 	 */
 	public java.util.Map<String, Object> selectInsttInfoForStatus(InsttInfoVO insttInfoVO) throws Exception;
 
+	/**
+	 * 회원사(기관) 정보를 수정한다. (재신청 시 사용)
+	 * 
+	 * @param insttInfoVO 회원사정보
+	 * @throws Exception
+	 */
+	public void updateInsttInfo(InsttInfoVO insttInfoVO) throws Exception;
+
 }

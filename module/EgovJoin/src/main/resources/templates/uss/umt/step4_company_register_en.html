@@ -132,10 +132,39 @@
 
             <form action="/join/companyRegisterSubmit" method="post" enctype="multipart/form-data" class="space-y-8">
                 <input type="hidden" name="lang" value="en" />
+
+                <!-- Contact Information (Added) -->
+                <section>
+                    <h4 class="section-title">
+                        <span class="material-symbols-outlined text-[var(--kr-gov-blue)]">person</span>
+                        Contact Information
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+                        <div class="space-y-1">
+                            <label class="form-label" for="charger-name">Contact Person Name <span aria-hidden="true"
+                                    class="text-red-500">*</span></label>
+                            <input class="form-input" id="charger-name" name="chargerName"
+                                placeholder="Enter contact person's name" required type="text" />
+                        </div>
+                        <div class="space-y-1">
+                            <label class="form-label" for="charger-email">Email Address <span aria-hidden="true"
+                                    class="text-red-500">*</span></label>
+                            <input class="form-input" id="charger-email" name="chargerEmail"
+                                placeholder="example@email.com" required type="email" />
+                        </div>
+                        <div class="space-y-1">
+                            <label class="form-label" for="charger-tel">Phone Number <span aria-hidden="true"
+                                    class="text-red-500">*</span></label>
+                            <input class="form-input" id="charger-tel" name="chargerTel" placeholder="010-0000-0000"
+                                required type="tel" />
+                        </div>
+                    </div>
+                </section>
+
                 <section>
                     <h4 class="section-title">
                         <span class="material-symbols-outlined text-[var(--kr-gov-blue)]">business_center</span>
-                        Company Basic Information
+                        Company Business Information
                     </h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
                         <div class="md:col-span-2 space-y-1">

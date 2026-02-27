@@ -188,4 +188,13 @@ public class EntrprsManageDAO extends EgovComAbstractDAO {
     public java.util.Map<String, Object> selectInsttInfoForStatus(InsttInfoVO insttInfoVO) {
         return (java.util.Map<String, Object>) selectOne("entrprsManageDAO.selectInsttInfoForStatus", insttInfoVO);
     }
+
+    /**
+     * 회원사(기관) 정보를 수정한다. (재신청 시 사용)
+     * 
+     * @param insttInfoVO 회원사정보
+     */
+    public void updateInsttInfo(InsttInfoVO insttInfoVO) {
+        update("entrprsManageDAO.updateInsttInfo", insttInfoVO);
+    }
 }

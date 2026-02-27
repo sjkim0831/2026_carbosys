@@ -255,4 +255,9 @@ public class EgovEntrprsManageServiceImpl extends EgovAbstractServiceImpl implem
 	public java.util.Map<String, Object> selectInsttInfoForStatus(InsttInfoVO insttInfoVO) throws Exception {
 		return entrprsManageDAO.selectInsttInfoForStatus(insttInfoVO);
 	}
+
+	@Override
+	public void updateInsttInfo(InsttInfoVO insttInfoVO) throws Exception {
+		entrprsManageDAO.updateInsttInfo(insttInfoVO);
+	}
 }
