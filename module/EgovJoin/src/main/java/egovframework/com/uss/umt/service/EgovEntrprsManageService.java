@@ -150,4 +150,21 @@ public interface EgovEntrprsManageService {
 	 */
 	public int checkCompanyNameDplct(String checkNm) throws Exception;
 
+	/**
+	 * 회원사(기관) 가입 현황을 조회한다.
+	 * 
+	 * @param insttInfoVO 조회조건(bizrno 또는 insttId, reprsntNm)
+	 * @return InsttInfoVO 회원사정보
+	 * @throws Exception
+	 */
+	public java.util.Map<String, Object> selectInsttInfoForStatus(InsttInfoVO insttInfoVO) throws Exception;
+
+	/**
+	 * 회원사(기관) 정보를 수정한다. (재신청 시 사용)
+	 * 
+	 * @param insttInfoVO 회원사정보
+	 * @throws Exception
+	 */
+	public void updateInsttInfo(InsttInfoVO insttInfoVO) throws Exception;
+
 }

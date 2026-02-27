@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>회원사 가입 현황 상세 - CCUS 통합관리 포털</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.material.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-emerald: #059669;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f8fafc;
+            --kr-gov-radius: 8px;
+            --kr-gov-red: #d32f2f;
+        }
+        @layer base {
+            body { font-family: 'Noto Sans KR', 'Public Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+            stroke-width: 1.6px;
+        }
+        .stepper-active .stepper-circle {
+            @apply bg-[var(--kr-gov-blue)] text-white border-[var(--kr-gov-blue)];
+        }
+        .stepper-active-reject .stepper-circle {
+            @apply bg-[var(--kr-gov-red)] text-white border-[var(--kr-gov-red)];
+        }
+        .stepper-complete .stepper-circle {
+            @apply bg-emerald-500 text-white border-emerald-500;
+        }
+        .stepper-pending .stepper-circle {
+            @apply bg-white text-gray-400 border-gray-200;
+        }
+    </style>
+</head>
+
+<body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
+    <div id="shared-header"></div>
+    <main class="flex-grow max-w-5xl mx-auto w-full py-12 px-4" id="main-content">
+        <div class="mb-10 text-center">
+            <h2 class="text-3xl font-bold text-[var(--kr-gov-text-primary)] mb-3">회원사 가입 현황 상세</h2>
+            <p class="text-lg text-[var(--kr-gov-text-secondary)]">신청하신 회원사 가입 내역 및 처리 상태를 확인하실 수 있습니다.</p>
+        </div>
+        <div th:if="${result != null}"
+            class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-8">
+            <div class="bg-gray-50 px-8 py-4 border-b border-gray-200 flex justify-between items-center">
+                <span
+                    class="text-sm font-bold text-[var(--kr-gov-blue)] bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+                    신청 번호: <span th:text="${result['insttId']}">APP-00000</span>
+                </span>
+                <span class="text-xs text-[var(--kr-gov-text-secondary)] font-medium">최종 업데이트: <span
+                        th:text="${result['lastUpdtPnttm']}">2026.00.00</span></span>
+            </div>
+            <div class="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="space-y-1">
+                    <p class="text-sm font-bold text-[var(--kr-gov-text-secondary)]">신청 기관명</p>
+                    <p class="text-base font-medium text-[var(--kr-gov-text-primary)]" th:text="${result['insttNm']}">
+                        (주)회사명</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-sm font-bold text-[var(--kr-gov-text-secondary)]">사업자등록번호</p>
+                    <p class="text-base font-medium text-[var(--kr-gov-text-primary)]" th:text="${result['bizrno']}">
+                        000-00-00000</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-sm font-bold text-[var(--kr-gov-text-secondary)]">대표자명</p>
+                    <p class="text-base font-medium text-[var(--kr-gov-text-primary)]" th:text="${result['reprsntNm']}">
+                        대표자
+                    </p>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-sm font-bold text-[var(--kr-gov-text-secondary)]">신청일</p>
+                    <p class="text-base font-medium text-[var(--kr-gov-text-primary)]"
+                        th:text="${result['frstRegistPnttm']}">2026.00.00</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Stepper -->
+        <div th:if="${result != null}" class="bg-white border border-gray-200 rounded-xl shadow-sm p-10 mb-8">
+            <div class="relative flex justify-between items-center max-w-3xl mx-auto mb-12">
+                <!-- Step 1: Always complete -->
+                <div class="relative z-10 flex flex-col items-center gap-3 stepper-complete">
+                    <div
+                        class="stepper-circle w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-lg">
+                        01</div>
+                    <span class="text-sm font-bold text-[var(--kr-gov-text-primary)]">신청 완료</span>
+                </div>
+
+                <div class="flex-grow h-0.5 mx-4"
+                    th:classappend="${result['insttSttus'] == 'P' ? 'bg-gray-200' : 'bg-emerald-500'}"></div>
+
+                <!-- Step 2: Active if P, Complete if A/X -->
+                <div class="relative z-10 flex flex-col items-center gap-3"
+                    th:classappend="${result['insttSttus'] == 'P' ? 'stepper-active' : 'stepper-complete'}">
+                    <div
+                        class="stepper-circle w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-lg">
+                        02</div>
+                    <span class="text-sm font-bold"
+                        th:classappend="${result['insttSttus'] == 'P' ? 'text-[var(--kr-gov-blue)]' : 'text-[var(--kr-gov-text-primary)]'}">운영자
+                        검토 중</span>
+                </div>
+
+                <div class="flex-grow h-0.5 mx-4"
+                    th:classappend="${result['insttSttus'] == 'P' ? 'bg-gray-200' : (result['insttSttus'] == 'X' ? 'bg-[var(--kr-gov-red)]' : 'bg-emerald-500')}">
+                </div>
+
+                <!-- Step 3: Pending if P, Active if A/X -->
+                <div class="relative z-10 flex flex-col items-center gap-3"
+                    th:classappend="${result['insttSttus'] == 'P' ? 'stepper-pending' : (result['insttSttus'] == 'X' ? 'stepper-active-reject' : 'stepper-active')}">
+                    <div
+                        class="stepper-circle w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-lg">
+                        03</div>
+                    <span class="text-sm font-bold"
+                        th:classappend="${result['insttSttus'] == 'P' ? 'text-gray-400' : (result['insttSttus'] == 'A' ? 'text-emerald-600' : 'text-red-600')}">
+                        <span th:if="${result['insttSttus'] == 'P'}">승인 대기</span>
+                        <span th:if="${result['insttSttus'] == 'A'}">승인 완료</span>
+                        <span th:if="${result['insttSttus'] == 'X'}">승인 반려</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Dynamic Message based on status -->
+            <div class="bg-blue-50 border border-blue-100 rounded-lg p-6 flex items-start gap-4"
+                th:if="${result['insttSttus'] == 'P'}">
+                <span class="material-symbols-outlined text-[var(--kr-gov-blue)] mt-0.5">query_stats</span>
+                <div class="space-y-1">
+                    <h4 class="text-base font-bold text-blue-900">현재 운영자의 서류 검토가 진행 중입니다.</h4>
+                    <p class="text-sm text-blue-800 leading-relaxed">신청하신 서류에 대해 담당 운영자가 적정성 검토를 진행하고 있습니다. 통상적으로 업무일 기준
+                        3~5일이 소요됩니다.</p>
+                </div>
+            </div>
+            <div class="bg-emerald-50 border border-emerald-100 rounded-lg p-6 flex items-start gap-4"
+                th:if="${result['insttSttus'] == 'A'}">
+                <span class="material-symbols-outlined text-[var(--kr-gov-emerald)] mt-0.5">check_circle</span>
+                <div class="space-y-1">
+                    <h4 class="text-base font-bold text-emerald-900">회원사 가입 승인이 완료되었습니다.</h4>
+                    <p class="text-sm text-emerald-800 leading-relaxed">이제 관리자 승인을 거쳐 정식 회원사로 활동하실 수 있습니다. 가입 시 입력한 메일로
+                        안내가 발송되었습니다.</p>
+                </div>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-lg p-6 flex flex-col gap-4"
+                th:if="${result['insttSttus'] == 'X'}">
+                <div class="flex items-start gap-4">
+                    <span class="material-symbols-outlined text-red-600 mt-0.5">error</span>
+                    <div class="space-y-1">
+                        <h4 class="text-base font-bold text-red-900">회원사 가입 신청이 반려되었습니다.</h4>
+                        <p class="text-sm text-red-800 leading-relaxed">입력하신 정보 또는 제출하신 서류에 보완이 필요합니다. 아래의 반려 사유를 확인하시고,
+                            [재신청하기] 버튼을 통해 정보를 수정하여 다시 제출해 주시기 바랍니다.</p>
+                    </div>
+                </div>
+
+                <div class="border border-red-200 rounded-lg overflow-hidden bg-white">
+                    <div class="bg-red-50 px-6 py-3 border-b border-red-100">
+                        <h5 class="text-sm font-bold text-red-900 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">speaker_notes</span>
+                            상세 반려 사유
+                        </h5>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-base text-[var(--kr-gov-text-primary)] leading-relaxed"
+                            th:text="${result['rjctRsn']}">
+                            반려 사유 내용이 표시됩니다.
+                        </p>
+                        <p class="mt-4 text-xs text-[var(--kr-gov-text-secondary)]">처리기한: 탄소중립 CCUS 통합관리본부 운영국 <span
+                                th:if="${result['rjctPnttm'] != null}"
+                                th:text="'(' + ${result['rjctPnttm']} + ')'">(2026.00.00)</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attached Files -->
+        <div th:if="${result != null}" class="bg-white border border-gray-200 rounded-xl shadow-sm p-8 mb-12">
+            <h3 class="text-lg font-bold text-[var(--kr-gov-text-primary)] mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[var(--kr-gov-text-secondary)]">description</span>
+                첨부 서류 내역
+            </h3>
+            <ul class="divide-y divide-gray-100 border border-gray-100 rounded-lg overflow-hidden">
+                <li th:each="filePath : ${#strings.arraySplit(result['bizRegFilePath'] ?: '', ',')}"
+                    th:if="${filePath != ''}"
+                    class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-gray-400">attach_file</span>
+                        <span class="text-sm font-medium text-[var(--kr-gov-text-primary)]"
+                            th:text="${filePath.substring(filePath.lastIndexOf('/') + 1)}">파일명.pdf</span>
+                    </div>
+                    <button th:data-filepath="${filePath}"
+                        onclick="location.href='/join/downloadInsttFile?filePath=' + encodeURIComponent(this.getAttribute('data-filepath'))"
+                        class="flex items-center gap-1 text-[var(--kr-gov-blue)] font-bold text-xs hover:underline">
+                        <span class="material-symbols-outlined text-[18px]">download</span>
+                        다운로드
+                    </button>
+                </li>
+                <li th:if="${result['bizRegFilePath'] == null or result['bizRegFilePath'] == ''}"
+                    class="p-4 text-center text-gray-400 text-sm">
+                    첨부된 서류가 없습니다.
+                </li>
+            </ul>
+        </div>
+
+        <div class="flex items-center justify-center gap-4">
+            <button onclick="history.back()"
+                class="px-8 h-14 border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-primary)] font-bold rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2">
+                <span class="material-symbols-outlined">arrow_back</span>
+                뒤로가기
+            </button>
+            <a th:if="${result['insttSttus'] == 'X'}"
+                th:href="@{/join/companyReapply(bizNo=${result['bizrno']}, repName=${result['reprsntNm']})}"
+                class="px-10 h-14 bg-[var(--kr-gov-blue)] text-white font-bold rounded-lg hover:bg-[var(--kr-gov-blue-hover)] transition-colors flex items-center gap-2 shadow-lg shadow-blue-100">
+                <span class="material-symbols-outlined">edit_note</span>
+                재신청하기
+            </a>
+            <button onclick="location.href='/home3'"
+                class="px-8 h-14 bg-[var(--kr-gov-blue)] text-white font-bold rounded-lg hover:bg-[var(--kr-gov-blue-hover)] transition-colors flex items-center gap-2"
+                th:if="${result['insttSttus'] != 'X'}">
+                <span class="material-symbols-outlined">home</span>
+                홈으로 이동
+            </button>
+        </div>
+    </main>
+    <div id="shared-footer"></div>
+    <script>
+        (function loadSharedLayout() {
+            fetch('/home3/fragments/header')
+                .then(r => r.text())
+                .then(html => { document.getElementById('shared-header').innerHTML = html; })
+                .catch(() => { });
+
+            fetch('/home3/fragments/footer')
+                .then(r => r.text())
+                .then(html => { document.getElementById('shared-footer').innerHTML = html; })
+                .catch(() => { });
+        })();
+    </script>
+</body>
+
+</html>

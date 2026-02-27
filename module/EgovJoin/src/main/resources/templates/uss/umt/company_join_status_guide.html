@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>회원사 가입 현황 조회 - CCUS 통합관리 포털</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.material.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-emerald: #059669;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f8fafc;
+            --kr-gov-radius: 8px;
+        }
+        @layer base {
+            body { font-family: 'Noto Sans KR', 'Public Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+            stroke-width: 1.6px;
+        }
+        .stepper-line::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background-color: #e2e8f0;
+            z-index: 0;
+        }
+        .stepper-active .stepper-circle {
+            @apply bg-[var(--kr-gov-blue)] text-white border-[var(--kr-gov-blue)];
+        }
+        .stepper-complete .stepper-circle {
+            @apply bg-emerald-500 text-white border-emerald-500;
+        }
+        .stepper-pending .stepper-circle {
+            @apply bg-white text-gray-400 border-gray-200;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "gov-gray": "#767676",
+                    },
+                    borderRadius: {
+                        'gov': '8px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
+    <div id="shared-header"></div>
+
+    <main class="flex-grow max-w-5xl mx-auto w-full py-12 px-4" id="main-content">
+        <div class="mb-10 text-center">
+            <h2 class="text-3xl font-bold text-[var(--kr-gov-text-primary)] mb-3">회원사 가입 현황 조회 안내</h2>
+            <p class="text-lg text-[var(--kr-gov-text-secondary)]">신청하신 회원사 가입 내역 및 처리 상태를 확인하는 방법에 대한 안내입니다.</p>
+        </div>
+
+        <!-- Guide Content -->
+        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-8 mb-8">
+            <div class="prose prose-blue max-w-none">
+                <h3 class="text-xl font-bold mb-4">가입 현황 조회 프로세스</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-blue-50 p-6 rounded-lg border border-blue-100 text-center">
+                        <div
+                            class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">
+                            01</div>
+                        <h4 class="font-bold mb-2">신청 완료</h4>
+                        <p class="text-sm text-gray-600">등록 신청이 정상적으로 접수된 상태</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-lg border border-blue-100 text-center">
+                        <div
+                            class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">
+                            02</div>
+                        <h4 class="font-bold mb-2">운영자 검토</h4>
+                        <p class="text-sm text-gray-600">제출 서류 및 기관 정보 적정성 확인</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-lg border border-blue-100 text-center">
+                        <div
+                            class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">
+                            03</div>
+                        <h4 class="font-bold mb-2">승인/반려</h4>
+                        <p class="text-sm text-gray-600">최종 가입 승인 또는 보완 요청</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-8">
+                    <h4 class="font-bold mb-3 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-gray-600">info</span>
+                        참고 사항
+                    </h4>
+                    <ul class="list-disc list-inside space-y-2 text-sm text-gray-600">
+                        <li>가입 승인까지는 업무일 기준 평균 3~5일이 소요됩니다.</li>
+                        <li>반려 시 사유가 함께 안내되며, 서류 보완 후 재신청이 가능합니다.</li>
+                        <li>승인 완료 후에는 등록하신 정보를 기반으로 정식 서비스를 이용하실 수 있습니다.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- UI Preview Image or Mockup -->
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+                <div class="bg-gray-100 px-4 py-2 text-xs font-bold text-gray-500 border-b border-gray-200">화면 구성 예시
+                </div>
+                <div class="p-4 bg-white">
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden mb-4">
+                        <div class="bg-gray-50 px-6 py-3 border-b border-gray-200 flex justify-between items-center">
+                            <span class="text-xs font-bold text-blue-600">신청 번호: APP-20250814-001</span>
+                            <span class="text-[10px] text-gray-400">최종 업데이트: 2025.08.15 14:30</span>
+                        </div>
+                        <div class="p-6 grid grid-cols-2 gap-4">
+                            <div class="space-y-1">
+                                <p class="text-[10px] font-bold text-gray-400">신청 기관명</p>
+                                <p class="text-xs font-medium">(주)에코에너지 솔루션즈</p>
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-[10px] font-bold text-gray-400">대표자명</p>
+                                <p class="text-xs font-medium">김철수</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center max-w-md mx-auto py-4">
+                        <div class="flex flex-col items-center gap-2 opacity-100">
+                            <div
+                                class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px]">
+                                ✔</div>
+                            <span class="text-[10px] font-bold">신청 완료</span>
+                        </div>
+                        <div class="flex-grow h-px bg-emerald-500 mx-2"></div>
+                        <div class="flex flex-col items-center gap-2">
+                            <div
+                                class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px]">
+                                02</div>
+                            <span class="text-[10px] font-bold text-blue-600">검토 중</span>
+                        </div>
+                        <div class="flex-grow h-px bg-gray-200 mx-2"></div>
+                        <div class="flex flex-col items-center gap-2 opacity-30">
+                            <div
+                                class="w-8 h-8 rounded-full bg-white border border-gray-200 text-gray-400 flex items-center justify-center text-[10px]">
+                                03</div>
+                            <span class="text-[10px] font-bold text-gray-400">승인 완료</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-center">
+            <button onclick="window.close()"
+                class="px-8 py-3 bg-gray-800 text-white font-bold rounded-lg hover:bg-gray-700 transition-colors">
+                창 닫기
+            </button>
+        </div>
+    </main>
+
+    <footer id="shared-footer"></footer>
+
+    <script>
+        // Use Fetch to load shared header and footer if needed, or rely on simplified versions
+        // Since this is a guide page, we might just want a simple local copy or simplified layout
+    </script>
+</body>
+
+</html>

@@ -10,9 +10,9 @@ services:
       CUBRID_DATABASES: /opt/carbosys/data
     volumes:
       - "./infra/cubrid/init:/docker-entrypoint-initdb.d"
-      - "./infra/cubrid/conf/cubrid.conf:/opt/carbosys/conf/cubrid.conf"
-      - "./infra/cubrid/conf/cubrid_broker.conf:/opt/carbosys/conf/cubrid_broker.conf"
-      - "cubrid-data:/opt/carbosys/data"
+      - "./infra/cubrid/conf/cubrid.conf:/home/cubrid/CUBRID/conf/cubrid.conf"
+      - "./infra/cubrid/conf/cubrid_broker.conf:/home/cubrid/CUBRID/conf/cubrid_broker.conf"
+      - "${CUBRID_DATA_DIR:-/opt/carbosys/data}:/opt/carbosys/data"
     platform: linux/x86_64
     hostname: cubrid
     shm_size: '2gb'
@@ -20,6 +20,7 @@ services:
     container_name: cubrid
     ports:
       - "33000:33000"
+      - "33001:33001"
     networks:
       - carbosys-net
 
@@ -45,9 +46,14 @@ services:
     extra_hosts:
       - "localhost:127.0.0.1"
 
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --url http://carbosys-app:9000
+    networks:
+      - carbosys-net
+
 networks:
   carbosys-net:
     driver: bridge
 
-volumes:
-  cubrid-data:
+volumes: {}

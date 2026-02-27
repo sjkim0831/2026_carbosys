@@ -54,6 +54,12 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+	
+		<!-- cubrid-jdbc 사용할 경우 repository 위치 -->
+		<repository>
+			<id>cubrid-repo</id>
+			<url>https://maven.cubrid.org/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
