@@ -391,7 +391,7 @@ public class EgovJoinController {
         return "uss/umt/step4_company_register_en";
     }
 
-    @PostMapping("/companyRegisterSubmit")
+            @PostMapping("/companyRegisterSubmit")
     public String companyRegisterSubmit(
             @RequestParam("agencyName") String agencyName,
             @RequestParam("representativeName") String repName,
@@ -400,7 +400,7 @@ public class EgovJoinController {
             @RequestParam("companyAddress") String addr,
             @RequestParam(value = "companyAddressDetail", required = false) String detailAddr,
             @RequestParam(value = "lang", defaultValue = "ko") String lang,
-            @RequestParam("fileUpload") MultipartFile fileUpload,
+            @RequestParam("fileUploads") java.util.List<org.springframework.web.multipart.MultipartFile> fileUploads,
             org.springframework.ui.Model model) throws Exception {
 
         InsttInfoVO vo = new InsttInfoVO();
@@ -417,26 +417,37 @@ public class EgovJoinController {
         vo.setDetailAdres(detailAddr);
         vo.setInsttSttus("P");
 
-        // Upload directory from user specifications (subfolder added)
+        // Upload directory
         String uploadDir = "/opt/carbosys/file/instt";
-        File dir = new File(uploadDir);
+        java.io.File dir = new java.io.File(uploadDir);
         if (!dir.exists() && !dir.mkdirs()) {
             throw new Exception("Cannot create upload directory: " + uploadDir);
         }
-        if (fileUpload != null && !fileUpload.isEmpty()) {
-            String originalFileName = fileUpload.getOriginalFilename();
-            String ext = "";
-            if (originalFileName != null) {
-                int lastDotIndex = originalFileName.lastIndexOf(".");
-                if (lastDotIndex > -1) {
-                    ext = originalFileName.substring(lastDotIndex);
-                }
-            }
 
-            String newFileName = tempId + ext; // use the generated ID for filename uniqueness
-            File targetFile = new File(dir, newFileName);
-            fileUpload.transferTo(targetFile);
-            vo.setBizRegFilePath(targetFile.getAbsolutePath());
+        java.util.List<String> savedPaths = new java.util.ArrayList<>();
+        if (fileUploads != null && !fileUploads.isEmpty()) {
+            for (int i = 0; i < fileUploads.size(); i++) {
+                org.springframework.web.multipart.MultipartFile file = fileUploads.get(i);
+                if (file == null || file.isEmpty()) continue;
+
+                String originalFileName = file.getOriginalFilename();
+                String ext = "";
+                if (originalFileName != null) {
+                    int lastDotIndex = originalFileName.lastIndexOf(".");
+                    if (lastDotIndex > -1) {
+                        ext = originalFileName.substring(lastDotIndex);
+                    }
+                }
+
+                String newFileName = tempId + (fileUploads.size() > 1 ? "_" + i : "") + ext;
+                java.io.File targetFile = new java.io.File(dir, newFileName);
+                file.transferTo(targetFile);
+                savedPaths.add(targetFile.getAbsolutePath());
+            }
+        }
+
+        if (!savedPaths.isEmpty()) {
+            vo.setBizRegFilePath(String.join(",", savedPaths));
         }
 
         entrprsManageService.insertInsttInfo(vo);

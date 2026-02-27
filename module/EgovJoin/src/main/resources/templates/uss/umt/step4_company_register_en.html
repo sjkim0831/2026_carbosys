@@ -201,8 +201,8 @@
                                         10MB.</p>
                                 </div>
                             </div>
-                            <input class="hidden" id="file-upload" name="fileUpload" type="file" required
-                                accept=".pdf,.jpg,.jpeg,.png" />
+                            <input class="hidden" id="file-upload" name="fileUploads" type="file" required
+                                accept=".pdf,.jpg,.jpeg,.png" multiple />
                         </div>
                     </section>
 
@@ -321,9 +321,13 @@
 
             if (this.files && this.files.length > 0) {
                 var fileName = this.files[0].name;
-                fileNameDisplay.textContent = 'Selected file: ' + fileName;
+                if (this.files.length === 1) {
+                    fileNameDisplay.textContent = 'Selected file: ' + fileName;
+                } else {
+                    fileNameDisplay.textContent = 'Selected file: ' + fileName + ' and ' + (this.files.length - 1) + ' more';
+                }
                 fileNameDisplay.className = 'text-sm font-bold text-[var(--kr-gov-blue)] mt-2';
-                uploadIcon.textContent = 'description';
+                uploadIcon.textContent = 'description_teacher';
                 uploadIcon.className = 'material-symbols-outlined text-5xl text-[var(--kr-gov-blue)]';
                 uploadBtnText.textContent = 'Change File';
                 dropZone.className = 'drop-zone block border-[var(--kr-gov-blue)] bg-blue-50';

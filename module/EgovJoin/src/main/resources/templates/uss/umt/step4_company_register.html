@@ -198,8 +198,8 @@
                                     </p>
                                 </div>
                             </div>
-                            <input class="hidden" id="file-upload" name="fileUpload" type="file" required
-                                accept=".pdf,.jpg,.jpeg,.png" />
+                            <input class="hidden" id="file-upload" name="fileUploads" type="file" required
+                                accept=".pdf,.jpg,.jpeg,.png" multiple />
                         </div>
                     </section>
 
@@ -478,9 +478,13 @@
                 var uploadBtnText = document.getElementById('upload-btn-text');
                 var dropZone = document.getElementById('drop-zone');
                 if (this.files && this.files.length > 0) {
-                    fileNameDisplay.textContent = '선택된 파일: ' + this.files[0].name;
+                    if (this.files.length === 1) {
+                        fileNameDisplay.textContent = '선택된 파일: ' + this.files[0].name;
+                    } else {
+                        fileNameDisplay.textContent = '선택된 파일: ' + this.files[0].name + ' 외 ' + (this.files.length - 1) + '개';
+                    }
                     fileNameDisplay.className = 'text-sm font-bold text-[var(--kr-gov-blue)] mt-2';
-                    uploadIcon.textContent = 'description';
+                    uploadIcon.textContent = 'description_teacher';
                     uploadIcon.className = 'material-symbols-outlined text-5xl text-[var(--kr-gov-blue)]';
                     uploadBtnText.textContent = '파일 변경';
                     dropZone.className = 'drop-zone block border-[var(--kr-gov-blue)] bg-blue-50';
