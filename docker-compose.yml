@@ -7,12 +7,13 @@ services:
       CUBRID_LOCALE: ko_KR.utf8
       DB_ROOT_PASSWORD: ""
       CUBRID_COMPONENTS: ALL
-      CUBRID_DATABASES: /opt/carbosys/data
+      CUBRID_DATABASES: /opt/data
     volumes:
       - "./infra/cubrid/init:/docker-entrypoint-initdb.d"
-      - "./infra/cubrid/conf/cubrid.conf:/opt/carbosys/conf/cubrid.conf"
-      - "./infra/cubrid/conf/cubrid_broker.conf:/opt/carbosys/conf/cubrid_broker.conf"
-      - "cubrid-data:/opt/carbosys/data"
+      - "./infra/cubrid/conf/cubrid.conf:/home/cubrid/CUBRID/conf/cubrid.conf"
+      - "./infra/cubrid/conf/cubrid_broker.conf:/home/cubrid/CUBRID/conf/cubrid_broker.conf"
+      - "./data:/opt/data"
+      - "cubrid-data:/home/cubrid/CUBRID/databases"
     platform: linux/x86_64
     hostname: cubrid
     shm_size: '2gb'
@@ -33,7 +34,6 @@ services:
       - "8761:8761"
       - "9000:9000"
       - "18030:18030"
-      - "9900:9900"
     container_name: carbosys-app
     hostname: carbosys-app
     networks:
@@ -44,6 +44,12 @@ services:
       - "./module/msa-manager:/opt/carbosys/module/msa-manager"
     extra_hosts:
       - "localhost:127.0.0.1"
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --url http://carbosys-app:9000
+    networks:
+      - carbosys-net
 
 networks:
   carbosys-net:

@@ -178,12 +178,12 @@
 
                     <div id="file-list-container" class="space-y-3">
                         <!-- 기존 파일 정보 안내 -->
-                        <div th:if="${result.bizRegFilePath != null and result.bizRegFilePath != ''}"
+                        <div th:if="${result['bizRegFilePath'] != null and result['bizRegFilePath'] != ''}"
                             class="p-4 bg-gray-50 border border-gray-200 rounded-[var(--kr-gov-radius)] mb-4">
                             <p
                                 class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mb-2 uppercase tracking-wider">
                                 현재 등록된 서류</p>
-                            <div th:each="filePath : ${#strings.arraySplit(result.bizRegFilePath, ',')}"
+                            <div th:each="filePath : ${#strings.arraySplit(result['bizRegFilePath'], ',')}"
                                 class="flex items-center gap-2 py-1">
                                 <span class="material-symbols-outlined text-gray-400 text-sm">attach_file</span>
                                 <span class="text-sm text-[var(--kr-gov-text-primary)]"
@@ -225,6 +225,39 @@
                     type="submit">재신청 완료</button>
             </div>
         </form>
+
+        <!-- Status Messages (HIDDEN by default, shown if needed) -->
+        <div class="mt-8 space-y-4">
+            <div class="bg-blue-50 border border-blue-100 rounded-lg p-6 flex items-start gap-4"
+                th:if="${result['insttSttus'] == 'P'}">
+                <span class="material-symbols-outlined text-[var(--kr-gov-blue)] mt-0.5">query_stats</span>
+                <div class="space-y-1">
+                    <h4 class="text-base font-bold text-blue-900">현재 운영자의 서류 검토가 진행 중입니다.</h4>
+                    <p class="text-sm text-blue-800 leading-relaxed">신청하신 서류에 대해 담당 운영자가 적정성 검토를 진행하고 있습니다. 통상적으로 업무일 기준
+                        3~5일이 소요됩니다.</p>
+                </div>
+            </div>
+            <div class="bg-emerald-50 border border-emerald-100 rounded-lg p-6 flex items-start gap-4"
+                th:if="${result['insttSttus'] == 'A'}">
+                <span class="material-symbols-outlined text-[var(--kr-gov-emerald)] mt-0.5">check_circle</span>
+                <div class="space-y-1">
+                    <h4 class="text-base font-bold text-emerald-900">회원사 가입 승인이 완료되었습니다.</h4>
+                    <p class="text-sm text-emerald-800 leading-relaxed">이제 관리자 승인을 거쳐 정식 회원사로 활동하실 수 있습니다. 가입 시 입력한 메일로
+                        안내가 발송되었습니다.</p>
+                </div>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-lg p-6 flex flex-col gap-4"
+                th:if="${result['insttSttus'] == 'X'}">
+                <div class="flex items-start gap-4">
+                    <span class="material-symbols-outlined text-red-600 mt-0.5">error</span>
+                    <div class="space-y-1">
+                        <h4 class="text-base font-bold text-red-900">회원사 가입 신청이 반려되었습니다.</h4>
+                        <p class="text-sm text-red-800 leading-relaxed">입력하신 정보 또는 제출하신 서류에 보완이 필요합니다. 아래의 반려 사유를 확인하시고
+                            정보를 수정하여 다시 제출해 주시기 바랍니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <div id="shared-footer"></div>
