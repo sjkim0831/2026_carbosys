@@ -7,13 +7,12 @@ services:
       CUBRID_LOCALE: ko_KR.utf8
       DB_ROOT_PASSWORD: ""
       CUBRID_COMPONENTS: ALL
-      CUBRID_DATABASES: /opt/data
+      CUBRID_DATABASES: /opt/carbosys/data
     volumes:
       - "./infra/cubrid/init:/docker-entrypoint-initdb.d"
       - "./infra/cubrid/conf/cubrid.conf:/home/cubrid/CUBRID/conf/cubrid.conf"
       - "./infra/cubrid/conf/cubrid_broker.conf:/home/cubrid/CUBRID/conf/cubrid_broker.conf"
-      - "./data:/opt/data"
-      - "cubrid-data:/home/cubrid/CUBRID/databases"
+      - "${CUBRID_DATA_DIR:-/opt/carbosys/data}:/opt/carbosys/data"
     platform: linux/x86_64
     hostname: cubrid
     shm_size: '2gb'
@@ -21,6 +20,7 @@ services:
     container_name: cubrid
     ports:
       - "33000:33000"
+      - "33001:33001"
     networks:
       - carbosys-net
 
@@ -34,6 +34,7 @@ services:
       - "8761:8761"
       - "9000:9000"
       - "18030:18030"
+      - "9900:9900"
     container_name: carbosys-app
     hostname: carbosys-app
     networks:
@@ -55,5 +56,4 @@ networks:
   carbosys-net:
     driver: bridge
 
-volumes:
-  cubrid-data:
+volumes: {}
