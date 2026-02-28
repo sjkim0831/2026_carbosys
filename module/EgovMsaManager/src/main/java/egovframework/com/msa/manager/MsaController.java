@@ -115,7 +115,11 @@ public class MsaController {
                 .findFirst()
                 .orElse(null);
 
-        processManager.stopModule(id, mod != null ? mod.getPort() : null);
+        if (mod != null) {
+            processManager.stopAllInstances(mod);
+        } else {
+            processManager.stopModule(id, null);
+        }
 
         Map<String, Object> res = new HashMap<>();
         res.put("status", "ok");
@@ -186,6 +190,30 @@ public class MsaController {
             return result;
         }
         String opResult = processManager.buildDeployAndRestartModule(mod);
+        if ("ok".equals(opResult)) {
+            result.put("status", "ok");
+            return result;
+        }
+        result.put("status", "error");
+        result.put("message", opResult);
+        return result;
+    }
+
+    @ResponseBody
+    @PostMapping("/api/modules/{id}/build-deploy-zerodowntime")
+    public Map<String, Object> buildDeployZeroDowntimeModule(@PathVariable String id) {
+        Map<String, Object> result = new HashMap<>();
+        MsaScanner.ModuleInfo mod = scanner.scan().stream()
+                .filter(m -> m.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        if (mod == null) {
+            result.put("status", "error");
+            result.put("message", "Module not found");
+            return result;
+        }
+        String opResult = processManager.buildDeployZeroDowntimeModule(mod);
         if ("ok".equals(opResult)) {
             result.put("status", "ok");
             return result;

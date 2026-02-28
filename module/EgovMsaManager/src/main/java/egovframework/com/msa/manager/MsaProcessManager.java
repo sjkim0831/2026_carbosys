@@ -4,7 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.Socket;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -98,30 +100,12 @@ public class MsaProcessManager {
         if (!mod.isJavaRunnable()) {
             return "이 모듈은 Java 실행 대상이 아닙니다.";
         }
-        Path sourceJar = Paths.get(mod.getDir(), "target", mod.getArtifactId() + ".jar");
-        if (!Files.exists(sourceJar)) {
-            return "배포 실패: 소스 JAR 없음 - " + sourceJar;
+        String deployResult = deployModuleJar(mod);
+        if (!"ok".equals(deployResult)) {
+            return deployResult;
         }
-
-        Path appJar = Paths.get(APP_ROOT, mod.getArtifactId() + ".jar");
-        Path appTargetDir = Paths.get(APP_ROOT, mod.getArtifactId(), "target");
-        Path appTargetJar = appTargetDir.resolve(mod.getArtifactId() + ".jar");
-
-        try {
-            Files.createDirectories(appTargetDir);
-            Files.copy(sourceJar, appJar, StandardCopyOption.REPLACE_EXISTING);
-            try {
-                Files.deleteIfExists(appTargetJar);
-                Files.createSymbolicLink(appTargetJar, appJar);
-            } catch (Exception symlinkErr) {
-                // If symlink is unavailable, copy a physical file as fallback.
-                Files.copy(appJar, appTargetJar, StandardCopyOption.REPLACE_EXISTING);
-            }
-            restartModule(mod);
-            return "ok";
-        } catch (Exception e) {
-            return "배포 실패: " + e.getMessage();
-        }
+        restartModule(mod);
+        return "ok";
     }
 
     public synchronized String buildDeployAndRestartModule(MsaScanner.ModuleInfo mod) {
@@ -129,43 +113,78 @@ public class MsaProcessManager {
             return "이 모듈은 Java 실행 대상이 아닙니다.";
         }
 
-        File moduleDir = new File(mod.getDir());
-        if (!moduleDir.exists() || !moduleDir.isDirectory()) {
-            return "빌드 실패: 모듈 폴더를 찾을 수 없습니다 - " + mod.getDir();
-        }
-        if (!new File(moduleDir, "pom.xml").exists()) {
-            return "빌드 실패: pom.xml이 없습니다 - " + mod.getDir();
-        }
-
-        // Build from bind-mounted source folder
-        List<String> buildCmd = Arrays.asList("sh", "-lc", "mvn -DskipTests package");
-        try {
-            ProcessBuilder pb = new ProcessBuilder(buildCmd);
-            pb.directory(moduleDir);
-            pb.redirectErrorStream(true);
-            forceJdkForBuild(pb);
-            Process p = pb.start();
-            List<String> lines = new ArrayList<>();
-            try (BufferedReader br = new BufferedReader(
-                    new InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    lines.add(line);
-                }
-            }
-            int rc = p.waitFor();
-            // Persist build logs in module startup.log tail for quick troubleshooting
-            for (String l : lines) {
-                appendToStartupLog(mod.getDir(), "[BUILD] " + l);
-            }
-            if (rc != 0) {
-                return "빌드 실패: mvn 종료코드 " + rc;
-            }
-        } catch (Exception e) {
-            return "빌드 실패: " + e.getMessage();
+        String buildResult = buildModule(mod);
+        if (!"ok".equals(buildResult)) {
+            return buildResult;
         }
 
         return deployAndRestartModule(mod);
+    }
+
+    public synchronized String buildDeployZeroDowntimeModule(MsaScanner.ModuleInfo mod) {
+        if (!mod.isJavaRunnable()) {
+            return "이 모듈은 Java 실행 대상이 아닙니다.";
+        }
+        if (mod.getPort() == null || mod.getPort() == 0) {
+            return "무중단 배포 실패: 기본 포트가 설정되어 있지 않습니다.";
+        }
+
+        String buildResult = buildModule(mod);
+        if (!"ok".equals(buildResult)) {
+            return buildResult;
+        }
+        String deployResult = deployModuleJar(mod);
+        if (!"ok".equals(deployResult)) {
+            return deployResult;
+        }
+
+        int basePort = mod.getPort();
+        int shadowPort = pickShadowPort(basePort);
+        if (shadowPort <= 0) {
+            return "무중단 배포 실패: 임시 포트를 찾지 못했습니다.";
+        }
+
+        Process shadowProc = null;
+        try {
+            appendToStartupLog(mod.getDir(), "[ZD] shadow start: port=" + shadowPort);
+            shadowProc = startUntrackedProcess(mod, shadowPort, "[ZD-SHADOW]");
+
+            if (!waitForHealthy(shadowPort, 70000)) {
+                if (shadowProc != null && shadowProc.isAlive()) {
+                    shadowProc.destroyForcibly();
+                }
+                return "무중단 배포 실패: 임시 포트(" + shadowPort + ") 헬스체크 실패";
+            }
+
+            appendToStartupLog(mod.getDir(), "[ZD] shadow healthy: port=" + shadowPort);
+            stopModule(mod.getId(), basePort);
+            waitUntilPortClosed(basePort, 20000);
+
+            // Avoid start race when old tracked entry is not yet removed from processMap.
+            waitUntilEntryCleared(mod.getId(), 10000);
+            startModule(mod);
+
+            if (!waitForHealthy(basePort, 70000)) {
+                if (shadowProc != null && shadowProc.isAlive()) {
+                    appendToStartupLog(mod.getDir(), "[ZD] rollback: base unhealthy, shadow kept alive");
+                    return "무중단 배포 실패: 기본 포트(" + basePort + ") 재기동 헬스체크 실패";
+                }
+                return "무중단 배포 실패: 기본 포트 헬스체크 실패";
+            }
+
+            // Promotion completed, stop shadow instance.
+            stopByPort(shadowPort);
+            appendToStartupLog(mod.getDir(), "[ZD] completed: base=" + basePort + ", shadowStopped=" + shadowPort);
+            return "ok";
+        } catch (Exception e) {
+            if (shadowProc != null && shadowProc.isAlive()) {
+                try {
+                    shadowProc.destroyForcibly();
+                } catch (Exception ignored) {
+                }
+            }
+            return "무중단 배포 실패: " + e.getMessage();
+        }
     }
 
     private void forceJdkForBuild(ProcessBuilder pb) {
@@ -187,6 +206,174 @@ public class MsaProcessManager {
             }
         }
     }
+
+    private String buildModule(MsaScanner.ModuleInfo mod) {
+        File moduleDir = new File(mod.getDir());
+        if (!moduleDir.exists() || !moduleDir.isDirectory()) {
+            return "빌드 실패: 모듈 폴더를 찾을 수 없습니다 - " + mod.getDir();
+        }
+        if (!new File(moduleDir, "pom.xml").exists()) {
+            return "빌드 실패: pom.xml이 없습니다 - " + mod.getDir();
+        }
+
+        List<String> buildCmd = Arrays.asList("sh", "-lc", "mvn -DskipTests package");
+        try {
+            ProcessBuilder pb = new ProcessBuilder(buildCmd);
+            pb.directory(moduleDir);
+            pb.redirectErrorStream(true);
+            forceJdkForBuild(pb);
+            Process p = pb.start();
+            List<String> lines = new ArrayList<>();
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    lines.add(line);
+                }
+            }
+            int rc = p.waitFor();
+            for (String l : lines) {
+                appendToStartupLog(mod.getDir(), "[BUILD] " + l);
+            }
+            if (rc != 0) {
+                return "빌드 실패: mvn 종료코드 " + rc;
+            }
+            return "ok";
+        } catch (Exception e) {
+            return "빌드 실패: " + e.getMessage();
+        }
+    }
+
+    private String deployModuleJar(MsaScanner.ModuleInfo mod) {
+        Path sourceJar = Paths.get(mod.getDir(), "target", mod.getArtifactId() + ".jar");
+        if (!Files.exists(sourceJar)) {
+            return "배포 실패: 소스 JAR 없음 - " + sourceJar;
+        }
+
+        Path appJar = Paths.get(APP_ROOT, mod.getArtifactId() + ".jar");
+        Path appTargetDir = Paths.get(APP_ROOT, mod.getArtifactId(), "target");
+        Path appTargetJar = appTargetDir.resolve(mod.getArtifactId() + ".jar");
+
+        try {
+            Files.createDirectories(appTargetDir);
+            Files.copy(sourceJar, appJar, StandardCopyOption.REPLACE_EXISTING);
+            try {
+                Files.deleteIfExists(appTargetJar);
+                Files.createSymbolicLink(appTargetJar, appJar);
+            } catch (Exception symlinkErr) {
+                Files.copy(appJar, appTargetJar, StandardCopyOption.REPLACE_EXISTING);
+            }
+            return "ok";
+        } catch (Exception e) {
+            return "배포 실패: " + e.getMessage();
+        }
+    }
+
+    private Process startUntrackedProcess(MsaScanner.ModuleInfo mod, int port, String logPrefix) throws IOException {
+        String jarArg = resolveRunnableJar(mod);
+        List<String> cmd = new ArrayList<>(Arrays.asList("java", "-Xms64m", "-Xmx192m", "-jar", jarArg,
+                "--server.port=" + port));
+        ProcessBuilder pb = new ProcessBuilder(cmd);
+        pb.directory(new File(APP_ROOT));
+        pb.redirectErrorStream(true);
+        pb.environment().put("JAVA_OPTS", "-Djava.awt.headless=true");
+        Process proc = pb.start();
+
+        new Thread(() -> {
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(proc.getInputStream(), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    appendToStartupLog(mod.getDir(), logPrefix + " " + line);
+                }
+            } catch (Exception e) {
+                appendToStartupLog(mod.getDir(), logPrefix + " log-reader-error: " + e.getMessage());
+            }
+        }).start();
+
+        return proc;
+    }
+
+    private int pickShadowPort(int basePort) {
+        int[] preferred = new int[] { basePort + 1000, basePort + 2000, basePort + 3000 };
+        for (int p : preferred) {
+            if (p > 0 && !isPortInUse(p)) {
+                return p;
+            }
+        }
+        for (int p = 20000; p <= 20999; p++) {
+            if (!isPortInUse(p)) {
+                return p;
+            }
+        }
+        return -1;
+    }
+
+    private void stopByPort(int port) {
+        try {
+            String killCmd = "pids=$(ps -ef | grep -- '--server.port=" + port
+                    + "' | grep -v grep | awk '{print $2}' || true); "
+                    + "if [ -n \"$pids\" ]; then kill -15 $pids || true; sleep 1; "
+                    + "for p in $pids; do kill -0 $p 2>/dev/null && kill -9 $p || true; done; fi";
+            new ProcessBuilder("sh", "-c", killCmd).start().waitFor();
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void waitUntilPortClosed(int port, long timeoutMs) {
+        long end = System.currentTimeMillis() + timeoutMs;
+        while (System.currentTimeMillis() < end) {
+            if (!isPortInUse(port)) {
+                return;
+            }
+            try {
+                Thread.sleep(400);
+            } catch (InterruptedException ignored) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+        }
+    }
+
+    private void waitUntilEntryCleared(String id, long timeoutMs) {
+        long end = System.currentTimeMillis() + timeoutMs;
+        while (System.currentTimeMillis() < end) {
+            if (!processMap.containsKey(id)) {
+                return;
+            }
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException ignored) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+        }
+    }
+
+    private boolean waitForHealthy(int port, long timeoutMs) {
+        long end = System.currentTimeMillis() + timeoutMs;
+        int stable = 0;
+        while (System.currentTimeMillis() < end) {
+            // Security filters can block actuator URL checks in some services.
+            // Use stable TCP listen checks to avoid false negatives/noisy 403 logs.
+            if (isPortInUse(port)) {
+                stable++;
+                if (stable >= 3) {
+                    return true;
+                }
+            } else {
+                stable = 0;
+            }
+            try {
+                Thread.sleep(800);
+            } catch (InterruptedException ignored) {
+                Thread.currentThread().interrupt();
+                return false;
+            }
+        }
+        return false;
+    }
+
 
     private void appendToStartupLog(String dir, String line) {
         try (FileWriter fw = new FileWriter(new File(dir, "startup.log"), true);
@@ -226,6 +413,26 @@ public class MsaProcessManager {
             } catch (Exception e) {
                 // ignore
             }
+        }
+    }
+
+    public void stopAllInstances(MsaScanner.ModuleInfo mod) {
+        // Stop tracked/base instance first.
+        stopModule(mod.getId(), mod.getPort());
+
+        // Kill any remaining same-module java instances (e.g., shadow port instance).
+        try {
+            String artifact = mod.getArtifactId().replaceAll("[^A-Za-z0-9._-]", "");
+            String p1 = "/app/" + artifact + "/target/" + artifact + ".jar";
+            String p2 = "/app/" + artifact + ".jar";
+            String killCmd = "pids1=$(ps -eo pid,args | awk '$2==\"java\" && index($0,\"" + p1
+                    + "\")>0 {print $1}'); "
+                    + "pids2=$(ps -eo pid,args | awk '$2==\"java\" && index($0,\"" + p2 + "\")>0 {print $1}'); "
+                    + "pids=\"$pids1 $pids2\"; "
+                    + "if [ -n \"$pids\" ]; then kill -15 $pids 2>/dev/null || true; sleep 1; "
+                    + "for p in $pids; do kill -0 $p 2>/dev/null && kill -9 $p 2>/dev/null || true; done; fi";
+            new ProcessBuilder("sh", "-c", killCmd).start().waitFor();
+        } catch (Exception ignored) {
         }
     }
 
