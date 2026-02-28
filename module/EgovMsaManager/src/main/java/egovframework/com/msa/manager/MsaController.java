@@ -21,6 +21,9 @@ public class MsaController {
     @Autowired
     private MsaProcessManager processManager;
 
+    @Autowired
+    private ChangeMonitorService changeMonitorService;
+
     private final MsaScanner scanner = new MsaScanner();
     private static final String MAPPING_FILE = "/app/msa-mappings.yml";
 
@@ -236,6 +239,31 @@ public class MsaController {
             result.put("logs", java.util.Collections.singletonList("Module info not found"));
         }
         return result;
+    }
+
+    @ResponseBody
+    @GetMapping("/api/changes")
+    public List<Map<String, Object>> getChanges() {
+        return changeMonitorService.getHistory();
+    }
+
+    @ResponseBody
+    @GetMapping("/api/autodeploy/status")
+    public Map<String, Object> getAutoDeployStatus() {
+        Map<String, Object> res = new HashMap<>();
+        res.put("enabled", changeMonitorService.isAutoDeployEnabled());
+        return res;
+    }
+
+    @ResponseBody
+    @PostMapping("/api/autodeploy/toggle")
+    public Map<String, Object> setAutoDeploy(@RequestBody Map<String, Object> req) {
+        boolean enabled = Boolean.parseBoolean(String.valueOf(req.get("enabled")));
+        changeMonitorService.setAutoDeployEnabled(enabled);
+        Map<String, Object> res = new HashMap<>();
+        res.put("status", "ok");
+        res.put("enabled", enabled);
+        return res;
     }
 
     @ResponseBody
