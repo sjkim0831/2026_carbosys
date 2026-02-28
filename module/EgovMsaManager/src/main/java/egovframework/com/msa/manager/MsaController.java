@@ -43,6 +43,7 @@ public class MsaController {
             map.put("name", m.getName());
             map.put("dir", m.getDir());
             map.put("port", m.getPort());
+            map.put("javaRunnable", m.isJavaRunnable());
             map.put("status", processManager.getStatus(m.getId(), m.getPort()));
             map.put("pid", processManager.getPid(m.getId()));
             return map;
@@ -91,6 +92,11 @@ public class MsaController {
         List<MsaScanner.ModuleInfo> modules = scanner.scan();
         MsaScanner.ModuleInfo mod = modules.stream().filter(m -> m.getId().equals(id)).findFirst().orElse(null);
         if (mod != null) {
+            if (!mod.isJavaRunnable()) {
+                result.put("status", "error");
+                result.put("message", "이 모듈은 Java 실행 대상이 아닙니다 (폴더만 감지됨)");
+                return result;
+            }
             processManager.startModule(mod);
             result.put("status", "ok");
         } else {
@@ -114,6 +120,79 @@ public class MsaController {
         Map<String, Object> res = new HashMap<>();
         res.put("status", "ok");
         return res;
+    }
+
+    @ResponseBody
+    @PostMapping("/api/modules/{id}/restart")
+    public Map<String, Object> restartModule(@PathVariable String id) {
+        Map<String, Object> result = new HashMap<>();
+        MsaScanner.ModuleInfo mod = scanner.scan().stream()
+                .filter(m -> m.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        if (mod == null) {
+            result.put("status", "error");
+            result.put("message", "Module not found");
+            return result;
+        }
+        if (!mod.isJavaRunnable()) {
+            result.put("status", "error");
+            result.put("message", "이 모듈은 Java 실행 대상이 아닙니다 (수동관리)");
+            return result;
+        }
+
+        processManager.restartModule(mod);
+        result.put("status", "ok");
+        return result;
+    }
+
+    @ResponseBody
+    @PostMapping("/api/modules/{id}/deploy-restart")
+    public Map<String, Object> deployRestartModule(@PathVariable String id) {
+        Map<String, Object> result = new HashMap<>();
+        MsaScanner.ModuleInfo mod = scanner.scan().stream()
+                .filter(m -> m.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        if (mod == null) {
+            result.put("status", "error");
+            result.put("message", "Module not found");
+            return result;
+        }
+        String deployResult = processManager.deployAndRestartModule(mod);
+        if ("ok".equals(deployResult)) {
+            result.put("status", "ok");
+            return result;
+        }
+        result.put("status", "error");
+        result.put("message", deployResult);
+        return result;
+    }
+
+    @ResponseBody
+    @PostMapping("/api/modules/{id}/build-deploy-restart")
+    public Map<String, Object> buildDeployRestartModule(@PathVariable String id) {
+        Map<String, Object> result = new HashMap<>();
+        MsaScanner.ModuleInfo mod = scanner.scan().stream()
+                .filter(m -> m.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        if (mod == null) {
+            result.put("status", "error");
+            result.put("message", "Module not found");
+            return result;
+        }
+        String opResult = processManager.buildDeployAndRestartModule(mod);
+        if ("ok".equals(opResult)) {
+            result.put("status", "ok");
+            return result;
+        }
+        result.put("status", "error");
+        result.put("message", opResult);
+        return result;
     }
 
     @ResponseBody

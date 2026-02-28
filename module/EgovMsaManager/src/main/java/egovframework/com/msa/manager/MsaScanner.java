@@ -7,13 +7,18 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MsaScanner {
     private static final String ROOT_PATH = "/app";
+    private static final String MODULE_ROOT = "/opt/carbosys/module";
     private static final String PORT_REGISTRY = "/app/msa-ports.yml";
+    private static final List<String> INFRA_MODULES = Arrays.asList(
+            "EurekaServer", "ConfigServer", "GatewayServer", "EgovMsaManager");
 
     @Data
     @Builder
@@ -24,45 +29,69 @@ public class MsaScanner {
         private Integer port;
         private String artifactId;
         private boolean registered; // Indicates if port comes from the central registry
+        private boolean javaRunnable;
     }
 
     public List<ModuleInfo> scan() {
-        List<ModuleInfo> modules = new ArrayList<>();
+        Map<String, ModuleInfo> modules = new LinkedHashMap<>();
         Map<String, Integer> registry = loadPortRegistry();
 
-        File root = new File(ROOT_PATH);
-        if (!root.exists() || !root.isDirectory())
-            return modules;
+        // 1) Prefer mounted module folders so list reflects actual mapped directories.
+        File moduleRoot = new File(MODULE_ROOT);
+        if (moduleRoot.exists() && moduleRoot.isDirectory()) {
+            File[] dirs = moduleRoot.listFiles(File::isDirectory);
+            if (dirs != null) {
+                for (File dir : dirs) {
+                    String id = dir.getName();
+                    if (id.startsWith(".") || INFRA_MODULES.contains(id))
+                        continue;
 
-        for (Map.Entry<String, Integer> entry : registry.entrySet()) {
-            String id = entry.getKey();
-            Integer port = entry.getValue();
+                    boolean hasPom = new File(dir, "pom.xml").exists();
+                    boolean hasNodePackage = new File(dir, "package.json").exists();
+                    boolean hasJarInModule = new File(dir, "target/" + id + ".jar").exists();
+                    boolean hasJarInApp = new File(ROOT_PATH, id + ".jar").exists()
+                            || new File(ROOT_PATH, id + "/target/" + id + ".jar").exists();
+                    boolean javaRunnable = hasJarInModule || hasJarInApp;
+                    Integer port = registry.get(id);
 
-            // Infrastructure modules are started separately in entrypoint
-            if (id.equals("EurekaServer") || id.equals("ConfigServer") || id.equals("GatewayServer")
-                    || id.equals("EgovMsaManager"))
-                continue;
-
-            File dir = new File(root, id);
-            File jar = new File(dir, "target/" + id + ".jar");
-            
-            // Also check for JAR directly in /app/ folder
-            if (!jar.exists()) {
-                jar = new File(root, id + ".jar");
-            }
-
-            if (jar.exists()) {
-                modules.add(ModuleInfo.builder()
-                        .id(id)
-                        .name(id) // Without application.yml, we fallback to id as name
-                        .dir(dir.getAbsolutePath())
-                        .port(port)
-                        .artifactId(id)
-                        .registered(true)
-                        .build());
+                    // Include if it looks like a module folder or is registered centrally.
+                    if (hasPom || hasNodePackage || port != null || javaRunnable) {
+                        modules.put(id, ModuleInfo.builder()
+                                .id(id)
+                                .name(id)
+                                .dir(dir.getAbsolutePath())
+                                .port(port)
+                                .artifactId(id)
+                                .registered(port != null)
+                                .javaRunnable(javaRunnable)
+                                .build());
+                    }
+                }
             }
         }
-        return modules;
+
+        // 2) Add registry-only modules not found in mapped folder.
+        for (Map.Entry<String, Integer> entry : registry.entrySet()) {
+            String id = entry.getKey();
+            if (INFRA_MODULES.contains(id))
+                continue;
+            if (modules.containsKey(id))
+                continue;
+
+            boolean hasJarInApp = new File(ROOT_PATH, id + ".jar").exists()
+                    || new File(ROOT_PATH, id + "/target/" + id + ".jar").exists();
+            modules.put(id, ModuleInfo.builder()
+                    .id(id)
+                    .name(id)
+                    .dir(new File(ROOT_PATH, id).getAbsolutePath())
+                    .port(entry.getValue())
+                    .artifactId(id)
+                    .registered(true)
+                    .javaRunnable(hasJarInApp)
+                    .build());
+        }
+
+        return new ArrayList<>(modules.values());
     }
 
     private Map<String, Integer> loadPortRegistry() {
