@@ -24,6 +24,9 @@ public class MsaController {
     @Autowired
     private ChangeMonitorService changeMonitorService;
 
+    @Autowired
+    private LogAnalyticsService logAnalyticsService;
+
     private final MsaScanner scanner = new MsaScanner();
     private static final String MAPPING_FILE = "/app/msa-mappings.yml";
 
@@ -264,6 +267,30 @@ public class MsaController {
         res.put("status", "ok");
         res.put("enabled", enabled);
         return res;
+    }
+
+    @ResponseBody
+    @GetMapping("/api/logs/modules")
+    public Map<String, Object> getModuleLogs() {
+        return logAnalyticsService.getModuleLogs();
+    }
+
+    @ResponseBody
+    @GetMapping("/api/logs/critical")
+    public List<Map<String, Object>> getCriticalLogs() {
+        return logAnalyticsService.getCriticalEvents();
+    }
+
+    @ResponseBody
+    @GetMapping("/api/stats/controllers")
+    public List<Map<String, Object>> getControllerStats() {
+        return logAnalyticsService.getTopControllers();
+    }
+
+    @ResponseBody
+    @GetMapping("/api/stats/errors")
+    public List<Map<String, Object>> getErrorStats() {
+        return logAnalyticsService.getTopErrors();
     }
 
     @ResponseBody

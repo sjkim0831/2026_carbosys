@@ -188,6 +188,8 @@
                 <button onclick="showTab('modules')" id="tab-modules" class="nav-tab active">모듈 상태 관리</button>
                 <button onclick="showTab('mappings')" id="tab-mappings" class="nav-tab">컨트롤러/경로 &amp; API 스펙</button>
                 <button onclick="showTab('changes')" id="tab-changes" class="nav-tab">변경 감지/자동 배포</button>
+                <button onclick="showTab('logs')" id="tab-logs" class="nav-tab">로그 모니터링</button>
+                <button onclick="showTab('analytics')" id="tab-analytics" class="nav-tab">사용량/에러 분석</button>
             </div>
 
             <!-- ============ Modules Tab ============ -->
@@ -283,6 +285,76 @@
                 </div>
             </div>
 
+            <!-- ============ Logs Tab ============ -->
+            <div id="content-logs" class="tab-content hidden">
+                <div id="criticalBanner" class="hidden mb-4 px-4 py-3 rounded-lg border border-red-300 bg-red-50 text-red-800">
+                    <div class="flex items-center justify-between">
+                        <div class="font-bold flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">warning</span>
+                            중대 오류 감지
+                        </div>
+                        <span id="criticalCount" class="text-xs font-black"></span>
+                    </div>
+                    <div id="criticalHead" class="mt-2 text-xs mono"></div>
+                </div>
+
+                <div class="gov-card mb-6 px-6 py-4">
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm font-bold">모듈별 로그 목록</div>
+                        <span class="text-xs text-gray-400 mono">파일: /opt/carbosys/module/EgovMsaManager/runtime/module-log-events.jsonl</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="moduleLogGrid"></div>
+            </div>
+
+            <!-- ============ Analytics Tab ============ -->
+            <div id="content-analytics" class="tab-content hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="gov-card overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                            <h3 class="font-bold text-base flex items-center gap-2">
+                                <span class="material-symbols-outlined text-cyan-600">monitoring</span>
+                                컨트롤러 사용량 TOP
+                            </h3>
+                            <span class="text-xs text-gray-400">logs 기반</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-gray-50 border-y border-gray-200">
+                                    <tr>
+                                        <th class="px-4 py-3 text-xs font-bold text-gray-500 uppercase">컨트롤러/경로</th>
+                                        <th class="px-4 py-3 text-xs font-bold text-gray-500 uppercase text-right">호출수</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="controllerStatTable" class="divide-y divide-gray-100"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="gov-card overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                            <h3 class="font-bold text-base flex items-center gap-2">
+                                <span class="material-symbols-outlined text-rose-600">bug_report</span>
+                                오류 다발 지점 TOP
+                            </h3>
+                            <span class="text-xs text-gray-400">source/message 기반</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-gray-50 border-y border-gray-200">
+                                    <tr>
+                                        <th class="px-4 py-3 text-xs font-bold text-gray-500 uppercase">오류 발생 위치</th>
+                                        <th class="px-4 py-3 text-xs font-bold text-gray-500 uppercase text-right">발생수</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="errorStatTable" class="divide-y divide-gray-100"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Log Section -->
             <div id="logSection" class="hidden mt-8 transition-all duration-500 opacity-0 scale-95">
                 <div class="gov-card border-l-4 border-[var(--kr-gov-blue)]">
@@ -306,6 +378,10 @@
         let allMappings = [];
         let changeHistory = [];
         let expandedChangeKeys = new Set();
+        let moduleLogs = [];
+        let criticalLogs = [];
+        let controllerStats = [];
+        let errorStats = [];
         let logInterval = null;
         let currentLogId = null;
 
@@ -320,6 +396,8 @@
                 refreshAutoDeployStatus();
                 refreshChanges();
             }
+            if (tab === 'logs') refreshLogTab();
+            if (tab === 'analytics') refreshAnalyticsTab();
         }
 
         async function refreshData() {
@@ -330,6 +408,12 @@
             if (!document.getElementById('content-changes').classList.contains('hidden')) {
                 await refreshAutoDeployStatus();
                 await refreshChanges();
+            }
+            if (!document.getElementById('content-logs').classList.contains('hidden')) {
+                await refreshLogTab();
+            }
+            if (!document.getElementById('content-analytics').classList.contains('hidden')) {
+                await refreshAnalyticsTab();
             }
         }
 
@@ -820,6 +904,118 @@
             else expandedChangeKeys.add(key);
         }
 
+        /* ── Logs Tab ── */
+        async function refreshLogTab() {
+            await Promise.all([refreshModuleLogs(), refreshCriticalLogs()]);
+            renderModuleLogs();
+            renderCriticalBanner();
+        }
+
+        async function refreshModuleLogs() {
+            try {
+                const r = await fetch('/admin/msa/api/logs/modules');
+                const data = await r.json();
+                moduleLogs = data.modules || [];
+            } catch (e) { console.error(e); }
+        }
+
+        async function refreshCriticalLogs() {
+            try {
+                const r = await fetch('/admin/msa/api/logs/critical');
+                criticalLogs = await r.json();
+            } catch (e) { console.error(e); }
+        }
+
+        function renderCriticalBanner() {
+            const banner = document.getElementById('criticalBanner');
+            const cnt = document.getElementById('criticalCount');
+            const head = document.getElementById('criticalHead');
+            if (!criticalLogs || criticalLogs.length === 0) {
+                banner.classList.add('hidden');
+                return;
+            }
+            const top = criticalLogs[0];
+            cnt.textContent = `최근 중대오류 ${criticalLogs.length}건`;
+            head.textContent = `[${top.time || ''}] ${top.module || ''} | ${top.message || ''}`;
+            banner.classList.remove('hidden');
+        }
+
+        function renderModuleLogs() {
+            const grid = document.getElementById('moduleLogGrid');
+            if (!moduleLogs || moduleLogs.length === 0) {
+                grid.innerHTML = `<div class="gov-card p-8 text-center text-gray-400 text-sm">로그 데이터 없음</div>`;
+                return;
+            }
+            grid.innerHTML = moduleLogs.map((m, idx) => {
+                const logs = m.logs || [];
+                const lines = logs.slice(-80).map(l => {
+                    const msg = l.message || '';
+                    let cls = 'text-gray-300';
+                    if (msg.includes('FATAL') || msg.includes('ERROR') || msg.includes('Exception')) cls = 'text-pink-300';
+                    else if (msg.includes('WARN')) cls = 'text-amber-300';
+                    else if (msg.includes('INFO')) cls = 'text-lime-300';
+                    return `<div class="${cls}">[${escHtml(l.time || '')}] ${escHtml(msg)}</div>`;
+                }).join('');
+                return `
+                <div class="gov-card overflow-hidden">
+                    <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                        <div class="font-bold mono text-[var(--kr-gov-blue)]">${escHtml(m.module || '')}</div>
+                        <div class="text-xs text-gray-400 mono">${m.count || 0} lines</div>
+                    </div>
+                    <div id="mlog-${idx}" class="log-box h-[260px] rounded-none">${lines || '<div class="text-gray-500">no logs</div>'}</div>
+                </div>`;
+            }).join('');
+        }
+
+        /* ── Analytics Tab ── */
+        async function refreshAnalyticsTab() {
+            await Promise.all([refreshControllerStats(), refreshErrorStats()]);
+            renderControllerStats();
+            renderErrorStats();
+        }
+
+        async function refreshControllerStats() {
+            try {
+                const r = await fetch('/admin/msa/api/stats/controllers');
+                controllerStats = await r.json();
+            } catch (e) { console.error(e); }
+        }
+
+        async function refreshErrorStats() {
+            try {
+                const r = await fetch('/admin/msa/api/stats/errors');
+                errorStats = await r.json();
+            } catch (e) { console.error(e); }
+        }
+
+        function renderControllerStats() {
+            const tbody = document.getElementById('controllerStatTable');
+            if (!controllerStats || controllerStats.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="2" class="px-4 py-8 text-center text-sm text-gray-400">데이터 없음</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = controllerStats.map(r => `
+                <tr class="hover:bg-cyan-50/30">
+                    <td class="px-4 py-3 text-xs mono text-cyan-800">${escHtml(r.controller || '')}</td>
+                    <td class="px-4 py-3 text-right text-sm font-black text-cyan-700 mono">${r.count || 0}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderErrorStats() {
+            const tbody = document.getElementById('errorStatTable');
+            if (!errorStats || errorStats.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="2" class="px-4 py-8 text-center text-sm text-gray-400">데이터 없음</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = errorStats.map(r => `
+                <tr class="hover:bg-rose-50/30">
+                    <td class="px-4 py-3 text-xs mono text-rose-800">${escHtml(r.source || '')}</td>
+                    <td class="px-4 py-3 text-right text-sm font-black text-rose-700 mono">${r.count || 0}</td>
+                </tr>
+            `).join('');
+        }
+
         /* ── Kill All Java ── */
         async function killAllJava() {
             if (!confirm('⚠️ 실행 중인 모든 Java/Spring Boot 프로세스를 종료합니다.\n\n이 작업은 MSA Manager 자체를 포함한 모든 Java 프로세스를 중지합니다.\n계속하시겠습니까?')) return;
@@ -880,6 +1076,12 @@
         setInterval(() => {
             if (!document.getElementById('content-changes').classList.contains('hidden')) {
                 refreshChanges();
+            }
+            if (!document.getElementById('content-logs').classList.contains('hidden')) {
+                refreshLogTab();
+            }
+            if (!document.getElementById('content-analytics').classList.contains('hidden')) {
+                refreshAnalyticsTab();
             }
         }, 5000);
     </script>
