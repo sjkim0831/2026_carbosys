@@ -1,0 +1,30 @@
+project:
+  id: carbosys
+  name: CARBOSYS
+  description: Multi-module MSA project managed from WSL and container runtime
+
+paths:
+  projectRoot: /opt/carbosys
+  moduleRoot: /opt/carbosys/module
+  containerDeployRoot: /opt
+  containerProjectPath: /opt/carbosys
+  managerRuntimePath: /opt/carbosys/module/EgovMsaManager/runtime
+  centralMappingFile: /opt/carbosys/msa-mappings.yml
+  centralPortFile: /opt/carbosys/msa-ports.yml
+
+execution:
+  localShell: /bin/bash
+  build:
+    java: "mvn -DskipTests clean package"
+    node: "npm install && npm run build"
+  deploy:
+    strategy: "build-copy-restart"
+    zeroDowntimeSupported: true
+
+integration:
+  connectorVersion: 1
+  connectorFile: /opt/carbosys/.ops-control/project.json
+  tags:
+    - wsl
+    - docker
+    - msa

@@ -1,0 +1,114 @@
+server:
+  port: 9000
+  forward-headers-strategy: native
+
+egov:
+  page:
+    size: 10
+    unit: 10
+  login:
+    lock: true
+    lockCount: 5
+
+spring:
+  application:
+    name: EgovHome
+  main:
+    allow-bean-definition-overriding: true
+  config:
+    import: "optional:configserver:http://localhost:8888"
+  profiles:
+    active: local
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: ""
+    hikari:
+      maximum-pool-size: 20
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    show-sql: true
+  messages:
+    encoding: UTF-8
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  thymeleaf:
+    encoding: UTF-8
+    mode: HTML
+    cache: false
+
+logging:
+  level:
+    org:
+      egovframe:
+        rte: debug
+      springframework:
+        web: debug
+    egovframework:
+      com: debug
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    instance:
+      instance-id: ${spring.application.name}:${random.value}
+
+Globals:
+  auth: security
+
+org:
+  egovframe:
+    crypto:
+      algorithm: SHA-256
+      algorithmKey: egovframe
+      algorithmKeyHash: gdyYs/IZqY86VcWhT8emCYfqY1ahw2vtLG+/FzNqtrQ=
+
+    security:
+      loginUrl: /uat/uia/loginView
+      logoutSuccessUrl: /uat/uia/loginView
+      loginFailureUrl: /uat/uia/loginFailure
+      accessDeniedUrl: /uat/uia/accessDenied
+      csrfAccessDeniedUrl: /uat/uia/csrfAccessDenied
+      defaultTargetUrl: /main
+      dataSource: dataSource
+      excludeList: /css/**, /images/**, /js/**, /uss/umt/**, /uat/**
+      csrf: false
+      xframeOptions: sameorigin
+      sniff: false
+      xssProtection: true
+      cacheControl: false
+      concurrentMaxSessons: 1
+      errorIfMaximumExceeded: false
+      concurrentExpiredUrl: /uat/uia/loginView
+      hash: plaintext
+      hashBase64: false
+      requestMatcherType: ant
+      jdbcMapClass: org.egovframe.boot.security.userdetails.DefaultMapUserDetailsMapping
+      jdbcUsersByUsernameQuery: >
+        SELECT USER_ID, PASSWORD, 'TRUE' AS ENABLED
+        FROM COMVNUSERMASTER
+        WHERE USER_ID = ?
+      jdbcAuthoritiesByUsernameQuery: >
+        SELECT A.SCRTY_DTRMN_TRGET_ID USER_ID, A.AUTHOR_CODE AUTHORITY
+        FROM MSATNEMPLYRSCRTYESTBS A, COMVNUSERMASTER B WHERE
+        A.SCRTY_DTRMN_TRGET_ID = B.ESNTL_ID AND B.USER_ID = ?
+      sqlRolesAndUrl: >
+        SELECT A.ROLE_PTTRN URL, B.AUTHOR_CODE AUTHORITY
+        FROM MSATNROLEINFO A, MSATNAUTHORROLERELATE B
+        WHERE A.ROLE_CODE = B.ROLE_CODE  AND A.ROLE_TY = 'url'
+        ORDER BY A.ROLE_SORT
+      sqlHierarchicalRoles: >
+        SELECT CHLDRN_ROLE AS CHILD, PARNTS_ROLE PARENT FROM MSATNROLES_HIERARCHY

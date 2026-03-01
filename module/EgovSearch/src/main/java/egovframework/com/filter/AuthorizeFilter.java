@@ -17,6 +17,12 @@ public class AuthorizeFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String uri = request.getRequestURI();
+        if (uri.startsWith("/error") || uri.startsWith("/actuator")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String secretCodeId = request.getHeader("X-CODE-ID");
 
         if (!request.getRequestURI().contains("/ext/ops/createTextIndex") &&
@@ -28,10 +34,10 @@ public class AuthorizeFilter extends OncePerRequestFilter {
         ) {
             String secretCode = "-WzAnecnlNewSEQwDgJ2BQ";
             if (ObjectUtils.isEmpty(secretCodeId) || !secretCode.equals(secretCodeId)) {
-                log.warn("##### Access Denied: Unauthorized Access Attempt");
+                log.warn("##### Access Denied: Unauthorized Access Attempt uri={}", uri);
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                String errorPage = "/error/403.html";
-                response.sendRedirect(request.getContextPath() + errorPage);
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write("{\"status\":403,\"message\":\"Forbidden\"}");
                 return;
             }
         }
@@ -46,7 +52,9 @@ public class AuthorizeFilter extends OncePerRequestFilter {
                 path.startsWith("/swagger-ui/") ||
                 path.equals("/swagger-ui.html") ||
                 path.startsWith("/v3/api-docs") ||
-                path.startsWith("/webjars/");
+                path.startsWith("/webjars/") ||
+                path.startsWith("/error") ||
+                path.startsWith("/actuator");
     }
 
 }

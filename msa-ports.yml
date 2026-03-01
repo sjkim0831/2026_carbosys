@@ -32,3 +32,6 @@ ports:
   # UI/Home Modules
   home3: 18053
   signin: 18060
+
+  # Merged Modules
+  EgovHome: 18000

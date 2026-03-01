@@ -85,12 +85,19 @@ public class LogAnalyticsService {
     }
 
     public Map<String, Object> getModuleLogs() {
+        return getModuleLogs(null, null);
+    }
+
+    public Map<String, Object> getModuleLogs(LocalDateTime from, LocalDateTime to) {
         Map<String, Object> out = new LinkedHashMap<>();
         List<Map<String, Object>> modules = new ArrayList<>();
         for (Map.Entry<String, Deque<Map<String, Object>>> e : logsByModule.entrySet()) {
             Map<String, Object> row = new LinkedHashMap<>();
             row.put("module", e.getKey());
-            List<Map<String, Object>> logs = new ArrayList<>(e.getValue());
+            List<Map<String, Object>> logs;
+            synchronized (e.getValue()) {
+                logs = filterByRange(new ArrayList<>(e.getValue()), from, to);
+            }
             row.put("count", logs.size());
             row.put("logs", logs);
             row.put("last", logs.isEmpty() ? "" : logs.get(logs.size() - 1).get("message"));
@@ -98,18 +105,104 @@ public class LogAnalyticsService {
         }
         modules.sort(Comparator.comparing(o -> String.valueOf(o.get("module"))));
         out.put("modules", modules);
-        out.put("criticalCount", criticalEvents.size());
+        out.put("criticalCount", getCriticalEvents(from, to).size());
         return out;
     }
 
     public List<Map<String, Object>> getCriticalEvents() {
+        return getCriticalEvents(null, null);
+    }
+
+    public List<Map<String, Object>> getCriticalEvents(LocalDateTime from, LocalDateTime to) {
         synchronized (criticalEvents) {
-            return new ArrayList<>(criticalEvents);
+            return filterByRange(new ArrayList<>(criticalEvents), from, to);
         }
     }
 
     public List<Map<String, Object>> getTopControllers() {
-        return controllerHits.entrySet().stream()
+        return getTopControllers(null, null);
+    }
+
+    public List<Map<String, Object>> getTopControllers(LocalDateTime from, LocalDateTime to) {
+        if (from == null && to == null) {
+            return toControllerRows(controllerHits);
+        }
+        Map<String, Integer> filtered = new HashMap<>();
+        for (Deque<Map<String, Object>> q : logsByModule.values()) {
+            synchronized (q) {
+                for (Map<String, Object> event : q) {
+                    if (!inRange(event, from, to)) {
+                        continue;
+                    }
+                    mergeControllerHit(String.valueOf(event.get("message")), filtered);
+                }
+            }
+        }
+        return toControllerRows(filtered);
+    }
+
+    public List<Map<String, Object>> getTopErrors() {
+        return getTopErrors(null, null);
+    }
+
+    public List<Map<String, Object>> getTopErrors(LocalDateTime from, LocalDateTime to) {
+        if (from == null && to == null) {
+            return toErrorRows(errorHotspots);
+        }
+        Map<String, Integer> filtered = new HashMap<>();
+        for (Deque<Map<String, Object>> q : logsByModule.values()) {
+            synchronized (q) {
+                for (Map<String, Object> event : q) {
+                    if (!inRange(event, from, to)) {
+                        continue;
+                    }
+                    mergeErrorHotspot(String.valueOf(event.get("message")), filtered);
+                }
+            }
+        }
+        return toErrorRows(filtered);
+    }
+
+    private List<Map<String, Object>> filterByRange(List<Map<String, Object>> src, LocalDateTime from, LocalDateTime to) {
+        if (from == null && to == null) {
+            return src;
+        }
+        List<Map<String, Object>> out = new ArrayList<>();
+        for (Map<String, Object> event : src) {
+            if (inRange(event, from, to)) {
+                out.add(event);
+            }
+        }
+        return out;
+    }
+
+    private boolean inRange(Map<String, Object> event, LocalDateTime from, LocalDateTime to) {
+        LocalDateTime time = parseEventTime(String.valueOf(event.get("time")));
+        if (time == null) {
+            return true;
+        }
+        if (from != null && time.isBefore(from)) {
+            return false;
+        }
+        if (to != null && time.isAfter(to)) {
+            return false;
+        }
+        return true;
+    }
+
+    private LocalDateTime parseEventTime(String raw) {
+        if (raw == null || raw.trim().isEmpty()) {
+            return null;
+        }
+        try {
+            return LocalDateTime.parse(raw.trim(), TS_FMT);
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
+
+    private List<Map<String, Object>> toControllerRows(Map<String, Integer> src) {
+        return src.entrySet().stream()
                 .sorted((a, b) -> Integer.compare(b.getValue(), a.getValue()))
                 .limit(40)
                 .map(e -> {
@@ -120,8 +213,8 @@ public class LogAnalyticsService {
                 }).collect(Collectors.toList());
     }
 
-    public List<Map<String, Object>> getTopErrors() {
-        return errorHotspots.entrySet().stream()
+    private List<Map<String, Object>> toErrorRows(Map<String, Integer> src) {
+        return src.entrySet().stream()
                 .sorted((a, b) -> Integer.compare(b.getValue(), a.getValue()))
                 .limit(40)
                 .map(e -> {
@@ -184,14 +277,7 @@ public class LogAnalyticsService {
     }
 
     private void analyzeController(String line) {
-        Matcher m = HTTP_PATH.matcher(line);
-        if (!m.find()) {
-            return;
-        }
-        String method = m.group(1);
-        String path = m.group(2);
-        String key = method + " " + normalizePath(path);
-        controllerHits.merge(key, 1, Integer::sum);
+        mergeControllerHit(line, controllerHits);
     }
 
     private void analyzeErrors(String line, Map<String, Object> event) {
@@ -206,9 +292,24 @@ public class LogAnalyticsService {
             appendJsonLine(CRITICAL_FILE, event);
         }
 
+        mergeErrorHotspot(line, errorHotspots);
+    }
+
+    private void mergeControllerHit(String line, Map<String, Integer> target) {
+        Matcher m = HTTP_PATH.matcher(line);
+        if (!m.find()) {
+            return;
+        }
+        String method = m.group(1);
+        String path = m.group(2);
+        String key = method + " " + normalizePath(path);
+        target.merge(key, 1, Integer::sum);
+    }
+
+    private void mergeErrorHotspot(String line, Map<String, Integer> target) {
         if (line.contains("ERROR") || line.contains("Exception") || line.contains("FAIL")) {
             String source = extractSource(line);
-            errorHotspots.merge(source, 1, Integer::sum);
+            target.merge(source, 1, Integer::sum);
         }
     }
 
@@ -311,4 +412,3 @@ public class LogAnalyticsService {
         }
     }
 }
-

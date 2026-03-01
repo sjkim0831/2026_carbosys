@@ -17,15 +17,21 @@ public class AuthorizeFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String uri = request.getRequestURI();
+        if (uri.startsWith("/error") || uri.startsWith("/actuator")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String secretCodeId = request.getHeader("X-CODE-ID");
 
         if (!request.getRequestURI().contains("/uat/uia")) {
             String secretCode = "-WzAnecnlNewSEQwDgJ2BQ";
             if (ObjectUtils.isEmpty(secretCodeId) || !secretCode.equals(secretCodeId)) {
-                log.warn("##### Access Denied: Unauthorized Access Attempt");
+                log.warn("##### Access Denied: Unauthorized Access Attempt uri={}", uri);
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                String errorPage = "/error/403.html";
-                response.sendRedirect(request.getContextPath() + errorPage);
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write("{\"status\":403,\"message\":\"Forbidden\"}");
                 return;
             }
         }
@@ -36,7 +42,9 @@ public class AuthorizeFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.matches(".*\\.(css|js|png|jpg|jpeg|gif|svg|woff|woff2|ttf|otf|eot|ico|html)$");
+        return path.matches(".*\\.(css|js|png|jpg|jpeg|gif|svg|woff|woff2|ttf|otf|eot|ico|html)$") ||
+                path.startsWith("/error") ||
+                path.startsWith("/actuator");
     }
 
 }

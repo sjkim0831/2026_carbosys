@@ -1,0 +1,59 @@
+package egovframework.com.uat.uia.web;
+
+import egovframework.com.uat.uia.service.LoginVO;
+import egovframework.com.uat.uia.util.EgovJwtProvider;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+
+@Controller("uiaEgovLoginManageController")
+@RequestMapping("/signin")
+@RequiredArgsConstructor
+public class EgovLoginManageController {
+
+    private final EgovJwtProvider jwtProvider;
+
+    @GetMapping(value = "/index")
+    public String login(LoginVO loginVO, Model model, HttpServletRequest request) {
+        return this.loginView(null, loginVO, model, request);
+    }
+
+    @RequestMapping(value = "/loginView", method = { RequestMethod.GET, RequestMethod.POST })
+    public String loginView(@RequestParam(value = "language", required = false) String language, LoginVO loginVO,
+            Model model, HttpServletRequest request) {
+        String accessToken = jwtProvider.getCookie(request, "accessToken");
+        if (ObjectUtils.isEmpty(accessToken)) {
+            loginVO = new LoginVO();
+            model.addAttribute("loginVO", loginVO);
+            if ("en".equals(language)) {
+                return "egovframework/com/uat/uia/login_en"; // Fix path
+            }
+            return "egovframework/com/uat/uia/login"; // Fix path
+        } else {
+            return "redirect:/home3";
+        }
+    }
+
+    @GetMapping("/authChoice")
+    public String authChoice(@RequestParam(value = "language", required = false) String language, Model model) {
+        if ("en".equals(language)) {
+            return "egovframework/com/uat/uia/auth_choice_en";
+        }
+        return "egovframework/com/uat/uia/auth_choice";
+    }
+
+    @RequestMapping(value = "/loginForbidden", method = { RequestMethod.GET, RequestMethod.POST })
+    public String loginForbidden(
+            @RequestParam(value = "pathCode", required = false, defaultValue = "1") String pathCode, Model model) {
+        model.addAttribute("pathCode", pathCode);
+        return "egovframework/com/uat/uia/forbidden";
+    }
+
+}

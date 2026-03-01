@@ -123,3 +123,19 @@ docker exec cubrid cubrid broker start
 6. **Failed to connect... 에러 발생 시**
 - `33001` 포트가 `docker-compose.yml`에 노출되어 있는지 확인하십시오.
 - `cubrid_broker.conf`에 `APPL_SERVER_PORT = 33001`이 설정되어 있는지 확인하십시오.
+
+---
+
+## Project Hub 연동 메타
+
+다중 프로젝트 관리 프로그램(`project-hub`)에서 이 프로젝트를 자동 인식하려면 아래 파일을 기준으로 연결합니다.
+
+- `/opt/carbosys/ops-project.yml`
+- `/opt/carbosys/.ops-control/project.json`
+
+프로젝트를 복사해 새 프로젝트를 만들 때는 다음 값만 새 프로젝트명/경로에 맞게 변경하면 됩니다.
+
+- `project.id`, `project.name`
+- `paths.projectRoot`, `paths.moduleRoot`
+- `paths.containerProjectPath`
+- `.ops-control/project.json`의 `projectId`, `projectName`, `rootPath`, `modulePath`, `containerProjectPath`

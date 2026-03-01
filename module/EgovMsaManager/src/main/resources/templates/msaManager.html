@@ -253,6 +253,7 @@
                                 변경 감지 및 자동 무중단 배포
                             </h2>
                             <p class="text-xs text-gray-500 mt-1">기본값 OFF, 서버 메모리/런타임 상태 유지(컨테이너 재생성 전까지 유지)</p>
+                            <p id="changeRangeLabel" class="text-xs text-gray-500 mt-1">기간: 전체</p>
                             <p class="text-xs text-gray-400 mt-1 mono">로그 파일: /opt/carbosys/module/EgovMsaManager/runtime/change-history.jsonl</p>
                         </div>
                         <label class="inline-flex items-center gap-2 text-sm font-bold">
@@ -299,9 +300,34 @@
                 </div>
 
                 <div class="gov-card mb-6 px-6 py-4">
-                    <div class="flex justify-between items-center">
-                        <div class="text-sm font-bold">모듈별 로그 목록</div>
+                    <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                        <div>
+                            <div class="text-sm font-bold">모듈별 로그 목록</div>
+                            <div id="logRangeLabel" class="text-xs text-gray-500 mt-1">범위: 전체</div>
+                        </div>
                         <span class="text-xs text-gray-400 mono">파일: /opt/carbosys/module/EgovMsaManager/runtime/module-log-events.jsonl</span>
+                    </div>
+                    <div class="mt-4 flex flex-col gap-3">
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="setLogQuickRange('1h')" class="px-3 py-1 rounded text-[11px] font-bold border border-gray-200 text-gray-700 hover:bg-gray-50">최근 1시간</button>
+                            <button onclick="setLogQuickRange('6h')" class="px-3 py-1 rounded text-[11px] font-bold border border-gray-200 text-gray-700 hover:bg-gray-50">최근 6시간</button>
+                            <button onclick="setLogQuickRange('24h')" class="px-3 py-1 rounded text-[11px] font-bold border border-gray-200 text-gray-700 hover:bg-gray-50">최근 24시간</button>
+                            <button onclick="setLogQuickRange('today')" class="px-3 py-1 rounded text-[11px] font-bold border border-gray-200 text-gray-700 hover:bg-gray-50">오늘</button>
+                            <button onclick="setLogQuickRange('all')" class="px-3 py-1 rounded text-[11px] font-bold border border-gray-200 text-gray-700 hover:bg-gray-50">전체</button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-5 gap-2 items-end">
+                            <label class="text-xs text-gray-600 font-bold">
+                                시작 시간
+                                <input id="logFromTime" type="datetime-local" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" />
+                            </label>
+                            <label class="text-xs text-gray-600 font-bold">
+                                종료 시간
+                                <input id="logToTime" type="datetime-local" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" />
+                            </label>
+                            <button onclick="applyLogRange()" class="px-3 py-2 rounded text-[12px] font-bold bg-cyan-600 text-white hover:bg-cyan-700">적용</button>
+                            <button onclick="clearLogRange()" class="px-3 py-2 rounded text-[12px] font-bold border border-gray-200 text-gray-700 hover:bg-gray-50">초기화</button>
+                            <div class="text-[11px] text-gray-500">분석 탭도 동일 시간 범위를 사용합니다.</div>
+                        </div>
                     </div>
                 </div>
 
@@ -313,10 +339,13 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="gov-card overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-                            <h3 class="font-bold text-base flex items-center gap-2">
-                                <span class="material-symbols-outlined text-cyan-600">monitoring</span>
-                                컨트롤러 사용량 TOP
-                            </h3>
+                            <div>
+                                <h3 class="font-bold text-base flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-cyan-600">monitoring</span>
+                                    컨트롤러 사용량 TOP
+                                </h3>
+                                <p id="analyticsRangeLabel" class="text-xs text-gray-500 mt-1">기간: 전체</p>
+                            </div>
                             <span class="text-xs text-gray-400">logs 기반</span>
                         </div>
                         <div class="overflow-x-auto">
@@ -384,6 +413,8 @@
         let errorStats = [];
         let logInterval = null;
         let currentLogId = null;
+        let logRangeFrom = '';
+        let logRangeTo = '';
 
         /* ── Tabs ── */
         function showTab(tab) {
@@ -415,6 +446,93 @@
             if (!document.getElementById('content-analytics').classList.contains('hidden')) {
                 await refreshAnalyticsTab();
             }
+        }
+
+        function toDateTimeLocalValue(d) {
+            const pad = n => String(n).padStart(2, '0');
+            return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        }
+
+        function getLogRangeQuery() {
+            const params = new URLSearchParams();
+            if (logRangeFrom) params.set('from', logRangeFrom);
+            if (logRangeTo) params.set('to', logRangeTo);
+            const q = params.toString();
+            return q ? `?${q}` : '';
+        }
+
+        function rangeText() {
+            if (!logRangeFrom && !logRangeTo) {
+                return '전체';
+            }
+            const fromLabel = logRangeFrom || '...';
+            const toLabel = logRangeTo || '...';
+            return `${fromLabel} ~ ${toLabel}`;
+        }
+
+        function updateLogRangeLabel() {
+            const txt = rangeText();
+            const logEl = document.getElementById('logRangeLabel');
+            if (logEl) logEl.textContent = `범위: ${txt}`;
+            const chgEl = document.getElementById('changeRangeLabel');
+            if (chgEl) chgEl.textContent = `기간: ${txt}`;
+            const anEl = document.getElementById('analyticsRangeLabel');
+            if (anEl) anEl.textContent = `기간: ${txt}`;
+        }
+
+        function setLogQuickRange(type) {
+            const now = new Date();
+            const fromInput = document.getElementById('logFromTime');
+            const toInput = document.getElementById('logToTime');
+            if (!fromInput || !toInput) return;
+
+            if (type === 'all') {
+                fromInput.value = '';
+                toInput.value = '';
+                applyLogRange();
+                return;
+            }
+
+            let from = new Date(now);
+            if (type === '1h') from.setHours(from.getHours() - 1);
+            else if (type === '6h') from.setHours(from.getHours() - 6);
+            else if (type === '24h') from.setHours(from.getHours() - 24);
+            else if (type === 'today') from = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+
+            fromInput.value = toDateTimeLocalValue(from);
+            toInput.value = toDateTimeLocalValue(now);
+            applyLogRange();
+        }
+
+        function applyLogRange() {
+            const fromInput = document.getElementById('logFromTime');
+            const toInput = document.getElementById('logToTime');
+            if (!fromInput || !toInput) return;
+
+            if (fromInput.value && toInput.value && new Date(fromInput.value) > new Date(toInput.value)) {
+                showToast('warning', '시작 시간이 종료 시간보다 늦습니다.');
+                return;
+            }
+
+            logRangeFrom = fromInput.value || '';
+            logRangeTo = toInput.value || '';
+            updateLogRangeLabel();
+            refreshChanges();
+            refreshLogTab();
+            refreshAnalyticsTab();
+        }
+
+        function clearLogRange() {
+            const fromInput = document.getElementById('logFromTime');
+            const toInput = document.getElementById('logToTime');
+            if (fromInput) fromInput.value = '';
+            if (toInput) toInput.value = '';
+            logRangeFrom = '';
+            logRangeTo = '';
+            updateLogRangeLabel();
+            refreshChanges();
+            refreshLogTab();
+            refreshAnalyticsTab();
         }
 
         /* ── Modules ── */
@@ -842,7 +960,7 @@
 
         async function refreshChanges() {
             try {
-                const r = await fetch('/admin/msa/api/changes');
+                const r = await fetch('/admin/msa/api/changes' + getLogRangeQuery());
                 changeHistory = await r.json();
                 renderChangeTable();
             } catch (e) { console.error(e); }
@@ -913,7 +1031,7 @@
 
         async function refreshModuleLogs() {
             try {
-                const r = await fetch('/admin/msa/api/logs/modules');
+                const r = await fetch('/admin/msa/api/logs/modules' + getLogRangeQuery());
                 const data = await r.json();
                 moduleLogs = data.modules || [];
             } catch (e) { console.error(e); }
@@ -921,7 +1039,7 @@
 
         async function refreshCriticalLogs() {
             try {
-                const r = await fetch('/admin/msa/api/logs/critical');
+                const r = await fetch('/admin/msa/api/logs/critical' + getLogRangeQuery());
                 criticalLogs = await r.json();
             } catch (e) { console.error(e); }
         }
@@ -976,14 +1094,14 @@
 
         async function refreshControllerStats() {
             try {
-                const r = await fetch('/admin/msa/api/stats/controllers');
+                const r = await fetch('/admin/msa/api/stats/controllers' + getLogRangeQuery());
                 controllerStats = await r.json();
             } catch (e) { console.error(e); }
         }
 
         async function refreshErrorStats() {
             try {
-                const r = await fetch('/admin/msa/api/stats/errors');
+                const r = await fetch('/admin/msa/api/stats/errors' + getLogRangeQuery());
                 errorStats = await r.json();
             } catch (e) { console.error(e); }
         }
@@ -1072,6 +1190,7 @@
         // Init
         refreshModules();
         refreshAutoDeployStatus();
+        updateLogRangeLabel();
         setInterval(refreshModules, 5000);
         setInterval(() => {
             if (!document.getElementById('content-changes').classList.contains('hidden')) {

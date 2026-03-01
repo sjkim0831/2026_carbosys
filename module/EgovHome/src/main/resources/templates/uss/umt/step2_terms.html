@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>회원가입 - 약관 동의 | CCUS 통합관리 포털</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+            --kr-gov-error: #d32f2f;
+        }
+        @layer base {
+            body { font-family: 'Noto Sans KR', 'Public Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+            .focus-visible:focus-visible {
+                outline: 3px solid var(--kr-gov-focus);
+                outline-offset: 2px;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+        }
+        .step-item {
+            @apply flex flex-col items-center relative flex-1;
+        }
+        .step-circle {
+            @apply w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2 z-10 bg-white;
+        }
+        .step-active .step-circle {
+            @apply bg-[var(--kr-gov-blue)] border-[var(--kr-gov-blue)] text-white ring-4 ring-blue-100;
+        }
+        .step-completed .step-circle {
+            @apply bg-white border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)];
+        }
+        .step-inactive .step-circle {
+            @apply border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)];
+        }
+        .step-line {
+            @apply absolute top-5 left-1/2 w-full h-[2px] bg-[var(--kr-gov-border-light)];
+        }
+        .step-completed .step-line {
+            @apply bg-[var(--kr-gov-blue)];
+        }
+        .terms-scroll {
+            @apply h-48 overflow-y-auto p-5 bg-gray-50 border border-[var(--kr-gov-border-light)] text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed;
+        }.terms-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .terms-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .terms-scroll::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        /* 회원가입 페이지: 헤더 로그인 버튼/내비게이션 숨김 */
+        #loginBtn { display: none !important; }
+        header nav { display: none !important; }
+        .gov-btn { display: none !important; }
+        /* KO/EN 버튼: KO 활성 */
+        #langKoBtn { @apply bg-[var(--kr-gov-blue)] text-white; }
+        #langEnBtn { @apply bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100; }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "gov-gray": "#767676",
+                        "mandatory": "#d32f2f",
+                    },
+                    borderRadius: {
+                        'gov': '5px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
+    <a class="skip-link" href="#main-content">본문 바로가기</a>
+    <!-- 헤더: home3에서 공유 -->
+    <div id="shared-header"></div>
+
+    <main class="flex-grow py-12 px-4" id="main-content">
+        <div class="max-w-5xl mx-auto">
+            <!-- 제목 -->
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-[var(--kr-gov-text-primary)] mb-2">회원가입</h2>
+                <p class="text-[var(--kr-gov-text-secondary)]">서비스 이용을 위해 약관에 동의해 주세요.</p>
+            </div>
+            <!-- 진행 표시 -->
+            <div class="max-w-5xl mx-auto mb-12">
+                <div class="flex justify-between relative">
+                    <div class="step-item step-completed">
+                        <div class="step-line"></div>
+                        <div class="step-circle"><span class="material-symbols-outlined !text-[20px]">check</span></div>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">회원유형</span>
+                    </div>
+                    <div class="step-item step-active">
+                        <div class="step-line"></div>
+                        <div class="step-circle">02</div>
+                        <span class="mt-3 text-sm font-bold text-[var(--kr-gov-blue)]">약관 동의</span>
+                    </div>
+                    <div class="step-item step-inactive">
+                        <div class="step-line"></div>
+                        <div class="step-circle">03</div>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">본인 확인</span>
+                    </div>
+                    <div class="step-item step-inactive">
+                        <div class="step-line"></div>
+                        <div class="step-circle">04</div>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">정보 입력</span>
+                    </div>
+                    <div class="step-item step-inactive">
+                        <div class="step-circle">05</div>
+                        <span class="mt-3 text-sm font-medium text-[var(--kr-gov-text-secondary)]">가입 완료</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm p-8 lg:p-10">
+                <h3
+                    class="text-xl font-bold text-[var(--kr-gov-text-primary)] mb-8 border-l-4 border-[var(--kr-gov-blue)] pl-4">
+                    서비스 이용약관 동의</h3>
+                <div class="mb-10 bg-blue-50 border border-blue-100 p-5 rounded-[var(--kr-gov-radius)]">
+                    <label class="flex items-center cursor-pointer">
+                        <input id="all-check"
+                            class="w-6 h-6 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
+                            type="checkbox" />
+                        <span class="ml-3 text-lg font-bold text-[var(--kr-gov-blue)]">전체 약관에 모두 동의합니다.</span>
+                    </label>
+                </div>
+                <form action="/join/step3" method="post" class="space-y-10">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-end">
+                            <label class="flex items-center">
+                                <span
+                                    class="px-2 py-0.5 bg-mandatory text-white text-[11px] font-bold rounded mr-2">필수</span>
+                                <span class="text-lg font-bold text-[var(--kr-gov-text-primary)]">서비스 이용약관</span>
+                            </label>
+                        </div>
+                        <div aria-label="서비스 이용약관 내용" class="terms-scroll" role="region" tabindex="0">
+                            제1조(목적) 이 약관은 탄소중립 CCUS 통합관리 포털(이하 "포털"이라 한다)에서 제공하는 모든 서비스(이하 "서비스"라 한다)의 이용조건 및 절차, 이용자와
+                            포털의 권리, 의무, 책임사항과 기타 필요한 사항을 규정함을 목적으로 합니다.<br /><br />
+                            제2조(용어의 정의) 1. "이용자"란 포털에 접속하여 이 약관에 따라 포털이 제공하는 서비스를 받는 회원 및 비회원을 말합니다. 2. "회원"이라 함은 포털에
+                            개인정보를 제공하여 회원등록을 한 자로서, 포털의 정보를 지속적으로 제공받으며, 포털이 제공하는 서비스를 계속적으로 이용할 수 있는 자를
+                            말합니다.<br /><br />
+                            제3조(약관의 효력 및 변경) 1. 이 약관은 서비스 화면에 게시하거나 기타의 방법으로 이용자에게 공시함으로써 효력이 발생합니다. 2. 포털은 필요하다고 인정되는
+                            경우 관계법령을 위배하지 않는 범위 내에서 이 약관을 개정할 수 있습니다.
+                        </div>
+                        <div class="flex justify-end">
+                            <label class="flex items-center cursor-pointer">
+                                <input required
+                                    class="term-check w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
+                                    type="checkbox" />
+                                <span class="ml-2 text-[15px] font-medium text-[var(--kr-gov-text-secondary)]">이용약관에
+                                    동의합니다.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-end">
+                            <label class="flex items-center">
+                                <span
+                                    class="px-2 py-0.5 bg-mandatory text-white text-[11px] font-bold rounded mr-2">필수</span>
+                                <span class="text-lg font-bold text-[var(--kr-gov-text-primary)]">개인정보 수집 및 이용 동의</span>
+                            </label>
+                        </div>
+                        <div aria-label="개인정보 수집 및 이용 동의 내용" class="terms-scroll" role="region" tabindex="0">
+                            탄소중립 CCUS 통합관리 포털은 「개인정보 보호법」 등 관련 법령에 따라 이용자의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 다음과
+                            같이 개인정보 처리방침을 수립·공개합니다.<br /><br />
+                            1. 개인정보의 수집 및 이용 목적: 회원 가입의사 확인, 회원제 서비스 제공에 따른 본인 식별·인증, 회원자격 유지·관리, 서비스 부정이용 방지, 각종 고지·통지
+                            등.<br /><br />
+                            2. 수집하는 개인정보 항목: 성명, 아이디, 비밀번호, 이메일 주소, 전화번호, 소속 기관 정보 등.<br /><br />
+                            3. 개인정보의 보유 및 이용 기간: 회원 탈퇴 시까지 또는 서비스 종료 시까지 보유하며, 관계 법령의 규정에 따라 보존할 필요가 있는 경우 해당 기간 동안
+                            보관합니다.
+                        </div>
+                        <div class="flex justify-end">
+                            <label class="flex items-center cursor-pointer">
+                                <input required
+                                    class="term-check w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
+                                    type="checkbox" />
+                                <span class="ml-2 text-[15px] font-medium text-[var(--kr-gov-text-secondary)]">개인정보 수집 및
+                                    이용에 동의합니다.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-end">
+                            <label class="flex items-center">
+                                <span
+                                    class="px-2 py-0.5 bg-gray-500 text-white text-[11px] font-bold rounded mr-2">선택</span>
+                                <span class="text-lg font-bold text-[var(--kr-gov-text-primary)]">마케팅 정보 수신 동의</span>
+                            </label>
+                        </div>
+                        <div
+                            class="p-5 bg-gray-50 border border-[var(--kr-gov-border-light)] text-sm text-[var(--kr-gov-text-secondary)]">
+                            CCUS 관련 정책 뉴스레터, 세미나 안내 등 유익한 정보를 이메일 또는 SMS로 수신하시겠습니까? (미동의 시에도 서비스 이용이 가능합니다.)
+                        </div>
+                        <div class="flex justify-end">
+                            <label class="flex items-center cursor-pointer">
+                                <input name="marketing_agree" id="marketing_agree"
+                                    th:checked="${joinVO.marketingYn == 'Y'}"
+                                    class="w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
+                                    type="checkbox" />
+                                <span class="ml-2 text-[15px] font-medium text-[var(--kr-gov-text-secondary)]">마케팅 정보
+                                    수신에 동의합니다.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                        <button onclick="history.back()"
+                            class="flex-1 h-14 bg-white border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-primary)] text-lg font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors focus-visible"
+                            type="button">
+                            이전
+                        </button>
+                        <button
+                            class="flex-[2] h-14 bg-[var(--kr-gov-blue)] text-white text-lg font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors focus-visible"
+                            type="submit">
+                            동의하고 다음으로
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <p class="mt-8 text-sm text-[var(--kr-gov-text-secondary)] text-center">
+                본인 확인 및 약관 동의 절차는 이용자의 안전한 서비스 이용을 위해 필수적입니다.
+            </p>
+        </div>
+    </main>
+    <!-- 푸터: home3에서 공유 -->
+    <div id="shared-footer"></div>
+    <script>
+            // home3에서 공유 헤더/푸터를 fetch
+            (function loadSharedLayout() {
+                fetch('/home3/fragments/header')
+                    .then(r => r.text())
+                    .then(html => {
+                        document.getElementById('shared-header').innerHTML = html;
+                        // 1. 로고 클릭 시 세션 초기화 후 메인으로
+                        const logoLink = document.querySelector('#shared-header a[href="/home3"]');
+                        if (logoLink) logoLink.href = '/join/reset';
+
+                        // 2. 언어 변경 시 세션 초기화 후 해당 언어 1단계로 이동
+                        const ko = document.getElementById('langKoBtn');
+                        const en = document.getElementById('langEnBtn');
+                        if (ko) ko.onclick = () => location.href = '/join/step1';
+                        if (en) en.onclick = () => location.href = '/join/en/step1';
+                    })
+                    .catch(() => { });
+                fetch('/home3/fragments/footer')
+                    .then(r => r.text()).then(html => { document.getElementById('shared-footer').innerHTML = html; })
+                    .catch(() => { });
+            })();
+
+        const allCheck = document.getElementById('all-check');
+        const termChecks = document.querySelectorAll('.term-check');
+        allCheck.addEventListener('change', function () {
+            termChecks.forEach(check => check.checked = this.checked);
+        });
+
+        // 마케팅 동의 실시간 세션 저장
+        const marketingCheck = document.getElementById('marketing_agree');
+        if (marketingCheck) {
+            marketingCheck.addEventListener('change', function () {
+                const isChecked = this.checked ? 'Y' : 'N';
+                const timestamp = new Date().getTime();
+                fetch(`/join/saveStep2?marketing_yn=${isChecked}&t=${timestamp}`, {
+                    method: 'GET',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
+```

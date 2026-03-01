@@ -8,6 +8,8 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +31,7 @@ public class MsaController {
 
     private final MsaScanner scanner = new MsaScanner();
     private static final String MAPPING_FILE = "/app/msa-mappings.yml";
+    private static final DateTimeFormatter LOG_TIME_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @GetMapping("")
     public String index() {
@@ -246,8 +249,9 @@ public class MsaController {
 
     @ResponseBody
     @GetMapping("/api/changes")
-    public List<Map<String, Object>> getChanges() {
-        return changeMonitorService.getHistory();
+    public List<Map<String, Object>> getChanges(@RequestParam(required = false) String from,
+                                                 @RequestParam(required = false) String to) {
+        return changeMonitorService.getHistory(parseTimeParam(from), parseTimeParam(to));
     }
 
     @ResponseBody
@@ -271,26 +275,45 @@ public class MsaController {
 
     @ResponseBody
     @GetMapping("/api/logs/modules")
-    public Map<String, Object> getModuleLogs() {
-        return logAnalyticsService.getModuleLogs();
+    public Map<String, Object> getModuleLogs(@RequestParam(required = false) String from,
+                                              @RequestParam(required = false) String to) {
+        return logAnalyticsService.getModuleLogs(parseTimeParam(from), parseTimeParam(to));
     }
 
     @ResponseBody
     @GetMapping("/api/logs/critical")
-    public List<Map<String, Object>> getCriticalLogs() {
-        return logAnalyticsService.getCriticalEvents();
+    public List<Map<String, Object>> getCriticalLogs(@RequestParam(required = false) String from,
+                                                      @RequestParam(required = false) String to) {
+        return logAnalyticsService.getCriticalEvents(parseTimeParam(from), parseTimeParam(to));
     }
 
     @ResponseBody
     @GetMapping("/api/stats/controllers")
-    public List<Map<String, Object>> getControllerStats() {
-        return logAnalyticsService.getTopControllers();
+    public List<Map<String, Object>> getControllerStats(@RequestParam(required = false) String from,
+                                                         @RequestParam(required = false) String to) {
+        return logAnalyticsService.getTopControllers(parseTimeParam(from), parseTimeParam(to));
     }
 
     @ResponseBody
     @GetMapping("/api/stats/errors")
-    public List<Map<String, Object>> getErrorStats() {
-        return logAnalyticsService.getTopErrors();
+    public List<Map<String, Object>> getErrorStats(@RequestParam(required = false) String from,
+                                                    @RequestParam(required = false) String to) {
+        return logAnalyticsService.getTopErrors(parseTimeParam(from), parseTimeParam(to));
+    }
+
+    private LocalDateTime parseTimeParam(String raw) {
+        if (raw == null || raw.trim().isEmpty()) {
+            return null;
+        }
+        String normalized = raw.trim().replace('T', ' ');
+        if (normalized.length() == 16) {
+            normalized = normalized + ":00";
+        }
+        try {
+            return LocalDateTime.parse(normalized, LOG_TIME_FMT);
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 
     @ResponseBody

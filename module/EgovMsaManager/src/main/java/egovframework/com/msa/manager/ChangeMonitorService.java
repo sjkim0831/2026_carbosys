@@ -57,6 +57,7 @@ public class ChangeMonitorService {
     private final Map<String, Long> lastDeployAt = new ConcurrentHashMap<>();
     private final Set<String> deployingModules = ConcurrentHashMap.newKeySet();
     private final Deque<Map<String, Object>> history = new ArrayDeque<>();
+    private static final DateTimeFormatter HISTORY_TS_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private static class FileMeta {
         long modified;
@@ -107,8 +108,47 @@ public class ChangeMonitorService {
     }
 
     public List<Map<String, Object>> getHistory() {
+        return getHistory(null, null);
+    }
+
+    public List<Map<String, Object>> getHistory(LocalDateTime from, LocalDateTime to) {
         synchronized (history) {
-            return new ArrayList<>(history);
+            if (from == null && to == null) {
+                return new ArrayList<>(history);
+            }
+            List<Map<String, Object>> filtered = new ArrayList<>();
+            for (Map<String, Object> row : history) {
+                if (inRange(row, from, to)) {
+                    filtered.add(row);
+                }
+            }
+            return filtered;
+        }
+    }
+
+    private boolean inRange(Map<String, Object> row, LocalDateTime from, LocalDateTime to) {
+        LocalDateTime t = parseRowTime(row);
+        if (t == null) {
+            return true;
+        }
+        if (from != null && t.isBefore(from)) {
+            return false;
+        }
+        if (to != null && t.isAfter(to)) {
+            return false;
+        }
+        return true;
+    }
+
+    private LocalDateTime parseRowTime(Map<String, Object> row) {
+        String raw = String.valueOf(row.get("time"));
+        if (raw == null || raw.trim().isEmpty() || "null".equals(raw)) {
+            return null;
+        }
+        try {
+            return LocalDateTime.parse(raw.trim(), HISTORY_TS_FMT);
+        } catch (Exception ignored) {
+            return null;
         }
     }
 

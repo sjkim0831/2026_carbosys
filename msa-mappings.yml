@@ -776,6 +776,26 @@ mappings:
         details: "공동인증서 또는 금융인증서를 통한 로그인을 시도합니다."
 
   # ============================================================
+  # EgovHome (Port: 18000) - Merged: EgovJoin + home3 + signin
+  # ============================================================
+  - path: "/"
+    module: "EgovHome"
+    gatewayPrefix: ""
+    description: "통합 사용자 포털 (메인 페이지)"
+    method: "GET"
+    uiElements:
+      - element: "헤더 로고"
+        function: "링크 (A)"
+        details: "메인 페이지로 이동합니다."
+        url: "/"
+      - element: "로그인 링크"
+        function: "링크 (A)"
+        details: "로그인 페이지로 이동합니다."
+        url: "/uat/uia/loginView"
+
+
+
+  # ============================================================
   # EgovMain (Port: 18001)
   # ============================================================
   - path: "/"
