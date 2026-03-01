@@ -48,6 +48,28 @@ services:
     extra_hosts:
       - "localhost:127.0.0.1"
 
+  jenkins:
+    profiles: ["ci"]
+    build:
+      context: .
+      dockerfile: infra/jenkins/Dockerfile
+    container_name: carbosys-jenkins
+    user: "0:0"
+    restart: unless-stopped
+    depends_on:
+      - carbosys-app
+    ports:
+      - "18081:8080"
+      - "50000:50000"
+    environment:
+      TZ: Asia/Seoul
+    networks:
+      - carbosys-net
+    volumes:
+      - "jenkins_home:/var/jenkins_home"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./:/opt/carbosys"
+
   tunnel:
     image: cloudflare/cloudflared:latest
     command: tunnel --url http://carbosys-app:9000
@@ -58,4 +80,5 @@ networks:
   carbosys-net:
     driver: bridge
 
-volumes: {}
+volumes:
+  jenkins_home: {}
