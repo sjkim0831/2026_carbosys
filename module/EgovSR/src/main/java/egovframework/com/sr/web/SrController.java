@@ -1,60 +1,78 @@
 package egovframework.com.sr.web;
 
+import egovframework.com.sr.service.SrBoardService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/sr")
 public class SrController {
+    @Autowired
+    private SrBoardService srBoardService;
 
     @GetMapping({"", "/", "/dashboard"})
     public String dashboard(Model model) {
-        model.addAttribute("statusSummary", statusSummary());
-        model.addAttribute("srList", sampleSrList());
-        model.addAttribute("trainingDocs", sampleTrainingDocs());
+        model.addAttribute("statusSummary", srBoardService.statusSummary());
+        model.addAttribute("srList", srBoardService.listSrItems());
+        model.addAttribute("trainingDocs", srBoardService.listTrainingDocs());
+        model.addAttribute("srStatuses", srBoardService.srStatusOptions());
+        model.addAttribute("docStatuses", srBoardService.docStatusOptions());
         return "sr/dashboard";
     }
 
-    private Map<String, Integer> statusSummary() {
-        Map<String, Integer> map = new LinkedHashMap<>();
-        map.put("RECEIVED", 4);
-        map.put("ANALYSIS", 2);
-        map.put("DEVELOP", 3);
-        map.put("VERIFY", 1);
-        map.put("DONE", 5);
-        return map;
+    @PostMapping("/create")
+    public String createSr(@RequestParam String title,
+                           @RequestParam(required = false) String description,
+                           @RequestParam String priority,
+                           @RequestParam String requester,
+                           @RequestParam(required = false) String assignee,
+                           @RequestParam(required = false) String dueDate,
+                           RedirectAttributes ra) {
+        LocalDate due = null;
+        if (dueDate != null && !dueDate.trim().isEmpty()) {
+            due = LocalDate.parse(dueDate.trim());
+        }
+        SrBoardService.SrItem created = srBoardService.createSr(title, description, priority, requester, assignee, due);
+        ra.addFlashAttribute("message", "SR 생성 완료: " + created.getId());
+        return "redirect:/sr/dashboard";
     }
 
-    private List<Map<String, String>> sampleSrList() {
-        return Arrays.asList(
-                row("SR-2026-001", "기업회원 가입 절차 보완", "HIGH", "DEVELOP", "kim"),
-                row("SR-2026-002", "문서 출력 PDF 개선", "MEDIUM", "ANALYSIS", "lee"),
-                row("SR-2026-003", "접근성 라벨 수정", "LOW", "VERIFY", "park")
-        );
+    @PostMapping("/{id}/status")
+    public String updateStatus(@PathVariable String id,
+                               @RequestParam String status,
+                               @RequestParam(required = false) String note,
+                               RedirectAttributes ra) {
+        boolean ok = srBoardService.updateSrStatus(id, status, note);
+        if (ok) {
+            ra.addFlashAttribute("message", id + " 상태 변경 완료");
+        } else {
+            ra.addFlashAttribute("message", id + " 상태 변경 실패");
+        }
+        return "redirect:/sr/dashboard";
     }
 
-    private List<Map<String, String>> sampleTrainingDocs() {
-        return Arrays.asList(
-                row("TR-2026-011", "ISMS 기본교육", "COMPLETED", "2026-02-14", "kim"),
-                row("TR-2026-012", "개인정보 처리 교육", "COMPLETED", "2026-02-20", "lee"),
-                row("TR-2026-013", "운영 배포 절차 교육", "PLANNED", "2026-03-05", "park")
-        );
-    }
-
-    private Map<String, String> row(String c1, String c2, String c3, String c4, String c5) {
-        Map<String, String> map = new LinkedHashMap<>();
-        map.put("c1", c1);
-        map.put("c2", c2);
-        map.put("c3", c3);
-        map.put("c4", c4);
-        map.put("c5", c5);
-        return map;
+    @PostMapping("/training/create")
+    public String createTraining(@RequestParam String title,
+                                 @RequestParam String status,
+                                 @RequestParam(required = false) String date,
+                                 @RequestParam String owner,
+                                 @RequestParam(required = false) String note,
+                                 RedirectAttributes ra) {
+        LocalDate docDate = null;
+        if (date != null && !date.trim().isEmpty()) {
+            docDate = LocalDate.parse(date.trim());
+        }
+        SrBoardService.TrainingDoc doc = srBoardService.addTrainingDoc(title, status, docDate, owner, note);
+        ra.addFlashAttribute("message", "교육 문서 등록 완료: " + doc.getId());
+        return "redirect:/sr/dashboard";
     }
 }
