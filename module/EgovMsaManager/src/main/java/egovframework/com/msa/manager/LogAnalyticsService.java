@@ -33,10 +33,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class LogAnalyticsService {
-    private static final Path RUNTIME_DIR = Paths.get("/opt/carbosys/module/EgovMsaManager/runtime");
-    private static final Path OFFSET_FILE = RUNTIME_DIR.resolve("log-offsets.properties");
-    private static final Path LOG_ARCHIVE_FILE = RUNTIME_DIR.resolve("module-log-events.jsonl");
-    private static final Path CRITICAL_FILE = RUNTIME_DIR.resolve("critical-events.jsonl");
+    private static final Path LOG_DIR = Paths.get("/opt/carbosys/logs");
+    private static final Path OFFSET_FILE = LOG_DIR.resolve("log-offsets.properties");
+    private static final Path LOG_ARCHIVE_FILE = LOG_DIR.resolve("module-log-events.jsonl");
+    private static final Path CRITICAL_FILE = LOG_DIR.resolve("critical-events.jsonl");
 
     private static final int MAX_LOGS_PER_MODULE = 600;
     private static final int MAX_CRITICAL = 150;
@@ -59,7 +59,7 @@ public class LogAnalyticsService {
     @PostConstruct
     public void init() {
         try {
-            Files.createDirectories(RUNTIME_DIR);
+            Files.createDirectories(LOG_DIR);
         } catch (IOException ignored) {
         }
         loadOffsets();
@@ -405,7 +405,7 @@ public class LogAnalyticsService {
             p.setProperty(e.getKey(), String.valueOf(e.getValue()));
         }
         try {
-            Files.createDirectories(RUNTIME_DIR);
+            Files.createDirectories(LOG_DIR);
             p.store(Files.newOutputStream(OFFSET_FILE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING),
                     "log offsets");
         } catch (Exception ignored) {

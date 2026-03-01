@@ -35,8 +35,9 @@ import java.util.stream.Stream;
 
 @Service
 public class ChangeMonitorService {
-    private static final Path STATE_FILE = Paths.get("/tmp/msa-autodeploy-state.properties");
-    private static final Path HISTORY_LOG_FILE = Paths.get("/opt/carbosys/module/EgovMsaManager/runtime/change-history.jsonl");
+    private static final Path LOG_DIR = Paths.get("/opt/carbosys/logs");
+    private static final Path STATE_FILE = LOG_DIR.resolve("msa-autodeploy-state.properties");
+    private static final Path HISTORY_LOG_FILE = LOG_DIR.resolve("change-history.jsonl");
     private static final int MAX_HISTORY = 300;
     private static final long SCAN_INTERVAL_MS = 8000L;
     private static final long MODULE_COOLDOWN_MS = 45000L;
@@ -455,6 +456,10 @@ public class ChangeMonitorService {
     private void saveState() {
         Properties p = new Properties();
         p.setProperty("autoDeployEnabled", String.valueOf(autoDeployEnabled.get()));
+        try {
+            Files.createDirectories(LOG_DIR);
+        } catch (IOException ignored) {
+        }
         try (FileOutputStream out = new FileOutputStream(STATE_FILE.toFile())) {
             p.store(out, "msa manager runtime state");
         } catch (IOException ignored) {

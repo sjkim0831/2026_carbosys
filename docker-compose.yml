@@ -37,7 +37,6 @@ services:
       - "9000:9000"
       - "18000:18000"
       - "18030:18030"
-      - "9900:9900"
     container_name: carbosys-app
     hostname: carbosys-app
     networks:
@@ -45,8 +44,8 @@ services:
     volumes:
       - "./file:/opt/carbosys/file"
       - "./module:/opt/carbosys/module"
-      - "./module/msa-manager:/opt/carbosys/module/msa-manager"
       - "./module/EgovHome:/opt/carbosys/module/EgovHome"
+      - "./logs:/opt/carbosys/logs"
     extra_hosts:
       - "localhost:127.0.0.1"
 
