@@ -17,11 +17,10 @@
 		<module>module/EgovLoginPolicy</module>
 		<module>module/EgovMain</module>
 		<module>module/EgovAdminMain</module>
-		<module>module/signin</module>
+		<module>module/EgovHome</module>
 		<module>module/EgovMobileId</module>
 		<module>module/EgovQuestionnaire</module>
 		<module>module/EgovSearch</module>
-		<module>module/EgovJoin</module>
 		<module>module/EgovMsaManager</module>
 		<module>module/EurekaServer</module>
 		<module>module/GatewayServer</module>

@@ -16,7 +16,6 @@ ports:
   EgovMain: 18001
   EgovLogin: 18002
   EgovBoard: 18003
-  EgovJoin: 18004
   EgovAuthor: 18005
   EgovCmmnCode: 18006
   EgovQuestionnaire: 18007
@@ -29,9 +28,5 @@ ports:
   EgovSimpleAuth: 18032
   EgovGnrLogin: 18033
   
-  # UI/Home Modules
-  home3: 18053
-  signin: 18060
-
   # Merged Modules
   EgovHome: 18000

@@ -29,7 +29,6 @@ COPY module/ConfigServer/target/ConfigServer.jar /app/
 COPY module/EurekaServer/target/EurekaServer.jar /app/
 COPY module/GatewayServer/target/GatewayServer.jar /app/
 COPY module/EgovMsaManager/target/EgovMsaManager.jar /app/
-COPY module/EgovJoin/target/EgovJoin.jar /app/
 COPY module/EgovLogin/target/EgovLogin.jar /app/
 COPY module/EgovMain/target/EgovMain.jar /app/
 COPY module/EgovBoard/target/EgovBoard.jar /app/
@@ -44,28 +43,23 @@ COPY module/EgovAdminMain/target/EgovAdminMain.jar /app/
 COPY module/EgovCertLogin/target/EgovCertLogin.jar /app/
 COPY module/EgovSimpleAuth/target/EgovSimpleAuth.jar /app/
 COPY module/EgovGnrLogin/target/EgovGnrLogin.jar /app/
-COPY module/home3/target/home3.jar /app/
-COPY module/signin/target/signin.jar /app/
 COPY module/EgovHome/target/EgovHome.jar /app/
 
 # Create target directories so MsaScanner and other tools find files in their standard locations
-RUN mkdir -p /app/EgovMain/target /app/EgovLogin/target /app/EgovBoard/target /app/EgovJoin/target \
+RUN mkdir -p /app/EgovMain/target /app/EgovLogin/target /app/EgovBoard/target \
     /app/EgovAuthor/target /app/EgovCmmnCode/target /app/EgovQuestionnaire/target /app/EgovSearch/target \
-    /app/EgovMobileId/target /app/EgovLoginPolicy/target /app/home3/target /app/signin/target /app/EgovAdminMain/target \
+    /app/EgovMobileId/target /app/EgovLoginPolicy/target /app/EgovAdminMain/target \
     /app/EgovAdminLogin/target /app/EgovCertLogin/target /app/EgovSimpleAuth/target /app/EgovGnrLogin/target /app/EgovMsaManager/target \
     /app/EgovHome/target && \
     ln -sf /app/EgovMain.jar /app/EgovMain/target/EgovMain.jar && \
     ln -sf /app/EgovLogin.jar /app/EgovLogin/target/EgovLogin.jar && \
     ln -sf /app/EgovBoard.jar /app/EgovBoard/target/EgovBoard.jar && \
-    ln -sf /app/EgovJoin.jar /app/EgovJoin/target/EgovJoin.jar && \
     ln -sf /app/EgovAuthor.jar /app/EgovAuthor/target/EgovAuthor.jar && \
     ln -sf /app/EgovCmmnCode.jar /app/EgovCmmnCode/target/EgovCmmnCode.jar && \
     ln -sf /app/EgovQuestionnaire.jar /app/EgovQuestionnaire/target/EgovQuestionnaire.jar && \
     ln -sf /app/EgovSearch.jar /app/EgovSearch/target/EgovSearch.jar && \
     ln -sf /app/EgovMobileId.jar /app/EgovMobileId/target/EgovMobileId.jar && \
     ln -sf /app/EgovLoginPolicy.jar /app/EgovLoginPolicy/target/EgovLoginPolicy.jar && \
-    ln -sf /app/home3.jar /app/home3/target/home3.jar && \
-    ln -sf /app/signin.jar /app/signin/target/signin.jar && \
     ln -sf /app/EgovAdminMain.jar /app/EgovAdminMain/target/EgovAdminMain.jar && \
     ln -sf /app/EgovAdminLogin.jar /app/EgovAdminLogin/target/EgovAdminLogin.jar && \
     ln -sf /app/EgovCertLogin.jar /app/EgovCertLogin/target/EgovCertLogin.jar && \
