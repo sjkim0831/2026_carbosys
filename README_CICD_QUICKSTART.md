@@ -1,23 +1,39 @@
-# CI/CD 한 번 실행 가이드
+# CI/CD 빠른 실행
 
-## Linux/macOS
+## 1) Jenkins 자동 구성 + 첫 빌드
+Linux/macOS:
 ```bash
 ./scripts/jenkins-up.sh
 ```
 
-## Windows PowerShell
+Windows PowerShell:
 ```powershell
 ./scripts/jenkins-up.ps1
 ```
 
-위 1개 명령으로 아래가 자동 수행됩니다.
+위 명령 1개로 아래를 자동 수행합니다.
 - Jenkins/앱 컨테이너 빌드 및 기동
 - Jenkins 준비 대기
 - `carbosys-main-cicd` Job 자동 생성/갱신
 - 첫 빌드 자동 실행
 
-## 선택: 웹훅까지 자동 생성
-실행 전에 토큰만 넣으면 GitHub webhook까지 자동 등록됩니다.
+## 2) 로컬 변경 감지 자동 배포
+Linux/macOS:
+```bash
+bash ./scripts/local-autodeploy.sh
+```
+
+Windows PowerShell:
+```powershell
+./scripts/local-autodeploy.ps1
+```
+
+- 기본 동작: `MSA Manager` 미기동 시 `docker compose up -d` 자동 실행 후 감시 시작
+- 변경 감지 시 변경 모듈만 빌드/배포
+- 감시 제외: `target`, `logs`, `data`, `file`, `module/EgovMsaManager/runtime`
+
+## 선택: GitHub webhook 자동 생성
+실행 전에 토큰만 넣으면 webhook까지 자동 등록됩니다.
 
 Linux/macOS:
 ```bash
@@ -35,7 +51,3 @@ $env:GITHUB_TOKEN="<your_token>"
 - Jenkins: http://localhost:18081
 - Job: http://localhost:18081/job/carbosys-main-cicd/
 - Manager: http://localhost:18030/admin/msa/manager
-
-## 참고
-- 회사 네트워크에서 외부 webhook 수신하려면 18081 포트 인바운드 허용이 필요합니다.
-- 현재 로컬/고시원망에서는 webhook delivery가 실패할 수 있습니다.
