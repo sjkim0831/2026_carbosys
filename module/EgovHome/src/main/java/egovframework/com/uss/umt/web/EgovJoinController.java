@@ -367,8 +367,9 @@ public class EgovJoinController {
         // Mocking auth data for English users
         if ("SIMPLE".equals(authMethod) || "ONEPASS".equals(authMethod)) {
             joinVO.setAuthCi("CI_EN_MOCK_777");
+            joinVO.setAuthDi("DI_EN_MOCK_777");
             joinVO.setApplcntNm("John Doe");
-        } else if ("CERT".equals(authMethod) || "JOINT".equals(authMethod)) {
+        } else if ("CERT".equals(authMethod) || "JOINT".equals(authMethod) || "FINANCIAL".equals(authMethod)) {
             joinVO.setAuthDn("cn=John Doe");
             joinVO.setApplcntNm("John Doe");
         } else if ("EMAIL".equals(authMethod)) {
@@ -389,8 +390,10 @@ public class EgovJoinController {
             return "redirect:/join/en/step1";
         }
         EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
-        if (joinVO != null)
+        if (joinVO != null) {
+            model.addAttribute("joinVO", joinVO);
             model.addAttribute("mberNm", joinVO.getApplcntNm());
+        }
         return "uss/umt/step4_info_en";
     }
 

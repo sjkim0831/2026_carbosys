@@ -98,8 +98,9 @@
 
                 <!-- Member type cards -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                    <label class="type-card group active">
-                        <input checked="" class="hidden" name="membership_type" type="radio" value="EMITTER" />
+                    <label class="type-card group" th:classappend="${currType == 'EMITTER' ? 'active' : ''}">
+                        <input class="hidden" name="membership_type" type="radio" value="EMITTER"
+                            th:checked="${currType == 'EMITTER'}" />
                         <div
                             class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-[var(--kr-gov-blue)] transition-colors">
                             <span
@@ -108,13 +109,15 @@
                         <h3 class="text-lg font-bold mb-3">CO2 Emitter / Capture Company</h3>
                         <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">Companies that emit CO2
                             or operate carbon capture facilities</p>
-                        <div class="check-icon absolute top-4 right-4 text-[var(--kr-gov-blue)] hidden">
+                        <div class="check-icon absolute top-4 right-4 text-[var(--kr-gov-blue)]"
+                            th:classappend="${currType == 'EMITTER' ? '' : 'hidden'}">
                             <span class="material-symbols-outlined text-3xl"
                                 style="font-variation-settings: 'FILL' 1;">check_circle</span>
                         </div>
                     </label>
-                    <label class="type-card group">
-                        <input class="hidden" name="membership_type" type="radio" value="PERFORMER" />
+                    <label class="type-card group" th:classappend="${currType == 'PERFORMER' ? 'active' : ''}">
+                        <input class="hidden" name="membership_type" type="radio" value="PERFORMER"
+                            th:checked="${currType == 'PERFORMER'}" />
                         <div
                             class="w-20 h-20 bg-cyan-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-cyan-700 transition-colors">
                             <span
@@ -123,13 +126,15 @@
                         <h3 class="text-lg font-bold mb-3">CCUS Project Executor</h3>
                         <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">Companies engaged in
                             transport, storage, and utilization of CO2</p>
-                        <div class="check-icon absolute top-4 right-4 text-[var(--kr-gov-blue)] hidden">
+                        <div class="check-icon absolute top-4 right-4 text-[var(--kr-gov-blue)]"
+                            th:classappend="${currType == 'PERFORMER' ? '' : 'hidden'}">
                             <span class="material-symbols-outlined text-3xl"
                                 style="font-variation-settings: 'FILL' 1;">check_circle</span>
                         </div>
                     </label>
-                    <label class="type-card group">
-                        <input class="hidden" name="membership_type" type="radio" value="CENTER" />
+                    <label class="type-card group" th:classappend="${currType == 'CENTER' ? 'active' : ''}">
+                        <input class="hidden" name="membership_type" type="radio" value="CENTER"
+                            th:checked="${currType == 'CENTER'}" />
                         <div
                             class="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-[var(--kr-gov-green)] transition-colors">
                             <span
@@ -138,13 +143,15 @@
                         <h3 class="text-lg font-bold mb-3">CCUS Promotion Center</h3>
                         <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">Organizations in charge
                             of system operation and CCUS technology promotion</p>
-                        <div class="check-icon absolute top-4 right-4 text-[var(--kr-gov-blue)] hidden">
+                        <div class="check-icon absolute top-4 right-4 text-[var(--kr-gov-blue)]"
+                            th:classappend="${currType == 'CENTER' ? '' : 'hidden'}">
                             <span class="material-symbols-outlined text-3xl"
                                 style="font-variation-settings: 'FILL' 1;">check_circle</span>
                         </div>
                     </label>
-                    <label class="type-card group">
-                        <input class="hidden" name="membership_type" type="radio" value="GOV" />
+                    <label class="type-card group" th:classappend="${currType == 'GOV' ? 'active' : ''}">
+                        <input class="hidden" name="membership_type" type="radio" value="GOV"
+                            th:checked="${currType == 'GOV'}" />
                         <div
                             class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-6 group-hover:bg-slate-700 transition-colors">
                             <span
@@ -153,7 +160,8 @@
                         <h3 class="text-lg font-bold mb-3">Competent Authority / Government</h3>
                         <p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">Government ministries and
                             administrative agencies responsible for policy</p>
-                        <div class="check-icon absolute top-4 right-4 text-[var(--kr-gov-blue)] hidden">
+                        <div class="check-icon absolute top-4 right-4 text-[var(--kr-gov-blue)]"
+                            th:classappend="${currType == 'GOV' ? '' : 'hidden'}">
                             <span class="material-symbols-outlined text-3xl"
                                 style="font-variation-settings: 'FILL' 1;">check_circle</span>
                         </div>
@@ -161,7 +169,7 @@
                 </div>
                 <div class="flex items-center justify-center gap-4">
                     <a class="w-40 h-14 border border-[var(--kr-gov-border-light)] bg-white text-[var(--kr-gov-text-primary)] flex items-center justify-center rounded-[var(--kr-gov-radius)] font-bold hover:bg-gray-50 transition-colors"
-                        href="/">Home</a>
+                        href="/join/reset">Home</a>
                     <button type="submit"
                         class="w-40 h-14 bg-[var(--kr-gov-blue)] text-white flex items-center justify-center rounded-[var(--kr-gov-radius)] font-bold hover:bg-[var(--kr-gov-blue-hover)] transition-colors">Next</button>
                 </div>
@@ -188,11 +196,13 @@
             (function loadSharedLayout() {
                 fetch('/home3/fragments/header').then(r => r.text()).then(html => {
                     document.getElementById('shared-header').innerHTML = html;
-                    // Switch KO/EN buttons to point to current step
+                    const logoLink = document.querySelector('#shared-header a[href="/home3"]');
+                    if (logoLink) logoLink.href = '/join/reset';
+
                     const ko = document.getElementById('langKoBtn');
                     const en = document.getElementById('langEnBtn');
-                    if (ko) ko.onclick = () => location.href = '/join/step1';
-                    if (en) en.onclick = () => location.href = '/join/en/step1';
+                    if (ko) ko.onclick = () => location.href = '/join/step1?init=T';
+                    if (en) en.onclick = () => location.href = '/join/en/step1?init=T';
                 }).catch(() => { });
                 fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
                     document.getElementById('shared-footer').innerHTML = html;
@@ -200,9 +210,25 @@
             })();
         document.querySelectorAll('.type-card').forEach(card => {
             card.addEventListener('click', function () {
+                const radio = this.querySelector('input[type="radio"]');
+                const val = radio.value;
+
                 document.querySelectorAll('.type-card').forEach(c => c.classList.remove('active'));
                 this.classList.add('active');
-                this.querySelector('input[type="radio"]').checked = true;
+                this.querySelector('.check-icon').classList.remove('hidden');
+                radio.checked = true;
+
+                document.querySelectorAll('.type-card').forEach(c => {
+                    if (c !== this) {
+                        c.querySelector('.check-icon').classList.add('hidden');
+                    }
+                });
+
+                const timestamp = new Date().getTime();
+                fetch(`/join/saveStep1?membership_type=${encodeURIComponent(val)}&t=${timestamp}`, {
+                    method: 'GET',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
             });
         });
     </script>
