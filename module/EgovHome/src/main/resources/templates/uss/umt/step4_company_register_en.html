@@ -386,6 +386,12 @@
                 return;
             }
 
+            const on = (el, evt, handler) => {
+                if (el && typeof el.addEventListener === 'function') {
+                    el.addEventListener(evt, handler);
+                }
+            };
+
             let currentPage = 1;
             let currentKeyword = '';
             const PAGE_SIZE = 5;
@@ -405,11 +411,11 @@
                 document.body.style.overflow = '';
             }
 
-            if (btnCompanySearch) btnCompanySearch.addEventListener('click', openModal);
-            if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
-            if (modalCancelBtn) modalCancelBtn.addEventListener('click', closeModal);
-            if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+            on(btnCompanySearch, 'click', openModal);
+            on(modalCloseBtn, 'click', closeModal);
+            on(modalCancelBtn, 'click', closeModal);
+            on(modalBackdrop, 'click', closeModal);
+            on(document, 'keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
             function doSearch(page) {
                 currentPage = page;
@@ -427,12 +433,10 @@
                     });
             }
 
-            if (modalInnerSearchBtn) modalInnerSearchBtn.addEventListener('click', () => doSearch(1));
-            if (modalSearchInput) {
-                modalSearchInput.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') doSearch(1);
-                });
-            }
+            on(modalInnerSearchBtn, 'click', () => doSearch(1));
+            on(modalSearchInput, 'keydown', (e) => {
+                if (e.key === 'Enter') doSearch(1);
+            });
 
             function renderEmptyTbody(msg) {
                 modalTbody.innerHTML = `<tr><td colspan="5" class="px-4 py-10 text-center text-gray-400">${msg}</td></tr>`;
@@ -524,12 +528,12 @@
                 });
             }
 
-            agencyNameInput.addEventListener('input', () => {
+            on(agencyNameInput, 'input', () => {
                 isNameChecked.value = 'N';
                 duplicateMsg.classList.add('hidden');
             });
 
-            btnCheckDuplicate.addEventListener('click', () => {
+            on(btnCheckDuplicate, 'click', () => {
                 const name = agencyNameInput.value.trim();
                 if (!name) {
                     alert('Please enter agency/company name.');
@@ -553,7 +557,7 @@
                     .catch(() => alert('An error occurred during duplicate check.'));
             });
 
-            regForm.addEventListener('submit', function (e) {
+            on(regForm, 'submit', function (e) {
                 if (isNameChecked.value !== 'Y') {
                     e.preventDefault();
                     alert('Company name duplicate check is required.');
@@ -579,7 +583,7 @@
             const fileListContainer = document.getElementById('file-list-container');
 
             if (addFileBtn) {
-                addFileBtn.addEventListener('click', () => {
+                on(addFileBtn, 'click', () => {
                     const newRow = document.createElement('div');
                     newRow.className = 'file-row flex items-center gap-3 p-3 border border-gray-200 rounded-lg bg-white group hover:border-[var(--kr-gov-blue)] transition-all cursor-pointer';
                     newRow.onclick = function () { this.querySelector('.file-input').click(); };
