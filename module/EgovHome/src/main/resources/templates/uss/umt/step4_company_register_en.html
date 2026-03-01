@@ -353,6 +353,19 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            (function loadSharedLayout() {
+                fetch('/home3/fragments/header').then(r => r.text()).then(html => {
+                    document.getElementById('shared-header').innerHTML = html;
+                    const ko = document.getElementById('langKoBtn');
+                    const en = document.getElementById('langEnBtn');
+                    if (ko) ko.onclick = () => location.href = '/join/companyRegister';
+                    if (en) en.onclick = () => location.href = '/join/en/companyRegister';
+                }).catch(() => { });
+                fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
+                    document.getElementById('shared-footer').innerHTML = html;
+                }).catch(() => { });
+            })();
+
             const agencyNameInput = document.getElementById('agency-name');
             const btnCheckDuplicate = document.getElementById('idCheckBtn');
             const duplicateMsg = document.getElementById('duplicate-check-msg');
@@ -368,6 +381,10 @@
             const modalTbody = document.getElementById('modal-tbody');
             const modalPagination = document.getElementById('modal-pagination');
             const btnCompanySearch = document.getElementById('btnCompanySearch');
+
+            if (!agencyNameInput || !btnCheckDuplicate || !duplicateMsg || !isNameChecked || !regForm) {
+                return;
+            }
 
             let currentPage = 1;
             let currentKeyword = '';
@@ -544,19 +561,6 @@
                     return false;
                 }
             });
-
-            (function loadSharedLayout() {
-                fetch('/home3/fragments/header').then(r => r.text()).then(html => {
-                    document.getElementById('shared-header').innerHTML = html;
-                    const ko = document.getElementById('langKoBtn');
-                    const en = document.getElementById('langEnBtn');
-                    if (ko) ko.onclick = () => location.href = '/join/companyRegister';
-                    if (en) en.onclick = () => location.href = '/join/en/companyRegister';
-                }).catch(() => { });
-                fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
-                    document.getElementById('shared-footer').innerHTML = html;
-                }).catch(() => { });
-            })();
 
             window.execDaumPostcode = function () {
                 new daum.Postcode({
