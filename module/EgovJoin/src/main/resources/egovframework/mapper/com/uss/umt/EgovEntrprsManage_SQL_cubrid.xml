@@ -401,19 +401,22 @@
 
     <update id="updateInsttInfo">
         UPDATE COMTNINSTTINFO
-        SET
+        <set>
             INSTT_NM = #{insttNm},
             REPRSNT_NM = #{reprsntNm},
             ZIP = #{zip},
             ADRES = #{adres},
             DETAIL_ADRES = #{detailAdres},
-            BIZ_REG_FILE_PATH = #{bizRegFilePath},
             INSTT_STTUS = 'P',
             LAST_UPDT_PNTTM = SYSDATETIME,
             CHARGER_NM = #{chargerNm},
             CHARGER_EMAIL = #{chargerEmail},
             CHARGER_TEL = #{chargerTel}
-        WHERE INSTT_ID = #{insttId}
+            <if test="bizRegFilePath != null and bizRegFilePath != ''">
+                , BIZ_REG_FILE_PATH = #{bizRegFilePath}
+            </if>
+        </set>
+        WHERE TRIM(INSTT_ID) = TRIM(#{insttId})
     </update>
 
 </mapper>

@@ -26,6 +26,8 @@ import egovframework.com.uss.umt.service.MberManageVO;
 @Controller
 @RequestMapping("/join")
 public class EgovJoinController {
+    private static final String SESSION_JOIN_VO = "joinVO";
+    private static final String SESSION_JOIN_STEP = "joinStep";
 
     @Resource(name = "entrprsManageService")
     private EgovEntrprsManageService entrprsManageService;
@@ -35,7 +37,8 @@ public class EgovJoinController {
      */
     @GetMapping("/reset")
     public String resetJoin(HttpSession session) {
-        session.removeAttribute("joinVO");
+        session.removeAttribute(SESSION_JOIN_VO);
+        session.removeAttribute(SESSION_JOIN_STEP);
         return "redirect:/home3";
     }
 
@@ -47,17 +50,19 @@ public class EgovJoinController {
     public String step1View(@RequestParam(value = "init", required = false) String init, HttpSession session,
             Model model) {
         if ("T".equals(init)) {
-            session.removeAttribute("joinVO");
+            session.removeAttribute(SESSION_JOIN_VO);
+            session.removeAttribute(SESSION_JOIN_STEP);
             return "redirect:/join/step1"; // 초기화 후 깨끗한 주소로 리다이렉트
         }
 
-        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
+        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO == null) {
             joinVO = new EntrprsManageVO();
             // 초기 진입 시 기본값 설정 (선택 사항: 원치 않으시면 제거 가능)
             joinVO.setEntrprsSeCode("EMITTER");
-            session.setAttribute("joinVO", joinVO);
+            session.setAttribute(SESSION_JOIN_VO, joinVO);
         }
+        setJoinStep(session, 1);
 
         String currType = joinVO.getEntrprsSeCode() != null ? joinVO.getEntrprsSeCode().trim() : "";
         model.addAttribute("joinVO", joinVO);
@@ -71,13 +76,17 @@ public class EgovJoinController {
     @GetMapping("/saveStep1")
     @org.springframework.web.bind.annotation.ResponseBody
     public String saveStep1(@RequestParam("membership_type") String membershipType, HttpSession session) {
-        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
+        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO == null) {
             joinVO = new EntrprsManageVO();
         }
+        if (!hasText(membershipType)) {
+            return "invalid_membership_type";
+        }
         joinVO.setEntrprsSeCode(membershipType != null ? membershipType.trim() : "");
         joinVO.setUserTy("USR02");
-        session.setAttribute("joinVO", joinVO);
+        session.setAttribute(SESSION_JOIN_VO, joinVO);
+        setJoinStep(session, 1);
         return "success";
     }
 
@@ -87,15 +96,19 @@ public class EgovJoinController {
     @PostMapping("/step2")
     public String step2View(@RequestParam(value = "membership_type", required = false) String membershipType,
             HttpSession session, Model model) {
-        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
+        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO == null) {
             joinVO = new EntrprsManageVO();
         }
         if (membershipType != null) {
             joinVO.setEntrprsSeCode(membershipType);
         }
+        if (!hasText(joinVO.getEntrprsSeCode())) {
+            return "redirect:/join/step1";
+        }
         joinVO.setUserTy("USR02");
-        session.setAttribute("joinVO", joinVO);
+        session.setAttribute(SESSION_JOIN_VO, joinVO);
+        setJoinStep(session, 2);
         model.addAttribute("joinVO", joinVO);
         return "uss/umt/step2_terms";
     }
@@ -106,12 +119,15 @@ public class EgovJoinController {
     @GetMapping("/saveStep2")
     @org.springframework.web.bind.annotation.ResponseBody
     public String saveStep2(@RequestParam("marketing_yn") String marketingYn, HttpSession session) {
-        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
+        if (getJoinStep(session) < 2) {
+            return "invalid_step";
+        }
+        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO == null) {
             joinVO = new EntrprsManageVO();
         }
         joinVO.setMarketingYn(marketingYn);
-        session.setAttribute("joinVO", joinVO);
+        session.setAttribute(SESSION_JOIN_VO, joinVO);
         return "success";
     }
 
@@ -121,7 +137,10 @@ public class EgovJoinController {
     @PostMapping("/step3")
     public String step3View(@RequestParam(value = "marketing_agree", required = false) String marketingAgree,
             HttpSession session, Model model) {
-        // marketingAgree will be "on" if checked
+        if (getJoinStep(session) < 2 || session.getAttribute(SESSION_JOIN_VO) == null) {
+            return "redirect:/join/step1";
+        }
+        setJoinStep(session, 3);
         return "uss/umt/step3_auth";
     }
 
@@ -131,9 +150,15 @@ public class EgovJoinController {
     @PostMapping("/step4")
     public String step4View(@RequestParam(value = "auth_method", required = false) String authMethod,
             HttpSession session, Model model) {
-        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
+        if (getJoinStep(session) < 3) {
+            return "redirect:/join/step1";
+        }
+        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO == null)
             return "redirect:/join/step1";
+        if (!hasText(authMethod)) {
+            return "redirect:/join/step3";
+        }
 
         // 본인확인 정보 저장 (Identity verification data)
         joinVO.setAuthTy(authMethod);
@@ -151,7 +176,8 @@ public class EgovJoinController {
             joinVO.setApplcntNm("해외사용자");
         }
 
-        session.setAttribute("joinVO", joinVO);
+        session.setAttribute(SESSION_JOIN_VO, joinVO);
+        setJoinStep(session, 4);
         model.addAttribute("joinVO", joinVO);
         model.addAttribute("mberNm", joinVO.getApplcntNm());
         return "uss/umt/step4_info";
@@ -159,7 +185,10 @@ public class EgovJoinController {
 
     @GetMapping("/step4")
     public String step4View(HttpSession session, Model model) {
-        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
+        if (getJoinStep(session) < 4) {
+            return "redirect:/join/step1";
+        }
+        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO != null) {
             model.addAttribute("joinVO", joinVO);
             model.addAttribute("mberNm", joinVO.getApplcntNm());
@@ -211,9 +240,16 @@ public class EgovJoinController {
             @RequestParam("applcntEmailAdres") String email,
             HttpSession session, Model model) throws Exception {
 
-        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
+        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO == null)
             return "redirect:/join/step1";
+        if (getJoinStep(session) < 4 || !hasVerifiedIdentity(joinVO)) {
+            return "redirect:/join/step3";
+        }
+        if (!hasText(mberId) || !hasText(password) || !hasText(mberNm) || !hasText(insttNm) ||
+                !hasText(bizrno) || !hasText(tel1) || !hasText(tel2) || !hasText(tel3) || !hasText(email)) {
+            return "redirect:/join/step4";
+        }
 
         // Merge data
         joinVO.setEntrprsmberId(mberId);
@@ -233,6 +269,8 @@ public class EgovJoinController {
         model.addAttribute("mberId", joinVO.getEntrprsmberId());
         model.addAttribute("mberNm", joinVO.getApplcntNm());
         model.addAttribute("insttNm", joinVO.getCmpnyNm());
+        session.removeAttribute(SESSION_JOIN_STEP);
+        session.removeAttribute(SESSION_JOIN_VO);
 
         return "uss/umt/step5_complete";
     }
@@ -244,16 +282,18 @@ public class EgovJoinController {
     public String step1EnView(@RequestParam(value = "init", required = false) String init, HttpSession session,
             Model model) {
         if ("T".equals(init)) {
-            session.removeAttribute("joinVO");
+            session.removeAttribute(SESSION_JOIN_VO);
+            session.removeAttribute(SESSION_JOIN_STEP);
             return "redirect:/join/en/step1"; // 초기화 후 깨끗한 주소로 리다이렉트
         }
 
-        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
+        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO == null) {
             joinVO = new EntrprsManageVO();
             joinVO.setEntrprsSeCode("EMITTER");
-            session.setAttribute("joinVO", joinVO);
+            session.setAttribute(SESSION_JOIN_VO, joinVO);
         }
+        setJoinStep(session, 1);
         String currType = joinVO.getEntrprsSeCode() != null ? joinVO.getEntrprsSeCode().trim() : "";
         model.addAttribute("joinVO", joinVO);
         model.addAttribute("currType", currType);
@@ -264,21 +304,28 @@ public class EgovJoinController {
     @PostMapping("/en/step2")
     public String step2EnProcess(@RequestParam(value = "membership_type", required = false) String membershipType,
             HttpSession session, Model model) {
-        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
+        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO == null) {
             joinVO = new EntrprsManageVO();
         }
         if (membershipType != null) {
             joinVO.setEntrprsSeCode(membershipType);
         }
+        if (!hasText(joinVO.getEntrprsSeCode())) {
+            return "redirect:/join/en/step1";
+        }
         joinVO.setUserTy("USR02");
-        session.setAttribute("joinVO", joinVO);
+        session.setAttribute(SESSION_JOIN_VO, joinVO);
+        setJoinStep(session, 2);
         model.addAttribute("joinVO", joinVO);
         return "uss/umt/step2_terms_en";
     }
 
     @GetMapping("/en/step2")
     public String step2EnView(HttpSession session) {
+        if (getJoinStep(session) < 2 || session.getAttribute(SESSION_JOIN_VO) == null) {
+            return "redirect:/join/en/step1";
+        }
         return "uss/umt/step2_terms_en";
     }
 
@@ -286,11 +333,18 @@ public class EgovJoinController {
     @PostMapping("/en/step3")
     public String step3EnProcess(@RequestParam(value = "marketing_agree", required = false) String marketingAgree,
             HttpSession session) {
+        if (getJoinStep(session) < 2 || session.getAttribute(SESSION_JOIN_VO) == null) {
+            return "redirect:/join/en/step1";
+        }
+        setJoinStep(session, 3);
         return "uss/umt/step3_auth_en";
     }
 
     @GetMapping("/en/step3")
     public String step3EnView(HttpSession session) {
+        if (getJoinStep(session) < 3 || session.getAttribute(SESSION_JOIN_VO) == null) {
+            return "redirect:/join/en/step1";
+        }
         return "uss/umt/step3_auth_en";
     }
 
@@ -298,17 +352,24 @@ public class EgovJoinController {
     @PostMapping("/en/step4")
     public String step4EnProcess(@RequestParam(value = "auth_method", required = false) String authMethod,
             HttpSession session, Model model) {
-        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
+        if (getJoinStep(session) < 3) {
+            return "redirect:/join/en/step1";
+        }
+        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO == null)
             return "redirect:/join/en/step1";
+        if (!hasText(authMethod)) {
+            return "redirect:/join/en/step3";
+        }
 
         joinVO.setAuthTy(authMethod);
 
         // Mocking auth data for English users
         if ("SIMPLE".equals(authMethod) || "ONEPASS".equals(authMethod)) {
             joinVO.setAuthCi("CI_EN_MOCK_777");
+            joinVO.setAuthDi("DI_EN_MOCK_777");
             joinVO.setApplcntNm("John Doe");
-        } else if ("CERT".equals(authMethod) || "JOINT".equals(authMethod)) {
+        } else if ("CERT".equals(authMethod) || "JOINT".equals(authMethod) || "FINANCIAL".equals(authMethod)) {
             joinVO.setAuthDn("cn=John Doe");
             joinVO.setApplcntNm("John Doe");
         } else if ("EMAIL".equals(authMethod)) {
@@ -316,7 +377,8 @@ public class EgovJoinController {
             joinVO.setApplcntNm("Global User");
         }
 
-        session.setAttribute("joinVO", joinVO);
+        session.setAttribute(SESSION_JOIN_VO, joinVO);
+        setJoinStep(session, 4);
         model.addAttribute("joinVO", joinVO);
         model.addAttribute("mberNm", joinVO.getApplcntNm());
         return "uss/umt/step4_info_en";
@@ -324,9 +386,14 @@ public class EgovJoinController {
 
     @GetMapping("/en/step4")
     public String step4EnView(HttpSession session, Model model) {
-        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
-        if (joinVO != null)
+        if (getJoinStep(session) < 4) {
+            return "redirect:/join/en/step1";
+        }
+        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
+        if (joinVO != null) {
+            model.addAttribute("joinVO", joinVO);
             model.addAttribute("mberNm", joinVO.getApplcntNm());
+        }
         return "uss/umt/step4_info_en";
     }
 
@@ -344,9 +411,16 @@ public class EgovJoinController {
             @RequestParam("applcntEmailAdres") String email,
             HttpSession session, Model model) throws Exception {
 
-        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
+        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO == null)
             return "redirect:/join/en/step1";
+        if (getJoinStep(session) < 4 || !hasVerifiedIdentity(joinVO)) {
+            return "redirect:/join/en/step3";
+        }
+        if (!hasText(mberId) || !hasText(password) || !hasText(mberNm) || !hasText(insttNm) ||
+                !hasText(bizrno) || !hasText(tel1) || !hasText(tel2) || !hasText(tel3) || !hasText(email)) {
+            return "redirect:/join/en/step4";
+        }
 
         joinVO.setEntrprsmberId(mberId);
         joinVO.setEntrprsMberPassword(password);
@@ -364,13 +438,15 @@ public class EgovJoinController {
         model.addAttribute("mberId", joinVO.getEntrprsmberId());
         model.addAttribute("mberNm", joinVO.getApplcntNm());
         model.addAttribute("insttNm", joinVO.getCmpnyNm());
+        session.removeAttribute(SESSION_JOIN_STEP);
+        session.removeAttribute(SESSION_JOIN_VO);
 
         return "uss/umt/step5_complete_en";
     }
 
     @GetMapping("/en/step5")
     public String step5EnView(HttpSession session, Model model) {
-        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute("joinVO");
+        EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO != null) {
             model.addAttribute("mberId", joinVO.getEntrprsmberId());
             model.addAttribute("mberNm", joinVO.getApplcntNm());
@@ -593,8 +669,26 @@ public class EgovJoinController {
             org.springframework.ui.Model model) {
 
         try {
+            String normalizedInsttId = insttId == null ? "" : insttId.trim();
+
+            InsttInfoVO searchVO = new InsttInfoVO();
+            searchVO.setInsttId(normalizedInsttId);
+            searchVO.setReprsntNm(repName);
+            searchVO.setBizrno(bizNo);
+            java.util.Map<String, Object> current = entrprsManageService.selectInsttInfoForStatus(searchVO);
+            if (current == null || current.isEmpty()) {
+                model.addAttribute("errorMessage", "재신청 대상 정보를 찾을 수 없습니다.");
+                return "redirect:/join/companyJoinStatusSearch";
+            }
+
+            String insttSttus = String.valueOf(current.get("insttSttus"));
+            if (!"X".equals(insttSttus)) {
+                model.addAttribute("errorMessage", "반려된 건만 재신청이 가능합니다.");
+                return "redirect:/join/companyJoinStatusDetail?bizNo=" + bizNo + "&repName=" + repName;
+            }
+
             InsttInfoVO vo = new InsttInfoVO();
-            vo.setInsttId(insttId);
+            vo.setInsttId(normalizedInsttId);
             vo.setInsttNm(agencyName);
             vo.setReprsntNm(repName);
             vo.setBizrno(bizNo);
@@ -608,6 +702,11 @@ public class EgovJoinController {
 
             // Handle file uploads
             String uploadDir = "/opt/carbosys/file/instt";
+            java.io.File dir = new java.io.File(uploadDir);
+            if (!dir.exists() && !dir.mkdirs()) {
+                throw new Exception("Cannot create upload directory: " + uploadDir);
+            }
+
             java.util.List<String> savedPaths = new java.util.ArrayList<>();
             if (fileUploads != null && !fileUploads.isEmpty()) {
                 for (int i = 0; i < fileUploads.size(); i++) {
@@ -622,7 +721,7 @@ public class EgovJoinController {
                         if (lastDotIndex > -1)
                             ext = originalFileName.substring(lastDotIndex);
                     }
-                    String newFileName = insttId + "_" + System.currentTimeMillis() + "_" + i + ext;
+                    String newFileName = normalizedInsttId + "_" + System.currentTimeMillis() + "_" + i + ext;
                     java.io.File targetFile = new java.io.File(uploadDir, newFileName);
                     file.transferTo(targetFile);
                     savedPaths.add(targetFile.getAbsolutePath());
@@ -631,6 +730,9 @@ public class EgovJoinController {
 
             if (!savedPaths.isEmpty()) {
                 vo.setBizRegFilePath(String.join(",", savedPaths));
+            } else {
+                Object existingPath = current.get("bizRegFilePath");
+                vo.setBizRegFilePath(existingPath == null ? null : String.valueOf(existingPath));
             }
 
             entrprsManageService.updateInsttInfo(vo);
@@ -673,5 +775,34 @@ public class EgovJoinController {
             }
             os.flush();
         }
+    }
+
+    private void setJoinStep(HttpSession session, int step) {
+        session.setAttribute(SESSION_JOIN_STEP, step);
+    }
+
+    private int getJoinStep(HttpSession session) {
+        Object stepObj = session.getAttribute(SESSION_JOIN_STEP);
+        if (stepObj instanceof Integer) {
+            return (Integer) stepObj;
+        }
+        if (stepObj instanceof String) {
+            try {
+                return Integer.parseInt((String) stepObj);
+            } catch (NumberFormatException ignore) {
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
+
+    private boolean hasVerifiedIdentity(EntrprsManageVO joinVO) {
+        return hasText(joinVO.getAuthTy()) &&
+                (hasText(joinVO.getAuthCi()) || hasText(joinVO.getAuthDi()) || hasText(joinVO.getAuthDn())
+                        || hasText(joinVO.getAuthEmail()));
     }
 }

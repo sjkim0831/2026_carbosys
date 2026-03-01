@@ -295,51 +295,16 @@
                                 <th class="px-4 py-3 font-bold text-center" scope="col">Select</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-100">
-                            <tr class="hover:bg-blue-50/50 transition-colors">
-                                <td class="px-4 py-4 text-center text-gray-500">1</td>
-                                <td class="px-4 py-4 font-medium">(Inc.) Korea Carbon Technology Institute</td>
-                                <td class="px-4 py-4 text-gray-600">123-45-67890</td>
-                                <td class="px-4 py-4 text-gray-600">Gildong Hong</td>
-                                <td class="px-4 py-4 text-center">
-                                    <button
-                                        class="modal-select-btn px-3 py-1.5 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-xs font-bold rounded-md hover:bg-[var(--kr-gov-blue)] hover:text-white transition-all"
-                                        type="button" data-name="(Inc.) Korea Carbon Technology Institute"
-                                        data-biz="123-45-67890">Select</button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-blue-50/50 transition-colors">
-                                <td class="px-4 py-4 text-center text-gray-500">2</td>
-                                <td class="px-4 py-4 font-medium">EcoGreen Solutions</td>
-                                <td class="px-4 py-4 text-gray-600">987-65-43210</td>
-                                <td class="px-4 py-4 text-gray-600">Cheolsu Kim</td>
-                                <td class="px-4 py-4 text-center">
-                                    <button
-                                        class="modal-select-btn px-3 py-1.5 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-xs font-bold rounded-md hover:bg-[var(--kr-gov-blue)] hover:text-white transition-all"
-                                        type="button" data-name="EcoGreen Solutions"
-                                        data-biz="987-65-43210">Select</button>
-                                </td>
+                        <tbody id="modal-tbody" class="divide-y divide-gray-100">
+                            <tr>
+                                <td colspan="5" class="px-4 py-8 text-center text-gray-500">Enter a keyword and click
+                                    search.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <nav aria-label="Search results pagination" class="flex justify-center items-center gap-1 my-6">
-                    <button type="button"
-                        class="w-9 h-9 flex items-center justify-center border border-gray-200 rounded text-gray-400 hover:bg-gray-50"><span
-                            class="material-symbols-outlined text-xl">first_page</span></button>
-                    <button type="button"
-                        class="w-9 h-9 flex items-center justify-center border border-gray-200 rounded text-gray-400 hover:bg-gray-50"><span
-                            class="material-symbols-outlined text-xl">chevron_left</span></button>
-                    <button type="button"
-                        class="w-9 h-9 flex items-center justify-center bg-[var(--kr-gov-blue)] text-white font-bold rounded">1</button>
-                    <button type="button"
-                        class="w-9 h-9 flex items-center justify-center border border-gray-200 rounded text-gray-600 hover:bg-gray-50 font-medium">2</button>
-                    <button type="button"
-                        class="w-9 h-9 flex items-center justify-center border border-gray-200 rounded text-gray-400 hover:bg-gray-50"><span
-                            class="material-symbols-outlined text-xl">chevron_right</span></button>
-                    <button type="button"
-                        class="w-9 h-9 flex items-center justify-center border border-gray-200 rounded text-gray-400 hover:bg-gray-50"><span
-                            class="material-symbols-outlined text-xl">last_page</span></button>
+                <nav id="modal-pagination" aria-label="Search results pagination"
+                    class="flex justify-center items-center gap-1 my-6 hidden">
                 </nav>
                 <div class="bg-gray-50 border-t border-b border-gray-200 p-4 rounded-md">
                     <p
@@ -379,76 +344,168 @@
         const btnCompanySearch = document.getElementById('btnCompanySearch');
         const modalCloseBtn = document.getElementById('modalCloseBtn');
         const modalCancelBtn = document.getElementById('modalCancelBtn');
+        const modalInnerSearchBtn = document.getElementById('modalInnerSearchBtn');
+        const modalSearchInput = document.getElementById('modal-search');
+        const modalTbody = document.getElementById('modal-tbody');
+        const modalPagination = document.getElementById('modal-pagination');
+        const companySearchInput = document.getElementById('company-search');
+        const bizNumberInput = document.getElementById('biz-number');
+
+        let currentPage = 1;
+        let currentKeyword = '';
+        const PAGE_SIZE = 5;
+
+        const closeModal = () => {
+            companySearchModal.classList.add('hidden');
+        };
 
         if (btnCompanySearch) {
             btnCompanySearch.onclick = function () {
                 companySearchModal.classList.remove('hidden');
+                modalSearchInput.value = '';
+                currentKeyword = '';
+                doSearch(1);
+                setTimeout(() => modalSearchInput.focus(), 100);
             };
         }
 
-        const closeModal = () => companySearchModal.classList.add('hidden');
         if (modalCloseBtn) modalCloseBtn.onclick = closeModal;
         if (modalCancelBtn) modalCancelBtn.onclick = closeModal;
 
-        // AJAX Company Search
-        const modalInnerSearchBtn = document.getElementById('modalInnerSearchBtn');
-        const modalSearchInput = document.getElementById('modal-search');
-        if (modalInnerSearchBtn) {
-            modalInnerSearchBtn.onclick = function () {
-                const keyword = modalSearchInput.value.trim();
-                if (!keyword) {
-                    alert('Please enter a search term.');
-                    return;
-                }
-                const tbody = document.querySelector('#companySearchModal tbody');
-                tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-gray-500">Searching...</td></tr>';
-                fetch('/join/searchCompanyAPI?keyword=' + encodeURIComponent(keyword))
-                    .then(res => res.json())
-                    .then(data => {
-                        tbody.innerHTML = '';
-                        if (!data || data.length === 0) {
-                            tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-gray-500">No results found.</td></tr>';
-                            return;
-                        }
-                        data.forEach((item, index) => {
-                            const name = item.cmpnyNm || '';
-                            const rep = item.cxfc || '';
-                            const biz = item.bizrno || '';
-                            const tr = document.createElement('tr');
-                            tr.className = 'hover:bg-blue-50/50 transition-colors';
-                            tr.innerHTML = `
-                                <td class="px-4 py-4 text-center text-gray-500">${index + 1}</td>
-                                <td class="px-4 py-4 font-medium">${name}</td>
-                                <td class="px-4 py-4 text-gray-600">${biz}</td>
-                                <td class="px-4 py-4 text-gray-600">${rep}</td>
-                                <td class="px-4 py-4 text-center">
-                                    <button class="modal-select-btn px-3 py-1.5 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-xs font-bold rounded-md hover:bg-[var(--kr-gov-blue)] hover:text-white transition-all" type="button" data-name="${name}" data-biz="${biz}">Select</button>
-                                </td>
-                            `;
-                            tbody.appendChild(tr);
-                        });
-                        // Re-bind events
-                        document.querySelectorAll('.modal-select-btn').forEach(btn => {
-                            btn.onclick = function () {
-                                document.getElementById('company-search').value = this.getAttribute('data-name');
-                                document.getElementById('biz-number').value = this.getAttribute('data-biz');
-                                closeModal();
-                            };
-                        });
-                    })
-                    .catch(e => {
-                        tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-red-500">An error occurred during search.</td></tr>';
-                    });
-            };
+        function doSearch(page) {
+            currentPage = page;
+            currentKeyword = modalSearchInput.value.trim();
+            renderLoadingTbody();
+
+            fetch(`/join/searchCompany?keyword=${encodeURIComponent(currentKeyword)}&page=${page}&size=${PAGE_SIZE}&status=A`)
+                .then(r => r.json())
+                .then(data => {
+                    renderTbody(data.list, data.totalCnt, page);
+                    renderPagination(data.totalPages, page);
+                })
+                .catch(() => {
+                    renderEmptyTbody('An error occurred during search. Please try again.');
+                    modalPagination.classList.add('hidden');
+                });
         }
 
-        // Enter key search
+        if (modalInnerSearchBtn) {
+            modalInnerSearchBtn.onclick = () => doSearch(1);
+        }
+
         if (modalSearchInput) {
-            modalSearchInput.addEventListener('keypress', function (e) {
+            modalSearchInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
-                    modalInnerSearchBtn.click();
+                    doSearch(1);
                 }
+            });
+        }
+
+        function renderEmptyTbody(msg) {
+            modalTbody.innerHTML = `
+            <tr>
+                <td colspan="5" class="px-4 py-8 text-center text-gray-500">${msg}</td>
+            </tr>`;
+        }
+
+        function renderLoadingTbody() {
+            modalTbody.innerHTML = `
+            <tr>
+                <td colspan="5" class="px-4 py-8 text-center text-gray-500">Searching...</td>
+            </tr>`;
+        }
+
+        function escHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>'"]/g,
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])
+            );
+        }
+
+        function escAttr(str) {
+            return escHtml(str);
+        }
+
+        function renderTbody(list, totalCnt, page) {
+            if (!list || list.length === 0) {
+                renderEmptyTbody('No search results found.');
+                modalPagination.classList.add('hidden');
+                return;
+            }
+            const offset = (page - 1) * PAGE_SIZE;
+            modalTbody.innerHTML = list.map((item, idx) => {
+                const nm = item.cmpnyNm || item.CMPNY_NM || item.cmpny_nm || '-';
+                const biz = item.bizrno || item.BIZRNO || '-';
+                const rep = item.cxfc || item.CXFC || '-';
+                const no = offset + idx + 1;
+                const actionHtml = `<button class="modal-select-btn px-3 py-1.5 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-xs font-bold rounded-md hover:bg-[var(--kr-gov-blue)] hover:text-white transition-all"
+                                type="button"
+                                data-name="${escAttr(nm)}"
+                                data-biz="${escAttr(biz)}"
+                                data-rep="${escAttr(rep)}">Select</button>`;
+
+                return `
+                <tr class="hover:bg-blue-50/50 transition-colors">
+                    <td class="px-4 py-4 text-center text-gray-500">${no}</td>
+                    <td class="px-4 py-4 font-medium">${escHtml(nm)}</td>
+                    <td class="px-4 py-4 text-gray-600">${escHtml(biz)}</td>
+                    <td class="px-4 py-4 text-gray-600">${escHtml(rep)}</td>
+                    <td class="px-4 py-4 text-center">${actionHtml}</td>
+                </tr>`;
+            }).join('');
+
+            modalTbody.querySelectorAll('.modal-select-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    companySearchInput.value = btn.dataset.name;
+                    bizNumberInput.value = btn.dataset.biz;
+                    closeModal();
+                    companySearchInput.focus();
+                });
+            });
+        }
+
+        function renderPagination(totalPages, curPage) {
+            if (totalPages <= 1) {
+                modalPagination.classList.add('hidden');
+                return;
+            }
+            modalPagination.classList.remove('hidden');
+
+            const BLOCK = 5;
+            const blockStart = Math.floor((curPage - 1) / BLOCK) * BLOCK + 1;
+            const blockEnd = Math.min(blockStart + BLOCK - 1, totalPages);
+            const iconClass = 'w-9 h-9 flex items-center justify-center border border-gray-200 rounded text-gray-400 hover:bg-gray-50 cursor-pointer';
+            const activeClass = 'w-9 h-9 flex items-center justify-center rounded text-white font-bold text-sm';
+
+            let html = `<button type="button" class="${iconClass}" data-page="1" ${curPage === 1 ? 'disabled' : ''}>
+                        <span class="material-symbols-outlined text-xl">first_page</span></button>
+                    <button type="button" class="${iconClass}" data-page="${curPage - 1}" ${curPage === 1 ? 'disabled' : ''}>
+                        <span class="material-symbols-outlined text-xl">chevron_left</span></button>`;
+
+            for (let p = blockStart; p <= blockEnd; p++) {
+                if (p === curPage) {
+                    html += `<button type="button" class="${activeClass}" style="background:var(--kr-gov-blue);" data-page="${p}">${p}</button>`;
+                } else {
+                    html += `<button type="button" class="${iconClass}" data-page="${p}">${p}</button>`;
+                }
+            }
+
+            html += `<button type="button" class="${iconClass}" data-page="${curPage + 1}" ${curPage === totalPages ? 'disabled' : ''}>
+                        <span class="material-symbols-outlined text-xl">chevron_right</span></button>
+                    <button type="button" class="${iconClass}" data-page="${totalPages}" ${curPage === totalPages ? 'disabled' : ''}>
+                        <span class="material-symbols-outlined text-xl">last_page</span></button>`;
+
+            modalPagination.innerHTML = html;
+
+            modalPagination.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (btn.disabled) return;
+                    const p = parseInt(btn.dataset.page);
+                    if (!isNaN(p) && p !== curPage) {
+                        doSearch(p);
+                    }
+                });
             });
         }
 
@@ -565,6 +622,15 @@
             }
             const pw = document.getElementById('password').value;
             const pwConfirm = document.getElementById('password-confirm').value;
+
+            const pwRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>+=\-_`~]).{9,}$/;
+            if (!pwRegex.test(pw)) {
+                alert("Password must be at least 9 characters including a special character.");
+                document.getElementById('password').focus();
+                e.preventDefault();
+                return false;
+            }
+
             if (pw !== pwConfirm) {
                 alert("Passwords do not match.");
                 document.getElementById('password-confirm').focus();

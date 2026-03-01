@@ -164,23 +164,24 @@
                             [재신청하기] 버튼을 통해 정보를 수정하여 다시 제출해 주시기 바랍니다.</p>
                     </div>
                 </div>
+            </div>
 
-                <div class="border border-red-200 rounded-lg overflow-hidden bg-white">
-                    <div class="bg-red-50 px-6 py-3 border-b border-red-100">
-                        <h5 class="text-sm font-bold text-red-900 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-sm">speaker_notes</span>
-                            상세 반려 사유
-                        </h5>
-                    </div>
-                    <div class="p-6">
-                        <p class="text-base text-[var(--kr-gov-text-primary)] leading-relaxed"
-                            th:text="${result['rjctRsn']}">
-                            반려 사유 내용이 표시됩니다.
-                        </p>
-                        <p class="mt-4 text-xs text-[var(--kr-gov-text-secondary)]">처리기한: 탄소중립 CCUS 통합관리본부 운영국 <span
-                                th:if="${result['rjctPnttm'] != null}"
-                                th:text="'(' + ${result['rjctPnttm']} + ')'">(2026.00.00)</span></p>
-                    </div>
+            <div class="border border-red-200 rounded-lg overflow-hidden bg-white mt-4"
+                th:if="${result['rjctRsn'] != null and result['rjctRsn'] != ''}">
+                <div class="bg-red-50 px-6 py-3 border-b border-red-100">
+                    <h5 class="text-sm font-bold text-red-900 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">speaker_notes</span>
+                        상세 반려 사유
+                    </h5>
+                </div>
+                <div class="p-6">
+                    <p class="text-base text-[var(--kr-gov-text-primary)] leading-relaxed"
+                        th:text="${result['rjctRsn']}">
+                        반려 사유 내용이 표시됩니다.
+                    </p>
+                    <p class="mt-4 text-xs text-[var(--kr-gov-text-secondary)]">처리기한: 탄소중립 CCUS 통합관리본부 운영국 <span
+                            th:if="${result['rjctPnttm'] != null}"
+                            th:text="'(' + ${result['rjctPnttm']} + ')'">(2026.00.00)</span></p>
                 </div>
             </div>
         </div>

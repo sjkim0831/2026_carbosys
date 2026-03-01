@@ -130,7 +130,7 @@
                 </div>
             </div>
 
-            <form action="/join/companyRegisterSubmit" method="post" enctype="multipart/form-data" class="space-y-8">
+            <form id="regForm" action="/join/companyRegisterSubmit" method="post" enctype="multipart/form-data" class="space-y-8">
                 <input type="hidden" name="lang" value="en" />
 
                 <!-- Contact Information (Added) -->
@@ -281,161 +281,372 @@
         </div>
         </div>
     </main>
+    <div id="shared-footer"></div>
+
+    <div id="companySearchModal" class="fixed inset-0 z-50 flex items-center justify-center hidden" role="dialog"
+        aria-modal="true" aria-labelledby="modal-title">
+        <div id="modalBackdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div
+            class="relative bg-white rounded-xl shadow-2xl w-full max-w-3xl mx-4 flex flex-col max-h-[90vh] overflow-hidden">
+            <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 flex-shrink-0">
+                <h2 class="text-xl font-bold text-[var(--kr-gov-text-primary)] flex items-center gap-2" id="modal-title">
+                    <span class="material-symbols-outlined text-[var(--kr-gov-blue)]">corporate_fare</span>
+                    Company/Institution Search
+                </h2>
+                <button id="modalCloseBtn" aria-label="Close"
+                    class="text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--kr-gov-focus)] rounded-full p-1"
+                    type="button">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-grow">
+                <div class="mb-6">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="modal-search">Enter
+                            search term</label>
+                        <div class="flex gap-2">
+                            <div class="relative flex-grow">
+                                <span
+                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                                <input id="modal-search" aria-label="Enter name or business registration number"
+                                    class="form-input pl-11" placeholder="Enter name or business registration number"
+                                    type="text" />
+                            </div>
+                            <button id="modalInnerSearchBtn"
+                                class="px-8 bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors"
+                                type="button">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="border border-[var(--kr-gov-border-light)] rounded-lg overflow-hidden mb-4">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-[var(--kr-gov-bg-gray)] border-b border-[var(--kr-gov-border-light)]">
+                            <tr>
+                                <th class="px-4 py-3 font-bold text-center w-12" scope="col">No</th>
+                                <th class="px-4 py-3 font-bold" scope="col">Company/Institution Name</th>
+                                <th class="px-4 py-3 font-bold" scope="col">Business Registration Number</th>
+                                <th class="px-4 py-3 font-bold" scope="col">Representative Name</th>
+                                <th class="px-4 py-3 font-bold text-center" scope="col">Join Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal-tbody" class="divide-y divide-gray-100">
+                            <tr>
+                                <td colspan="5" class="px-4 py-10 text-center text-gray-400">
+                                    <span class="material-symbols-outlined text-4xl block mb-2 mx-auto">search</span>
+                                    Enter a keyword and click search.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav id="modal-pagination" aria-label="Search results pagination"
+                    class="flex justify-center items-center gap-1 my-4 hidden"></nav>
+            </div>
+            <div class="px-6 py-4 bg-gray-50 flex justify-end gap-2 border-t border-gray-100 flex-shrink-0">
+                <button id="modalCancelBtn"
+                    class="px-6 py-2.5 bg-white border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-primary)] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50"
+                    type="button">Close</button>
+            </div>
+        </div>
+    </div>
+
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
-        // Duplicate check logic
-        const agencyNameInput = document.getElementById('agency-name');
-        const btnCheckDuplicate = document.getElementById('idCheckBtn');
-        const duplicateMsg = document.getElementById('duplicate-check-msg');
-        const isNameChecked = document.getElementById('is-name-checked');
+        document.addEventListener('DOMContentLoaded', function () {
+            (function loadSharedLayout() {
+                fetch('/home3/fragments/header').then(r => r.text()).then(html => {
+                    document.getElementById('shared-header').innerHTML = html;
+                    const ko = document.getElementById('langKoBtn');
+                    const en = document.getElementById('langEnBtn');
+                    if (ko) ko.onclick = () => location.href = '/join/companyRegister';
+                    if (en) en.onclick = () => location.href = '/join/en/companyRegister';
+                }).catch(() => { });
+                fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
+                    document.getElementById('shared-footer').innerHTML = html;
+                }).catch(() => { });
+            })();
 
-        agencyNameInput.addEventListener('input', () => {
-            isNameChecked.value = 'N';
-            duplicateMsg.classList.add('hidden');
-        });
+            const agencyNameInput = document.getElementById('agency-name');
+            const btnCheckDuplicate = document.getElementById('idCheckBtn');
+            const duplicateMsg = document.getElementById('duplicate-check-msg');
+            const isNameChecked = document.getElementById('is-name-checked');
+            const regForm = document.getElementById('regForm');
 
-        btnCheckDuplicate.addEventListener('click', () => {
-            const name = agencyNameInput.value.trim();
-            if (!name) {
-                alert('Please enter agency/company name.');
-                agencyNameInput.focus();
+            const modal = document.getElementById('companySearchModal');
+            const modalBackdrop = document.getElementById('modalBackdrop');
+            const modalCloseBtn = document.getElementById('modalCloseBtn');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+            const modalSearchInput = document.getElementById('modal-search');
+            const modalInnerSearchBtn = document.getElementById('modalInnerSearchBtn');
+            const modalTbody = document.getElementById('modal-tbody');
+            const modalPagination = document.getElementById('modal-pagination');
+            const btnCompanySearch = document.getElementById('btnCompanySearch');
+
+            if (!agencyNameInput || !btnCheckDuplicate || !duplicateMsg || !isNameChecked || !regForm) {
                 return;
             }
 
-            fetch(`/join/checkCompanyNameDplct?agencyName=${encodeURIComponent(name)}`)
-                .then(r => r.text())
-                .then(count => {
-                    duplicateMsg.classList.remove('hidden');
-                    if (parseInt(count) > 0) {
-                        duplicateMsg.textContent = 'This name is already registered.';
-                        duplicateMsg.classList.remove('text-emerald-600');
-                        duplicateMsg.classList.add('text-red-600');
-                        isNameChecked.value = 'N';
-                    } else {
-                        duplicateMsg.textContent = 'This name is available.';
-                        duplicateMsg.classList.remove('text-red-600');
-                        duplicateMsg.classList.add('text-emerald-600');
-                        isNameChecked.value = 'Y';
-                    }
-                })
-                .catch(() => {
-                    alert('An error occurred during duplicate check.');
-                });
-        });
-
-        const regForm = document.getElementById('regForm');
-        regForm.addEventListener('submit', function (e) {
-            if (isNameChecked.value !== 'Y') {
-                e.preventDefault();
-                alert('Company name duplicate check is required.');
-                btnCheckDuplicate.focus();
-                return false;
-            }
-        });
-
-        (function loadSharedLayout() {
-            fetch('/home3/fragments/header').then(r => r.text()).then(html => {
-                document.getElementById('shared-header').innerHTML = html;
-                const ko = document.getElementById('langKoBtn');
-                const en = document.getElementById('langEnBtn');
-                if (ko) ko.onclick = () => location.href = '/join/companyRegister';
-                if (en) en.onclick = () => location.href = '/join/en/companyRegister';
-            }).catch(() => { });
-            fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
-                document.getElementById('shared-footer').innerHTML = html;
-            }).catch(() => { });
-        })();
-
-        // Daum Postcode API
-        function execDaumPostcode() {
-            new daum.Postcode({
-                oncomplete: function (data) {
-                    var addr = '';
-
-                    if (data.userSelectedType === 'R') {
-                        // roadAddressEnglish usually available when language or english query is used.
-                        // Road Addr is sometimes returned in Korean if missing english.
-                        addr = data.roadAddressEnglish || data.roadAddress;
-                    } else {
-                        addr = data.jibunAddressEnglish || data.jibunAddress;
-                    }
-
-                    document.getElementById('zip-code').value = data.zonecode;
-                    document.getElementById("company-address").value = addr;
-                    document.getElementById("company-address-detail").focus();
+            const on = (el, evt, handler) => {
+                if (el && typeof el.addEventListener === 'function') {
+                    el.addEventListener(evt, handler);
                 }
-            }).open({
-                q: ''
-            });
-        }
-        /* ── File Upload Management ── */
-        const addFileBtn = document.getElementById('add-file-btn');
-        const fileListContainer = document.getElementById('file-list-container');
+            };
 
-        if (addFileBtn) {
-            addFileBtn.addEventListener('click', () => {
-                const newRow = document.createElement('div');
-                newRow.className = 'file-row flex items-center gap-3 p-3 border border-gray-200 rounded-lg bg-white group hover:border-[var(--kr-gov-blue)] transition-all cursor-pointer';
-                newRow.onclick = function () { this.querySelector('.file-input').click(); };
-                newRow.innerHTML = `
-                    <span class="material-symbols-outlined text-gray-400 group-hover:text-[var(--kr-gov-blue)]">attach_file</span>
-                    <div class="flex-grow min-w-0">
-                        <input type="file" name="fileUploads" class="hidden file-input" accept=".pdf,.jpg,.jpeg,.png" required onchange="handleFileChange(this)" />
-                        <div class="file-info flex items-center justify-between">
-                            <span class="file-name text-sm text-gray-500 truncate">Please select a file.</span>
-                            <span class="file-size text-xs text-gray-400"></span>
+            let currentPage = 1;
+            let currentKeyword = '';
+            const PAGE_SIZE = 5;
+
+            function openModal() {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                modalSearchInput.value = '';
+                currentKeyword = '';
+                currentPage = 1;
+                doSearch(1);
+                setTimeout(() => modalSearchInput.focus(), 100);
+            }
+
+            function closeModal() {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+
+            on(btnCompanySearch, 'click', openModal);
+            on(modalCloseBtn, 'click', closeModal);
+            on(modalCancelBtn, 'click', closeModal);
+            on(modalBackdrop, 'click', closeModal);
+            on(document, 'keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+            function doSearch(page) {
+                currentPage = page;
+                currentKeyword = modalSearchInput.value.trim();
+                renderLoadingTbody();
+                fetch(`/join/searchCompany?keyword=${encodeURIComponent(currentKeyword)}&page=${page}&size=${PAGE_SIZE}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        renderTbody(data.list, data.totalCnt, page);
+                        renderPagination(data.totalPages, page);
+                    })
+                    .catch(() => {
+                        renderEmptyTbody('An error occurred during search. Please try again.');
+                        modalPagination.classList.add('hidden');
+                    });
+            }
+
+            on(modalInnerSearchBtn, 'click', () => doSearch(1));
+            on(modalSearchInput, 'keydown', (e) => {
+                if (e.key === 'Enter') doSearch(1);
+            });
+
+            function renderEmptyTbody(msg) {
+                modalTbody.innerHTML = `<tr><td colspan="5" class="px-4 py-10 text-center text-gray-400">${msg}</td></tr>`;
+            }
+
+            function renderLoadingTbody() {
+                modalTbody.innerHTML = `<tr><td colspan="5" class="px-4 py-10 text-center text-gray-400">Searching...</td></tr>`;
+            }
+
+            function escHtml(str) {
+                return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
+
+            function renderTbody(list, totalCnt, page) {
+                if (!list || list.length === 0) {
+                    renderEmptyTbody('No search results found.');
+                    modalPagination.classList.add('hidden');
+                    return;
+                }
+
+                const offset = (page - 1) * PAGE_SIZE;
+                modalTbody.innerHTML = list.map((item, idx) => {
+                    const nm = item.cmpnyNm || item.CMPNY_NM || item.cmpny_nm || '-';
+                    const biz = item.bizrno || item.BIZRNO || '-';
+                    const rep = item.cxfc || item.CXFC || '-';
+                    const joinStat = item.joinStat || item.JOIN_STAT || item.join_stat || null;
+                    const no = offset + idx + 1;
+
+                    let actionHtml = '';
+                    if (joinStat === 'A') {
+                        actionHtml = `<span class="inline-block px-3 py-1 text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 rounded-full">Approved</span>`;
+                    } else if (joinStat === 'P') {
+                        actionHtml = `<span class="inline-block px-3 py-1 text-xs font-bold text-amber-700 bg-amber-50 border border-amber-200 rounded-full">Pending</span>`;
+                    } else if (joinStat === 'X') {
+                        actionHtml = `<span class="inline-block px-3 py-1 text-xs font-bold text-red-700 bg-red-50 border border-red-200 rounded-full">Rejected</span>`;
+                    } else {
+                        actionHtml = `<span class="inline-block px-3 py-1 text-xs font-bold text-gray-700 bg-gray-50 border border-gray-200 rounded-full">-</span>`;
+                    }
+
+                    return `
+                    <tr class="hover:bg-blue-50/50 transition-colors">
+                        <td class="px-4 py-4 text-center text-gray-500">${no}</td>
+                        <td class="px-4 py-4 font-medium">${escHtml(nm)}</td>
+                        <td class="px-4 py-4 text-gray-600">${escHtml(biz)}</td>
+                        <td class="px-4 py-4 text-gray-600">${escHtml(rep)}</td>
+                        <td class="px-4 py-4 text-center">${actionHtml}</td>
+                    </tr>`;
+                }).join('');
+            }
+
+            function renderPagination(totalPages, curPage) {
+                if (totalPages <= 1) {
+                    modalPagination.classList.add('hidden');
+                    return;
+                }
+
+                modalPagination.classList.remove('hidden');
+                const BLOCK = 5;
+                const blockStart = Math.floor((curPage - 1) / BLOCK) * BLOCK + 1;
+                const blockEnd = Math.min(blockStart + BLOCK - 1, totalPages);
+                const btnClass = 'w-9 h-9 flex items-center justify-center border border-gray-200 rounded text-gray-600 hover:bg-gray-50 font-medium cursor-pointer text-sm';
+                const iconClass = 'w-9 h-9 flex items-center justify-center border border-gray-200 rounded text-gray-400 hover:bg-gray-50 cursor-pointer';
+                const activeClass = 'w-9 h-9 flex items-center justify-center rounded text-white font-bold text-sm';
+
+                let html = `<button type="button" class="${iconClass}" data-page="1" ${curPage === 1 ? 'disabled' : ''}>
+                            <span class="material-symbols-outlined text-xl">first_page</span></button>
+                        <button type="button" class="${iconClass}" data-page="${curPage - 1}" ${curPage === 1 ? 'disabled' : ''}>
+                            <span class="material-symbols-outlined text-xl">chevron_left</span></button>`;
+
+                for (let p = blockStart; p <= blockEnd; p++) {
+                    if (p === curPage) {
+                        html += `<button type="button" class="${activeClass}" style="background:var(--kr-gov-blue);" data-page="${p}">${p}</button>`;
+                    } else {
+                        html += `<button type="button" class="${btnClass}" data-page="${p}">${p}</button>`;
+                    }
+                }
+
+                html += `<button type="button" class="${iconClass}" data-page="${curPage + 1}" ${curPage === totalPages ? 'disabled' : ''}>
+                         <span class="material-symbols-outlined text-xl">chevron_right</span></button>
+                     <button type="button" class="${iconClass}" data-page="${totalPages}" ${curPage === totalPages ? 'disabled' : ''}>
+                         <span class="material-symbols-outlined text-xl">last_page</span></button>`;
+
+                modalPagination.innerHTML = html;
+                modalPagination.querySelectorAll('button[data-page]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const p = parseInt(btn.dataset.page);
+                        if (!isNaN(p) && p >= 1 && p <= totalPages) doSearch(p);
+                    });
+                });
+            }
+
+            on(agencyNameInput, 'input', () => {
+                isNameChecked.value = 'N';
+                duplicateMsg.classList.add('hidden');
+            });
+
+            on(btnCheckDuplicate, 'click', () => {
+                const name = agencyNameInput.value.trim();
+                if (!name) {
+                    alert('Please enter agency/company name.');
+                    agencyNameInput.focus();
+                    return;
+                }
+                fetch(`/join/checkCompanyNameDplct?agencyName=${encodeURIComponent(name)}`)
+                    .then(r => r.text())
+                    .then(count => {
+                        duplicateMsg.classList.remove('hidden');
+                        if (parseInt(count) > 0) {
+                            duplicateMsg.textContent = 'This name is already registered.';
+                            duplicateMsg.className = 'mt-1 text-xs text-red-600';
+                            isNameChecked.value = 'N';
+                        } else {
+                            duplicateMsg.textContent = 'This name is available.';
+                            duplicateMsg.className = 'mt-1 text-xs text-emerald-600';
+                            isNameChecked.value = 'Y';
+                        }
+                    })
+                    .catch(() => alert('An error occurred during duplicate check.'));
+            });
+
+            on(regForm, 'submit', function (e) {
+                if (isNameChecked.value !== 'Y') {
+                    e.preventDefault();
+                    alert('Company name duplicate check is required.');
+                    btnCheckDuplicate.focus();
+                    return false;
+                }
+            });
+
+            window.execDaumPostcode = function () {
+                new daum.Postcode({
+                    oncomplete: function (data) {
+                        const addr = data.userSelectedType === 'R'
+                            ? (data.roadAddressEnglish || data.roadAddress)
+                            : (data.jibunAddressEnglish || data.jibunAddress);
+                        document.getElementById('zip-code').value = data.zonecode;
+                        document.getElementById('company-address').value = addr;
+                        document.getElementById('company-address-detail').focus();
+                    }
+                }).open();
+            };
+
+            const addFileBtn = document.getElementById('add-file-btn');
+            const fileListContainer = document.getElementById('file-list-container');
+
+            if (addFileBtn) {
+                on(addFileBtn, 'click', () => {
+                    const newRow = document.createElement('div');
+                    newRow.className = 'file-row flex items-center gap-3 p-3 border border-gray-200 rounded-lg bg-white group hover:border-[var(--kr-gov-blue)] transition-all cursor-pointer';
+                    newRow.onclick = function () { this.querySelector('.file-input').click(); };
+                    newRow.innerHTML = `
+                        <span class="material-symbols-outlined text-gray-400 group-hover:text-[var(--kr-gov-blue)]">attach_file</span>
+                        <div class="flex-grow min-w-0">
+                            <input type="file" name="fileUploads" class="hidden file-input" accept=".pdf,.jpg,.jpeg,.png" required onchange="handleFileChange(this)" />
+                            <div class="file-info flex items-center justify-between">
+                                <span class="file-name text-sm text-gray-500 truncate">Please select a file.</span>
+                                <span class="file-size text-xs text-gray-400"></span>
+                            </div>
                         </div>
-                    </div>
-                    <button type="button" class="remove-file-btn text-gray-400 hover:text-red-500 transition-colors" onclick="event.stopPropagation(); removeFileRow(this)">
-                        <span class="material-symbols-outlined">close</span>
-                    </button>
-                `;
-                fileListContainer.appendChild(newRow);
-            });
-        }
-
-        window.handleFileChange = function (input) {
-            const row = input.closest('.file-row');
-            const nameSpan = row.querySelector('.file-name');
-            const sizeSpan = row.querySelector('.file-size');
-            const removeBtn = row.querySelector('.remove-file-btn');
-
-            if (input.files && input.files.length > 0) {
-                const file = input.files[0];
-                nameSpan.textContent = file.name;
-                nameSpan.className = 'file-name text-sm font-bold text-[var(--kr-gov-blue)] truncate';
-                sizeSpan.textContent = formatBytes(file.size);
-                row.classList.add('border-[var(--kr-gov-blue)]', 'bg-blue-50/30');
-                removeBtn.classList.remove('hidden');
-            } else {
-                nameSpan.textContent = 'Please select a file.';
-                nameSpan.className = 'file-name text-sm text-gray-500 truncate';
-                sizeSpan.textContent = '';
-                row.classList.remove('border-[var(--kr-gov-blue)]', 'bg-blue-50/30');
+                        <button type="button" class="remove-file-btn text-gray-400 hover:text-red-500 transition-colors" onclick="event.stopPropagation(); removeFileRow(this)">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                    `;
+                    fileListContainer.appendChild(newRow);
+                });
             }
-        };
 
-        window.removeFileRow = function (btn) {
-            const rows = fileListContainer.querySelectorAll('.file-row');
-            if (rows.length > 1) {
-                btn.closest('.file-row').remove();
-            } else {
-                const row = btn.closest('.file-row');
-                const input = row.querySelector('.file-input');
-                input.value = '';
-                handleFileChange(input);
-                btn.classList.add('hidden');
+            window.handleFileChange = function (input) {
+                const row = input.closest('.file-row');
+                const nameSpan = row.querySelector('.file-name');
+                const sizeSpan = row.querySelector('.file-size');
+                const removeBtn = row.querySelector('.remove-file-btn');
+
+                if (input.files && input.files.length > 0) {
+                    const file = input.files[0];
+                    nameSpan.textContent = file.name;
+                    nameSpan.className = 'file-name text-sm font-bold text-[var(--kr-gov-blue)] truncate';
+                    sizeSpan.textContent = formatBytes(file.size);
+                    row.classList.add('border-[var(--kr-gov-blue)]', 'bg-blue-50/30');
+                    removeBtn.classList.remove('hidden');
+                } else {
+                    nameSpan.textContent = 'Please select a file.';
+                    nameSpan.className = 'file-name text-sm text-gray-500 truncate';
+                    sizeSpan.textContent = '';
+                    row.classList.remove('border-[var(--kr-gov-blue)]', 'bg-blue-50/30');
+                }
+            };
+
+            window.removeFileRow = function (btn) {
+                const rows = fileListContainer.querySelectorAll('.file-row');
+                if (rows.length > 1) {
+                    btn.closest('.file-row').remove();
+                } else {
+                    const row = btn.closest('.file-row');
+                    const input = row.querySelector('.file-input');
+                    input.value = '';
+                    handleFileChange(input);
+                    btn.classList.add('hidden');
+                }
+            };
+
+            function formatBytes(bytes, decimals = 2) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const dm = decimals < 0 ? 0 : decimals;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
             }
-        };
-
-        function formatBytes(bytes, decimals = 2) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const dm = decimals < 0 ? 0 : decimals;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-        }
+        });
     </script>
 </body>
 

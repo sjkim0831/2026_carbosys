@@ -80,6 +80,15 @@
             <p class="text-[var(--kr-gov-text-secondary)]">반려 사유를 확인하신 후 정보를 수정하여 다시 신청해 주시기 바랍니다.</p>
         </div>
 
+        <div th:if="${errorMessage}"
+            class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm flex items-start gap-2">
+            <span class="material-symbols-outlined text-[20px] shrink-0">error</span>
+            <div class="flex-grow">
+                <p class="font-bold mb-1">재신청 처리 중 오류가 발생했습니다.</p>
+                <p th:text="${errorMessage}">Error message here</p>
+            </div>
+        </div>
+
         <div
             class="mb-10 bg-[var(--kr-gov-warning-bg)] border border-[var(--kr-gov-warning-border)] p-6 rounded-[var(--kr-gov-radius)] flex gap-4">
             <span class="material-symbols-outlined text-[var(--kr-gov-error)] text-[32px]">warning</span>
@@ -178,7 +187,8 @@
 
                     <div id="file-list-container" class="space-y-3">
                         <!-- 기존 파일 정보 안내 -->
-                        <div th:if="${result['bizRegFilePath'] != null and result['bizRegFilePath'] != ''}"
+                        <div id="existing-files-box"
+                            th:if="${result['bizRegFilePath'] != null and result['bizRegFilePath'] != ''}"
                             class="p-4 bg-gray-50 border border-gray-200 rounded-[var(--kr-gov-radius)] mb-4">
                             <p
                                 class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mb-2 uppercase tracking-wider">
@@ -199,7 +209,7 @@
                                 class="material-symbols-outlined text-[var(--kr-gov-error)] group-hover:scale-110 transition-transform">cloud_upload</span>
                             <div class="flex-grow min-w-0">
                                 <input type="file" name="fileUploads" class="hidden file-input"
-                                    accept=".pdf,.jpg,.jpeg,.png" required onchange="handleFileChange(this)" />
+                                    accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileChange(this)" />
                                 <div class="file-info flex items-center justify-between">
                                     <span class="file-name text-sm font-bold text-[var(--kr-gov-error)] truncate">새 서류를
                                         선택하거나 여기로 끌어다 놓으세요.</span>
@@ -299,7 +309,7 @@
                     newRow.innerHTML = `
                         <span class="material-symbols-outlined text-gray-400 group-hover:text-[var(--kr-gov-blue)] transition-all">attach_file</span>
                         <div class="flex-grow min-w-0">
-                            <input type="file" name="fileUploads" class="hidden file-input" accept=".pdf,.jpg,.jpeg,.png" required onchange="handleFileChange(this)" />
+                            <input type="file" name="fileUploads" class="hidden file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileChange(this)" />
                             <div class="file-info flex items-center justify-between">
                                 <span class="file-name text-sm text-gray-500 truncate">파일을 선택해 주세요.</span>
                                 <span class="file-size text-xs text-gray-400"></span>
@@ -369,6 +379,26 @@
                 const sizes = ['Bytes', 'KB', 'MB', 'GB'];
                 const i = Math.floor(Math.log(bytes) / Math.log(k));
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+            }
+
+            const reapplyForm = document.getElementById('reapplyForm');
+            if (reapplyForm) {
+                reapplyForm.addEventListener('submit', function (event) {
+                    if (!reapplyForm.checkValidity()) {
+                        event.preventDefault();
+                        reapplyForm.reportValidity();
+                        return;
+                    }
+
+                    const hasNewUpload = Array.from(reapplyForm.querySelectorAll('input[name="fileUploads"]'))
+                        .some(input => input.files && input.files.length > 0);
+                    const hasExistingFile = !!document.getElementById('existing-files-box');
+
+                    if (!hasNewUpload && !hasExistingFile) {
+                        event.preventDefault();
+                        alert('증빙 서류 파일을 1개 이상 첨부해 주세요.');
+                    }
+                });
             }
         });
     </script>
