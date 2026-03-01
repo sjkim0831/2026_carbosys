@@ -63,7 +63,7 @@ if [[ "$CHANGE_SOURCE" == "git" ]]; then
   [[ -n "${HEAD_COMMIT:-}" ]] && ARGS+=(--head "$HEAD_COMMIT")
 fi
 APP_CONTAINER="$APP_CONTAINER" MSA_MANAGER_URL="$MSA_MANAGER_URL" \
-  scripts/ci/run_changed_modules_pipeline.sh "${ARGS[@]}"
+  bash scripts/ci/run_changed_modules_pipeline.sh "${ARGS[@]}"
 '''
       }
     }
