@@ -15,6 +15,15 @@ pipeline {
     string(name: 'MSA_MANAGER_URL', defaultValue: 'http://carbosys-app:18030/admin/msa', description: 'MSA Manager API URL')
   }
 
+  environment {
+    CHANGE_SOURCE = "${params.CHANGE_SOURCE}"
+    BASE_COMMIT = "${params.BASE_COMMIT}"
+    HEAD_COMMIT = "${params.HEAD_COMMIT}"
+    DEPLOY_ROOT = "${params.DEPLOY_ROOT}"
+    APP_CONTAINER = "${params.APP_CONTAINER}"
+    MSA_MANAGER_URL = "${params.MSA_MANAGER_URL}"
+  }
+
   triggers {
     pollSCM('H/5 * * * *')
   }
