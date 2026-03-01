@@ -193,6 +193,10 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
     }
 
     private boolean isPathAuthorized(String path, String authorizedPatternCsv) {
+        // SR module is operated as a shared admin feature; require valid token but skip fine-grained path metadata.
+        if (path != null && (path.equals("/sr") || path.startsWith("/sr/"))) {
+            return true;
+        }
         AntPathMatcher matcher = new AntPathMatcher();
         String[] patterns = authorizedPatternCsv.split(",");
         for (String pattern : patterns) {
