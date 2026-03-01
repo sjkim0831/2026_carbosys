@@ -597,8 +597,9 @@
                             <button onclick="stopMod('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-red-200 text-red-600 hover:bg-red-50 ${(m.status === 'stopped' || !canManage) ? 'hidden' : ''}">중지</button>
                             <button onclick="restartMod('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-amber-200 text-amber-700 hover:bg-amber-50 ${!canManage ? 'hidden' : ''}">재시작</button>
                             <button onclick="deployRestartMod('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-violet-200 text-violet-700 hover:bg-violet-50 ${(m.status === 'starting' || !canManage) ? 'hidden' : ''}">배포+재시작</button>
+                            <button onclick="deployZeroDowntimeMod('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-cyan-200 text-cyan-700 hover:bg-cyan-50 ${(m.status === 'starting' || !canManage) ? 'hidden' : ''}">배포+무중단</button>
                             <button onclick="buildDeployRestartMod('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-fuchsia-200 text-fuchsia-700 hover:bg-fuchsia-50 ${(m.status === 'starting' || !canManage) ? 'hidden' : ''}">빌드+배포+재시작</button>
-                            <button onclick="buildDeployZeroDowntimeMod('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-cyan-200 text-cyan-700 hover:bg-cyan-50 ${(m.status === 'starting' || !canManage) ? 'hidden' : ''}">무중단 배포</button>
+                            <button onclick="buildDeployZeroDowntimeMod('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-sky-200 text-sky-700 hover:bg-sky-50 ${(m.status === 'starting' || !canManage) ? 'hidden' : ''}">빌드+무중단</button>
                             ${!canManage ? '<span class="px-2 py-1 rounded text-[10px] font-bold border border-gray-200 text-gray-400">수동관리</span>' : ''}
                             <button onclick="showLogs('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-blue-200 text-blue-600 hover:bg-blue-50">로그</button>
                         </td>
@@ -871,14 +872,26 @@
             setTimeout(() => refreshModules(), 2200);
         }
 
+        async function deployZeroDowntimeMod(id) {
+            if (!confirm('현재 target JAR로 빌드 없이 무중단 배포를 실행할까요?\n임시포트 기동→헬스체크→기존 포트 전환→임시포트 종료 순서로 동작합니다.')) return;
+            const r = await fetch('/admin/msa/api/modules/' + id + '/deploy-zerodowntime', { method: 'POST' });
+            const body = await r.json();
+            if (body.status !== 'ok') {
+                alert(body.message || '배포+무중단 실패');
+            } else {
+                showToast('success', '배포+무중단 완료');
+            }
+            setTimeout(() => refreshModules(), 2600);
+        }
+
         async function buildDeployZeroDowntimeMod(id) {
-            if (!confirm('무중단 배포를 실행할까요?\n임시포트 기동→헬스체크→기존 포트 전환→임시포트 종료 순서로 동작합니다.')) return;
+            if (!confirm('Maven 빌드 후 무중단 배포를 실행할까요?\n임시포트 기동→헬스체크→기존 포트 전환→임시포트 종료 순서로 동작합니다.')) return;
             const r = await fetch('/admin/msa/api/modules/' + id + '/build-deploy-zerodowntime', { method: 'POST' });
             const body = await r.json();
             if (body.status !== 'ok') {
-                alert(body.message || '무중단 배포 실패');
+                alert(body.message || '빌드+무중단 실패');
             } else {
-                showToast('success', '무중단 배포 완료');
+                showToast('success', '빌드+무중단 완료');
             }
             setTimeout(() => refreshModules(), 2600);
         }

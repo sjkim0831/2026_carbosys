@@ -233,6 +233,30 @@ public class MsaController {
     }
 
     @ResponseBody
+    @PostMapping("/api/modules/{id}/deploy-zerodowntime")
+    public Map<String, Object> deployZeroDowntimeModule(@PathVariable String id) {
+        Map<String, Object> result = new HashMap<>();
+        MsaScanner.ModuleInfo mod = scanner.scan().stream()
+                .filter(m -> m.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        if (mod == null) {
+            result.put("status", "error");
+            result.put("message", "Module not found");
+            return result;
+        }
+        String opResult = processManager.deployZeroDowntimeModule(mod);
+        if ("ok".equals(opResult)) {
+            result.put("status", "ok");
+            return result;
+        }
+        result.put("status", "error");
+        result.put("message", opResult);
+        return result;
+    }
+
+    @ResponseBody
     @GetMapping("/api/modules/{id}/logs")
     public Map<String, Object> getLogs(@PathVariable String id) {
         Map<String, Object> result = new HashMap<>();

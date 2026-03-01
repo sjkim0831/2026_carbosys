@@ -133,6 +133,17 @@ public class MsaProcessManager {
         if (!"ok".equals(buildResult)) {
             return buildResult;
         }
+        return deployZeroDowntimeModule(mod);
+    }
+
+    public synchronized String deployZeroDowntimeModule(MsaScanner.ModuleInfo mod) {
+        if (!mod.isJavaRunnable()) {
+            return "이 모듈은 Java 실행 대상이 아닙니다.";
+        }
+        if (mod.getPort() == null || mod.getPort() == 0) {
+            return "무중단 배포 실패: 기본 포트가 설정되어 있지 않습니다.";
+        }
+
         String deployResult = deployModuleJar(mod);
         if (!"ok".equals(deployResult)) {
             return deployResult;
