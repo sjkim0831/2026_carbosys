@@ -28,4 +28,4 @@ if ! curl -fsS --max-time 3 "$MSA_MANAGER_URL/api/modules" >/dev/null 2>&1; then
 fi
 
 WATCH_INTERVAL_SEC="$WATCH_INTERVAL_SEC" APP_CONTAINER="$APP_CONTAINER" MSA_MANAGER_URL="$MSA_MANAGER_URL" \
-  scripts/ci/watch_local_changes.sh
+  bash scripts/ci/watch_local_changes.sh
