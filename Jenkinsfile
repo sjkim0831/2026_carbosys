@@ -63,7 +63,7 @@ APP_CONTAINER="$APP_CONTAINER" MSA_MANAGER_URL="$MSA_MANAGER_URL" \
       steps {
         sh '''#!/usr/bin/env bash
 set -euo pipefail
-curl -fsS "$MSA_MANAGER_URL/api/modules" | jq -r '.[] | "\(.id)\t\(.status)\t\(.port)"'
+curl -fsS "$MSA_MANAGER_URL/api/modules" | jq -r '.[] | [.id, .status, .port] | @tsv'
 '''
       }
     }
