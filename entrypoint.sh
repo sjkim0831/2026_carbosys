@@ -49,7 +49,7 @@ echo "Other modules should be managed via MSA Manager UI."
 
 # Start merged EgovHome service (EgovJoin + home3 + signin)
 echo "Starting EgovHome..."
-java -jar /app/EgovHome.jar --server.port=18003 &
+java -jar /app/EgovHome.jar --server.port=18000 &
 
 echo "All services started!"
 echo "Waiting for all processes..."
