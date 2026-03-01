@@ -346,10 +346,18 @@ public class MsaController {
         Map<String, Object> result = new HashMap<>();
         List<String> stopped = new ArrayList<>();
         List<String> errors = new ArrayList<>();
+        final String managerId = "EgovMsaManager";
 
         // 1) Stop modules tracked by this manager (graceful destroy)
         List<MsaScanner.ModuleInfo> modules = scanner.scan();
+        MsaScanner.ModuleInfo managerModule = modules.stream()
+                .filter(m -> managerId.equals(m.getId()))
+                .findFirst()
+                .orElse(null);
         for (MsaScanner.ModuleInfo mod : modules) {
+            if (managerId.equals(mod.getId())) {
+                continue;
+            }
             String status = processManager.getStatus(mod.getId(), mod.getPort());
             if ("running".equals(status) || "starting".equals(status)) {
                 processManager.stopModule(mod.getId(), mod.getPort());
@@ -381,8 +389,24 @@ public class MsaController {
 
         // 3) Schedule self-reboot
         try {
-            // Background script: wait for port release, then restart manager
-            String rebootCmd = "sleep 3; cd /opt/carbosys/EgovMsaManager; nohup mvn spring-boot:run > /opt/carbosys/EgovMsaManager/reboot_manager.log 2>&1 &";
+            Integer managerPort = managerModule != null ? managerModule.getPort() : null;
+            if (managerPort == null || managerPort == 0) {
+                managerPort = 18030;
+            }
+            String rebootLog = "/opt/carbosys/logs/msa-manager-reboot.log";
+            String rebootCmd = "sleep 3; "
+                    + "if [ -f /app/EgovMsaManager.jar ]; then "
+                    + "nohup java -Xms64m -Xmx192m -jar /app/EgovMsaManager.jar --server.port=" + managerPort
+                    + " > " + rebootLog + " 2>&1 & "
+                    + "elif [ -f /app/EgovMsaManager/target/EgovMsaManager.jar ]; then "
+                    + "nohup java -Xms64m -Xmx192m -jar /app/EgovMsaManager/target/EgovMsaManager.jar --server.port="
+                    + managerPort + " > " + rebootLog + " 2>&1 & "
+                    + "elif [ -d /opt/carbosys/module/EgovMsaManager ]; then "
+                    + "cd /opt/carbosys/module/EgovMsaManager && "
+                    + "nohup mvn -DskipTests spring-boot:run "
+                    + "-Dspring-boot.run.arguments=--server.port=" + managerPort
+                    + " > " + rebootLog + " 2>&1 & "
+                    + "fi";
             new ProcessBuilder("sh", "-c", rebootCmd).start();
         } catch (Exception e) {
             errors.add("Reboot trigger error: " + e.getMessage());
@@ -390,7 +414,7 @@ public class MsaController {
 
         result.put("status", "ok");
         result.put("stopped", stopped);
-        result.put("message", "모든 모듈을 종료했습니다. Manager(18030) 모듈은 약 20초 후 자동으로 재시작됩니다.");
+        result.put("message", "모든 모듈을 종료했습니다. Manager 모듈은 약 20초 후 자동으로 재시작됩니다.");
 
         // 4) Exit this process after a short delay to allow the response to reach the
         // browser
