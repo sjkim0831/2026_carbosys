@@ -1,4 +1,4 @@
-$ErrorActionPreference = Stop
+$ErrorActionPreference = 'Stop'
 $RootDir = Split-Path -Parent $PSScriptRoot
 Set-Location $RootDir
 
