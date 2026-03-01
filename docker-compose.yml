@@ -35,7 +35,6 @@ services:
     ports:
       - "8761:8761"
       - "9000:9000"
-      - "18000:18000"
       - "18030:18030"
     container_name: carbosys-app
     hostname: carbosys-app
