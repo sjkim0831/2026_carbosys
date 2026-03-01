@@ -103,7 +103,7 @@ public class MsaController {
         if (mod != null) {
             if (!mod.isJavaRunnable()) {
                 result.put("status", "error");
-                result.put("message", "이 모듈은 Java 실행 대상이 아닙니다 (폴더만 감지됨)");
+                result.put("message", "등록된 모듈이지만 실행 가능한 JAR를 찾지 못했습니다.");
                 return result;
             }
             processManager.startModule(mod);
@@ -151,7 +151,7 @@ public class MsaController {
         }
         if (!mod.isJavaRunnable()) {
             result.put("status", "error");
-            result.put("message", "이 모듈은 Java 실행 대상이 아닙니다 (수동관리)");
+            result.put("message", "등록된 모듈이지만 실행 가능한 JAR를 찾지 못했습니다.");
             return result;
         }
 

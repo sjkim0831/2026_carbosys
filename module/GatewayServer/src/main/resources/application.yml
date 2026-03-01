@@ -47,6 +47,25 @@ spring:
           filters:
             - RewritePath=/admin/login/(?<segment>.*), /admin/login/${segment}
 
+        - id: EgovMsaManagerRoot
+          uri: lb://EGOVMSAMANAGER
+          predicates:
+            - Path=/admin/msa
+          filters:
+            - SetPath=/admin/msa/manager
+
+        - id: MsaShortcut
+          uri: lb://GATEWAYSERVER
+          predicates:
+            - Path=/msa
+          filters:
+            - RedirectTo=302, /admin/msa
+
+        - id: EgovMsaManager
+          uri: lb://EGOVMSAMANAGER
+          predicates:
+            - Path=/admin/msa/**
+
 
         - id: RedirectToMain
           uri: lb://GATEWAYSERVER
