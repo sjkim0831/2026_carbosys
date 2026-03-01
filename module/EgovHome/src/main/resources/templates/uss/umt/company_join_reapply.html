@@ -80,6 +80,15 @@
             <p class="text-[var(--kr-gov-text-secondary)]">반려 사유를 확인하신 후 정보를 수정하여 다시 신청해 주시기 바랍니다.</p>
         </div>
 
+        <div th:if="${errorMessage}"
+            class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm flex items-start gap-2">
+            <span class="material-symbols-outlined text-[20px] shrink-0">error</span>
+            <div class="flex-grow">
+                <p class="font-bold mb-1">재신청 처리 중 오류가 발생했습니다.</p>
+                <p th:text="${errorMessage}">Error message here</p>
+            </div>
+        </div>
+
         <div
             class="mb-10 bg-[var(--kr-gov-warning-bg)] border border-[var(--kr-gov-warning-border)] p-6 rounded-[var(--kr-gov-radius)] flex gap-4">
             <span class="material-symbols-outlined text-[var(--kr-gov-error)] text-[32px]">warning</span>

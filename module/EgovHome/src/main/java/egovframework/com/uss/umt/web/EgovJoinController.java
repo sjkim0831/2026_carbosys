@@ -666,8 +666,26 @@ public class EgovJoinController {
             org.springframework.ui.Model model) {
 
         try {
+            String normalizedInsttId = insttId == null ? "" : insttId.trim();
+
+            InsttInfoVO searchVO = new InsttInfoVO();
+            searchVO.setInsttId(normalizedInsttId);
+            searchVO.setReprsntNm(repName);
+            searchVO.setBizrno(bizNo);
+            java.util.Map<String, Object> current = entrprsManageService.selectInsttInfoForStatus(searchVO);
+            if (current == null || current.isEmpty()) {
+                model.addAttribute("errorMessage", "재신청 대상 정보를 찾을 수 없습니다.");
+                return "redirect:/join/companyJoinStatusSearch";
+            }
+
+            String insttSttus = String.valueOf(current.get("insttSttus"));
+            if (!"X".equals(insttSttus)) {
+                model.addAttribute("errorMessage", "반려된 건만 재신청이 가능합니다.");
+                return "redirect:/join/companyJoinStatusDetail?bizNo=" + bizNo + "&repName=" + repName;
+            }
+
             InsttInfoVO vo = new InsttInfoVO();
-            vo.setInsttId(insttId);
+            vo.setInsttId(normalizedInsttId);
             vo.setInsttNm(agencyName);
             vo.setReprsntNm(repName);
             vo.setBizrno(bizNo);
@@ -681,6 +699,11 @@ public class EgovJoinController {
 
             // Handle file uploads
             String uploadDir = "/opt/carbosys/file/instt";
+            java.io.File dir = new java.io.File(uploadDir);
+            if (!dir.exists() && !dir.mkdirs()) {
+                throw new Exception("Cannot create upload directory: " + uploadDir);
+            }
+
             java.util.List<String> savedPaths = new java.util.ArrayList<>();
             if (fileUploads != null && !fileUploads.isEmpty()) {
                 for (int i = 0; i < fileUploads.size(); i++) {
@@ -695,7 +718,7 @@ public class EgovJoinController {
                         if (lastDotIndex > -1)
                             ext = originalFileName.substring(lastDotIndex);
                     }
-                    String newFileName = insttId + "_" + System.currentTimeMillis() + "_" + i + ext;
+                    String newFileName = normalizedInsttId + "_" + System.currentTimeMillis() + "_" + i + ext;
                     java.io.File targetFile = new java.io.File(uploadDir, newFileName);
                     file.transferTo(targetFile);
                     savedPaths.add(targetFile.getAbsolutePath());
@@ -704,6 +727,9 @@ public class EgovJoinController {
 
             if (!savedPaths.isEmpty()) {
                 vo.setBizRegFilePath(String.join(",", savedPaths));
+            } else {
+                Object existingPath = current.get("bizRegFilePath");
+                vo.setBizRegFilePath(existingPath == null ? null : String.valueOf(existingPath));
             }
 
             entrprsManageService.updateInsttInfo(vo);
