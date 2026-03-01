@@ -24,14 +24,14 @@ public class Home3ManageController {
     public String index(Locale locale, org.springframework.ui.Model model,
             @org.springframework.web.bind.annotation.CookieValue(value = "accessToken", required = false) String accessToken) {
         model.addAttribute("isLoggedIn", accessToken != null);
-        return "home";
+        return "egovframework/com/home";
     }
 
     @RequestMapping(value = "/home3/en", method = { RequestMethod.GET, RequestMethod.POST })
     public String indexEn(Locale locale, org.springframework.ui.Model model,
             @org.springframework.web.bind.annotation.CookieValue(value = "accessToken", required = false) String accessToken) {
         model.addAttribute("isLoggedIn", accessToken != null);
-        return "home_en";
+        return "egovframework/com/home_en";
     }
 
     /**
@@ -44,7 +44,7 @@ public class Home3ManageController {
             @org.springframework.web.bind.annotation.CookieValue(value = "accessToken", required = false) String accessToken) {
         Context ctx = new Context();
         ctx.setVariable("isLoggedIn", accessToken != null);
-        String full = templateEngine.process("fragments/header", ctx);
+        String full = templateEngine.process("egovframework/com/fragments/header", ctx);
 
         // <body> 태그 내 fragment 부분만 추출
         int start = full.indexOf("<div th:fragment");
@@ -65,7 +65,7 @@ public class Home3ManageController {
     @ResponseBody
     public String footerFragment() {
         Context ctx = new Context();
-        String full = templateEngine.process("fragments/footer", ctx);
+        String full = templateEngine.process("egovframework/com/fragments/footer", ctx);
 
         int start = full.indexOf("<footer");
         int end = full.lastIndexOf("</body>");

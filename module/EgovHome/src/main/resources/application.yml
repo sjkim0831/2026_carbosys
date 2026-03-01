@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 18000
   forward-headers-strategy: native
 
 egov:
@@ -20,16 +20,16 @@ spring:
   profiles:
     active: local
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
+    driver-class-name: cubrid.jdbc.driver.CUBRIDDriver
+    url: jdbc:cubrid:cubrid:33000:com:::?charset=UTF-8
+    username: dba
     password: ""
     hikari:
       maximum-pool-size: 20
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.CUBRIDDialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     open-in-view: false
     show-sql: true
   messages:
@@ -77,14 +77,14 @@ org:
       algorithmKeyHash: gdyYs/IZqY86VcWhT8emCYfqY1ahw2vtLG+/FzNqtrQ=
 
     security:
-      loginUrl: /uat/uia/loginView
-      logoutSuccessUrl: /uat/uia/loginView
-      loginFailureUrl: /uat/uia/loginFailure
-      accessDeniedUrl: /uat/uia/accessDenied
-      csrfAccessDeniedUrl: /uat/uia/csrfAccessDenied
+      loginUrl: /signin/loginView
+      logoutSuccessUrl: /signin/loginView
+      loginFailureUrl: /signin/loginFailure
+      accessDeniedUrl: /signin/accessDenied
+      csrfAccessDeniedUrl: /signin/csrfAccessDenied
       defaultTargetUrl: /main
       dataSource: dataSource
-      excludeList: /css/**, /images/**, /js/**, /uss/umt/**, /uat/**
+      excludeList: /css/**, /images/**, /js/**, /uat/**, /uss/umt/**, /home3/**, /signin/**, /join/**
       csrf: false
       xframeOptions: sameorigin
       sniff: false
@@ -92,7 +92,7 @@ org:
       cacheControl: false
       concurrentMaxSessons: 1
       errorIfMaximumExceeded: false
-      concurrentExpiredUrl: /uat/uia/loginView
+      concurrentExpiredUrl: /signin/loginView
       hash: plaintext
       hashBase64: false
       requestMatcherType: ant

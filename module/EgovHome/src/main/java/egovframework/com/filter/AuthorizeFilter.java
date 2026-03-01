@@ -18,22 +18,19 @@ public class AuthorizeFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String uri = request.getRequestURI();
-        if (uri.startsWith("/error") || uri.startsWith("/actuator")) {
+        if (isPublicPath(uri)) {
             filterChain.doFilter(request, response);
             return;
         }
 
         String secretCodeId = request.getHeader("X-CODE-ID");
-
-        if (!request.getRequestURI().contains("/signin")) {
-            String secretCode = "-WzAnecnlNewSEQwDgJ2BQ";
-            if (ObjectUtils.isEmpty(secretCodeId) || !secretCode.equals(secretCodeId)) {
-                log.warn("##### Access Denied: Unauthorized Access Attempt uri={}", uri);
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.setContentType("application/json;charset=UTF-8");
-                response.getWriter().write("{\"status\":403,\"message\":\"Forbidden\"}");
-                return;
-            }
+        String secretCode = "-WzAnecnlNewSEQwDgJ2BQ";
+        if (ObjectUtils.isEmpty(secretCodeId) || !secretCode.equals(secretCodeId)) {
+            log.warn("##### Access Denied: Unauthorized Access Attempt uri={}", uri);
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write("{\"status\":403,\"message\":\"Forbidden\"}");
+            return;
         }
 
         filterChain.doFilter(request, response);
@@ -43,8 +40,16 @@ public class AuthorizeFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
         return path.matches(".*\\.(css|js|png|jpg|jpeg|gif|svg|woff|woff2|ttf|otf|eot|ico|html)$") ||
+                isPublicPath(path);
+    }
+
+    private boolean isPublicPath(String path) {
+        return "/".equals(path) ||
                 path.startsWith("/error") ||
-                path.startsWith("/actuator");
+                path.startsWith("/actuator") ||
+                path.startsWith("/signin") ||
+                path.startsWith("/home3") ||
+                path.startsWith("/join");
     }
 
 }
