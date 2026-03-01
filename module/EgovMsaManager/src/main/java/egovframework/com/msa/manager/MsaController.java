@@ -29,6 +29,9 @@ public class MsaController {
     @Autowired
     private LogAnalyticsService logAnalyticsService;
 
+    @Autowired
+    private OpsInsightService opsInsightService;
+
     private final MsaScanner scanner = new MsaScanner();
     private static final String MAPPING_FILE = "/app/msa-mappings.yml";
     private static final DateTimeFormatter LOG_TIME_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -323,6 +326,24 @@ public class MsaController {
     public List<Map<String, Object>> getErrorStats(@RequestParam(required = false) String from,
                                                     @RequestParam(required = false) String to) {
         return logAnalyticsService.getTopErrors(parseTimeParam(from), parseTimeParam(to));
+    }
+
+    @ResponseBody
+    @GetMapping("/api/security/violations")
+    public Map<String, Object> getSecurityViolations() {
+        return opsInsightService.getSecurityViolations();
+    }
+
+    @ResponseBody
+    @GetMapping("/api/traffic/overview")
+    public Map<String, Object> getTrafficOverview() {
+        return opsInsightService.getTrafficOverview();
+    }
+
+    @ResponseBody
+    @GetMapping("/api/accessibility/issues")
+    public Map<String, Object> getAccessibilityIssues() {
+        return opsInsightService.getAccessibilityIssues();
     }
 
     private LocalDateTime parseTimeParam(String raw) {
