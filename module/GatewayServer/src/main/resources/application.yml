@@ -63,35 +63,35 @@ spring:
             - RewritePath=/main/(?<segment>.*), /${segment}
 
         - id: home3
-          uri: lb://EGOVHOME
+          uri: lb://HOME3
           predicates:
             - Path=/home3/**
           filters:
             - RewritePath=/home3/(?<segment>.*), /home3/${segment}
 
         - id: EgovLogin
-          uri: lb://EGOVHOME
+          uri: lb://SIGNIN
           predicates:
             - Path=/uat/uia/**
           filters:
             - RewritePath=/uat/uia/(?<segment>.*), /signin/${segment}
 
         - id: DirectLogin
-          uri: lb://EGOVHOME
+          uri: lb://SIGNIN
           predicates:
             - Path=/login
           filters:
             - RewritePath=/login, /signin/loginView
 
         - id: signin
-          uri: lb://EGOVHOME
+          uri: lb://SIGNIN
           predicates:
             - Path=/signin/**
           filters:
             - RewritePath=/signin/(?<segment>.*), /signin/${segment}
 
         - id: EgovJoin
-          uri: lb://EGOVHOME
+          uri: lb://EGOVJOIN
           predicates:
             - Path=/join/**
           filters:
