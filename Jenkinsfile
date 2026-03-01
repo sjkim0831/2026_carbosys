@@ -59,8 +59,8 @@ set -euo pipefail
 cd "$DEPLOY_ROOT"
 ARGS=(--source "$CHANGE_SOURCE")
 if [[ "$CHANGE_SOURCE" == "git" ]]; then
-  [[ -n "$BASE_COMMIT" ]] && ARGS+=(--base "$BASE_COMMIT")
-  [[ -n "$HEAD_COMMIT" ]] && ARGS+=(--head "$HEAD_COMMIT")
+  [[ -n "${BASE_COMMIT:-}" ]] && ARGS+=(--base "$BASE_COMMIT")
+  [[ -n "${HEAD_COMMIT:-}" ]] && ARGS+=(--head "$HEAD_COMMIT")
 fi
 APP_CONTAINER="$APP_CONTAINER" MSA_MANAGER_URL="$MSA_MANAGER_URL" \
   scripts/ci/run_changed_modules_pipeline.sh "${ARGS[@]}"
