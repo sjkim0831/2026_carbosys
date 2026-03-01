@@ -39,11 +39,12 @@ pipeline {
       steps {
         sh '''#!/usr/bin/env bash
 set -euo pipefail
-rsync -a --delete \
+rsync -a \
   --exclude='.git/' \
   --exclude='logs/' \
   --exclude='data/' \
   --exclude='file/' \
+  --exclude='wsl.localhost/' \
   --exclude='module/*/target/' \
   --exclude='module/EgovMsaManager/runtime/' \
   "$WORKSPACE/" "$DEPLOY_ROOT/"
