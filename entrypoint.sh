@@ -26,20 +26,6 @@ java -jar /app/GatewayServer.jar &
 echo "Starting EgovMsaManager..."
 java -jar /app/EgovMsaManager.jar &
 
-echo "Starting Node msa-manager (module/msa-manager)..."
-if [ -d /opt/carbosys/module/msa-manager ]; then
-  (
-    cd /opt/carbosys/module/msa-manager
-    if [ ! -d node_modules ]; then
-      echo "Installing msa-manager dependencies..."
-      npm ci --omit=dev
-    fi
-    nohup npm start >/tmp/msa-manager-node.log 2>&1 &
-  ) || echo "WARN: Failed to start Node msa-manager. Check /tmp/msa-manager-node.log"
-else
-  echo "WARN: /opt/carbosys/module/msa-manager not found; skipping Node msa-manager startup."
-fi
-
 echo "Core services (Eureka, Config, Gateway, Manager) started!"
 echo "Other modules should be managed via MSA Manager UI."
 
@@ -62,9 +48,8 @@ echo "Other modules should be managed via MSA Manager UI."
 # java -jar /app/signin.jar &
 
 # Start merged EgovHome service (EgovJoin + home3 + signin)
-# echo "Starting EgovHome..."
-# java -jar /app/EgovHome.jar &
-# NOTE: EgovHome needs to be rebuilt with proper config (needs egov.login.lock property)
+echo "Starting EgovHome..."
+java -jar /app/EgovHome.jar --server.port=18003 &
 
 echo "All services started!"
 echo "Waiting for all processes..."

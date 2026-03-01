@@ -60,6 +60,10 @@
 			<id>cubrid-repo</id>
 			<url>https://maven.cubrid.org/</url>
 		</repository>
+		<repository>
+			<id>cubrid</id>
+			<url>https://maven.cubrid.org/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>

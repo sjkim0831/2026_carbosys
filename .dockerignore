@@ -6,6 +6,7 @@
 *.tmp
 docker-compose/cubrid/data/
 docker-compose/cubrid/init/
+data/
 
 # IDE metadata is not required for container builds.
 **/.settings/
@@ -23,3 +24,10 @@ docker-compose/cubrid/init/
 **/target/*
 # Keep prebuilt JARs if any image path still references them.
 !**/target/*.jar
+
+# Docker image builds only need prebuilt module JARs, not module sources.
+module/**
+!module/
+!module/*/
+!module/*/target/
+!module/*/target/*.jar

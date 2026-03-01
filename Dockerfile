@@ -78,6 +78,6 @@ RUN mkdir -p /app/EgovMain/target /app/EgovLogin/target /app/EgovBoard/target /a
 COPY entrypoint.sh /app/
 RUN chmod +x /app/entrypoint.sh
 
-EXPOSE 8761 9000 18000 18030 9900
+EXPOSE 8761 9000 18000 18030
 
 ENTRYPOINT /bin/sh /app/entrypoint.sh
