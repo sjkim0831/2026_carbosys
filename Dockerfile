@@ -38,6 +38,7 @@ COPY module/EgovQuestionnaire/target/EgovQuestionnaire.jar /app/
 COPY module/EgovSearch/target/EgovSearch.jar /app/
 COPY module/EgovMobileId/target/EgovMobileId.jar /app/
 COPY module/EgovLoginPolicy/target/EgovLoginPolicy.jar /app/
+COPY module/EgovSR/target/EgovSR.jar /app/
 COPY module/EgovAdminLogin/target/EgovAdminLogin.jar /app/
 COPY module/EgovAdminMain/target/EgovAdminMain.jar /app/
 COPY module/EgovCertLogin/target/EgovCertLogin.jar /app/
@@ -48,7 +49,7 @@ COPY module/EgovHome/target/EgovHome.jar /app/
 # Create target directories so MsaScanner and other tools find files in their standard locations
 RUN mkdir -p /app/EgovMain/target /app/EgovLogin/target /app/EgovBoard/target \
     /app/EgovAuthor/target /app/EgovCmmnCode/target /app/EgovQuestionnaire/target /app/EgovSearch/target \
-    /app/EgovMobileId/target /app/EgovLoginPolicy/target /app/EgovAdminMain/target \
+    /app/EgovMobileId/target /app/EgovLoginPolicy/target /app/EgovSR/target /app/EgovAdminMain/target \
     /app/EgovAdminLogin/target /app/EgovCertLogin/target /app/EgovSimpleAuth/target /app/EgovGnrLogin/target /app/EgovMsaManager/target \
     /app/EgovHome/target && \
     ln -sf /app/EgovMain.jar /app/EgovMain/target/EgovMain.jar && \
@@ -60,6 +61,7 @@ RUN mkdir -p /app/EgovMain/target /app/EgovLogin/target /app/EgovBoard/target \
     ln -sf /app/EgovSearch.jar /app/EgovSearch/target/EgovSearch.jar && \
     ln -sf /app/EgovMobileId.jar /app/EgovMobileId/target/EgovMobileId.jar && \
     ln -sf /app/EgovLoginPolicy.jar /app/EgovLoginPolicy/target/EgovLoginPolicy.jar && \
+    ln -sf /app/EgovSR.jar /app/EgovSR/target/EgovSR.jar && \
     ln -sf /app/EgovAdminMain.jar /app/EgovAdminMain/target/EgovAdminMain.jar && \
     ln -sf /app/EgovAdminLogin.jar /app/EgovAdminLogin/target/EgovAdminLogin.jar && \
     ln -sf /app/EgovCertLogin.jar /app/EgovCertLogin/target/EgovCertLogin.jar && \
@@ -72,6 +74,6 @@ RUN mkdir -p /app/EgovMain/target /app/EgovLogin/target /app/EgovBoard/target \
 COPY entrypoint.sh /app/
 RUN chmod +x /app/entrypoint.sh
 
-EXPOSE 8761 9000 18000 18030
+EXPOSE 8761 9000 18000 18011 18030
 
 ENTRYPOINT /bin/sh /app/entrypoint.sh

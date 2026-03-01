@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SR 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+<div class="max-w-6xl mx-auto p-6">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold">SR 관리 대시보드</h1>
+        <p class="text-sm text-gray-500 mt-1">요청/처리 현황, 교육 이력 문서 관리</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+        <div th:each="entry : ${statusSummary}" class="bg-white border border-gray-200 rounded p-3">
+            <div class="text-xs text-gray-500" th:text="${entry.key}">RECEIVED</div>
+            <div class="text-xl font-black text-blue-700" th:text="${entry.value}">0</div>
+        </div>
+    </div>
+
+    <div class="bg-white border border-gray-200 rounded mb-6 overflow-hidden">
+        <div class="px-4 py-3 border-b border-gray-100 font-bold">SR 목록</div>
+        <table class="w-full text-left text-sm">
+            <thead class="bg-gray-50 border-b border-gray-100">
+            <tr>
+                <th class="px-4 py-2">SR 번호</th>
+                <th class="px-4 py-2">제목</th>
+                <th class="px-4 py-2">우선순위</th>
+                <th class="px-4 py-2">상태</th>
+                <th class="px-4 py-2">담당자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${srList}" class="border-b border-gray-100 last:border-b-0">
+                <td class="px-4 py-2 font-mono" th:text="${row.c1}">SR-2026-001</td>
+                <td class="px-4 py-2" th:text="${row.c2}">제목</td>
+                <td class="px-4 py-2" th:text="${row.c3}">HIGH</td>
+                <td class="px-4 py-2" th:text="${row.c4}">DEVELOP</td>
+                <td class="px-4 py-2" th:text="${row.c5}">kim</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="bg-white border border-gray-200 rounded overflow-hidden">
+        <div class="px-4 py-3 border-b border-gray-100 font-bold">교육/증빙 문서</div>
+        <table class="w-full text-left text-sm">
+            <thead class="bg-gray-50 border-b border-gray-100">
+            <tr>
+                <th class="px-4 py-2">문서번호</th>
+                <th class="px-4 py-2">교육명</th>
+                <th class="px-4 py-2">상태</th>
+                <th class="px-4 py-2">일자</th>
+                <th class="px-4 py-2">담당자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${trainingDocs}" class="border-b border-gray-100 last:border-b-0">
+                <td class="px-4 py-2 font-mono" th:text="${row.c1}">TR-2026-011</td>
+                <td class="px-4 py-2" th:text="${row.c2}">교육명</td>
+                <td class="px-4 py-2" th:text="${row.c3}">COMPLETED</td>
+                <td class="px-4 py-2" th:text="${row.c4}">2026-02-14</td>
+                <td class="px-4 py-2" th:text="${row.c5}">kim</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

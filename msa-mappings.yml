@@ -813,3 +813,28 @@ mappings:
       - element: "본문 바로가기"
         function: "Skip Link"
         details: "접근성을 위한 본문 영역 이동 링크입니다."
+
+  # ============================================================
+  # EgovSR (Port: 18011)
+  # ============================================================
+  - path: "/sr/**"
+    module: "EgovSR"
+    gatewayPrefix: ""
+    description: "SR 관리 및 교육/증빙 문서 관리"
+    method: "GET"
+    uiElements:
+      - element: "상태 요약 카드"
+        function: "Status Summary"
+        details: "접수/분석/개발/검증/완료 상태의 SR 건수를 표시합니다."
+      - element: "SR 목록 테이블"
+        function: "Table List"
+        details: "SR 번호, 제목, 우선순위, 상태, 담당자를 조회합니다."
+      - element: "교육/증빙 문서 테이블"
+        function: "Table List"
+        details: "교육 기록 문서번호, 상태, 일자, 담당자 정보를 조회합니다."
+
+  - path: "/sr/dashboard"
+    module: "EgovSR"
+    gatewayPrefix: ""
+    description: "SR 대시보드 화면"
+    method: "GET"

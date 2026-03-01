@@ -15,6 +15,7 @@
 		<module>module/EgovLogin</module>
 		<module>module/EgovAdminLogin</module>
 		<module>module/EgovLoginPolicy</module>
+		<module>module/EgovSR</module>
 		<module>module/EgovMain</module>
 		<module>module/EgovAdminMain</module>
 		<module>module/EgovHome</module>

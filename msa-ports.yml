@@ -22,6 +22,7 @@ ports:
   EgovSearch: 18008
   EgovMobileId: 18009
   EgovLoginPolicy: 18010
+  EgovSR: 18011
   
   # Auth / Secondary Modules
   EgovCertLogin: 18031

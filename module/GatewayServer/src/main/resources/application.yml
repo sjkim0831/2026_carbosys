@@ -124,6 +124,14 @@ spring:
             - RewritePath=/uat/uap/(?<segment>.*), /uat/uap/${segment}
             - name: Auth
 
+        - id: EgovSR
+          uri: lb://EGOVSR
+          predicates:
+            - Path=/sr,/sr/**
+          filters:
+            - RewritePath=/sr/?(?<segment>.*), /sr/${segment}
+            - name: Auth
+
         - id: EgovAuthorInfo
           uri: lb://EGOVAUTHOR
           predicates:
