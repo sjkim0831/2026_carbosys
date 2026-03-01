@@ -44,7 +44,7 @@ ARGS=(--source "$SOURCE_MODE")
 [[ -n "$BASE_COMMIT" ]] && ARGS+=(--base "$BASE_COMMIT")
 [[ -n "$HEAD_COMMIT" ]] && ARGS+=(--head "$HEAD_COMMIT")
 
-mapfile -t MODS < <(scripts/ci/detect_changed_modules.sh "${ARGS[@]}" || true)
+mapfile -t MODS < <(bash scripts/ci/detect_changed_modules.sh "${ARGS[@]}" || true)
 if [[ ${#MODS[@]} -eq 0 ]]; then
   echo "No changed modules detected (source=$SOURCE_MODE)"
   exit 0
@@ -54,5 +54,5 @@ printf '%s\n' "${MODS[@]}" > .changed_modules
 paste -sd, .changed_modules > .changed_modules.csv
 
 echo "Detected modules: $(cat .changed_modules.csv)"
-APP_CONTAINER="$APP_CONTAINER" scripts/ci/build_modules_in_container.sh "${MODS[@]}"
-MSA_MANAGER_URL="$MSA_MANAGER_URL" scripts/ci/deploy_modules_via_manager.sh "${MODS[@]}"
+APP_CONTAINER="$APP_CONTAINER" bash scripts/ci/build_modules_in_container.sh "${MODS[@]}"
+MSA_MANAGER_URL="$MSA_MANAGER_URL" bash scripts/ci/deploy_modules_via_manager.sh "${MODS[@]}"
