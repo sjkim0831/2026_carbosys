@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>MSA 통합 관리 - CCUS 통합관리 시스템</title>
+    <!-- auto-deploy-retest-after-jdk -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap"
@@ -157,6 +158,7 @@
             <div class="flex items-center gap-3">
                 <span class="material-symbols-outlined text-[28px] text-[var(--kr-gov-blue)]">hub</span>
                 <h1 class="text-lg font-bold">MSA 통합 관리 시스템</h1>
+                <span id="serverModeBadge" class="px-2 py-1 rounded text-[11px] font-black bg-gray-100 text-gray-700">개발</span>
             </div>
             <div class="flex items-center gap-3">
                 <button onclick="refreshData()"
@@ -188,9 +190,12 @@
                 <button onclick="showTab('modules')" id="tab-modules" class="nav-tab active">모듈 상태 관리</button>
                 <button onclick="showTab('mappings')" id="tab-mappings" class="nav-tab">컨트롤러/경로 &amp; API 스펙</button>
                 <button onclick="showTab('changes')" id="tab-changes" class="nav-tab">변경 감지/자동 배포</button>
+                <button onclick="showTab('ops-deploy')" id="tab-ops-deploy" class="nav-tab">운영 배포</button>
                 <button onclick="showTab('logs')" id="tab-logs" class="nav-tab">로그 모니터링</button>
+                <button onclick="showTab('log-history')" id="tab-log-history" class="nav-tab">과거 로그 분석</button>
                 <button onclick="showTab('analytics')" id="tab-analytics" class="nav-tab">사용량/에러 분석</button>
                 <button onclick="showTab('security')" id="tab-security" class="nav-tab">보안 감지</button>
+                <button onclick="showTab('security-explorer')" id="tab-security-explorer" class="nav-tab">보안 탐색 제어</button>
                 <button onclick="showTab('traffic')" id="tab-traffic" class="nav-tab">트래픽 부하 감지</button>
                 <button onclick="showTab('accessibility')" id="tab-accessibility" class="nav-tab">웹 접근성 감지</button>
             </div>
@@ -264,7 +269,43 @@
                             자동 무중단 배포
                             <span id="autoDeployStateText" class="px-2 py-0.5 rounded text-[11px] bg-gray-100 text-gray-600">OFF</span>
                         </label>
+                        <label class="inline-flex items-center gap-2 text-sm font-bold">
+                            <input id="managerAutoDeployToggle" type="checkbox" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500" onchange="toggleManagerAutoDeploy(this.checked)" />
+                            MsaManager 포함
+                            <span id="managerAutoDeployStateText" class="px-2 py-0.5 rounded text-[11px] bg-gray-100 text-gray-600">OFF</span>
+                        </label>
                     </div>
+                    <div class="mt-4 grid grid-cols-1 lg:grid-cols-12 gap-2 items-end">
+                        <label class="lg:col-span-2 text-xs text-gray-600 font-bold">
+                            서버 모드
+                            <select id="runtimeServerMode" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs">
+                                <option value="development">개발</option>
+                                <option value="production">운영</option>
+                            </select>
+                        </label>
+                        <button onclick="saveRuntimeConfig()" class="lg:col-span-1 px-3 py-2 rounded text-[12px] font-bold bg-rose-600 text-white hover:bg-rose-700">모드 저장</button>
+                        <label class="lg:col-span-2 text-xs text-gray-600 font-bold">
+                            저장소 URL
+                            <input id="webhookRepoUrl" type="text" placeholder="https://github.com/org/repo.git"
+                                class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" />
+                        </label>
+                        <label class="lg:col-span-2 text-xs text-gray-600 font-bold">
+                            웹훅 토큰
+                            <input id="webhookToken" type="password" placeholder="X-Webhook-Token"
+                                class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" />
+                        </label>
+                        <button onclick="generateWebhookToken()" class="lg:col-span-1 px-3 py-2 rounded text-[12px] font-bold border border-indigo-200 text-indigo-700 hover:bg-indigo-50">토큰 생성</button>
+                        <button onclick="copyWebhookToken()" class="lg:col-span-1 px-3 py-2 rounded text-[12px] font-bold border border-slate-200 text-slate-700 hover:bg-slate-50">토큰 복사</button>
+                        <button onclick="saveWebhookConfig()" class="lg:col-span-1 px-3 py-2 rounded text-[12px] font-bold bg-indigo-600 text-white hover:bg-indigo-700">저장</button>
+                        <button onclick="checkWebhookConfig()" class="lg:col-span-1 px-3 py-2 rounded text-[12px] font-bold border border-gray-200 text-gray-700 hover:bg-gray-50">확인</button>
+                        <button onclick="triggerWebhookTest()" class="lg:col-span-1 px-3 py-2 rounded text-[12px] font-bold border border-emerald-300 text-emerald-700 hover:bg-emerald-50">테스트</button>
+                    </div>
+                    <div class="mt-2 flex flex-wrap gap-3 text-[11px] text-gray-500 mono">
+                        <span id="runtimeModeInfo">mode: development, build: allowed</span>
+                        <span id="webhookConfigInfo">repo: -, token: -</span>
+                        <span id="webhookRunState">webhook: idle</span>
+                    </div>
+                    <pre id="webhookTailBox" class="mt-2 max-h-[140px] overflow-auto rounded border border-gray-200 bg-gray-50 p-3 text-[11px] mono text-gray-700">대기 중...</pre>
                 </div>
                 <div class="gov-card overflow-hidden">
                     <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100">
@@ -289,6 +330,126 @@
                 </div>
             </div>
 
+            <!-- ============ Ops Deploy Tab ============ -->
+            <div id="content-ops-deploy" class="tab-content hidden">
+                <div class="gov-card mb-6 px-6 py-5">
+                    <div class="flex items-center justify-between gap-3">
+                        <h2 class="text-lg font-bold flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[var(--kr-gov-blue)]">cloud_upload</span>
+                            운영 배포 제어
+                        </h2>
+                        <span id="remoteModeBadge" class="px-2 py-0.5 rounded text-[11px] bg-gray-100 text-gray-700 mono">mode: development</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">개발 서버에서만 원격 배포 실행 가능. 운영 모드에서는 차단됩니다.</p>
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-6 gap-2 items-end">
+                        <label class="text-xs font-bold text-gray-600 md:col-span-2">Host
+                            <input id="remoteHost" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="10.0.0.10" />
+                        </label>
+                        <label class="text-xs font-bold text-gray-600">Port
+                            <input id="remotePort" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="22" />
+                        </label>
+                        <label class="text-xs font-bold text-gray-600">User
+                            <input id="remoteUser" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="ubuntu" />
+                        </label>
+                        <label class="text-xs font-bold text-gray-600 md:col-span-2">SSH Key Path
+                            <input id="remoteKeyPath" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="~/.ssh/id_rsa" />
+                        </label>
+                        <label class="text-xs font-bold text-gray-600 md:col-span-2">Password(Optional)
+                            <input id="remotePassword" type="password" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="ssh password" />
+                        </label>
+                        <label class="text-xs font-bold text-gray-600 md:col-span-2">Remote Dir
+                            <input id="remoteDir" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="/opt/carbosys" />
+                        </label>
+                        <label class="text-xs font-bold text-gray-600 md:col-span-1">Container
+                            <input id="remoteContainerName" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="carbosys-app" />
+                        </label>
+                        <label class="text-xs font-bold text-gray-600 md:col-span-1">Manager URL
+                            <input id="remoteManagerUrl" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="http://localhost:18030" />
+                        </label>
+                    </div>
+                    <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                        <label class="inline-flex items-center gap-2">
+                            웹훅 배포 모드
+                            <select id="remoteWebhookDeployMode" class="text-xs border border-gray-300 rounded px-2 py-1 bg-white">
+                                <option value="jar">JAR 배포+재시작</option>
+                                <option value="bluegreen">Blue/Green 컨테이너</option>
+                            </select>
+                        </label>
+                        <label class="inline-flex items-center gap-2">
+                            <input id="remoteWebhookBuildEnabled" type="checkbox" class="rounded border-gray-300 text-cyan-600" />
+                            웹훅 자동배포(빌드 포함)
+                        </label>
+                        <label class="inline-flex items-center gap-2">
+                            <input id="remoteWebhookDeployOnlyEnabled" type="checkbox" class="rounded border-gray-300 text-indigo-600" />
+                            웹훅 자동배포(빌드 제외)
+                        </label>
+                    </div>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <button onclick="saveRemoteConfig()" class="px-3 py-2 rounded text-[12px] font-bold bg-indigo-600 text-white hover:bg-indigo-700">SSH 설정 저장</button>
+                        <button onclick="runRemoteInitialDeploy()" class="px-3 py-2 rounded text-[12px] font-bold border border-cyan-200 text-cyan-700 hover:bg-cyan-50">초기 배포</button>
+                        <button onclick="runRemoteAutoDeployAll(true)" class="px-3 py-2 rounded text-[12px] font-bold border border-emerald-300 text-emerald-700 hover:bg-emerald-50">자동배포(빌드 포함)</button>
+                        <button onclick="runRemoteAutoDeployAll(false)" class="px-3 py-2 rounded text-[12px] font-bold border border-amber-300 text-amber-700 hover:bg-amber-50">자동배포(빌드 제외)</button>
+                        <button onclick="runRemoteSourceDeploy()" class="px-3 py-2 rounded text-[12px] font-bold border border-sky-300 text-sky-700 hover:bg-sky-50">소스코드 배포</button>
+                        <button onclick="runRemoteBuildOnly()" class="px-3 py-2 rounded text-[12px] font-bold border border-violet-300 text-violet-700 hover:bg-violet-50">빌드</button>
+                    </div>
+                    <div class="mt-4 rounded border border-indigo-100 bg-indigo-50 p-3">
+                        <div class="text-xs font-bold text-indigo-700 mb-2">Blue/Green 전환</div>
+                        <div class="grid grid-cols-1 md:grid-cols-6 gap-2 items-end">
+                            <input id="bgActiveColor" type="hidden" value="blue" />
+                            <div class="text-xs font-bold text-gray-600">최종 고정 상태
+                                <div class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs bg-gray-50 text-gray-700">blue (9000) 유지 / green (9001) 자동 종료</div>
+                            </div>
+                            <label class="text-xs font-bold text-gray-600 md:col-span-2">Blue Compose
+                                <input id="composeBlueFile" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="docker-compose.blue.yml" />
+                            </label>
+                            <label class="text-xs font-bold text-gray-600 md:col-span-2">Green Compose
+                                <input id="composeGreenFile" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="docker-compose.green.yml" />
+                            </label>
+                            <label class="text-xs font-bold text-gray-600">Base Services
+                                <input id="bgBaseServices" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="eureka-server config-server gateway-server" />
+                            </label>
+                            <label class="text-xs font-bold text-gray-600">Home Service
+                                <input id="bgHomeService" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="egov-home" />
+                            </label>
+                            <label class="text-xs font-bold text-gray-600">Manager Service
+                                <input id="bgManagerService" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="egov-msa-manager" />
+                            </label>
+                            <label class="text-xs font-bold text-gray-600 md:col-span-2">Nginx Switch Cmd ({color})
+                                <input id="bgNginxSwitchCmd" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="ln -sfn /etc/nginx/upstream-{color}.conf /etc/nginx/upstream.conf" />
+                            </label>
+                            <label class="text-xs font-bold text-gray-600 md:col-span-2">Nginx Reload Cmd
+                                <input id="bgNginxReloadCmd" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="nginx -s reload" />
+                            </label>
+                            <label class="text-xs font-bold text-gray-600">Blue Health URL
+                                <input id="bgBlueHealthUrl" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="http://localhost:9000/actuator/health" />
+                            </label>
+                            <label class="text-xs font-bold text-gray-600">Green Health URL
+                                <input id="bgGreenHealthUrl" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="http://localhost:9001/actuator/health" />
+                            </label>
+                        </div>
+                        <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                            <label class="inline-flex items-center gap-2"><input id="bgHomeOnly" type="checkbox" class="rounded border-gray-300 text-indigo-600" checked /> EgovHome만 기동</label>
+                            <label class="inline-flex items-center gap-2"><input id="bgIncludeManager" type="checkbox" class="rounded border-gray-300 text-indigo-600" checked /> MsaManager 포함</label>
+                            <button onclick="runBlueGreenDeploy()" class="px-3 py-2 rounded text-[12px] font-bold border border-indigo-300 text-indigo-700 hover:bg-indigo-100">Blue/Green 실행 (최종 9000 유지)</button>
+                            <button onclick="runRemoteDockerColorUp('blue')" class="px-3 py-2 rounded text-[12px] font-bold border border-blue-300 text-blue-700 hover:bg-blue-100">도커 블루(9000) 실행</button>
+                            <button onclick="runRemoteDockerColorUp('green')" class="px-3 py-2 rounded text-[12px] font-bold border border-emerald-300 text-emerald-700 hover:bg-emerald-100">도커 그린(9001) 실행</button>
+                            <button onclick="runRemoteNginxAction('blue')" class="px-3 py-2 rounded text-[12px] font-bold border border-slate-300 text-slate-700 hover:bg-slate-100">nginx blue 전환+reload</button>
+                            <button onclick="runRemoteNginxAction('green')" class="px-3 py-2 rounded text-[12px] font-bold border border-slate-300 text-slate-700 hover:bg-slate-100">nginx green 전환+reload</button>
+                            <button onclick="runRemoteNginxAction('reload')" class="px-3 py-2 rounded text-[12px] font-bold border border-slate-300 text-slate-700 hover:bg-slate-100">nginx reload</button>
+                        </div>
+                    </div>
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-4 gap-2 items-end">
+                        <label class="text-xs font-bold text-gray-600 md:col-span-2">모듈 선택
+                            <select id="remoteModuleSelect" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs"></select>
+                        </label>
+                        <button onclick="runRemoteDeploySelected(true)" class="px-3 py-2 rounded text-[12px] font-bold border border-emerald-300 text-emerald-700 hover:bg-emerald-50">빌드+JAR 배포+무중단</button>
+                        <button onclick="runRemoteDeploySelected(false)" class="px-3 py-2 rounded text-[12px] font-bold border border-amber-300 text-amber-700 hover:bg-amber-50">JAR 배포+무중단</button>
+                    </div>
+                    <div class="mt-2 text-[11px] text-gray-500 mono" id="remoteConfigInfo">remote: -</div>
+                    <pre id="remoteDeployTailBox" class="mt-2 max-h-[180px] overflow-auto rounded border border-gray-200 bg-gray-50 p-3 text-[11px] mono text-gray-700">대기 중...</pre>
+                </div>
+            </div>
+
             <!-- ============ Logs Tab ============ -->
             <div id="content-logs" class="tab-content hidden">
                 <div id="criticalBanner" class="hidden mb-4 px-4 py-3 rounded-lg border border-red-300 bg-red-50 text-red-800">
@@ -305,10 +466,39 @@
                 <div class="gov-card mb-6 px-6 py-4">
                     <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                         <div>
-                            <div class="text-sm font-bold">모듈별 로그 목록</div>
-                            <div id="logRangeLabel" class="text-xs text-gray-500 mt-1">범위: 전체</div>
+                            <div class="text-sm font-bold">모듈별 로그 목록 (실시간)</div>
+                            <div class="text-xs text-gray-500 mt-1">범위: 현재 시점 이후 실시간</div>
                         </div>
-                        <span class="text-xs text-gray-400 mono">파일: /opt/carbosys/logs/module-log-events.jsonl</span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="resetLiveLogs()" class="px-3 py-2 rounded text-[12px] font-bold bg-rose-600 text-white hover:bg-rose-700">실시간 로그 초기화</button>
+                            <span class="text-xs text-gray-400 mono">파일: /opt/carbosys/logs/module-log-events.jsonl</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="moduleLogGrid"></div>
+            </div>
+
+            <!-- ============ Log History Tab ============ -->
+            <div id="content-log-history" class="tab-content hidden">
+                <div id="historyCriticalBanner" class="hidden mb-4 px-4 py-3 rounded-lg border border-red-300 bg-red-50 text-red-800">
+                    <div class="flex items-center justify-between">
+                        <div class="font-bold flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">history</span>
+                            과거 중대 오류 분석
+                        </div>
+                        <span id="historyCriticalCount" class="text-xs font-black"></span>
+                    </div>
+                    <div id="historyCriticalHead" class="mt-2 text-xs mono"></div>
+                </div>
+
+                <div class="gov-card mb-6 px-6 py-4">
+                    <div class="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+                        <div>
+                            <div class="text-sm font-bold">아카이브 로그 모니터링</div>
+                            <div id="historyRangeLabel" class="text-xs text-gray-500 mt-1">범위: 전체</div>
+                        </div>
+                        <span class="text-xs text-gray-400 mono">파일: module-log-events*.jsonl / critical-events*.jsonl</span>
                     </div>
                     <div class="mt-4 flex flex-col gap-3">
                         <div class="flex flex-wrap gap-2">
@@ -329,12 +519,56 @@
                             </label>
                             <button onclick="applyLogRange()" class="px-3 py-2 rounded text-[12px] font-bold bg-cyan-600 text-white hover:bg-cyan-700">적용</button>
                             <button onclick="clearLogRange()" class="px-3 py-2 rounded text-[12px] font-bold border border-gray-200 text-gray-700 hover:bg-gray-50">초기화</button>
-                            <div class="text-[11px] text-gray-500">분석 탭도 동일 시간 범위를 사용합니다.</div>
+                            <div class="text-[11px] text-gray-500">과거 로그 분석은 적용 버튼 클릭 시에만 조회됩니다.</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="moduleLogGrid"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <div class="gov-card overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                            <h3 class="font-bold text-base flex items-center gap-2">
+                                <span class="material-symbols-outlined text-cyan-600">monitoring</span>
+                                과거 컨트롤러 사용량 TOP
+                            </h3>
+                            <span class="text-xs text-gray-400">archive</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-gray-50 border-y border-gray-200">
+                                    <tr>
+                                        <th class="px-4 py-3 text-xs font-bold text-gray-500 uppercase">컨트롤러/경로</th>
+                                        <th class="px-4 py-3 text-xs font-bold text-gray-500 uppercase text-right">호출수</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyControllerStatTable" class="divide-y divide-gray-100"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="gov-card overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                            <h3 class="font-bold text-base flex items-center gap-2">
+                                <span class="material-symbols-outlined text-rose-600">bug_report</span>
+                                과거 오류 다발 지점 TOP
+                            </h3>
+                            <span class="text-xs text-gray-400">archive</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-gray-50 border-y border-gray-200">
+                                    <tr>
+                                        <th class="px-4 py-3 text-xs font-bold text-gray-500 uppercase">오류 발생 위치</th>
+                                        <th class="px-4 py-3 text-xs font-bold text-gray-500 uppercase text-right">발생수</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyErrorStatTable" class="divide-y divide-gray-100"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="historyModuleLogGrid"></div>
             </div>
 
             <!-- ============ Analytics Tab ============ -->
@@ -398,7 +632,7 @@
                         <span class="text-xs text-gray-400">critical-events 기반</span>
                     </div>
                     <div class="p-6 space-y-4">
-                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                        <div class="grid grid-cols-2 lg:grid-cols-5 gap-3">
                             <div class="rounded border border-red-200 bg-red-50 px-4 py-3">
                                 <div class="text-[11px] text-red-500 font-bold uppercase">Critical</div>
                                 <div id="secCountCritical" class="mt-1 text-lg font-black text-red-700 mono">0</div>
@@ -415,6 +649,25 @@
                                 <div class="text-[11px] text-gray-500 font-bold uppercase">Low</div>
                                 <div id="secCountLow" class="mt-1 text-lg font-black text-gray-700 mono">0</div>
                             </div>
+                            <div class="rounded border border-indigo-200 bg-indigo-50 px-4 py-3">
+                                <div class="text-[11px] text-indigo-500 font-bold uppercase">Action Required</div>
+                                <div id="secCountActionRequired" class="mt-1 text-lg font-black text-indigo-700 mono">0</div>
+                            </div>
+                        </div>
+                        <div class="rounded-lg border border-rose-200 bg-rose-50 p-4">
+                            <div class="flex flex-wrap items-center justify-between gap-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-rose-600 text-[18px]">emergency</span>
+                                    <div class="text-sm font-black text-rose-700">즉시 조치 큐</div>
+                                    <div id="secActionQueueCount" class="px-2 py-0.5 rounded bg-rose-100 text-rose-700 text-[11px] font-bold mono">0</div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button id="secFilterAll" onclick="setSecurityFilter('all')" class="px-2 py-1 rounded border border-gray-300 bg-white text-gray-700 text-[11px] font-bold">전체</button>
+                                    <button id="secFilterRequired" onclick="setSecurityFilter('required')" class="px-2 py-1 rounded border border-indigo-500 bg-indigo-600 text-white text-[11px] font-bold">액션 필요</button>
+                                    <button id="secFilterImmediate" onclick="setSecurityFilter('immediate')" class="px-2 py-1 rounded border border-rose-300 bg-rose-100 text-rose-700 text-[11px] font-bold">즉시 조치</button>
+                                </div>
+                            </div>
+                            <div id="securityActionQueue" class="mt-3 space-y-2"></div>
                         </div>
                         <div class="overflow-x-auto border border-gray-100 rounded">
                             <table class="w-full text-left">
@@ -422,6 +675,7 @@
                                     <tr>
                                         <th class="px-4 py-3 text-xs font-bold text-gray-500 uppercase">시간</th>
                                         <th class="px-4 py-3 text-xs font-bold text-gray-500 uppercase">모듈</th>
+                                        <th class="px-4 py-3 text-xs font-bold text-gray-500 uppercase">조치</th>
                                         <th class="px-4 py-3 text-xs font-bold text-gray-500 uppercase">등급</th>
                                         <th class="px-4 py-3 text-xs font-bold text-gray-500 uppercase">카테고리</th>
                                         <th class="px-4 py-3 text-xs font-bold text-gray-500 uppercase">내용</th>
@@ -429,6 +683,86 @@
                                 </thead>
                                 <tbody id="securityTable" class="divide-y divide-gray-100"></tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ Security Explorer Tab ============ -->
+            <div id="content-security-explorer" class="tab-content hidden">
+                <div class="gov-card overflow-hidden mb-6">
+                    <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                        <h3 class="font-bold text-base flex items-center gap-2">
+                            <span class="material-symbols-outlined text-indigo-600">manage_search</span>
+                            보안 소스/로그 탐색 제어
+                        </h3>
+                        <span class="text-xs text-gray-400">수동 실행 모드</span>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex flex-wrap items-center gap-4">
+                            <label class="inline-flex items-center gap-2 text-sm text-gray-700">
+                                <input id="sourceScanEnabledToggle" type="checkbox" class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" onchange="toggleSourceScanEnabled(this.checked)" />
+                                소스 보안 결과 병합 활성화
+                            </label>
+                            <span id="sourceScanStateText" class="px-2 py-0.5 rounded text-[11px] bg-gray-100 text-gray-600">OFF</span>
+                            <label class="inline-flex items-center gap-2 text-sm text-gray-700">
+                                탐지 프로파일
+                                <select id="sourceScanProfileSelect" onchange="changeSourceScanProfile(this.value)" class="text-xs border border-gray-300 rounded px-2 py-1 bg-white">
+                                    <option value="strict">strict (강탐지)</option>
+                                    <option value="balanced">balanced (노이즈 컷)</option>
+                                    <option value="paranoid">paranoid (초강탐지)</option>
+                                </select>
+                            </label>
+                            <span id="sourceScanLastScanAt" class="text-xs text-gray-500 mono">마지막 스캔: -</span>
+                        </div>
+                        <div class="rounded border border-amber-100 bg-amber-50 px-4 py-3">
+                            <div class="text-xs font-bold text-amber-700 mb-2">상용급 옵션</div>
+                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 text-xs text-gray-700">
+                                <label class="inline-flex items-center gap-2"><input id="optIncludeEventEngine" type="checkbox" onchange="setSecurityAdvancedOptions()" /> 이벤트 엔진 포함</label>
+                                <label class="inline-flex items-center gap-2"><input id="optIncludeExternalEngine" type="checkbox" onchange="setSecurityAdvancedOptions()" /> 외부 API 엔진 포함</label>
+                                <label class="inline-flex items-center gap-2"><input id="optNewOnlyMode" type="checkbox" onchange="setSecurityAdvancedOptions()" /> 신규 이슈만 보기</label>
+                                <label class="inline-flex items-center gap-2"><input id="optGateCritical" type="checkbox" onchange="setSecurityAdvancedOptions()" /> CI Gate: Critical 차단</label>
+                                <label class="inline-flex items-center gap-2"><input id="optGateHigh" type="checkbox" onchange="setSecurityAdvancedOptions()" /> CI Gate: High 차단</label>
+                                <div class="flex items-center gap-2">
+                                    <button onclick="rebuildSecurityBaseline()" class="px-2 py-1 rounded border border-amber-300 bg-white text-amber-700 font-bold">베이스라인 재생성</button>
+                                    <span id="securityBaselineInfo" class="mono text-[11px] text-amber-700">baseline: 0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-3">
+                            <button onclick="runSecurityExplorer('source')" id="runSourceScanBtn" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold">소스 탐색 실행</button>
+                            <button onclick="runSecurityExplorer('logs')" id="runLogScanBtn" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold">로그 탐색 실행</button>
+                            <button onclick="runSecurityExplorer('all')" id="runAllScanBtn" class="px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-800 text-white text-sm font-bold">소스+로그 탐색 실행</button>
+                        </div>
+
+                        <div class="rounded border border-indigo-100 bg-indigo-50 px-4 py-3">
+                            <div class="flex items-center justify-between text-xs text-indigo-700 font-bold">
+                                <span id="securityExplorePhase">phase: idle</span>
+                                <span id="securityExploreEta">ETA: -</span>
+                            </div>
+                            <div class="mt-2 h-2 bg-indigo-100 rounded-full overflow-hidden">
+                                <div id="securityExploreBar" class="h-2 bg-indigo-600 rounded-full transition-all duration-300" style="width:0%"></div>
+                            </div>
+                            <div class="mt-2 flex flex-wrap items-center gap-4 text-[11px] text-indigo-800 mono">
+                                <span id="securityExploreFiles">files: 0/0</span>
+                                <span id="securityExploreMatched">matched: 0</span>
+                                <span id="securityExploreElapsed">elapsed: 0s</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                            <div class="lg:col-span-3 rounded-lg border border-[#2a2f44] bg-[#0f1320] p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="text-xs text-emerald-300 font-bold mono">Security Explorer Terminal</div>
+                                    <div id="securityExploreCurrentTarget" class="text-[11px] text-cyan-300 mono truncate max-w-[70%] text-right">-</div>
+                                </div>
+                                <pre id="securityExploreTerminal" class="h-[260px] overflow-auto rounded bg-[#090c16] border border-[#1f2438] p-3 text-[11px] text-emerald-300 mono whitespace-pre-wrap">대기 중...</pre>
+                            </div>
+                            <div class="lg:col-span-2 rounded-lg border border-gray-200 bg-white">
+                                <div class="px-4 py-3 border-b border-gray-100 text-sm font-bold text-gray-700">탐색 타임라인</div>
+                                <div id="securityExploreTimeline" class="h-[300px] overflow-auto divide-y divide-gray-100"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -577,9 +911,44 @@
         let criticalLogs = [];
         let controllerStats = [];
         let errorStats = [];
+        let historyModuleLogs = [];
+        let historyCriticalLogs = [];
+        let historyControllerStats = [];
+        let historyErrorStats = [];
         let securityViolations = [];
+        let securityFilterMode = 'required';
+        let securityExploreStatus = null;
         let trafficOverview = null;
         let accessibilityIssues = [];
+        let runtimeConfig = {
+            serverMode: 'development',
+            dangerousOpsBlocked: false,
+            buildAllowed: true
+        };
+        let remoteDeployConfig = {};
+        let webhookTokenPlain = '';
+        const webhookTokenStorageKey = 'msaWebhookTokenPlain';
+        function loadWebhookTokenCache() {
+            try {
+                const ss = sessionStorage.getItem(webhookTokenStorageKey) || '';
+                const ls = localStorage.getItem(webhookTokenStorageKey) || '';
+                return ss || ls || '';
+            } catch (e) {
+                return '';
+            }
+        }
+        function saveWebhookTokenCache(token) {
+            try {
+                if (token) {
+                    sessionStorage.setItem(webhookTokenStorageKey, token);
+                    localStorage.setItem(webhookTokenStorageKey, token);
+                } else {
+                    sessionStorage.removeItem(webhookTokenStorageKey);
+                    localStorage.removeItem(webhookTokenStorageKey);
+                }
+            } catch (e) { }
+        }
+        webhookTokenPlain = loadWebhookTokenCache();
         let logInterval = null;
         let currentLogId = null;
         let logRangeFrom = '';
@@ -593,12 +962,17 @@
             document.getElementById('tab-' + tab).classList.add('active');
             if (tab === 'mappings') refreshMappings();
             if (tab === 'changes') {
+                refreshRuntimeConfig();
                 refreshAutoDeployStatus();
+                refreshWebhookConfig();
+                refreshWebhookStatus();
                 refreshChanges();
             }
+            if (tab === 'ops-deploy') refreshOpsDeployTab();
             if (tab === 'logs') refreshLogTab();
             if (tab === 'analytics') refreshAnalyticsTab();
             if (tab === 'security') refreshSecurityTab();
+            if (tab === 'security-explorer') refreshSecurityExplorerTab();
             if (tab === 'traffic') refreshTrafficTab();
             if (tab === 'accessibility') refreshAccessibilityTab();
         }
@@ -609,8 +983,14 @@
                 await refreshMappings();
             }
             if (!document.getElementById('content-changes').classList.contains('hidden')) {
+                await refreshRuntimeConfig();
                 await refreshAutoDeployStatus();
+                await refreshWebhookConfig();
+                await refreshWebhookStatus();
                 await refreshChanges();
+            }
+            if (!document.getElementById('content-ops-deploy').classList.contains('hidden')) {
+                await refreshOpsDeployTab();
             }
             if (!document.getElementById('content-logs').classList.contains('hidden')) {
                 await refreshLogTab();
@@ -620,6 +1000,9 @@
             }
             if (!document.getElementById('content-security').classList.contains('hidden')) {
                 await refreshSecurityTab();
+            }
+            if (!document.getElementById('content-security-explorer').classList.contains('hidden')) {
+                await refreshSecurityExplorerTab();
             }
             if (!document.getElementById('content-traffic').classList.contains('hidden')) {
                 await refreshTrafficTab();
@@ -653,8 +1036,8 @@
 
         function updateLogRangeLabel() {
             const txt = rangeText();
-            const logEl = document.getElementById('logRangeLabel');
-            if (logEl) logEl.textContent = `범위: ${txt}`;
+            const hEl = document.getElementById('historyRangeLabel');
+            if (hEl) hEl.textContent = `범위: ${txt}`;
             const chgEl = document.getElementById('changeRangeLabel');
             if (chgEl) chgEl.textContent = `기간: ${txt}`;
             const anEl = document.getElementById('analyticsRangeLabel');
@@ -699,7 +1082,7 @@
             logRangeTo = toInput.value || '';
             updateLogRangeLabel();
             refreshChanges();
-            refreshLogTab();
+            refreshLogHistoryTab();
             refreshAnalyticsTab();
         }
 
@@ -712,7 +1095,6 @@
             logRangeTo = '';
             updateLogRangeLabel();
             refreshChanges();
-            refreshLogTab();
             refreshAnalyticsTab();
         }
 
@@ -765,6 +1147,7 @@
                     if (m.status === 'starting') { badge = 'bg-blue-100 text-blue-700 animate-pulse'; label = '시작 중'; }
                     if (m.status === 'error') { badge = 'bg-red-100 text-red-700'; label = '오류'; }
                     const canManage = !!m.javaRunnable;
+                    const buildHidden = (m.status === 'starting' || !canManage || !runtimeConfig.buildAllowed) ? 'hidden' : '';
 
                     return `
                     <tr class="hover:bg-blue-50/30 transition-colors">
@@ -779,8 +1162,8 @@
                             <button onclick="restartMod('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-amber-200 text-amber-700 hover:bg-amber-50 ${!canManage ? 'hidden' : ''}">재시작</button>
                             <button onclick="deployRestartMod('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-violet-200 text-violet-700 hover:bg-violet-50 ${(m.status === 'starting' || !canManage) ? 'hidden' : ''}">배포+재시작</button>
                             <button onclick="deployZeroDowntimeMod('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-cyan-200 text-cyan-700 hover:bg-cyan-50 ${(m.status === 'starting' || !canManage) ? 'hidden' : ''}">배포+무중단</button>
-                            <button onclick="buildDeployRestartMod('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-fuchsia-200 text-fuchsia-700 hover:bg-fuchsia-50 ${(m.status === 'starting' || !canManage) ? 'hidden' : ''}">빌드+배포+재시작</button>
-                            <button onclick="buildDeployZeroDowntimeMod('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-sky-200 text-sky-700 hover:bg-sky-50 ${(m.status === 'starting' || !canManage) ? 'hidden' : ''}">빌드+무중단</button>
+                            <button onclick="buildDeployRestartMod('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-fuchsia-200 text-fuchsia-700 hover:bg-fuchsia-50 ${buildHidden}">빌드+배포+재시작</button>
+                            <button onclick="buildDeployZeroDowntimeMod('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-sky-200 text-sky-700 hover:bg-sky-50 ${buildHidden}">빌드+무중단</button>
                             ${!canManage ? '<span class="px-2 py-1 rounded text-[10px] font-bold border border-gray-200 text-gray-400">수동관리</span>' : ''}
                             <button onclick="showLogs('${m.id}')" class="px-3 py-1 rounded text-[11px] font-bold border border-blue-200 text-blue-600 hover:bg-blue-50">로그</button>
                         </td>
@@ -1044,6 +1427,10 @@
         }
 
         async function buildDeployRestartMod(id) {
+            if (!runtimeConfig.buildAllowed) {
+                showToast('warning', '운영 보호 모드에서는 빌드 기반 배포가 차단됩니다.');
+                return;
+            }
             if (!confirm('모듈 폴더에서 Maven 빌드 후 /app 배포 + 재시작할까요?')) return;
             const r = await fetch('/admin/msa/api/modules/' + id + '/build-deploy-restart', { method: 'POST' });
             const body = await r.json();
@@ -1066,6 +1453,10 @@
         }
 
         async function buildDeployZeroDowntimeMod(id) {
+            if (!runtimeConfig.buildAllowed) {
+                showToast('warning', '운영 보호 모드에서는 빌드 기반 배포가 차단됩니다.');
+                return;
+            }
             if (!confirm('Maven 빌드 후 무중단 배포를 실행할까요?\n임시포트 기동→헬스체크→기존 포트 전환→임시포트 종료 순서로 동작합니다.')) return;
             const r = await fetch('/admin/msa/api/modules/' + id + '/build-deploy-zerodowntime', { method: 'POST' });
             const body = await r.json();
@@ -1121,16 +1512,90 @@
         }
 
         /* ── Changes / Auto deploy ── */
+        async function refreshRuntimeConfig() {
+            try {
+                const r = await fetch('/admin/msa/api/runtime/config');
+                const data = await r.json();
+                if (data.status !== 'ok') return;
+                runtimeConfig.serverMode = data.serverMode || 'development';
+                runtimeConfig.dangerousOpsBlocked = !!data.dangerousOpsBlocked;
+                runtimeConfig.buildAllowed = !!data.buildAllowed;
+                updateRuntimeUi();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function updateRuntimeUi() {
+            const mode = runtimeConfig.serverMode === 'production' ? '운영' : '개발';
+            const badge = document.getElementById('serverModeBadge');
+            if (badge) {
+                const prod = runtimeConfig.serverMode === 'production';
+                badge.textContent = mode;
+                badge.className = `px-2 py-1 rounded text-[11px] font-black ${prod ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'}`;
+            }
+            const modeSelect = document.getElementById('runtimeServerMode');
+            if (modeSelect) modeSelect.value = runtimeConfig.serverMode || 'development';
+            const info = document.getElementById('runtimeModeInfo');
+            if (info) {
+                info.textContent = `mode: ${runtimeConfig.serverMode}, build: ${runtimeConfig.buildAllowed ? 'allowed' : 'blocked'}`;
+            }
+            const killBtn = document.getElementById('killAllBtn');
+            if (killBtn) {
+                killBtn.disabled = !!runtimeConfig.dangerousOpsBlocked;
+                if (runtimeConfig.dangerousOpsBlocked) {
+                    killBtn.classList.add('opacity-60', 'cursor-not-allowed');
+                } else {
+                    killBtn.classList.remove('opacity-60', 'cursor-not-allowed');
+                }
+            }
+            renderModuleTable();
+        }
+
+        async function saveRuntimeConfig() {
+            try {
+                const serverMode = document.getElementById('runtimeServerMode')?.value || 'development';
+                const r = await fetch('/admin/msa/api/runtime/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ serverMode })
+                });
+                const data = await r.json();
+                if (data.status !== 'ok') throw new Error(data.message || 'save failed');
+                runtimeConfig.serverMode = data.serverMode || 'development';
+                runtimeConfig.dangerousOpsBlocked = !!data.dangerousOpsBlocked;
+                runtimeConfig.buildAllowed = !!data.buildAllowed;
+                updateRuntimeUi();
+                await refreshAutoDeployStatus();
+                await refreshWebhookStatus();
+                showToast('success', `모드 저장 완료: ${runtimeConfig.serverMode}`);
+            } catch (e) {
+                showToast('error', '모드 저장 실패: ' + e.message);
+            }
+        }
+
         async function refreshAutoDeployStatus() {
             try {
                 const r = await fetch('/admin/msa/api/autodeploy/status');
                 const data = await r.json();
                 const enabled = !!data.enabled;
+                const managerEnabled = !!data.managerEnabled;
                 const t = document.getElementById('autoDeployToggle');
                 const st = document.getElementById('autoDeployStateText');
                 t.checked = enabled;
                 st.textContent = enabled ? 'ON' : 'OFF';
                 st.className = `px-2 py-0.5 rounded text-[11px] ${enabled ? 'bg-cyan-100 text-cyan-700' : 'bg-gray-100 text-gray-600'}`;
+                const mt = document.getElementById('managerAutoDeployToggle');
+                const mst = document.getElementById('managerAutoDeployStateText');
+                if (mt) mt.checked = managerEnabled;
+                if (mst) {
+                    mst.textContent = managerEnabled ? 'ON' : 'OFF';
+                    mst.className = `px-2 py-0.5 rounded text-[11px] ${managerEnabled ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'}`;
+                }
+                if (data.serverMode) runtimeConfig.serverMode = data.serverMode;
+                if (typeof data.dangerousOpsBlocked !== 'undefined') runtimeConfig.dangerousOpsBlocked = !!data.dangerousOpsBlocked;
+                if (typeof data.buildAllowed !== 'undefined') runtimeConfig.buildAllowed = !!data.buildAllowed;
+                updateRuntimeUi();
             } catch (e) { console.error(e); }
         }
 
@@ -1139,7 +1604,10 @@
                 const r = await fetch('/admin/msa/api/autodeploy/toggle', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ enabled })
+                    body: JSON.stringify({
+                        enabled,
+                        managerEnabled: !!document.getElementById('managerAutoDeployToggle')?.checked
+                    })
                 });
                 const body = await r.json();
                 if (body.status !== 'ok') throw new Error(body.message || 'toggle failed');
@@ -1150,6 +1618,470 @@
                 showToast('error', '설정 실패: ' + e.message);
                 await refreshAutoDeployStatus();
             }
+        }
+
+        async function toggleManagerAutoDeploy(managerEnabled) {
+            try {
+                const enabled = !!document.getElementById('autoDeployToggle')?.checked;
+                const r = await fetch('/admin/msa/api/autodeploy/toggle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ enabled, managerEnabled })
+                });
+                const body = await r.json();
+                if (body.status !== 'ok') throw new Error(body.message || 'toggle failed');
+                await refreshAutoDeployStatus();
+                await refreshChanges();
+                showToast('info', `MsaManager 자동배포 대상 ${managerEnabled ? '포함' : '제외'}`);
+            } catch (e) {
+                showToast('error', '설정 실패: ' + e.message);
+                await refreshAutoDeployStatus();
+            }
+        }
+
+        async function refreshWebhookConfig() {
+            try {
+                const r = await fetch('/admin/msa/api/webhook/config');
+                const data = await r.json();
+                const repo = document.getElementById('webhookRepoUrl');
+                if (repo) repo.value = data.repository || '';
+                if (!data.hasToken) {
+                    webhookTokenPlain = '';
+                    saveWebhookTokenCache('');
+                } else if (!webhookTokenPlain) {
+                    webhookTokenPlain = loadWebhookTokenCache();
+                }
+                const tokenInput = document.getElementById('webhookToken');
+                if (tokenInput && webhookTokenPlain) {
+                    tokenInput.value = webhookTokenPlain;
+                }
+                const info = document.getElementById('webhookConfigInfo');
+                if (info) {
+                    info.textContent = `repo: ${data.repository || '-'}, token: ${data.hasToken ? (data.tokenMasked || 'set') : 'not-set'}`;
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function generateWebhookToken() {
+            try {
+                const r = await fetch('/admin/msa/api/webhook/token/generate', { method: 'POST' });
+                const data = await r.json();
+                if (data.status !== 'ok') throw new Error(data.message || 'generate failed');
+                webhookTokenPlain = data.token || '';
+                saveWebhookTokenCache(webhookTokenPlain);
+                const tokenInput = document.getElementById('webhookToken');
+                if (tokenInput) tokenInput.value = webhookTokenPlain;
+                showToast('success', '웹훅 토큰 생성 완료');
+                await refreshWebhookConfig();
+            } catch (e) {
+                showToast('error', '토큰 생성 실패: ' + e.message);
+            }
+        }
+
+        async function copyWebhookToken() {
+            try {
+                const tokenInput = document.getElementById('webhookToken');
+                const token = webhookTokenPlain || (tokenInput ? tokenInput.value.trim() : '');
+                if (!token) {
+                    showToast('warning', '복사할 토큰이 없습니다. 생성 또는 입력 후 다시 시도하세요.');
+                    return;
+                }
+                await navigator.clipboard.writeText(token);
+                showToast('info', '웹훅 토큰 복사 완료');
+            } catch (e) {
+                showToast('error', '토큰 복사 실패: ' + e.message);
+            }
+        }
+
+        async function saveWebhookConfig() {
+            try {
+                const repository = document.getElementById('webhookRepoUrl')?.value || '';
+                const inputToken = document.getElementById('webhookToken')?.value || '';
+                const token = (inputToken || webhookTokenPlain || '').trim();
+                const r = await fetch('/admin/msa/api/webhook/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ repository, token })
+                });
+                const data = await r.json();
+                if (data.status !== 'ok') throw new Error(data.message || 'save failed');
+                if (token) {
+                    webhookTokenPlain = token;
+                    saveWebhookTokenCache(webhookTokenPlain);
+                    const tokenEl = document.getElementById('webhookToken');
+                    if (tokenEl) tokenEl.value = token;
+                }
+                showToast('success', '웹훅 설정 저장 완료');
+                await refreshWebhookConfig();
+                await refreshWebhookStatus();
+            } catch (e) {
+                showToast('error', '웹훅 설정 저장 실패: ' + e.message);
+            }
+        }
+
+        async function checkWebhookConfig() {
+            try {
+                const r = await fetch('/admin/msa/api/webhook/check', { method: 'POST' });
+                const data = await r.json();
+                const msg = `repo=${data.repository || '-'}, token=${data.hasToken ? 'ok' : 'missing'}, webhook=${data.webhookAllowed === false ? 'blocked(prod)' : 'allowed'}`;
+                showToast('info', msg);
+                if (data.serverMode) runtimeConfig.serverMode = data.serverMode;
+                if (typeof data.buildAllowed !== 'undefined') runtimeConfig.buildAllowed = !!data.buildAllowed;
+                updateRuntimeUi();
+                await refreshWebhookStatus();
+            } catch (e) {
+                showToast('error', '웹훅 확인 실패: ' + e.message);
+            }
+        }
+
+        async function triggerWebhookTest() {
+            try {
+                if (runtimeConfig.dangerousOpsBlocked) {
+                    showToast('warning', '운영 모드에서는 웹훅 테스트가 차단됩니다.');
+                    return;
+                }
+                const r = await fetch('/admin/msa/api/webhook/git', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ref: 'refs/heads/main', source: 'manual-test' })
+                });
+                const data = await r.json();
+                if (!r.ok || (data.status !== 'accepted' && data.status !== 'queued')) {
+                    throw new Error(data.message || 'webhook trigger failed');
+                }
+                showToast('info', `웹훅 테스트 ${data.status}`);
+                setTimeout(refreshWebhookStatus, 900);
+            } catch (e) {
+                showToast('error', '웹훅 테스트 실패: ' + e.message);
+            }
+        }
+
+        async function refreshWebhookStatus() {
+            try {
+                const r = await fetch('/admin/msa/api/webhook/status');
+                const data = await r.json();
+                const state = document.getElementById('webhookRunState');
+                if (state) {
+                    const run = data.running ? 'running' : (data.queued ? 'queued' : 'idle');
+                    state.textContent = `webhook: ${run}, last=${data.lastFinished || '-'}, exit=${data.lastExitCode == null ? '-' : data.lastExitCode}`;
+                }
+                if (data.serverMode) runtimeConfig.serverMode = data.serverMode;
+                if (typeof data.buildAllowed !== 'undefined') runtimeConfig.buildAllowed = !!data.buildAllowed;
+                updateRuntimeUi();
+                if (typeof data.webhookRemoteBuildEnabled !== 'undefined') {
+                    const b = document.getElementById('remoteWebhookBuildEnabled');
+                    if (b) b.checked = !!data.webhookRemoteBuildEnabled;
+                }
+                if (typeof data.webhookRemoteDeployOnlyEnabled !== 'undefined') {
+                    const d = document.getElementById('remoteWebhookDeployOnlyEnabled');
+                    if (d) d.checked = !!data.webhookRemoteDeployOnlyEnabled;
+                }
+                if (typeof data.webhookDeployMode !== 'undefined') {
+                    const m = document.getElementById('remoteWebhookDeployMode');
+                    if (m) m.value = data.webhookDeployMode || 'jar';
+                }
+                const tailBox = document.getElementById('webhookTailBox');
+                const lines = data.tail || [];
+                if (tailBox) {
+                    tailBox.textContent = lines.length ? lines.join('\n') : '대기 중...';
+                    tailBox.scrollTop = tailBox.scrollHeight;
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function refreshOpsDeployTab() {
+            await Promise.all([refreshRemoteConfig(), refreshRemoteStatus()]);
+            fillRemoteModuleSelect();
+        }
+
+        function fillRemoteModuleSelect() {
+            const sel = document.getElementById('remoteModuleSelect');
+            if (!sel) return;
+            const rows = (modules || []).filter(m => m && m.javaRunnable && m.id !== 'EgovMsaManager');
+            const current = sel.value;
+            sel.innerHTML = rows.map(m => `<option value="${m.id}">${m.id}</option>`).join('');
+            if (current && rows.some(r => r.id === current)) sel.value = current;
+        }
+
+        async function refreshRemoteConfig() {
+            try {
+                const r = await fetch('/admin/msa/api/remote/config');
+                const data = await r.json();
+                remoteDeployConfig = data || {};
+                const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+                setVal('remoteHost', data.host);
+                setVal('remotePort', data.port || '22');
+                setVal('remoteUser', data.user);
+                setVal('remoteKeyPath', data.keyPath);
+                setVal('remoteDir', data.remoteDir || '/opt/carbosys');
+                setVal('remoteContainerName', data.containerName || 'carbosys-app');
+                setVal('remoteManagerUrl', data.managerUrl || 'http://localhost:18030');
+                setVal('composeBlueFile', data.composeBlueFile || 'docker-compose.blue.yml');
+                setVal('composeGreenFile', data.composeGreenFile || 'docker-compose.green.yml');
+                setVal('bgNginxSwitchCmd', data.nginxSwitchCmd || '');
+                setVal('bgNginxReloadCmd', data.nginxReloadCmd || 'nginx -s reload');
+                setVal('bgBlueHealthUrl', data.blueGatewayHealthUrl || 'http://localhost:9000/actuator/health');
+                setVal('bgGreenHealthUrl', data.greenGatewayHealthUrl || 'http://localhost:9001/actuator/health');
+                setVal('bgBaseServices', data.baseServices || 'eureka-server config-server gateway-server');
+                setVal('bgHomeService', data.homeService || 'egov-home');
+                setVal('bgManagerService', data.managerService || 'egov-msa-manager');
+                const pw = document.getElementById('remotePassword');
+                if (pw) pw.value = '';
+                const wb = document.getElementById('remoteWebhookBuildEnabled');
+                if (wb) wb.checked = !!data.webhookRemoteBuildEnabled;
+                const wd = document.getElementById('remoteWebhookDeployOnlyEnabled');
+                if (wd) wd.checked = !!data.webhookRemoteDeployOnlyEnabled;
+                const wm = document.getElementById('remoteWebhookDeployMode');
+                if (wm) wm.value = data.webhookDeployMode || 'jar';
+                const ac = document.getElementById('bgActiveColor');
+                if (ac) ac.value = data.activeColor || 'blue';
+                const info = document.getElementById('remoteConfigInfo');
+                if (info) info.textContent = `remote: ${data.user || '-'}@${data.host || '-'}:${data.port || '22'}, dir=${data.remoteDir || '-'}, mode=${data.serverMode || '-'}`;
+                const badge = document.getElementById('remoteModeBadge');
+                if (badge) {
+                    const prod = data.serverMode === 'production';
+                    badge.textContent = `mode: ${data.serverMode || 'development'}`;
+                    badge.className = `px-2 py-0.5 rounded text-[11px] mono ${prod ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'}`;
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function saveRemoteConfig() {
+            try {
+                const payload = {
+                    host: document.getElementById('remoteHost')?.value || '',
+                    port: document.getElementById('remotePort')?.value || '22',
+                    user: document.getElementById('remoteUser')?.value || '',
+                    keyPath: document.getElementById('remoteKeyPath')?.value || '',
+                    password: document.getElementById('remotePassword')?.value || '',
+                    remoteDir: document.getElementById('remoteDir')?.value || '/opt/carbosys',
+                    containerName: document.getElementById('remoteContainerName')?.value || 'carbosys-app',
+                    managerUrl: document.getElementById('remoteManagerUrl')?.value || 'http://localhost:18030',
+                    activeColor: document.getElementById('bgActiveColor')?.value || 'blue',
+                    composeBlueFile: document.getElementById('composeBlueFile')?.value || 'docker-compose.blue.yml',
+                    composeGreenFile: document.getElementById('composeGreenFile')?.value || 'docker-compose.green.yml',
+                    nginxSwitchCmd: document.getElementById('bgNginxSwitchCmd')?.value || '',
+                    nginxReloadCmd: document.getElementById('bgNginxReloadCmd')?.value || 'nginx -s reload',
+                    blueGatewayHealthUrl: document.getElementById('bgBlueHealthUrl')?.value || 'http://localhost:9000/actuator/health',
+                    greenGatewayHealthUrl: document.getElementById('bgGreenHealthUrl')?.value || 'http://localhost:9001/actuator/health',
+                    baseServices: document.getElementById('bgBaseServices')?.value || 'eureka-server config-server gateway-server',
+                    homeService: document.getElementById('bgHomeService')?.value || 'egov-home',
+                    managerService: document.getElementById('bgManagerService')?.value || 'egov-msa-manager',
+                    webhookDeployMode: document.getElementById('remoteWebhookDeployMode')?.value || 'jar',
+                    webhookRemoteBuildEnabled: !!document.getElementById('remoteWebhookBuildEnabled')?.checked,
+                    webhookRemoteDeployOnlyEnabled: !!document.getElementById('remoteWebhookDeployOnlyEnabled')?.checked
+                };
+                const r = await fetch('/admin/msa/api/remote/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await r.json();
+                if (data.status !== 'ok') throw new Error(data.message || 'save failed');
+                showToast('success', '원격 배포 설정 저장 완료');
+                await refreshRemoteConfig();
+                await refreshWebhookStatus();
+            } catch (e) {
+                showToast('error', '원격 배포 설정 저장 실패: ' + e.message);
+            }
+        }
+
+        async function runRemoteInitialDeploy() {
+            try {
+                if (runtimeConfig.dangerousOpsBlocked) {
+                    showToast('warning', '운영 모드에서는 차단됩니다.');
+                    return;
+                }
+                if (!confirm('운영 서버 초기 배포를 실행할까요? (파일 전송 + docker compose up -d --build)')) return;
+                const r = await fetch('/admin/msa/api/remote/initial-deploy', { method: 'POST' });
+                const data = await r.json();
+                if (data.status !== 'ok') throw new Error(data.message || 'initial deploy failed');
+                showToast('success', data.message || '초기 배포 완료');
+                await refreshRemoteStatus();
+            } catch (e) {
+                showToast('error', '초기 배포 실패: ' + e.message);
+                await refreshRemoteStatus();
+            }
+        }
+
+        async function runRemoteSourceDeploy() {
+            try {
+                if (runtimeConfig.dangerousOpsBlocked) {
+                    showToast('warning', '운영 모드에서는 차단됩니다.');
+                    return;
+                }
+                if (!confirm('소스코드 배포를 실행할까요? (원격 서버에 파일 전송/압축해제)')) return;
+                await saveRemoteConfig();
+                const r = await fetch('/admin/msa/api/remote/source-deploy', { method: 'POST' });
+                const data = await r.json();
+                if (data.status !== 'ok') throw new Error(data.message || 'source deploy failed');
+                showToast('success', data.message || '소스코드 배포 완료');
+                await refreshRemoteStatus();
+            } catch (e) {
+                showToast('error', '소스코드 배포 실패: ' + e.message);
+                await refreshRemoteStatus();
+            }
+        }
+
+        async function runRemoteBuildOnly() {
+            try {
+                if (runtimeConfig.dangerousOpsBlocked) {
+                    showToast('warning', '운영 모드에서는 차단됩니다.');
+                    return;
+                }
+                if (!confirm('빌드를 실행할까요? (로컬 /opt/carbosys 기준 mvn -DskipTests package)')) return;
+                const r = await fetch('/admin/msa/api/remote/build', { method: 'POST' });
+                const data = await r.json();
+                if (data.status !== 'ok') throw new Error(data.message || 'build failed');
+                showToast('success', data.message || '빌드 완료');
+                await refreshRemoteStatus();
+            } catch (e) {
+                showToast('error', '빌드 실패: ' + e.message);
+                await refreshRemoteStatus();
+            }
+        }
+
+        async function runRemoteDockerColorUp(color) {
+            try {
+                if (runtimeConfig.dangerousOpsBlocked) {
+                    showToast('warning', '운영 모드에서는 차단됩니다.');
+                    return;
+                }
+                const includeManager = !!document.getElementById('bgIncludeManager')?.checked;
+                const homeOnly = !!document.getElementById('bgHomeOnly')?.checked;
+                if (!confirm(`도커 ${color} 기동을 실행할까요?\n옵션: homeOnly=${homeOnly}, includeManager=${includeManager}`)) return;
+                await saveRemoteConfig();
+                const r = await fetch('/admin/msa/api/remote/docker/color-up', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ color, includeManager, homeOnly, build: true })
+                });
+                const data = await r.json();
+                if (data.status !== 'ok') throw new Error(data.message || 'docker color up failed');
+                showToast('success', data.message || `도커 ${color} 기동 완료`);
+                await refreshRemoteConfig();
+                await refreshRemoteStatus();
+            } catch (e) {
+                showToast('error', `도커 ${color} 기동 실패: ` + e.message);
+                await refreshRemoteStatus();
+            }
+        }
+
+        async function runRemoteNginxAction(action) {
+            try {
+                if (runtimeConfig.dangerousOpsBlocked) {
+                    showToast('warning', '운영 모드에서는 차단됩니다.');
+                    return;
+                }
+                const msg = action === 'reload'
+                    ? 'nginx reload 명령을 실행할까요?'
+                    : `nginx를 ${action}로 전환하고 reload 할까요?`;
+                if (!confirm(msg)) return;
+                await saveRemoteConfig();
+                const r = await fetch('/admin/msa/api/remote/nginx', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action })
+                });
+                const data = await r.json();
+                if (data.status !== 'ok') throw new Error(data.message || 'nginx command failed');
+                showToast('success', data.message || 'nginx 명령 완료');
+                await refreshRemoteConfig();
+                await refreshRemoteStatus();
+            } catch (e) {
+                showToast('error', 'nginx 명령 실패: ' + e.message);
+                await refreshRemoteStatus();
+            }
+        }
+
+        async function runBlueGreenDeploy() {
+            try {
+                if (runtimeConfig.dangerousOpsBlocked) {
+                    showToast('warning', '운영 모드에서는 차단됩니다.');
+                    return;
+                }
+                const includeManager = !!document.getElementById('bgIncludeManager')?.checked;
+                const homeOnly = !!document.getElementById('bgHomeOnly')?.checked;
+                if (!confirm(`Blue/Green 전환을 실행할까요?\n최종 상태: blue(9000) 유지, green(9001) 자동 종료\n옵션: homeOnly=${homeOnly}, includeManager=${includeManager}`)) return;
+                await saveRemoteConfig();
+                const r = await fetch('/admin/msa/api/remote/bluegreen/deploy', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ includeManager, homeOnly })
+                });
+                const data = await r.json();
+                if (data.status !== 'ok') throw new Error(data.message || 'blue/green deploy failed');
+                showToast('success', data.message || 'Blue/Green 전환 완료');
+                await refreshRemoteConfig();
+                await refreshRemoteStatus();
+            } catch (e) {
+                showToast('error', 'Blue/Green 전환 실패: ' + e.message);
+                await refreshRemoteStatus();
+            }
+        }
+
+        async function runRemoteAutoDeployAll(build) {
+            try {
+                if (runtimeConfig.dangerousOpsBlocked) {
+                    showToast('warning', '운영 모드에서는 차단됩니다.');
+                    return;
+                }
+                const label = build ? '자동배포(빌드 포함)' : '자동배포(빌드 제외)';
+                if (!confirm(`${label}를 실행할까요?\nDockerfile 기반 전체 배포가 수행됩니다.`)) return;
+                const r = await fetch('/admin/msa/api/remote/auto-deploy-all', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ build })
+                });
+                const data = await r.json();
+                if (data.status !== 'ok') throw new Error(data.message || 'auto deploy failed');
+                showToast('success', data.message || '원격 자동배포 완료');
+                await refreshRemoteStatus();
+            } catch (e) {
+                showToast('error', '원격 자동배포 실패: ' + e.message);
+                await refreshRemoteStatus();
+            }
+        }
+
+        async function runRemoteDeploySelected(build) {
+            try {
+                if (runtimeConfig.dangerousOpsBlocked) {
+                    showToast('warning', '운영 모드에서는 차단됩니다.');
+                    return;
+                }
+                const moduleId = document.getElementById('remoteModuleSelect')?.value || '';
+                if (!moduleId) {
+                    showToast('warning', '모듈을 선택하세요.');
+                    return;
+                }
+                const label = build ? '빌드+JAR+무중단' : 'JAR+무중단';
+                if (!confirm(`${moduleId} ${label} 배포를 실행할까요?`)) return;
+                const r = await fetch('/admin/msa/api/remote/deploy-module', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ moduleId, build })
+                });
+                const data = await r.json();
+                if (data.status !== 'ok') throw new Error(data.message || 'remote deploy failed');
+                showToast('success', data.message || '원격 배포 완료');
+                await refreshRemoteStatus();
+            } catch (e) {
+                showToast('error', '원격 배포 실패: ' + e.message);
+                await refreshRemoteStatus();
+            }
+        }
+
+        async function refreshRemoteStatus() {
+            try {
+                const r = await fetch('/admin/msa/api/remote/status');
+                const data = await r.json();
+                const tail = document.getElementById('remoteDeployTailBox');
+                const lines = data.tail || [];
+                if (tail) {
+                    tail.textContent = lines.length ? lines.join('\n') : '대기 중...';
+                    tail.scrollTop = tail.scrollHeight;
+                }
+            } catch (e) { console.error(e); }
         }
 
         async function refreshChanges() {
@@ -1225,7 +2157,7 @@
 
         async function refreshModuleLogs() {
             try {
-                const r = await fetch('/admin/msa/api/logs/modules' + getLogRangeQuery());
+                const r = await fetch('/admin/msa/api/logs/modules');
                 const data = await r.json();
                 moduleLogs = data.modules || [];
             } catch (e) { console.error(e); }
@@ -1233,9 +2165,26 @@
 
         async function refreshCriticalLogs() {
             try {
-                const r = await fetch('/admin/msa/api/logs/critical' + getLogRangeQuery());
+                const r = await fetch('/admin/msa/api/logs/critical');
                 criticalLogs = await r.json();
             } catch (e) { console.error(e); }
+        }
+
+        async function resetLiveLogs() {
+            if (!confirm('실시간 로그 모니터링을 초기화합니다.\n현재 이벤트 파일을 분리 보관하고, 이후 시점 로그부터 다시 수집합니다.\n계속하시겠습니까?')) {
+                return;
+            }
+            try {
+                const res = await fetch('/admin/msa/api/logs/reset', { method: 'POST' });
+                const data = await res.json();
+                if (!res.ok || data.status !== 'ok') {
+                    throw new Error(data.message || '실시간 로그 초기화 실패');
+                }
+                showToast('success', data.message || '실시간 로그를 초기화했습니다.');
+                await refreshLogTab();
+            } catch (e) {
+                showToast('error', e.message || '실시간 로그 초기화 실패');
+            }
         }
 
         function renderCriticalBanner() {
@@ -1275,6 +2224,118 @@
                         <div class="text-xs text-gray-400 mono">${m.count || 0} lines</div>
                     </div>
                     <div id="mlog-${idx}" class="log-box h-[260px] rounded-none">${lines || '<div class="text-gray-500">no logs</div>'}</div>
+                </div>`;
+            }).join('');
+        }
+
+        /* ── Log History Tab ── */
+        async function refreshLogHistoryTab() {
+            await Promise.all([
+                refreshHistoryModuleLogs(),
+                refreshHistoryCriticalLogs(),
+                refreshHistoryControllerStats(),
+                refreshHistoryErrorStats()
+            ]);
+            renderHistoryCriticalBanner();
+            renderHistoryControllerStats();
+            renderHistoryErrorStats();
+            renderHistoryModuleLogs();
+        }
+
+        async function refreshHistoryModuleLogs() {
+            try {
+                const r = await fetch('/admin/msa/api/logs/archive/modules' + getLogRangeQuery());
+                const data = await r.json();
+                historyModuleLogs = data.modules || [];
+            } catch (e) { console.error(e); }
+        }
+
+        async function refreshHistoryCriticalLogs() {
+            try {
+                const r = await fetch('/admin/msa/api/logs/archive/critical' + getLogRangeQuery());
+                historyCriticalLogs = await r.json();
+            } catch (e) { console.error(e); }
+        }
+
+        async function refreshHistoryControllerStats() {
+            try {
+                const r = await fetch('/admin/msa/api/stats/archive/controllers' + getLogRangeQuery());
+                historyControllerStats = await r.json();
+            } catch (e) { console.error(e); }
+        }
+
+        async function refreshHistoryErrorStats() {
+            try {
+                const r = await fetch('/admin/msa/api/stats/archive/errors' + getLogRangeQuery());
+                historyErrorStats = await r.json();
+            } catch (e) { console.error(e); }
+        }
+
+        function renderHistoryCriticalBanner() {
+            const banner = document.getElementById('historyCriticalBanner');
+            const cnt = document.getElementById('historyCriticalCount');
+            const head = document.getElementById('historyCriticalHead');
+            if (!historyCriticalLogs || historyCriticalLogs.length === 0) {
+                banner.classList.add('hidden');
+                return;
+            }
+            const top = historyCriticalLogs[0];
+            cnt.textContent = `기간 중대오류 ${historyCriticalLogs.length}건`;
+            head.textContent = `[${top.time || ''}] ${top.module || ''} | ${top.message || ''}`;
+            banner.classList.remove('hidden');
+        }
+
+        function renderHistoryControllerStats() {
+            const tbody = document.getElementById('historyControllerStatTable');
+            if (!historyControllerStats || historyControllerStats.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="2" class="px-4 py-8 text-center text-sm text-gray-400">데이터 없음</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = historyControllerStats.map(r => `
+                <tr class="hover:bg-cyan-50/30">
+                    <td class="px-4 py-3 text-xs mono text-cyan-800">${escHtml(r.controller || '')}</td>
+                    <td class="px-4 py-3 text-right text-sm font-black text-cyan-700 mono">${r.count || 0}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderHistoryErrorStats() {
+            const tbody = document.getElementById('historyErrorStatTable');
+            if (!historyErrorStats || historyErrorStats.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="2" class="px-4 py-8 text-center text-sm text-gray-400">데이터 없음</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = historyErrorStats.map(r => `
+                <tr class="hover:bg-rose-50/30">
+                    <td class="px-4 py-3 text-xs mono text-rose-800">${escHtml(r.source || '')}</td>
+                    <td class="px-4 py-3 text-right text-sm font-black text-rose-700 mono">${r.count || 0}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderHistoryModuleLogs() {
+            const grid = document.getElementById('historyModuleLogGrid');
+            if (!historyModuleLogs || historyModuleLogs.length === 0) {
+                grid.innerHTML = `<div class="gov-card p-8 text-center text-gray-400 text-sm">기간 내 아카이브 로그 없음</div>`;
+                return;
+            }
+            grid.innerHTML = historyModuleLogs.map((m, idx) => {
+                const logs = m.logs || [];
+                const lines = logs.slice(-80).map(l => {
+                    const msg = l.message || '';
+                    let cls = 'text-gray-300';
+                    if (msg.includes('FATAL') || msg.includes('ERROR') || msg.includes('Exception')) cls = 'text-pink-300';
+                    else if (msg.includes('WARN')) cls = 'text-amber-300';
+                    else if (msg.includes('INFO')) cls = 'text-lime-300';
+                    return `<div class="${cls}">[${escHtml(l.time || '')}] ${escHtml(msg)}</div>`;
+                }).join('');
+                return `
+                <div class="gov-card overflow-hidden">
+                    <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                        <div class="font-bold mono text-[var(--kr-gov-blue)]">${escHtml(m.module || '')}</div>
+                        <div class="text-xs text-gray-400 mono">${m.count || 0} lines</div>
+                    </div>
+                    <div id="hlog-${idx}" class="log-box h-[260px] rounded-none">${lines || '<div class="text-gray-500">no logs</div>'}</div>
                 </div>`;
             }).join('');
         }
@@ -1339,6 +2400,7 @@
                 document.getElementById('secCountHigh').textContent = gc.high || 0;
                 document.getElementById('secCountMedium').textContent = gc.medium || 0;
                 document.getElementById('secCountLow').textContent = gc.low || 0;
+                document.getElementById('secCountActionRequired').textContent = data.actionRequired || 0;
                 renderSecurityTable();
             } catch (e) {
                 console.error(e);
@@ -1348,24 +2410,245 @@
         function renderSecurityTable() {
             const tbody = document.getElementById('securityTable');
             if (!securityViolations || securityViolations.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-8 text-center text-sm text-gray-400">감지 항목 없음</td></tr>`;
+                renderSecurityActionQueue([]);
+                tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-8 text-center text-sm text-gray-400">감지 항목 없음</td></tr>`;
                 return;
             }
-            tbody.innerHTML = securityViolations.slice(0, 200).map(v => {
+            const topActionItems = securityViolations
+                .filter(v => v.actionRequired === true || String(v.action || '').toLowerCase() === 'immediate')
+                .slice(0, 8);
+            renderSecurityActionQueue(topActionItems);
+
+            const filtered = securityViolations.filter(v => {
+                const action = String(v.action || '').toLowerCase();
+                if (securityFilterMode === 'required') return v.actionRequired === true;
+                if (securityFilterMode === 'immediate') return action === 'immediate';
+                return true;
+            });
+            if (!filtered.length) {
+                tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-8 text-center text-sm text-gray-400">선택한 필터에서 감지 항목 없음</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.slice(0, 200).map(v => {
                 const g = String(v.grade || '').toLowerCase();
+                const action = String(v.action || '').toLowerCase();
                 let gCls = 'bg-gray-100 text-gray-700';
                 if (g === 'critical') gCls = 'bg-red-100 text-red-700';
                 else if (g === 'high') gCls = 'bg-orange-100 text-orange-700';
                 else if (g === 'medium') gCls = 'bg-amber-100 text-amber-700';
+                let aCls = 'bg-gray-100 text-gray-700';
+                if (action === 'immediate') aCls = 'bg-rose-100 text-rose-700';
+                else if (action === 'required') aCls = 'bg-indigo-100 text-indigo-700';
+                else if (action === 'review') aCls = 'bg-cyan-100 text-cyan-700';
                 return `
                 <tr class="hover:bg-red-50/20">
                     <td class="px-4 py-3 text-xs mono text-gray-500">${escHtml(v.time || '')}</td>
                     <td class="px-4 py-3 text-xs mono font-bold text-[var(--kr-gov-blue)]">${escHtml(v.module || '')}</td>
+                    <td class="px-4 py-3 text-xs"><span class="status-badge ${aCls}">${escHtml(v.action || 'observe')}</span><div class="text-[10px] text-gray-400 mono mt-0.5">${escHtml(String(v.priorityScore ?? ''))}</div></td>
                     <td class="px-4 py-3 text-xs"><span class="status-badge ${gCls}">${escHtml(v.grade || 'low')}</span></td>
                     <td class="px-4 py-3 text-xs text-gray-700">${escHtml(v.category || '')}</td>
-                    <td class="px-4 py-3 text-xs text-gray-700">${escHtml(v.message || '')}</td>
+                    <td class="px-4 py-3 text-xs text-gray-700">${escHtml(v.message || '')}<div class="text-[10px] text-gray-400 mt-1">${escHtml(v.remediation || '')}</div></td>
                 </tr>`;
             }).join('');
+        }
+
+        function renderSecurityActionQueue(items) {
+            const box = document.getElementById('securityActionQueue');
+            const cnt = document.getElementById('secActionQueueCount');
+            if (cnt) cnt.textContent = String((items || []).length);
+            if (!box) return;
+            if (!items || !items.length) {
+                box.innerHTML = `<div class="text-xs text-rose-700/80">즉시 조치가 필요한 항목이 없습니다.</div>`;
+                return;
+            }
+            box.innerHTML = items.map(v => `
+                <div class="rounded border border-rose-200 bg-white px-3 py-2">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div class="text-xs font-bold text-rose-700">${escHtml(v.module || '-')} · ${escHtml(v.rule || '-')}</div>
+                        <div class="text-[11px] text-rose-600 mono">priority ${escHtml(String(v.priorityScore ?? ''))}</div>
+                    </div>
+                    <div class="mt-1 text-[11px] text-gray-700 mono">${escHtml((v.file || '-') + ':' + (v.line || '-'))}</div>
+                    <div class="mt-1 text-[11px] text-gray-600">${escHtml(v.remediation || '')}</div>
+                </div>
+            `).join('');
+        }
+
+        function setSecurityFilter(mode) {
+            securityFilterMode = mode;
+            const isAll = mode === 'all';
+            const isRequired = mode === 'required';
+            const isImmediate = mode === 'immediate';
+            document.getElementById('secFilterAll').className = `px-2 py-1 rounded border text-[11px] font-bold ${isAll ? 'border-gray-500 bg-gray-700 text-white' : 'border-gray-300 bg-white text-gray-700'}`;
+            document.getElementById('secFilterRequired').className = `px-2 py-1 rounded border text-[11px] font-bold ${isRequired ? 'border-indigo-500 bg-indigo-600 text-white' : 'border-indigo-300 bg-indigo-50 text-indigo-700'}`;
+            document.getElementById('secFilterImmediate').className = `px-2 py-1 rounded border text-[11px] font-bold ${isImmediate ? 'border-rose-500 bg-rose-600 text-white' : 'border-rose-300 bg-rose-100 text-rose-700'}`;
+            renderSecurityTable();
+        }
+
+        async function refreshSecurityExplorerTab() {
+            try {
+                const [cfgRes, stRes] = await Promise.all([
+                    fetch('/admin/msa/api/security/source-scan/config'),
+                    fetch('/admin/msa/api/security/explore/status')
+                ]);
+                const cfg = await cfgRes.json();
+                const st = await stRes.json();
+                securityExploreStatus = st;
+
+                const toggle = document.getElementById('sourceScanEnabledToggle');
+                const state = document.getElementById('sourceScanStateText');
+                const profile = document.getElementById('sourceScanProfileSelect');
+                const last = document.getElementById('sourceScanLastScanAt');
+                const baselineInfo = document.getElementById('securityBaselineInfo');
+                if (toggle) toggle.checked = !!cfg.enabled;
+                if (state) {
+                    state.textContent = cfg.enabled ? 'ON' : 'OFF';
+                    state.className = `px-2 py-0.5 rounded text-[11px] ${cfg.enabled ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-600'}`;
+                }
+                if (profile) profile.value = cfg.profile || 'strict';
+                if (last) last.textContent = `마지막 스캔: ${cfg.lastScanAt || '-'}`;
+                if (baselineInfo) baselineInfo.textContent = `baseline: ${cfg.baselineCount || 0}`;
+                const optEvent = document.getElementById('optIncludeEventEngine');
+                const optExternal = document.getElementById('optIncludeExternalEngine');
+                const optNewOnly = document.getElementById('optNewOnlyMode');
+                const optGateCritical = document.getElementById('optGateCritical');
+                const optGateHigh = document.getElementById('optGateHigh');
+                if (optEvent) optEvent.checked = !!cfg.includeEventEngine;
+                if (optExternal) optExternal.checked = !!cfg.includeExternalEngine;
+                if (optNewOnly) optNewOnly.checked = !!cfg.newOnlyMode;
+                if (optGateCritical) optGateCritical.checked = !!cfg.gateCritical;
+                if (optGateHigh) optGateHigh.checked = !!cfg.gateHigh;
+
+                renderSecurityExplorerStatus(st);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function toggleSourceScanEnabled(enabled) {
+            try {
+                const res = await fetch('/admin/msa/api/security/source-scan/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ enabled })
+                });
+                const data = await res.json();
+                showToast('success', `소스 보안 결과 병합 ${data.enabled ? '활성화' : '비활성화'}`);
+                await refreshSecurityExplorerTab();
+                await refreshSecurityTab();
+            } catch (e) {
+                showToast('error', '설정 저장 실패: ' + e.message);
+            }
+        }
+
+        async function changeSourceScanProfile(profile) {
+            try {
+                const res = await fetch('/admin/msa/api/security/source-scan/profile', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ profile })
+                });
+                const data = await res.json();
+                showToast('success', `탐지 프로파일: ${data.profile}`);
+                await refreshSecurityExplorerTab();
+            } catch (e) {
+                showToast('error', '프로파일 변경 실패: ' + e.message);
+            }
+        }
+
+        async function setSecurityAdvancedOptions() {
+            try {
+                const payload = {
+                    includeEventEngine: !!document.getElementById('optIncludeEventEngine')?.checked,
+                    includeExternalEngine: !!document.getElementById('optIncludeExternalEngine')?.checked,
+                    newOnlyMode: !!document.getElementById('optNewOnlyMode')?.checked,
+                    gateCritical: !!document.getElementById('optGateCritical')?.checked,
+                    gateHigh: !!document.getElementById('optGateHigh')?.checked
+                };
+                const res = await fetch('/admin/msa/api/security/source-scan/options', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                showToast('success', `옵션 저장 완료 (baseline ${data.baselineCount || 0})`);
+                await refreshSecurityExplorerTab();
+                await refreshSecurityTab();
+            } catch (e) {
+                showToast('error', '옵션 저장 실패: ' + e.message);
+            }
+        }
+
+        async function rebuildSecurityBaseline() {
+            try {
+                const res = await fetch('/admin/msa/api/security/baseline/rebuild', { method: 'POST' });
+                const data = await res.json();
+                showToast('success', `베이스라인 재생성 완료 (${data.baselineCount || 0})`);
+                await refreshSecurityExplorerTab();
+                await refreshSecurityTab();
+            } catch (e) {
+                showToast('error', '베이스라인 재생성 실패: ' + e.message);
+            }
+        }
+
+        async function runSecurityExplorer(mode) {
+            try {
+                const btnIds = ['runSourceScanBtn', 'runLogScanBtn', 'runAllScanBtn'];
+                btnIds.forEach(id => document.getElementById(id)?.setAttribute('disabled', 'disabled'));
+                const res = await fetch('/admin/msa/api/security/explore/run', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode })
+                });
+                const data = await res.json();
+                if (data.status === 'busy') {
+                    showToast('warning', '이미 탐색 작업이 실행 중입니다.');
+                } else {
+                    showToast('info', `탐색 시작: ${mode}`);
+                }
+                await refreshSecurityExplorerTab();
+            } catch (e) {
+                showToast('error', '탐색 실행 실패: ' + e.message);
+            } finally {
+                setTimeout(() => {
+                    ['runSourceScanBtn', 'runLogScanBtn', 'runAllScanBtn'].forEach(id => document.getElementById(id)?.removeAttribute('disabled'));
+                }, 800);
+            }
+        }
+
+        function renderSecurityExplorerStatus(st) {
+            if (!st) return;
+            const progress = Math.max(0, Math.min(100, Number(st.progressPct || 0)));
+            const elapsedSec = Math.floor((Number(st.elapsedMs || 0)) / 1000);
+            const etaSeconds = Number(st.etaSeconds);
+            const etaText = (etaSeconds >= 0) ? `${etaSeconds}s` : '-';
+
+            document.getElementById('securityExplorePhase').textContent = `phase: ${escHtml(st.phase || '-')}`;
+            document.getElementById('securityExploreEta').textContent = `ETA: ${etaText}`;
+            document.getElementById('securityExploreBar').style.width = `${progress}%`;
+            document.getElementById('securityExploreFiles').textContent = `files: ${st.scannedFiles || 0}/${st.totalFiles || 0}`;
+            document.getElementById('securityExploreMatched').textContent = `matched: ${st.matchedCount || 0}`;
+            document.getElementById('securityExploreElapsed').textContent = `elapsed: ${elapsedSec}s`;
+            document.getElementById('securityExploreCurrentTarget').textContent = st.currentTarget || '-';
+
+            const terminal = (st.terminalLines || []);
+            const terminalBox = document.getElementById('securityExploreTerminal');
+            terminalBox.textContent = terminal.length ? terminal.join('\n') : '대기 중...';
+            terminalBox.scrollTop = terminalBox.scrollHeight;
+
+            const timeline = (st.timeline || []);
+            const tl = document.getElementById('securityExploreTimeline');
+            if (!timeline.length) {
+                tl.innerHTML = `<div class="px-4 py-6 text-xs text-gray-400 text-center">이력이 없습니다.</div>`;
+            } else {
+                tl.innerHTML = timeline.slice(-80).reverse().map(r => `
+                    <div class="px-4 py-2">
+                        <div class="text-[11px] mono text-gray-500">${escHtml(r.time || '')}</div>
+                        <div class="text-xs font-bold text-indigo-700">${escHtml(r.type || '')}</div>
+                        <div class="text-xs text-gray-700 mt-0.5">${escHtml(r.message || '')}</div>
+                    </div>
+                `).join('');
+            }
         }
 
         async function refreshTrafficTab() {
@@ -1463,6 +2746,10 @@
 
         /* ── Kill All Java ── */
         async function killAllJava() {
+            if (runtimeConfig.dangerousOpsBlocked) {
+                showToast('warning', '운영 보호 모드에서는 전체 종료가 차단됩니다.');
+                return;
+            }
             if (!confirm('⚠️ 실행 중인 모든 Java/Spring Boot 프로세스를 종료합니다.\n\n이 작업은 MSA Manager 자체를 포함한 모든 Java 프로세스를 중지합니다.\n계속하시겠습니까?')) return;
 
             const btn = document.getElementById('killAllBtn');
@@ -1516,12 +2803,24 @@
 
         // Init
         refreshModules();
+        refreshRuntimeConfig();
         refreshAutoDeployStatus();
+        refreshWebhookConfig();
+        refreshWebhookStatus();
+        refreshRemoteConfig();
+        refreshRemoteStatus();
         updateLogRangeLabel();
+        refreshSecurityExplorerTab();
         setInterval(refreshModules, 5000);
         setInterval(() => {
             if (!document.getElementById('content-changes').classList.contains('hidden')) {
+                refreshRuntimeConfig();
                 refreshChanges();
+                refreshWebhookStatus();
+            }
+            if (!document.getElementById('content-ops-deploy').classList.contains('hidden')) {
+                refreshRemoteConfig();
+                refreshRemoteStatus();
             }
             if (!document.getElementById('content-logs').classList.contains('hidden')) {
                 refreshLogTab();
@@ -1531,6 +2830,9 @@
             }
             if (!document.getElementById('content-security').classList.contains('hidden')) {
                 refreshSecurityTab();
+            }
+            if (!document.getElementById('content-security-explorer').classList.contains('hidden') || (securityExploreStatus && securityExploreStatus.running)) {
+                refreshSecurityExplorerTab();
             }
             if (!document.getElementById('content-traffic').classList.contains('hidden')) {
                 refreshTrafficTab();

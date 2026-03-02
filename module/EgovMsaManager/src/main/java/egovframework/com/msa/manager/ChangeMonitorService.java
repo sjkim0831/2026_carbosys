@@ -38,6 +38,9 @@ public class ChangeMonitorService {
     private static final Path LOG_DIR = Paths.get("/opt/carbosys/logs");
     private static final Path STATE_FILE = LOG_DIR.resolve("msa-autodeploy-state.properties");
     private static final Path HISTORY_LOG_FILE = LOG_DIR.resolve("change-history.jsonl");
+    private static final Path RUNTIME_CONFIG_FILE = LOG_DIR.resolve("msa-runtime.properties");
+    private static final String MODE_DEV = "development";
+    private static final String MODE_PROD = "production";
     private static final int MAX_HISTORY = 300;
     private static final long SCAN_INTERVAL_MS = 8000L;
     private static final long MODULE_COOLDOWN_MS = 45000L;
@@ -50,6 +53,7 @@ public class ChangeMonitorService {
 
     private final MsaScanner scanner = new MsaScanner();
     private final AtomicBoolean autoDeployEnabled = new AtomicBoolean(false); // 운영 기본: OFF
+    private final AtomicBoolean managerAutoDeployEnabled = new AtomicBoolean(false); // self-loop 위험으로 기본 OFF
     private final AtomicBoolean running = new AtomicBoolean(true);
     private final ExecutorService loopExec = Executors.newSingleThreadExecutor();
     private final ExecutorService deployExec = Executors.newSingleThreadExecutor();
@@ -101,10 +105,22 @@ public class ChangeMonitorService {
         return autoDeployEnabled.get();
     }
 
+    public boolean isManagerAutoDeployEnabled() {
+        return managerAutoDeployEnabled.get();
+    }
+
     public void setAutoDeployEnabled(boolean enabled) {
         autoDeployEnabled.set(enabled);
         saveState();
         addHistory("system", "AUTO_DEPLOY_" + (enabled ? "ON" : "OFF"), "자동 무중단 배포 " + (enabled ? "활성화" : "비활성화"),
+                new ArrayList<>(), "ok");
+    }
+
+    public void setManagerAutoDeployEnabled(boolean enabled) {
+        managerAutoDeployEnabled.set(enabled);
+        saveState();
+        addHistory("system", "AUTO_DEPLOY_MANAGER_" + (enabled ? "ON" : "OFF"),
+                "MsaManager 자동 무중단 배포 대상 " + (enabled ? "포함" : "제외"),
                 new ArrayList<>(), "ok");
     }
 
@@ -159,6 +175,10 @@ public class ChangeMonitorService {
             if (!mod.isJavaRunnable()) {
                 continue;
             }
+            if ("EgovMsaManager".equals(mod.getId()) && !managerAutoDeployEnabled.get()) {
+                // Manager self-redeploy loop risk: keep manual control for this module.
+                continue;
+            }
             Map<String, FileMeta> prev = fileStateByModule.get(mod.getId());
             Map<String, FileMeta> now = collectModuleFiles(mod.getDir());
             if (prev == null) {
@@ -182,21 +202,26 @@ public class ChangeMonitorService {
             return;
         }
         String id = mod.getId();
-        if (deployingModules.contains(id)) {
-            return;
-        }
         long now = System.currentTimeMillis();
         long last = lastDeployAt.getOrDefault(id, 0L);
         if (now - last < MODULE_COOLDOWN_MS) {
             return;
         }
+        if (!deployingModules.add(id)) {
+            return;
+        }
 
-        deployingModules.add(id);
         deployExec.submit(() -> {
             try {
                 addHistory(id, "AUTO_DEPLOY_START",
                         "자동 무중단 배포 시작 (변경 " + changeCount + "건)", new ArrayList<>(), "running");
-                String res = processManager.buildDeployZeroDowntimeModule(mod);
+                boolean buildAllowed = isBuildAllowed();
+                addHistory(id, "AUTO_DEPLOY_MODE",
+                        buildAllowed ? "전략: build+deploy+무중단" : "전략: deploy-only+무중단(운영 보호)",
+                        new ArrayList<>(), "running");
+                String res = buildAllowed
+                        ? processManager.buildDeployZeroDowntimeModule(mod)
+                        : processManager.deployZeroDowntimeModule(mod);
                 if ("ok".equals(res)) {
                     lastDeployAt.put(id, System.currentTimeMillis());
                     addHistory(id, "AUTO_DEPLOY_DONE", "자동 무중단 배포 완료", new ArrayList<>(), "ok");
@@ -449,6 +474,7 @@ public class ChangeMonitorService {
         try (FileInputStream in = new FileInputStream(STATE_FILE.toFile())) {
             p.load(in);
             autoDeployEnabled.set(Boolean.parseBoolean(p.getProperty("autoDeployEnabled", "false")));
+            managerAutoDeployEnabled.set(Boolean.parseBoolean(p.getProperty("managerAutoDeployEnabled", "false")));
         } catch (Exception ignored) {
         }
     }
@@ -456,6 +482,7 @@ public class ChangeMonitorService {
     private void saveState() {
         Properties p = new Properties();
         p.setProperty("autoDeployEnabled", String.valueOf(autoDeployEnabled.get()));
+        p.setProperty("managerAutoDeployEnabled", String.valueOf(managerAutoDeployEnabled.get()));
         try {
             Files.createDirectories(LOG_DIR);
         } catch (IOException ignored) {
@@ -464,5 +491,39 @@ public class ChangeMonitorService {
             p.store(out, "msa manager runtime state");
         } catch (IOException ignored) {
         }
+    }
+
+    private boolean isBuildAllowed() {
+        Properties p = new Properties();
+        if (Files.exists(RUNTIME_CONFIG_FILE)) {
+            try (FileInputStream in = new FileInputStream(RUNTIME_CONFIG_FILE.toFile())) {
+                p.load(in);
+            } catch (Exception ignored) {
+            }
+        }
+        String mode = normalizeMode(p.getProperty("serverMode", ""));
+        if (mode.isEmpty()) {
+            mode = normalizeMode(System.getenv("MSA_SERVER_MODE"));
+        }
+        if (mode.isEmpty()) {
+            String profile = String.valueOf(System.getenv("SPRING_PROFILES_ACTIVE")).toLowerCase();
+            if (profile.contains("prod") || profile.contains("release")) {
+                mode = MODE_PROD;
+            } else {
+                mode = MODE_DEV;
+            }
+        }
+        return !MODE_PROD.equals(mode);
+    }
+
+    private String normalizeMode(String raw) {
+        String v = raw == null ? "" : raw.trim().toLowerCase();
+        if ("prod".equals(v) || "production".equals(v) || "운영".equals(v)) {
+            return MODE_PROD;
+        }
+        if ("dev".equals(v) || "development".equals(v) || "개발".equals(v)) {
+            return MODE_DEV;
+        }
+        return "";
     }
 }
