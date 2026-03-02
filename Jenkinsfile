@@ -59,6 +59,7 @@ pipeline {
       steps {
         sh '''#!/usr/bin/env bash
 set -euo pipefail
+git config --global --add safe.directory "$DEPLOY_ROOT" || true
 cd "$DEPLOY_ROOT"
 if [[ ! -d .git ]]; then
   echo "DEPLOY_ROOT is not a git repository: $DEPLOY_ROOT" >&2
