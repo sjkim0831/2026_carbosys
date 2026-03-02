@@ -3,69 +3,205 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SR 대시보드</title>
+    <title>SR 운영 대시보드</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --sr-bg: #f3f6fb;
+            --sr-ink: #0f172a;
+            --sr-muted: #64748b;
+            --sr-card: #ffffff;
+            --sr-line: #dbe5f4;
+            --sr-brand: #0b57d0;
+            --sr-brand-dark: #093f99;
+            --sr-accent: #0ea5e9;
+            --sr-critical: #dc2626;
+            --sr-high: #f97316;
+            --sr-mid: #ca8a04;
+            --sr-low: #16a34a;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 10%, #dce8ff 0%, var(--sr-bg) 35%), var(--sr-bg);
+            color: var(--sr-ink);
+            font-family: "Pretendard", "Noto Sans KR", sans-serif;
+        }
+
+        .sr-shell {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .sr-top {
+            background: linear-gradient(135deg, #0b3b8f 0%, #0b57d0 45%, #0ea5e9 100%);
+            border-radius: 16px;
+            padding: 22px 24px;
+            color: #f8fbff;
+            box-shadow: 0 12px 30px rgba(11, 63, 153, 0.25);
+        }
+
+        .sr-card {
+            background: var(--sr-card);
+            border: 1px solid var(--sr-line);
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+        }
+
+        .sr-kpi {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sr-kpi::after {
+            content: "";
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 72px;
+            height: 72px;
+            border-radius: 9999px;
+            background: rgba(14, 165, 233, 0.14);
+        }
+
+        .sr-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 9999px;
+            padding: 2px 10px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            border: 1px solid #d6deef;
+            background: #eef3fb;
+            color: #334155;
+        }
+
+        .sr-priority-HIGH { color: var(--sr-critical); font-weight: 800; }
+        .sr-priority-MEDIUM { color: var(--sr-mid); font-weight: 800; }
+        .sr-priority-LOW { color: var(--sr-low); font-weight: 800; }
+
+        .sr-input, .sr-select, .sr-textarea {
+            width: 100%;
+            margin-top: 6px;
+            border-radius: 10px;
+            border: 1px solid #cdd9ea;
+            background: #f9fbff;
+            padding: 9px 12px;
+            font-size: 13px;
+        }
+
+        .sr-input:focus, .sr-select:focus, .sr-textarea:focus {
+            outline: none;
+            border-color: #4f8ef7;
+            box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.15);
+            background: #fff;
+        }
+
+        .sr-btn {
+            border-radius: 10px;
+            padding: 9px 14px;
+            font-size: 13px;
+            font-weight: 800;
+            transition: all .15s ease;
+        }
+
+        .sr-btn-primary {
+            background: var(--sr-brand);
+            color: #fff;
+        }
+
+        .sr-btn-primary:hover { background: var(--sr-brand-dark); }
+
+        .sr-btn-warn {
+            background: #c2410c;
+            color: #fff;
+        }
+
+        .sr-btn-warn:hover { background: #9a3412; }
+
+        .sr-section-title {
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 0.01em;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
-<div class="max-w-7xl mx-auto p-6 space-y-6">
-    <div>
-        <h1 class="text-2xl font-bold">SR 관리 대시보드</h1>
-        <p class="text-sm text-gray-500 mt-1">작성/상태변경/교육 이력 등록까지 처리할 수 있는 운영 화면</p>
-    </div>
-
-    <div th:if="${message}" class="rounded border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700" th:text="${message}">
-        처리 완료
-    </div>
-
-    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-        <div th:each="entry : ${statusSummary}" class="bg-white border border-gray-200 rounded p-3">
-            <div class="text-[11px] text-gray-500 font-bold" th:text="${entry.key}">RECEIVED</div>
-            <div class="text-xl font-black text-blue-700" th:text="${entry.value}">0</div>
+<body>
+<div class="sr-shell space-y-5">
+    <div class="sr-top">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-3">
+            <div>
+                <h1 class="text-2xl font-black tracking-tight">SR 운영 통합 대시보드</h1>
+                <p class="text-sm mt-1 text-blue-100">요청 접수, 상태 변경, 교육/증빙 등록을 한 화면에서 처리합니다.</p>
+            </div>
+            <div class="text-xs text-blue-100">
+                <div>운영 모듈: <span class="font-black text-white">EgovSR</span></div>
+                <div>경로: <span class="font-black text-white">/sr/dashboard</span></div>
+            </div>
         </div>
     </div>
 
-    <div class="bg-white border border-gray-200 rounded overflow-hidden">
-        <div class="px-4 py-3 border-b border-gray-100 font-bold">SR 신규 작성</div>
+    <div th:if="${message}" class="sr-card px-4 py-3 text-sm font-bold text-emerald-700 border-emerald-200 bg-emerald-50" th:text="${message}">
+        처리 완료
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-7 gap-3">
+        <div th:each="entry : ${statusSummary}" class="sr-card sr-kpi p-3">
+            <div class="text-[11px] font-black text-slate-500" th:text="${entry.key}">RECEIVED</div>
+            <div class="text-2xl leading-none mt-1 font-black text-[var(--sr-brand)]" th:text="${entry.value}">0</div>
+        </div>
+    </div>
+
+    <div class="sr-card overflow-hidden">
+        <div class="px-4 py-3 border-b border-[var(--sr-line)] bg-slate-50 flex items-center justify-between">
+            <div class="sr-section-title">SR 신규 등록</div>
+            <div class="text-xs text-slate-500 font-bold">접수 즉시 목록에 반영됩니다.</div>
+        </div>
         <form action="/sr/create" method="post" class="p-4 grid grid-cols-1 md:grid-cols-6 gap-3 text-sm">
             <label class="md:col-span-2">
-                <span class="text-xs text-gray-600 font-bold">제목</span>
-                <input name="title" required class="mt-1 w-full border border-gray-200 rounded px-3 py-2" />
+                <span class="text-xs text-slate-600 font-black">제목</span>
+                <input name="title" required class="sr-input" />
             </label>
             <label>
-                <span class="text-xs text-gray-600 font-bold">우선순위</span>
-                <select name="priority" class="mt-1 w-full border border-gray-200 rounded px-3 py-2">
+                <span class="text-xs text-slate-600 font-black">우선순위</span>
+                <select name="priority" class="sr-select">
                     <option>HIGH</option>
                     <option selected>MEDIUM</option>
                     <option>LOW</option>
                 </select>
             </label>
             <label>
-                <span class="text-xs text-gray-600 font-bold">요청자</span>
-                <input name="requester" required class="mt-1 w-full border border-gray-200 rounded px-3 py-2" />
+                <span class="text-xs text-slate-600 font-black">요청자</span>
+                <input name="requester" required class="sr-input" />
             </label>
             <label>
-                <span class="text-xs text-gray-600 font-bold">담당자</span>
-                <input name="assignee" class="mt-1 w-full border border-gray-200 rounded px-3 py-2" />
+                <span class="text-xs text-slate-600 font-black">담당자</span>
+                <input name="assignee" class="sr-input" />
             </label>
             <label>
-                <span class="text-xs text-gray-600 font-bold">완료기한</span>
-                <input name="dueDate" type="date" class="mt-1 w-full border border-gray-200 rounded px-3 py-2" />
+                <span class="text-xs text-slate-600 font-black">완료기한</span>
+                <input name="dueDate" type="date" class="sr-input" />
             </label>
             <label class="md:col-span-5">
-                <span class="text-xs text-gray-600 font-bold">요청 내용</span>
-                <textarea name="description" rows="2" class="mt-1 w-full border border-gray-200 rounded px-3 py-2"></textarea>
+                <span class="text-xs text-slate-600 font-black">요청 내용</span>
+                <textarea name="description" rows="2" class="sr-textarea"></textarea>
             </label>
             <div class="md:col-span-1 flex items-end">
-                <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold rounded px-3 py-2">SR 등록</button>
+                <button class="w-full sr-btn sr-btn-primary">SR 등록</button>
             </div>
         </form>
     </div>
 
-    <div class="bg-white border border-gray-200 rounded overflow-hidden">
-        <div class="px-4 py-3 border-b border-gray-100 font-bold">SR 목록 / 상태 변경</div>
+    <div class="sr-card overflow-hidden">
+        <div class="px-4 py-3 border-b border-[var(--sr-line)] bg-slate-50 flex items-center justify-between">
+            <div class="sr-section-title">SR 목록 / 상태 이력 반영</div>
+            <div class="text-xs text-slate-500 font-bold">상태 변경 시 메모를 같이 남기세요.</div>
+        </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm">
-                <thead class="bg-gray-50 border-b border-gray-100">
+            <table class="w-full text-left text-sm min-w-[1040px]">
+                <thead class="bg-slate-50 border-b border-[var(--sr-line)] text-slate-700">
                 <tr>
                     <th class="px-4 py-2">SR 번호</th>
                     <th class="px-4 py-2">제목/설명</th>
@@ -77,29 +213,33 @@
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(srList)}">
-                    <td colspan="6" class="px-4 py-8 text-center text-gray-400">등록된 SR이 없습니다.</td>
+                    <td colspan="6" class="px-4 py-8 text-center text-slate-400 font-semibold">등록된 SR이 없습니다.</td>
                 </tr>
-                <tr th:each="row : ${srList}" class="border-b border-gray-100 align-top">
-                    <td class="px-4 py-3 font-mono font-bold text-blue-700" th:text="${row.id}">SR-2026-001</td>
+                <tr th:each="row : ${srList}" class="border-b border-slate-100 align-top hover:bg-blue-50/40">
+                    <td class="px-4 py-3 font-mono font-black text-[var(--sr-brand)]" th:text="${row.id}">SR-2026-001</td>
                     <td class="px-4 py-3">
-                        <div class="font-bold" th:text="${row.title}">제목</div>
-                        <div class="text-xs text-gray-500 mt-1" th:text="${row.description}">설명</div>
-                        <div class="text-[11px] text-gray-400 mt-1">업데이트: <span th:text="${row.updatedAt}">2026-03-02T03:00</span></div>
+                        <div class="font-black" th:text="${row.title}">제목</div>
+                        <div class="text-xs text-slate-600 mt-1" th:text="${row.description}">설명</div>
+                        <div class="text-[11px] text-slate-400 mt-1">업데이트: <span th:text="${row.updatedAt}">2026-03-02T03:00</span></div>
                     </td>
-                    <td class="px-4 py-3" th:text="${row.priority}">HIGH</td>
+                    <td class="px-4 py-3">
+                        <span th:text="${row.priority}" th:classappend="${' sr-priority-' + row.priority}">MEDIUM</span>
+                    </td>
                     <td class="px-4 py-3 text-xs">
-                        <div>요청: <span class="font-bold" th:text="${row.requester}">kim</span></div>
-                        <div class="mt-1">담당: <span class="font-bold" th:text="${row.assignee}">kim</span></div>
-                        <div class="mt-1 text-gray-500">메모: <span th:text="${row.lastNote}">메모</span></div>
+                        <div>요청: <span class="font-black" th:text="${row.requester}">kim</span></div>
+                        <div class="mt-1">담당: <span class="font-black" th:text="${row.assignee ?: '-'}">kim</span></div>
+                        <div class="mt-1 text-slate-500">메모: <span th:text="${row.lastNote ?: '-'}">메모</span></div>
                     </td>
-                    <td class="px-4 py-3 text-xs" th:text="${row.dueDate}">2026-03-06</td>
+                    <td class="px-4 py-3 text-xs">
+                        <span class="sr-status-pill" th:text="${row.dueDate ?: '미지정'}">2026-03-06</span>
+                    </td>
                     <td class="px-4 py-3">
                         <form th:action="@{'/sr/' + ${row.id} + '/status'}" method="post" class="space-y-2">
-                            <select name="status" class="w-full border border-gray-200 rounded px-2 py-1 text-xs">
+                            <select name="status" class="sr-select !mt-0 !py-1.5 !text-xs">
                                 <option th:each="st : ${srStatuses}" th:value="${st}" th:text="${st}" th:selected="${st == row.status}">RECEIVED</option>
                             </select>
-                            <input name="note" placeholder="상태 메모" class="w-full border border-gray-200 rounded px-2 py-1 text-xs" />
-                            <button class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold rounded px-2 py-1.5 text-xs">상태 반영</button>
+                            <input name="note" placeholder="상태 메모" class="sr-input !mt-0 !py-1.5 !text-xs" />
+                            <button class="w-full sr-btn sr-btn-warn !py-1.5 !text-xs">상태 반영</button>
                         </form>
                     </td>
                 </tr>
@@ -108,61 +248,68 @@
         </div>
     </div>
 
-    <div class="bg-white border border-gray-200 rounded overflow-hidden">
-        <div class="px-4 py-3 border-b border-gray-100 font-bold">교육/증빙 문서 등록</div>
-        <form action="/sr/training/create" method="post" class="p-4 grid grid-cols-1 md:grid-cols-6 gap-3 text-sm border-b border-gray-100">
+    <div class="sr-card overflow-hidden">
+        <div class="px-4 py-3 border-b border-[var(--sr-line)] bg-slate-50 flex items-center justify-between">
+            <div class="sr-section-title">교육/증빙 문서 관리</div>
+            <div class="text-xs text-slate-500 font-bold">심사/감사 대응 문서를 함께 기록합니다.</div>
+        </div>
+        <form action="/sr/training/create" method="post" class="p-4 grid grid-cols-1 md:grid-cols-6 gap-3 text-sm border-b border-[var(--sr-line)]">
             <label class="md:col-span-2">
-                <span class="text-xs text-gray-600 font-bold">교육/문서명</span>
-                <input name="title" required class="mt-1 w-full border border-gray-200 rounded px-3 py-2" />
+                <span class="text-xs text-slate-600 font-black">교육/문서명</span>
+                <input name="title" required class="sr-input" />
             </label>
             <label>
-                <span class="text-xs text-gray-600 font-bold">상태</span>
-                <select name="status" class="mt-1 w-full border border-gray-200 rounded px-3 py-2">
+                <span class="text-xs text-slate-600 font-black">상태</span>
+                <select name="status" class="sr-select">
                     <option th:each="st : ${docStatuses}" th:value="${st}" th:text="${st}">PLANNED</option>
                 </select>
             </label>
             <label>
-                <span class="text-xs text-gray-600 font-bold">일자</span>
-                <input name="date" type="date" class="mt-1 w-full border border-gray-200 rounded px-3 py-2" />
+                <span class="text-xs text-slate-600 font-black">일자</span>
+                <input name="date" type="date" class="sr-input" />
             </label>
             <label>
-                <span class="text-xs text-gray-600 font-bold">담당자</span>
-                <input name="owner" required class="mt-1 w-full border border-gray-200 rounded px-3 py-2" />
+                <span class="text-xs text-slate-600 font-black">담당자</span>
+                <input name="owner" required class="sr-input" />
             </label>
             <label>
-                <span class="text-xs text-gray-600 font-bold">메모</span>
-                <input name="note" class="mt-1 w-full border border-gray-200 rounded px-3 py-2" />
+                <span class="text-xs text-slate-600 font-black">메모</span>
+                <input name="note" class="sr-input" />
             </label>
             <div class="md:col-span-6 flex justify-end">
-                <button class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded px-4 py-2">문서 등록</button>
+                <button class="sr-btn sr-btn-primary">문서 등록</button>
             </div>
         </form>
 
-        <table class="w-full text-left text-sm">
-            <thead class="bg-gray-50 border-b border-gray-100">
-            <tr>
-                <th class="px-4 py-2">문서번호</th>
-                <th class="px-4 py-2">교육/문서명</th>
-                <th class="px-4 py-2">상태</th>
-                <th class="px-4 py-2">일자</th>
-                <th class="px-4 py-2">담당자</th>
-                <th class="px-4 py-2">메모</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:if="${#lists.isEmpty(trainingDocs)}">
-                <td colspan="6" class="px-4 py-8 text-center text-gray-400">등록된 문서가 없습니다.</td>
-            </tr>
-            <tr th:each="row : ${trainingDocs}" class="border-b border-gray-100 last:border-b-0">
-                <td class="px-4 py-2 font-mono" th:text="${row.id}">TR-2026-001</td>
-                <td class="px-4 py-2" th:text="${row.title}">교육명</td>
-                <td class="px-4 py-2" th:text="${row.status}">COMPLETED</td>
-                <td class="px-4 py-2" th:text="${row.date}">2026-02-14</td>
-                <td class="px-4 py-2" th:text="${row.owner}">kim</td>
-                <td class="px-4 py-2 text-xs text-gray-600" th:text="${row.note}">메모</td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm min-w-[920px]">
+                <thead class="bg-slate-50 border-b border-[var(--sr-line)] text-slate-700">
+                <tr>
+                    <th class="px-4 py-2">문서번호</th>
+                    <th class="px-4 py-2">교육/문서명</th>
+                    <th class="px-4 py-2">상태</th>
+                    <th class="px-4 py-2">일자</th>
+                    <th class="px-4 py-2">담당자</th>
+                    <th class="px-4 py-2">메모</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(trainingDocs)}">
+                    <td colspan="6" class="px-4 py-8 text-center text-slate-400 font-semibold">등록된 문서가 없습니다.</td>
+                </tr>
+                <tr th:each="row : ${trainingDocs}" class="border-b border-slate-100 hover:bg-blue-50/40">
+                    <td class="px-4 py-2 font-mono text-[var(--sr-brand)] font-bold" th:text="${row.id}">TR-2026-001</td>
+                    <td class="px-4 py-2 font-semibold" th:text="${row.title}">교육명</td>
+                    <td class="px-4 py-2">
+                        <span class="sr-status-pill" th:text="${row.status}">COMPLETED</span>
+                    </td>
+                    <td class="px-4 py-2" th:text="${row.date ?: '-'}">2026-02-14</td>
+                    <td class="px-4 py-2" th:text="${row.owner ?: '-'}">kim</td>
+                    <td class="px-4 py-2 text-xs text-slate-600" th:text="${row.note ?: '-'}">메모</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>

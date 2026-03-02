@@ -104,7 +104,7 @@ public class EgovJoinController {
             joinVO.setEntrprsSeCode(membershipType);
         }
         if (!hasText(joinVO.getEntrprsSeCode())) {
-            return "redirect:/join/step1";
+            return "redirect:/join/step1?expired=1";
         }
         joinVO.setUserTy("USR02");
         session.setAttribute(SESSION_JOIN_VO, joinVO);
@@ -138,7 +138,7 @@ public class EgovJoinController {
     public String step3View(@RequestParam(value = "marketing_agree", required = false) String marketingAgree,
             HttpSession session, Model model) {
         if (getJoinStep(session) < 2 || session.getAttribute(SESSION_JOIN_VO) == null) {
-            return "redirect:/join/step1";
+            return "redirect:/join/step1?expired=1";
         }
         setJoinStep(session, 3);
         return "uss/umt/step3_auth";
@@ -151,11 +151,11 @@ public class EgovJoinController {
     public String step4View(@RequestParam(value = "auth_method", required = false) String authMethod,
             HttpSession session, Model model) {
         if (getJoinStep(session) < 3) {
-            return "redirect:/join/step1";
+            return "redirect:/join/step1?expired=1";
         }
         EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO == null)
-            return "redirect:/join/step1";
+            return "redirect:/join/step1?expired=1";
         if (!hasText(authMethod)) {
             return "redirect:/join/step3";
         }
@@ -186,7 +186,7 @@ public class EgovJoinController {
     @GetMapping("/step4")
     public String step4View(HttpSession session, Model model) {
         if (getJoinStep(session) < 4) {
-            return "redirect:/join/step1";
+            return "redirect:/join/step1?expired=1";
         }
         EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO != null) {
@@ -238,16 +238,20 @@ public class EgovJoinController {
             @RequestParam("moblphonNo2") String tel2,
             @RequestParam("moblphonNo3") String tel3,
             @RequestParam("applcntEmailAdres") String email,
+            @RequestParam(value = "fileUploads", required = false) List<MultipartFile> fileUploads,
             HttpSession session, Model model) throws Exception {
 
         EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO == null)
-            return "redirect:/join/step1";
-        if (getJoinStep(session) < 4 || !hasVerifiedIdentity(joinVO)) {
+            return "redirect:/join/step1?expired=1";
+        if (getJoinStep(session) < 4 || !hasVerifiedIdentity(joinVO) || !hasRequiredJoinSessionValues(joinVO)) {
             return "redirect:/join/step3";
         }
         if (!hasText(mberId) || !hasText(password) || !hasText(mberNm) || !hasText(insttNm) ||
                 !hasText(bizrno) || !hasText(tel1) || !hasText(tel2) || !hasText(tel3) || !hasText(email)) {
+            return "redirect:/join/step4";
+        }
+        if (!hasValidEvidenceFiles(fileUploads)) {
             return "redirect:/join/step4";
         }
 
@@ -257,11 +261,16 @@ public class EgovJoinController {
         joinVO.setApplcntNm(mberNm);
         joinVO.setCmpnyNm(insttNm);
         joinVO.setBizrno(bizrno);
+        joinVO.setEntrprsSeCode(normalizeMembershipCode(joinVO.getEntrprsSeCode()));
+        joinVO.setMarketingYn(normalizeMarketingYn(joinVO.getMarketingYn()));
+        joinVO.setAuthTy(normalizeAuthType(joinVO.getAuthTy()));
         joinVO.setAreaNo(tel1);
         joinVO.setEntrprsMiddleTelno(tel2);
         joinVO.setEntrprsEndTelno(tel3);
         joinVO.setApplcntEmailAdres(email);
         joinVO.setEntrprsMberSttus("A");
+        applyJoinDbDefaults(joinVO);
+        joinVO.setBizRegFilePath(saveJoinEvidenceFiles(joinVO.getEntrprsmberId(), fileUploads));
 
         // Save to DB
         entrprsManageService.insertEntrprsmber(joinVO);
@@ -312,7 +321,7 @@ public class EgovJoinController {
             joinVO.setEntrprsSeCode(membershipType);
         }
         if (!hasText(joinVO.getEntrprsSeCode())) {
-            return "redirect:/join/en/step1";
+            return "redirect:/join/en/step1?expired=1";
         }
         joinVO.setUserTy("USR02");
         session.setAttribute(SESSION_JOIN_VO, joinVO);
@@ -324,7 +333,7 @@ public class EgovJoinController {
     @GetMapping("/en/step2")
     public String step2EnView(HttpSession session) {
         if (getJoinStep(session) < 2 || session.getAttribute(SESSION_JOIN_VO) == null) {
-            return "redirect:/join/en/step1";
+            return "redirect:/join/en/step1?expired=1";
         }
         return "uss/umt/step2_terms_en";
     }
@@ -334,7 +343,7 @@ public class EgovJoinController {
     public String step3EnProcess(@RequestParam(value = "marketing_agree", required = false) String marketingAgree,
             HttpSession session) {
         if (getJoinStep(session) < 2 || session.getAttribute(SESSION_JOIN_VO) == null) {
-            return "redirect:/join/en/step1";
+            return "redirect:/join/en/step1?expired=1";
         }
         setJoinStep(session, 3);
         return "uss/umt/step3_auth_en";
@@ -343,7 +352,7 @@ public class EgovJoinController {
     @GetMapping("/en/step3")
     public String step3EnView(HttpSession session) {
         if (getJoinStep(session) < 3 || session.getAttribute(SESSION_JOIN_VO) == null) {
-            return "redirect:/join/en/step1";
+            return "redirect:/join/en/step1?expired=1";
         }
         return "uss/umt/step3_auth_en";
     }
@@ -353,11 +362,11 @@ public class EgovJoinController {
     public String step4EnProcess(@RequestParam(value = "auth_method", required = false) String authMethod,
             HttpSession session, Model model) {
         if (getJoinStep(session) < 3) {
-            return "redirect:/join/en/step1";
+            return "redirect:/join/en/step1?expired=1";
         }
         EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO == null)
-            return "redirect:/join/en/step1";
+            return "redirect:/join/en/step1?expired=1";
         if (!hasText(authMethod)) {
             return "redirect:/join/en/step3";
         }
@@ -387,7 +396,7 @@ public class EgovJoinController {
     @GetMapping("/en/step4")
     public String step4EnView(HttpSession session, Model model) {
         if (getJoinStep(session) < 4) {
-            return "redirect:/join/en/step1";
+            return "redirect:/join/en/step1?expired=1";
         }
         EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO != null) {
@@ -409,16 +418,20 @@ public class EgovJoinController {
             @RequestParam("moblphonNo2") String tel2,
             @RequestParam("moblphonNo3") String tel3,
             @RequestParam("applcntEmailAdres") String email,
+            @RequestParam(value = "fileUploads", required = false) List<MultipartFile> fileUploads,
             HttpSession session, Model model) throws Exception {
 
         EntrprsManageVO joinVO = (EntrprsManageVO) session.getAttribute(SESSION_JOIN_VO);
         if (joinVO == null)
-            return "redirect:/join/en/step1";
-        if (getJoinStep(session) < 4 || !hasVerifiedIdentity(joinVO)) {
+            return "redirect:/join/en/step1?expired=1";
+        if (getJoinStep(session) < 4 || !hasVerifiedIdentity(joinVO) || !hasRequiredJoinSessionValues(joinVO)) {
             return "redirect:/join/en/step3";
         }
         if (!hasText(mberId) || !hasText(password) || !hasText(mberNm) || !hasText(insttNm) ||
                 !hasText(bizrno) || !hasText(tel1) || !hasText(tel2) || !hasText(tel3) || !hasText(email)) {
+            return "redirect:/join/en/step4";
+        }
+        if (!hasValidEvidenceFiles(fileUploads)) {
             return "redirect:/join/en/step4";
         }
 
@@ -427,11 +440,16 @@ public class EgovJoinController {
         joinVO.setApplcntNm(mberNm);
         joinVO.setCmpnyNm(insttNm);
         joinVO.setBizrno(bizrno);
+        joinVO.setEntrprsSeCode(normalizeMembershipCode(joinVO.getEntrprsSeCode()));
+        joinVO.setMarketingYn(normalizeMarketingYn(joinVO.getMarketingYn()));
+        joinVO.setAuthTy(normalizeAuthType(joinVO.getAuthTy()));
         joinVO.setAreaNo(tel1);
         joinVO.setEntrprsMiddleTelno(tel2);
         joinVO.setEntrprsEndTelno(tel3);
         joinVO.setApplcntEmailAdres(email);
         joinVO.setEntrprsMberSttus("A");
+        applyJoinDbDefaults(joinVO);
+        joinVO.setBizRegFilePath(saveJoinEvidenceFiles(joinVO.getEntrprsmberId(), fileUploads));
 
         entrprsManageService.insertEntrprsmber(joinVO);
 
@@ -804,5 +822,154 @@ public class EgovJoinController {
         return hasText(joinVO.getAuthTy()) &&
                 (hasText(joinVO.getAuthCi()) || hasText(joinVO.getAuthDi()) || hasText(joinVO.getAuthDn())
                         || hasText(joinVO.getAuthEmail()));
+    }
+
+    private boolean hasRequiredJoinSessionValues(EntrprsManageVO joinVO) {
+        return hasText(joinVO.getEntrprsSeCode()) && hasText(joinVO.getUserTy()) && hasText(joinVO.getAuthTy());
+    }
+
+    private boolean hasValidEvidenceFiles(List<MultipartFile> fileUploads) {
+        if (fileUploads == null || fileUploads.isEmpty()) {
+            return false;
+        }
+        boolean hasRealFile = false;
+        for (MultipartFile file : fileUploads) {
+            if (file == null || file.isEmpty()) {
+                continue;
+            }
+            hasRealFile = true;
+            String name = file.getOriginalFilename() == null ? "" : file.getOriginalFilename().toLowerCase();
+            boolean extOk = name.endsWith(".pdf") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".png");
+            if (!extOk) {
+                return false;
+            }
+            if (file.getSize() > 10L * 1024L * 1024L) {
+                return false;
+            }
+        }
+        return hasRealFile;
+    }
+
+    private String saveJoinEvidenceFiles(String memberId, List<MultipartFile> fileUploads) throws Exception {
+        String uploadDir = "/opt/carbosys/file/instt";
+        File dir = new File(uploadDir);
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new Exception("Cannot create upload directory: " + uploadDir);
+        }
+
+        String safeMemberId = hasText(memberId) ? memberId.replaceAll("[^a-zA-Z0-9_-]", "") : "JOIN";
+        if (!hasText(safeMemberId)) {
+            safeMemberId = "JOIN";
+        }
+
+        List<String> savedPaths = new ArrayList<>();
+        for (int i = 0; i < fileUploads.size(); i++) {
+            MultipartFile file = fileUploads.get(i);
+            if (file == null || file.isEmpty()) {
+                continue;
+            }
+
+            String originalFileName = file.getOriginalFilename();
+            String ext = "";
+            if (originalFileName != null) {
+                int lastDotIndex = originalFileName.lastIndexOf(".");
+                if (lastDotIndex > -1) {
+                    ext = originalFileName.substring(lastDotIndex).toLowerCase();
+                }
+            }
+
+            String newFileName = safeMemberId + "_" + System.currentTimeMillis() + "_" + i + ext;
+            File targetFile = new File(dir, newFileName);
+            file.transferTo(targetFile);
+            savedPaths.add(targetFile.getAbsolutePath());
+        }
+
+        return String.join(",", savedPaths);
+    }
+
+    private String normalizeMembershipCode(String membershipType) {
+        String v = membershipType == null ? "" : membershipType.trim().toUpperCase();
+        if ("EMITTER".equals(v)) return "E";
+        if ("PERFORMER".equals(v)) return "P";
+        if ("CENTER".equals(v)) return "C";
+        if ("GOV".equals(v)) return "G";
+        if (v.isEmpty()) return "E";
+        return v.length() > 1 ? v.substring(0, 1) : v;
+    }
+
+    private String normalizeMarketingYn(String marketingYn) {
+        String v = marketingYn == null ? "" : marketingYn.trim().toUpperCase();
+        if ("Y".equals(v) || "YES".equals(v) || "TRUE".equals(v) || "1".equals(v)) return "Y";
+        if ("N".equals(v) || "NO".equals(v) || "FALSE".equals(v) || "0".equals(v)) return "N";
+        return "N";
+    }
+
+    private String normalizeAuthType(String authType) {
+        String v = authType == null ? "" : authType.trim().toUpperCase();
+        if ("SIMPLE".equals(v)) return "S";
+        if ("ONEPASS".equals(v)) return "O";
+        if ("JOINT".equals(v)) return "J";
+        if ("FINANCIAL".equals(v)) return "F";
+        if ("CERT".equals(v)) return "C";
+        if ("EMAIL".equals(v)) return "E";
+        if (v.isEmpty()) return "S";
+        return v.length() > 1 ? v.substring(0, 1) : v;
+    }
+
+    private void applyJoinDbDefaults(EntrprsManageVO joinVO) {
+        joinVO.setEntrprsmberId(trimToLen(joinVO.getEntrprsmberId(), 20));
+        joinVO.setCmpnyNm(trimToLen(joinVO.getCmpnyNm(), 60));
+        joinVO.setApplcntNm(trimToLen(joinVO.getApplcntNm(), 50));
+        joinVO.setApplcntEmailAdres(trimToLen(joinVO.getApplcntEmailAdres(), 50));
+
+        String normalizedBiz = digitsOnly(joinVO.getBizrno());
+        if (normalizedBiz.length() > 10) {
+            normalizedBiz = normalizedBiz.substring(0, 10);
+        }
+        joinVO.setBizrno(normalizedBiz);
+
+        joinVO.setAreaNo(trimToLen(joinVO.getAreaNo(), 4));
+        joinVO.setEntrprsMiddleTelno(trimToLen(joinVO.getEntrprsMiddleTelno(), 4));
+        joinVO.setEntrprsEndTelno(trimToLen(joinVO.getEntrprsEndTelno(), 4));
+
+        // step4 form does not collect address/zip, but DB requires NOT NULL
+        if (!hasText(joinVO.getZip())) {
+            joinVO.setZip("000000");
+        } else {
+            joinVO.setZip(trimToLen(digitsOnly(joinVO.getZip()), 6));
+        }
+        if (!hasText(joinVO.getAdres())) {
+            joinVO.setAdres("주소미입력");
+        } else {
+            joinVO.setAdres(trimToLen(joinVO.getAdres(), 100));
+        }
+
+        // DB requires NOT NULL
+        if (!hasText(joinVO.getEntrprsMberPasswordHint())) {
+            joinVO.setEntrprsMberPasswordHint("AUTO");
+        } else {
+            joinVO.setEntrprsMberPasswordHint(trimToLen(joinVO.getEntrprsMberPasswordHint(), 100));
+        }
+        if (!hasText(joinVO.getEntrprsMberPasswordCnsr())) {
+            joinVO.setEntrprsMberPasswordCnsr("AUTO");
+        } else {
+            joinVO.setEntrprsMberPasswordCnsr(trimToLen(joinVO.getEntrprsMberPasswordCnsr(), 100));
+        }
+
+        if (!hasText(joinVO.getEntrprsMberSttus())) {
+            joinVO.setEntrprsMberSttus("A");
+        }
+    }
+
+    private String trimToLen(String value, int maxLen) {
+        if (value == null) return "";
+        String v = value.trim();
+        if (v.length() <= maxLen) return v;
+        return v.substring(0, maxLen);
+    }
+
+    private String digitsOnly(String value) {
+        if (value == null) return "";
+        return value.replaceAll("[^0-9]", "");
     }
 }

@@ -14,7 +14,8 @@ public class EgovJoinIdGnrConfig {
     public EgovIdGnrStrategyImpl usrCnfrmIdStrategy() {
         EgovIdGnrStrategyImpl egovIdGnrStrategyImpl = new EgovIdGnrStrategyImpl();
         egovIdGnrStrategyImpl.setPrefix("USRCNFRM_");
-        egovIdGnrStrategyImpl.setCipers(20);
+        // ESNTL_ID column is CHAR(20): 9(prefix) + 11(number) = 20
+        egovIdGnrStrategyImpl.setCipers(11);
         egovIdGnrStrategyImpl.setFillChar('0');
         return egovIdGnrStrategyImpl;
     }

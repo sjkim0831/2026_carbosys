@@ -222,7 +222,7 @@
                                         class="text-red-500">*</span></label>
                                 <div class="relative">
                                     <input class="form-input pr-24" id="company-search" name="insttNm"
-                                        placeholder="기관명 또는 기업명을 검색하세요" type="text" required />
+                                        placeholder="기관명 또는 기업명을 검색하세요" type="text" required readonly />
                                     <button id="btnCompanySearch"
                                         class="absolute right-2 top-2 bottom-2 px-4 bg-[var(--kr-gov-blue)] text-white text-sm font-bold rounded-[var(--kr-gov-radius)] flex items-center gap-1"
                                         type="button">
@@ -234,7 +234,7 @@
                                 <label class="form-label" for="biz-number">사업자등록번호 <span
                                         class="text-red-500">*</span></label>
                                 <input class="form-input bg-gray-50" id="biz-number" name="bizrno"
-                                    placeholder="기관 검색 시 자동 입력" type="text" />
+                                    placeholder="기관 검색 시 자동 입력" type="text" readonly />
                             </div>
                             <div class="space-y-1">
                                 <label class="form-label" for="department">부서명</label>
@@ -243,22 +243,36 @@
                             </div>
                             <div class="md:col-span-2 space-y-1">
                                 <label class="form-label">증빙 서류 업로드 <span class="text-red-500">*</span></label>
-                                <div class="mt-2 flex flex-col items-center justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer"
-                                    onclick="document.getElementById('file-upload').click()">
-                                    <div class="space-y-1 text-center">
-                                        <span
-                                            class="material-symbols-outlined text-4xl text-gray-400">upload_file</span>
-                                        <div class="flex text-sm text-gray-600">
-                                            <span
-                                                class="relative cursor-pointer font-bold text-[var(--kr-gov-blue)] hover:underline">
-                                                <span>파일 선택</span>
-                                                <input class="sr-only" id="file-upload" name="evidenceFile"
-                                                    type="file" />
-                                            </span>
-                                            <p class="pl-1">또는 파일을 여기로 끌어다 놓으세요</p>
-                                        </div>
-                                        <p class="text-xs text-gray-500">사업자등록증 또는 재직증명서 (PDF, JPG 최대 10MB)</p>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-sm text-[var(--kr-gov-text-secondary)]">사업자등록증 또는 재직증명서</p>
+                                        <button type="button" id="add-file-btn"
+                                            class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded transition-colors border border-gray-200">
+                                            <span class="material-symbols-outlined text-[18px]">add</span>
+                                            파일 추가
+                                        </button>
                                     </div>
+                                    <div id="file-list-container" class="space-y-2">
+                                        <div class="file-row flex items-center gap-3 p-3 border border-gray-200 rounded-lg bg-white group hover:border-[var(--kr-gov-blue)] transition-all cursor-pointer"
+                                            onclick="this.querySelector('.file-input').click()">
+                                            <span
+                                                class="material-symbols-outlined text-gray-400 group-hover:text-[var(--kr-gov-blue)]">attach_file</span>
+                                            <div class="flex-grow min-w-0">
+                                                <input type="file" name="fileUploads" class="hidden file-input"
+                                                    accept=".pdf,.jpg,.jpeg,.png" required onchange="handleFileChange(this)" />
+                                                <div class="file-info flex items-center justify-between">
+                                                    <span class="file-name text-sm text-gray-500 truncate">파일을 선택해 주세요.</span>
+                                                    <span class="file-size text-xs text-gray-400"></span>
+                                                </div>
+                                            </div>
+                                            <button type="button"
+                                                class="remove-file-btn text-gray-400 hover:text-red-500 transition-colors hidden"
+                                                onclick="event.stopPropagation(); removeFileRow(this)">
+                                                <span class="material-symbols-outlined">close</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-500">PDF, JPG, PNG 파일만 업로드 가능하며, 최대 용량은 10MB입니다.</p>
                                 </div>
                             </div>
                         </div>
@@ -385,6 +399,8 @@
 
         const companySearchInput = document.getElementById('company-search');
         const bizNumberInput = document.getElementById('biz-number');
+        const addFileBtn = document.getElementById('add-file-btn');
+        const fileListContainer = document.getElementById('file-list-container');
 
         let currentPage = 1;
         let currentKeyword = '';
@@ -619,6 +635,94 @@
             document.getElementById('email-check-msg').textContent = "";
         };
 
+        // ─── 파일 업로드 관리 ───
+        if (addFileBtn) {
+            addFileBtn.addEventListener('click', () => {
+                const newRow = document.createElement('div');
+                newRow.className = 'file-row flex items-center gap-3 p-3 border border-gray-200 rounded-lg bg-white group hover:border-[var(--kr-gov-blue)] transition-all cursor-pointer';
+                newRow.onclick = function () { this.querySelector('.file-input').click(); };
+                newRow.innerHTML = `
+                    <span class="material-symbols-outlined text-gray-400 group-hover:text-[var(--kr-gov-blue)]">attach_file</span>
+                    <div class="flex-grow min-w-0">
+                        <input type="file" name="fileUploads" class="hidden file-input" accept=".pdf,.jpg,.jpeg,.png" required onchange="handleFileChange(this)" />
+                        <div class="file-info flex items-center justify-between">
+                            <span class="file-name text-sm text-gray-500 truncate">파일을 선택해 주세요.</span>
+                            <span class="file-size text-xs text-gray-400"></span>
+                        </div>
+                    </div>
+                    <button type="button" class="remove-file-btn text-gray-400 hover:text-red-500 transition-colors" onclick="event.stopPropagation(); removeFileRow(this)">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                `;
+                fileListContainer.appendChild(newRow);
+            });
+        }
+
+        window.handleFileChange = function (input) {
+            const row = input.closest('.file-row');
+            const nameSpan = row.querySelector('.file-name');
+            const sizeSpan = row.querySelector('.file-size');
+            const removeBtn = row.querySelector('.remove-file-btn');
+            if (!input.files || input.files.length === 0) {
+                nameSpan.textContent = '파일을 선택해 주세요.';
+                nameSpan.className = 'file-name text-sm text-gray-500 truncate';
+                sizeSpan.textContent = '';
+                row.classList.remove('border-[var(--kr-gov-blue)]', 'bg-blue-50/30');
+                if (removeBtn) removeBtn.classList.add('hidden');
+                return;
+            }
+            const file = input.files[0];
+            const lower = (file.name || '').toLowerCase();
+            const allowed = ['.pdf', '.jpg', '.jpeg', '.png'];
+            const okExt = allowed.some(ext => lower.endsWith(ext));
+            if (!okExt) {
+                alert('PDF, JPG, PNG 파일만 업로드 가능합니다.');
+                input.value = '';
+                nameSpan.textContent = '파일을 선택해 주세요.';
+                sizeSpan.textContent = '';
+                return;
+            }
+            if (file.size > 10 * 1024 * 1024) {
+                alert('파일 크기는 10MB 이하만 가능합니다.');
+                input.value = '';
+                nameSpan.textContent = '파일을 선택해 주세요.';
+                sizeSpan.textContent = '';
+                return;
+            }
+            nameSpan.textContent = file.name;
+            nameSpan.className = 'file-name text-sm font-bold text-[var(--kr-gov-blue)] truncate';
+            sizeSpan.textContent = formatBytes(file.size);
+            row.classList.add('border-[var(--kr-gov-blue)]', 'bg-blue-50/30');
+            if (removeBtn) removeBtn.classList.remove('hidden');
+        };
+
+        window.removeFileRow = function (btn) {
+            const rows = fileListContainer.querySelectorAll('.file-row');
+            if (rows.length > 1) {
+                btn.closest('.file-row').remove();
+            } else {
+                const row = btn.closest('.file-row');
+                const input = row.querySelector('.file-input');
+                input.value = '';
+                handleFileChange(input);
+                btn.classList.add('hidden');
+            }
+        };
+
+        function hasSelectedEvidenceFile() {
+            const inputs = document.querySelectorAll('input[name="fileUploads"]');
+            return Array.from(inputs).some(it => it.files && it.files.length > 0);
+        }
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
         // ─── 비밀번호 일치 (실시간) ───
         const passwordInput = document.getElementById('password');
         const passwordConfirmInput = document.getElementById('password-confirm');
@@ -674,6 +778,12 @@
             if (pw !== pwConfirm) {
                 alert("비밀번호가 일치하지 않습니다.");
                 document.getElementById('password-confirm').focus();
+                e.preventDefault();
+                return false;
+            }
+
+            if (!hasSelectedEvidenceFile()) {
+                alert("증빙 서류 파일을 1개 이상 업로드해 주세요.");
                 e.preventDefault();
                 return false;
             }

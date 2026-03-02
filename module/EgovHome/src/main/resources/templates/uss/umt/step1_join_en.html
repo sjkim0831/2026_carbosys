@@ -193,7 +193,18 @@
     </main>
     <div id="shared-footer"></div>
     <script>
-            (function loadSharedLayout() {
+        (function handleExpiredAlert() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('expired') === '1') {
+                alert('Your session has expired. Please restart the sign-up process from Step 1.');
+                params.delete('expired');
+                const newQuery = params.toString();
+                const cleanUrl = window.location.pathname + (newQuery ? `?${newQuery}` : '');
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
+        })();
+
+        (function loadSharedLayout() {
                 fetch('/home3/fragments/header').then(r => r.text()).then(html => {
                     document.getElementById('shared-header').innerHTML = html;
                     const logoLink = document.querySelector('#shared-header a[href="/home3"]');
@@ -207,7 +218,7 @@
                 fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
                     document.getElementById('shared-footer').innerHTML = html;
                 }).catch(() => { });
-            })();
+        })();
         document.querySelectorAll('.type-card').forEach(card => {
             card.addEventListener('click', function () {
                 const radio = this.querySelector('input[type="radio"]');

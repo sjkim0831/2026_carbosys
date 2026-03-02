@@ -239,8 +239,19 @@
     <!-- 푸터: home3에서 공유 -->
     <div id="shared-footer"></div>
     <script>
-            // home3에서 공유 헤더/푸터를 fetch
-            (function loadSharedLayout() {
+        (function handleExpiredAlert() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('expired') === '1') {
+                alert('세션이 만료되었습니다. 회원가입을 처음부터 다시 진행해 주세요.');
+                params.delete('expired');
+                const newQuery = params.toString();
+                const cleanUrl = window.location.pathname + (newQuery ? `?${newQuery}` : '');
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
+        })();
+
+        // home3에서 공유 헤더/푸터를 fetch
+        (function loadSharedLayout() {
                 fetch('/home3/fragments/header')
                     .then(r => r.text())
                     .then(html => {
@@ -261,7 +272,7 @@
                     .then(r => r.text())
                     .then(html => { document.getElementById('shared-footer').innerHTML = html; })
                     .catch(() => { });
-            })();
+        })();
 
         // Step1 type-card 선택 로직
         document.querySelectorAll('.type-card').forEach(card => {
