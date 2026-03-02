@@ -1,0 +1,6 @@
+{"time":"2026-03-02 04:32:14","module":"EgovHome","level":"ERROR","message":"[BUILD] [[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException"}
+{"time":"2026-03-02 05:41:23","module":"EgovHome","level":"ERROR","message":"[BUILD] [[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException"}
+{"time":"2026-03-02 08:56:22","module":"EgovMsaManager","level":"ERROR","message":"[BUILD] [[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException"}
+{"time":"2026-03-02 08:57:58","module":"EgovMsaManager","level":"ERROR","message":"[BUILD] [[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException"}
+{"time":"2026-03-02 09:20:36","module":"EgovMsaManager","level":"ERROR","message":"[BUILD] [[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/PluginExecutionException"}
+{"time":"2026-03-02 09:20:37","module":"EgovMsaManager","level":"ERROR","message":"[BUILD] [[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/PluginExecutionException"}

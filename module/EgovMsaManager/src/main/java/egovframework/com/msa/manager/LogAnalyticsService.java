@@ -1,5 +1,7 @@
 package egovframework.com.msa.manager;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -11,11 +13,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
@@ -30,6 +34,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class LogAnalyticsService {
@@ -40,7 +45,7 @@ public class LogAnalyticsService {
 
     private static final int MAX_LOGS_PER_MODULE = 600;
     private static final int MAX_CRITICAL = 150;
-    private static final long SCAN_INTERVAL_MS = 4000L;
+    private static final long SCAN_INTERVAL_MS = 12000L;
 
     private final MsaScanner scanner = new MsaScanner();
     private final AtomicBoolean running = new AtomicBoolean(true);
@@ -54,7 +59,10 @@ public class LogAnalyticsService {
 
     private static final Pattern HTTP_PATH = Pattern.compile("\\b(GET|POST|PUT|DELETE|PATCH)\\s+\"([^\"]+)\"");
     private static final Pattern LOGGER_SOURCE = Pattern.compile("\\s([a-zA-Z0-9_.$]+)\\s*:\\s");
+    private static final Pattern LOG_TIME = Pattern.compile("^(\\d{4}-\\d{2}-\\d{2})[ T](\\d{2}:\\d{2}:\\d{2})(?:[.,]\\d{3})?");
     private static final DateTimeFormatter TS_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter ROTATE_FMT = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @PostConstruct
     public void init() {
@@ -225,7 +233,7 @@ public class LogAnalyticsService {
                 }).collect(Collectors.toList());
     }
 
-    private void scanOnce() {
+    private synchronized void scanOnce() {
         List<MsaScanner.ModuleInfo> modules = scanner.scan();
         for (MsaScanner.ModuleInfo mod : modules) {
             Path logPath = Paths.get(mod.getDir(), "startup.log");
@@ -258,7 +266,8 @@ public class LogAnalyticsService {
     private void ingestLine(String moduleId, String line) {
         String level = detectLevel(line);
         Map<String, Object> event = new LinkedHashMap<>();
-        event.put("time", LocalDateTime.now().format(TS_FMT));
+        String time = extractLineTime(line);
+        event.put("time", time.isEmpty() ? LocalDateTime.now().format(TS_FMT) : time);
         event.put("module", moduleId);
         event.put("level", level);
         event.put("message", line);
@@ -383,6 +392,174 @@ public class LogAnalyticsService {
                 .replace("\n", "\\n")
                 .replace("\r", "\\r")
                 .replace("\t", "\\t");
+    }
+
+    private String extractLineTime(String line) {
+        if (line == null) {
+            return "";
+        }
+        Matcher m = LOG_TIME.matcher(line.trim());
+        if (!m.find()) {
+            return "";
+        }
+        return m.group(1) + " " + m.group(2);
+    }
+
+    private List<Path> findArchiveFiles(String baseName) {
+        if (!Files.isDirectory(LOG_DIR)) {
+            return Collections.emptyList();
+        }
+        List<Path> out = new ArrayList<>();
+        try (Stream<Path> stream = Files.list(LOG_DIR)) {
+            stream.filter(Files::isRegularFile)
+                    .filter(path -> {
+                        String n = path.getFileName().toString().toLowerCase();
+                        return n.equals(baseName + ".jsonl") || n.startsWith(baseName + ".jsonl.");
+                    })
+                    .forEach(out::add);
+        } catch (Exception ignored) {
+        }
+        return out;
+    }
+
+    private List<Map<String, Object>> readArchiveEventsByRange(boolean criticalOnly, LocalDateTime from, LocalDateTime to) {
+        List<Path> files = criticalOnly ? findArchiveFiles("critical-events") : findArchiveFiles("module-log-events");
+        files.sort(Comparator.comparing(Path::toString));
+        List<Map<String, Object>> out = new ArrayList<>();
+        for (Path file : files) {
+            try (Stream<String> lines = Files.lines(file, StandardCharsets.UTF_8)) {
+                lines.forEach(line -> {
+                    String t = line == null ? "" : line.trim();
+                    if (t.isEmpty()) {
+                        return;
+                    }
+                    try {
+                        Map<String, Object> row = objectMapper.readValue(t, new TypeReference<Map<String, Object>>() {});
+                        if (inRange(row, from, to)) {
+                            out.add(row);
+                        }
+                    } catch (Exception ignored) {
+                    }
+                });
+            } catch (Exception ignored) {
+            }
+        }
+        return out;
+    }
+
+    public Map<String, Object> getArchiveModuleLogs(LocalDateTime from, LocalDateTime to) {
+        Map<String, Object> out = new LinkedHashMap<>();
+        List<Map<String, Object>> all = readArchiveEventsByRange(false, from, to);
+        Map<String, List<Map<String, Object>>> grouped = new HashMap<>();
+        for (Map<String, Object> e : all) {
+            String module = String.valueOf(e.getOrDefault("module", "unknown"));
+            grouped.computeIfAbsent(module, k -> new ArrayList<>()).add(e);
+        }
+        List<Map<String, Object>> modules = new ArrayList<>();
+        for (Map.Entry<String, List<Map<String, Object>>> e : grouped.entrySet()) {
+            List<Map<String, Object>> logs = e.getValue();
+            logs.sort(Comparator.comparing(o -> String.valueOf(o.get("time"))));
+            int total = logs.size();
+            int fromIdx = Math.max(0, total - MAX_LOGS_PER_MODULE);
+            List<Map<String, Object>> tail = new ArrayList<>(logs.subList(fromIdx, total));
+            Map<String, Object> row = new LinkedHashMap<>();
+            row.put("module", e.getKey());
+            row.put("count", total);
+            row.put("logs", tail);
+            row.put("last", tail.isEmpty() ? "" : tail.get(tail.size() - 1).get("message"));
+            modules.add(row);
+        }
+        modules.sort(Comparator.comparing(o -> String.valueOf(o.get("module"))));
+        out.put("modules", modules);
+        out.put("criticalCount", getArchiveCriticalEvents(from, to).size());
+        return out;
+    }
+
+    public List<Map<String, Object>> getArchiveCriticalEvents(LocalDateTime from, LocalDateTime to) {
+        List<Map<String, Object>> out = readArchiveEventsByRange(true, from, to);
+        out.sort((a, b) -> String.valueOf(b.get("time")).compareTo(String.valueOf(a.get("time"))));
+        return out;
+    }
+
+    public List<Map<String, Object>> getArchiveTopControllers(LocalDateTime from, LocalDateTime to) {
+        Map<String, Integer> out = new HashMap<>();
+        List<Map<String, Object>> events = readArchiveEventsByRange(false, from, to);
+        for (Map<String, Object> event : events) {
+            mergeControllerHit(String.valueOf(event.get("message")), out);
+        }
+        return toControllerRows(out);
+    }
+
+    public List<Map<String, Object>> getArchiveTopErrors(LocalDateTime from, LocalDateTime to) {
+        Map<String, Integer> out = new HashMap<>();
+        List<Map<String, Object>> events = readArchiveEventsByRange(false, from, to);
+        for (Map<String, Object> event : events) {
+            mergeErrorHotspot(String.valueOf(event.get("message")), out);
+        }
+        return toErrorRows(out);
+    }
+
+    public synchronized Map<String, Object> resetLiveMonitoring() {
+        Map<String, Object> out = new LinkedHashMap<>();
+        String stamp = LocalDateTime.now().format(ROTATE_FMT);
+        List<String> rotated = new ArrayList<>();
+        try {
+            Files.createDirectories(LOG_DIR);
+            rotateIfExists(LOG_ARCHIVE_FILE, stamp, rotated);
+            rotateIfExists(CRITICAL_FILE, stamp, rotated);
+            recreateFile(LOG_ARCHIVE_FILE);
+            recreateFile(CRITICAL_FILE);
+            logsByModule.clear();
+            synchronized (criticalEvents) {
+                criticalEvents.clear();
+            }
+            controllerHits.clear();
+            errorHotspots.clear();
+            offsets.clear();
+            List<MsaScanner.ModuleInfo> modules = scanner.scan();
+            for (MsaScanner.ModuleInfo mod : modules) {
+                Path logPath = Paths.get(mod.getDir(), "startup.log");
+                if (!Files.exists(logPath)) {
+                    continue;
+                }
+                try {
+                    offsets.put(mod.getId(), Files.size(logPath));
+                } catch (Exception ignored) {
+                }
+            }
+            saveOffsets();
+            out.put("status", "ok");
+            out.put("message", "실시간 로그 모니터링이 초기화되었습니다.");
+            out.put("rotatedFiles", rotated);
+            return out;
+        } catch (Exception e) {
+            out.put("status", "error");
+            out.put("message", "초기화 실패: " + e.getMessage());
+            out.put("rotatedFiles", rotated);
+            return out;
+        }
+    }
+
+    private void rotateIfExists(Path file, String stamp, List<String> rotated) {
+        try {
+            if (!Files.exists(file)) {
+                return;
+            }
+            if (Files.size(file) <= 0) {
+                return;
+            }
+            Path target = file.resolveSibling(file.getFileName().toString() + "." + stamp);
+            Files.move(file, target, StandardCopyOption.REPLACE_EXISTING);
+            rotated.add(target.getFileName().toString());
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void recreateFile(Path file) {
+        try {
+            Files.write(file, new byte[0], StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (Exception ignored) {
+        }
     }
 
     private void loadOffsets() {

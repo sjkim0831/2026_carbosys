@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 @Service
 public class MsaProcessManager {
     private static final String APP_ROOT = "/app";
+    private static final String DEFAULT_XMS = "64m";
+    private static final String DEFAULT_XMX = "256m";
     private final Map<String, ProcessEntry> processMap = new ConcurrentHashMap<>();
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -47,8 +49,12 @@ public class MsaProcessManager {
         new Thread(() -> {
             try {
                 String jarArg = resolveRunnableJar(mod);
-                List<String> cmd = new ArrayList<>(
-                        Arrays.asList("java", "-Xms64m", "-Xmx192m", "-jar", jarArg));
+                List<String> cmd = new ArrayList<>(Arrays.asList(
+                        "java",
+                        "-Xms" + resolveXms(mod),
+                        "-Xmx" + resolveXmx(mod),
+                        "-jar",
+                        jarArg));
                 // Enforce central port if registered
                 if (mod.getPort() != null && mod.getPort() != 0) {
                     cmd.add("--server.port=" + mod.getPort());
@@ -282,7 +288,12 @@ public class MsaProcessManager {
 
     private Process startUntrackedProcess(MsaScanner.ModuleInfo mod, int port, String logPrefix) throws IOException {
         String jarArg = resolveRunnableJar(mod);
-        List<String> cmd = new ArrayList<>(Arrays.asList("java", "-Xms64m", "-Xmx192m", "-jar", jarArg,
+        List<String> cmd = new ArrayList<>(Arrays.asList(
+                "java",
+                "-Xms" + resolveXms(mod),
+                "-Xmx" + resolveXmx(mod),
+                "-jar",
+                jarArg,
                 "--server.port=" + port));
         ProcessBuilder pb = new ProcessBuilder(cmd);
         pb.directory(new File(APP_ROOT));
@@ -531,5 +542,66 @@ public class MsaProcessManager {
         }
         // Fallback to mounted source tree jar.
         return Paths.get(mod.getDir(), "target", mod.getArtifactId() + ".jar").toString();
+    }
+
+    private String resolveXms(MsaScanner.ModuleInfo mod) {
+        String moduleId = mod == null ? "" : mod.getId();
+        String byModule = readHeapEnv("MSA_JVM_" + normalizeModuleKey(moduleId) + "_XMS");
+        if (byModule != null) {
+            return byModule;
+        }
+        String global = readHeapEnv("MSA_JVM_DEFAULT_XMS");
+        if (global != null) {
+            return global;
+        }
+        if ("EgovMsaManager".equals(moduleId)) {
+            return "256m";
+        }
+        if ("EgovHome".equals(moduleId)) {
+            return "128m";
+        }
+        return DEFAULT_XMS;
+    }
+
+    private String resolveXmx(MsaScanner.ModuleInfo mod) {
+        String moduleId = mod == null ? "" : mod.getId();
+        String byModule = readHeapEnv("MSA_JVM_" + normalizeModuleKey(moduleId) + "_XMX");
+        if (byModule != null) {
+            return byModule;
+        }
+        String global = readHeapEnv("MSA_JVM_DEFAULT_XMX");
+        if (global != null) {
+            return global;
+        }
+        if ("EgovMsaManager".equals(moduleId)) {
+            return "512m";
+        }
+        if ("EgovHome".equals(moduleId)) {
+            return "384m";
+        }
+        return DEFAULT_XMX;
+    }
+
+    private String normalizeModuleKey(String moduleId) {
+        if (moduleId == null) {
+            return "";
+        }
+        return moduleId.replaceAll("[^A-Za-z0-9]", "").toUpperCase(Locale.ROOT);
+    }
+
+    private String readHeapEnv(String key) {
+        try {
+            String v = System.getenv(key);
+            if (v == null || v.trim().isEmpty()) {
+                return null;
+            }
+            String s = v.trim().toLowerCase(Locale.ROOT);
+            if (!s.matches("\\d+[mg]")) {
+                return null;
+            }
+            return s;
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 }

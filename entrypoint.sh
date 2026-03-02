@@ -4,27 +4,39 @@ set -e
 
 echo "Starting Carbosys MSA Services..."
 
+# JVM memory defaults (override via env if needed)
+EUREKA_XMS="${EUREKA_XMS:-128m}"
+EUREKA_XMX="${EUREKA_XMX:-256m}"
+CONFIG_XMS="${CONFIG_XMS:-128m}"
+CONFIG_XMX="${CONFIG_XMX:-256m}"
+GATEWAY_XMS="${GATEWAY_XMS:-128m}"
+GATEWAY_XMX="${GATEWAY_XMX:-384m}"
+MSA_MANAGER_XMS="${MSA_MANAGER_XMS:-256m}"
+MSA_MANAGER_XMX="${MSA_MANAGER_XMX:-512m}"
+EGOV_HOME_XMS="${EGOV_HOME_XMS:-128m}"
+EGOV_HOME_XMX="${EGOV_HOME_XMX:-384m}"
+
 # Wait for CUBRID to be ready
 echo "Waiting for CUBRID database..."
 sleep 10
 
 # Start Infrastructure Services (Eureka, Config, Gateway)
 echo "Starting EurekaServer..."
-java -jar /app/EurekaServer.jar &
+java -Xms"${EUREKA_XMS}" -Xmx"${EUREKA_XMX}" -jar /app/EurekaServer.jar &
 
 echo "Starting ConfigServer..."
-java -jar /app/ConfigServer.jar &
+java -Xms"${CONFIG_XMS}" -Xmx"${CONFIG_XMX}" -jar /app/ConfigServer.jar &
 
 # Wait for Eureka and Config to be ready
 echo "Waiting for infrastructure services..."
 sleep 30
 
 echo "Starting GatewayServer..."
-java -jar /app/GatewayServer.jar &
+java -Xms"${GATEWAY_XMS}" -Xmx"${GATEWAY_XMX}" -jar /app/GatewayServer.jar &
 
 # Start MSA Manager
 echo "Starting EgovMsaManager..."
-java -jar /app/EgovMsaManager.jar &
+java -Xms"${MSA_MANAGER_XMS}" -Xmx"${MSA_MANAGER_XMX}" -jar /app/EgovMsaManager.jar &
 
 echo "Core services (Eureka, Config, Gateway, Manager) started!"
 echo "Other modules should be managed via MSA Manager UI."
@@ -49,7 +61,7 @@ echo "Other modules should be managed via MSA Manager UI."
 
 # Start merged EgovHome service (EgovJoin + home3 + signin)
 echo "Starting EgovHome..."
-java -jar /app/EgovHome.jar --server.port=18000 &
+java -Xms"${EGOV_HOME_XMS}" -Xmx"${EGOV_HOME_XMX}" -jar /app/EgovHome.jar --server.port=18000 &
 
 echo "All services started!"
 echo "Waiting for all processes..."
