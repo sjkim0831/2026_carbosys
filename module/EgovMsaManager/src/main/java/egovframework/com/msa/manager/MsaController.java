@@ -862,6 +862,18 @@ public class MsaController {
     }
 
     @ResponseBody
+    @GetMapping("/api/traffic/load-test/status")
+    public Map<String, Object> getTrafficLoadTestStatus() {
+        return opsInsightService.getTrafficLoadStatus();
+    }
+
+    @ResponseBody
+    @PostMapping("/api/traffic/load-test/run")
+    public Map<String, Object> runTrafficLoadTest(@RequestBody(required = false) Map<String, Object> req) {
+        return opsInsightService.runTrafficLoadTest(req);
+    }
+
+    @ResponseBody
     @GetMapping("/api/accessibility/issues")
     public Map<String, Object> getAccessibilityIssues() {
         return opsInsightService.getAccessibilityIssues();

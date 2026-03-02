@@ -800,6 +800,72 @@
                         </div>
 
                         <div class="gov-card overflow-hidden">
+                            <div class="px-4 py-3 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3">
+                                <div class="text-sm font-bold text-gray-700">실측 부하 테스트</div>
+                                <div class="flex items-center gap-2">
+                                    <span id="trafficLoadStatusBadge" class="status-badge bg-gray-100 text-gray-600">대기</span>
+                                    <button id="trafficLoadRunBtn" onclick="runTrafficLoadTest()" class="px-3 py-2 rounded bg-amber-600 text-white text-xs font-bold hover:bg-amber-700 flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[16px]">bolt</span>
+                                        부하 테스트 실행
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div class="text-[11px] text-gray-500 mono">
+                                    <span id="trafficLoadTarget">target: -</span>
+                                    <span class="mx-2">|</span>
+                                    <span id="trafficLoadConfig">config: -</span>
+                                    <span class="mx-2">|</span>
+                                    <span id="trafficLoadRunAt">last: -</span>
+                                </div>
+                                <div class="grid grid-cols-2 lg:grid-cols-6 gap-2">
+                                    <div class="rounded border border-cyan-200 bg-cyan-50 px-3 py-2">
+                                        <div class="text-[10px] text-cyan-600 font-bold uppercase">Max Users</div>
+                                        <div id="trafficMeterMaxUsers" class="mt-1 text-base font-black text-cyan-700 mono">0</div>
+                                    </div>
+                                    <div class="rounded border border-indigo-200 bg-indigo-50 px-3 py-2">
+                                        <div class="text-[10px] text-indigo-600 font-bold uppercase">Peak RPS</div>
+                                        <div id="trafficMeterPeakRps" class="mt-1 text-base font-black text-indigo-700 mono">0</div>
+                                    </div>
+                                    <div class="rounded border border-emerald-200 bg-emerald-50 px-3 py-2">
+                                        <div class="text-[10px] text-emerald-600 font-bold uppercase">Avg(ms)</div>
+                                        <div id="trafficMeterAvgMs" class="mt-1 text-base font-black text-emerald-700 mono">0</div>
+                                    </div>
+                                    <div class="rounded border border-amber-200 bg-amber-50 px-3 py-2">
+                                        <div class="text-[10px] text-amber-600 font-bold uppercase">P95(ms)</div>
+                                        <div id="trafficMeterP95Ms" class="mt-1 text-base font-black text-amber-700 mono">0</div>
+                                    </div>
+                                    <div class="rounded border border-rose-200 bg-rose-50 px-3 py-2">
+                                        <div class="text-[10px] text-rose-600 font-bold uppercase">Error(%)</div>
+                                        <div id="trafficMeterErrorPct" class="mt-1 text-base font-black text-rose-700 mono">0</div>
+                                    </div>
+                                    <div class="rounded border border-slate-200 bg-slate-50 px-3 py-2">
+                                        <div class="text-[10px] text-slate-600 font-bold uppercase">Total Req</div>
+                                        <div id="trafficMeterTotalReq" class="mt-1 text-base font-black text-slate-700 mono">0</div>
+                                    </div>
+                                </div>
+                                <div class="overflow-x-auto rounded border border-gray-100">
+                                    <table class="w-full text-left">
+                                        <thead class="bg-gray-50 border-b border-gray-200">
+                                            <tr>
+                                                <th class="px-3 py-2 text-[11px] font-bold text-gray-500 uppercase">VU</th>
+                                                <th class="px-3 py-2 text-[11px] font-bold text-gray-500 uppercase text-right">Req</th>
+                                                <th class="px-3 py-2 text-[11px] font-bold text-gray-500 uppercase text-right">RPS</th>
+                                                <th class="px-3 py-2 text-[11px] font-bold text-gray-500 uppercase text-right">Avg(ms)</th>
+                                                <th class="px-3 py-2 text-[11px] font-bold text-gray-500 uppercase text-right">P95(ms)</th>
+                                                <th class="px-3 py-2 text-[11px] font-bold text-gray-500 uppercase text-right">Error(%)</th>
+                                                <th class="px-3 py-2 text-[11px] font-bold text-gray-500 uppercase text-center">Stable</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="trafficLoadStageTable" class="divide-y divide-gray-100">
+                                            <tr><td colspan="7" class="px-3 py-4 text-center text-xs text-gray-400">실행 이력이 없습니다</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="gov-card overflow-hidden">
                             <div class="px-4 py-3 border-b border-gray-100 text-sm font-bold">모듈 부하 모니터링</div>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-left">
@@ -919,6 +985,7 @@
         let securityFilterMode = 'required';
         let securityExploreStatus = null;
         let trafficOverview = null;
+        let trafficLoadStatus = null;
         let accessibilityIssues = [];
         let runtimeConfig = {
             serverMode: 'development',
@@ -928,6 +995,7 @@
         let remoteDeployConfig = {};
         let webhookTokenPlain = '';
         const webhookTokenStorageKey = 'msaWebhookTokenPlain';
+        const tabStorageKey = 'msaManagerActiveTab';
         function loadWebhookTokenCache() {
             try {
                 const ss = sessionStorage.getItem(webhookTokenStorageKey) || '';
@@ -956,10 +1024,17 @@
 
         /* ── Tabs ── */
         function showTab(tab) {
+            const contentEl = document.getElementById('content-' + tab);
+            const tabEl = document.getElementById('tab-' + tab);
+            if (!contentEl || !tabEl) return;
+
             document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            document.getElementById('content-' + tab).classList.remove('hidden');
-            document.getElementById('tab-' + tab).classList.add('active');
+            contentEl.classList.remove('hidden');
+            tabEl.classList.add('active');
+            try {
+                localStorage.setItem(tabStorageKey, tab);
+            } catch (e) { }
             if (tab === 'mappings') refreshMappings();
             if (tab === 'changes') {
                 refreshRuntimeConfig();
@@ -975,6 +1050,17 @@
             if (tab === 'security-explorer') refreshSecurityExplorerTab();
             if (tab === 'traffic') refreshTrafficTab();
             if (tab === 'accessibility') refreshAccessibilityTab();
+        }
+
+        function restoreActiveTab() {
+            try {
+                const saved = localStorage.getItem(tabStorageKey);
+                if (saved && document.getElementById('content-' + saved) && document.getElementById('tab-' + saved)) {
+                    showTab(saved);
+                    return;
+                }
+            } catch (e) { }
+            showTab('modules');
         }
 
         async function refreshData() {
@@ -2664,9 +2750,121 @@
                 document.getElementById('trafficCpuMeta').textContent = `${s.cpuCores || 0} cores`;
                 renderTrafficModuleTable();
                 renderTrafficControllerTable();
+                await refreshTrafficLoadStatus();
             } catch (e) {
                 console.error(e);
             }
+        }
+
+        async function runTrafficLoadTest() {
+            const btn = document.getElementById('trafficLoadRunBtn');
+            if (btn) btn.disabled = true;
+            setTrafficLoadRunning(true);
+            try {
+                const payload = {
+                    maxUsers: 120,
+                    stepUsers: 20,
+                    stepSeconds: 3,
+                    timeoutMs: 2500
+                };
+                const r = await fetch('/admin/msa/api/traffic/load-test/run', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await r.json();
+                if (data.status !== 'ok') {
+                    showToast(data.status === 'busy' ? 'warning' : 'error', data.message || '부하 테스트 실행 실패');
+                    return;
+                }
+                trafficLoadStatus = { running: false, lastResult: data };
+                renderTrafficLoadResult(data);
+                showToast('success', '부하 테스트 실측 완료');
+            } catch (e) {
+                showToast('error', '부하 테스트 실패: ' + e.message);
+            } finally {
+                if (btn) btn.disabled = false;
+                setTrafficLoadRunning(false);
+            }
+        }
+
+        async function refreshTrafficLoadStatus() {
+            try {
+                const r = await fetch('/admin/msa/api/traffic/load-test/status');
+                const data = await r.json();
+                trafficLoadStatus = data || {};
+                setTrafficLoadRunning(!!trafficLoadStatus.running);
+                if (trafficLoadStatus.lastResult) {
+                    renderTrafficLoadResult(trafficLoadStatus.lastResult);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function setTrafficLoadRunning(running) {
+            const badge = document.getElementById('trafficLoadStatusBadge');
+            const btn = document.getElementById('trafficLoadRunBtn');
+            if (badge) {
+                badge.className = running
+                    ? 'status-badge bg-amber-100 text-amber-700'
+                    : 'status-badge bg-gray-100 text-gray-600';
+                badge.textContent = running ? '실행 중' : '대기';
+            }
+            if (btn) {
+                btn.disabled = !!running;
+                btn.classList.toggle('opacity-60', !!running);
+                btn.classList.toggle('cursor-not-allowed', !!running);
+            }
+        }
+
+        function renderTrafficLoadResult(result) {
+            const summary = result && result.summary ? result.summary : {};
+            const config = result && result.config ? result.config : {};
+            const target = result && result.target ? result.target : {};
+            const stages = Array.isArray(result && result.stages) ? result.stages : [];
+
+            document.getElementById('trafficMeterMaxUsers').textContent = toInt(summary.maxConcurrentUsers);
+            document.getElementById('trafficMeterPeakRps').textContent = toFixed2(summary.peakRps);
+            document.getElementById('trafficMeterAvgMs').textContent = toFixed2(summary.avgMsAtMax);
+            document.getElementById('trafficMeterP95Ms').textContent = toFixed2(summary.p95MsAtMax);
+            document.getElementById('trafficMeterErrorPct').textContent = toFixed2(summary.errorRatePctAtMax);
+            document.getElementById('trafficMeterTotalReq').textContent = toInt(summary.totalRequests);
+
+            document.getElementById('trafficLoadTarget').textContent = `target: ${escHtml(target.url || '-')}`;
+            document.getElementById('trafficLoadConfig').textContent = `config: max=${toInt(config.maxUsers)} step=${toInt(config.stepUsers)} sec=${toInt(config.stepSeconds)}`;
+            document.getElementById('trafficLoadRunAt').textContent = `last: ${escHtml(result.time || '-')}`;
+
+            const tbody = document.getElementById('trafficLoadStageTable');
+            if (!stages.length) {
+                tbody.innerHTML = `<tr><td colspan="7" class="px-3 py-4 text-center text-xs text-gray-400">실행 이력이 없습니다</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = stages.map(s => {
+                const stable = !!s.stable;
+                return `
+                    <tr>
+                        <td class="px-3 py-2 text-xs mono text-gray-700">${toInt(s.virtualUsers)}</td>
+                        <td class="px-3 py-2 text-xs mono text-right text-gray-700">${toInt(s.totalRequests)}</td>
+                        <td class="px-3 py-2 text-xs mono text-right text-indigo-700">${toFixed2(s.rps)}</td>
+                        <td class="px-3 py-2 text-xs mono text-right text-emerald-700">${toFixed2(s.avgMs)}</td>
+                        <td class="px-3 py-2 text-xs mono text-right text-amber-700">${toFixed2(s.p95Ms)}</td>
+                        <td class="px-3 py-2 text-xs mono text-right text-rose-700">${toFixed2(s.errorRatePct)}</td>
+                        <td class="px-3 py-2 text-center text-xs">
+                            <span class="status-badge ${stable ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}">${stable ? 'YES' : 'NO'}</span>
+                        </td>
+                    </tr>`;
+            }).join('');
+        }
+
+        function toInt(v) {
+            const n = Number(v || 0);
+            return Number.isFinite(n) ? Math.round(n) : 0;
+        }
+
+        function toFixed2(v) {
+            const n = Number(v || 0);
+            return Number.isFinite(n) ? n.toFixed(2) : '0.00';
         }
 
         function renderTrafficModuleTable() {
@@ -2811,6 +3009,7 @@
         refreshRemoteStatus();
         updateLogRangeLabel();
         refreshSecurityExplorerTab();
+        restoreActiveTab();
         setInterval(refreshModules, 5000);
         setInterval(() => {
             if (!document.getElementById('content-changes').classList.contains('hidden')) {

@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -349,6 +350,11 @@ public class OpsInsightService {
     private volatile long exploreEtaSeconds = -1L;
     private final List<String> exploreTerminalLines = Collections.synchronizedList(new ArrayList<String>());
     private final List<Map<String, Object>> exploreTimeline = Collections.synchronizedList(new ArrayList<Map<String, Object>>());
+    private final Object trafficLoadLock = new Object();
+    private volatile boolean trafficLoadRunning = false;
+    private volatile Map<String, Object> lastTrafficLoadResult = null;
+    private volatile String lastTrafficLoadStartedAt = "";
+    private volatile String lastTrafficLoadFinishedAt = "";
 
     public Map<String, Object> getSecurityViolations() {
         long now = System.currentTimeMillis();
@@ -1437,6 +1443,407 @@ public class OpsInsightService {
         out.put("modules", moduleStats);
         out.put("controllers", controllers);
         return out;
+    }
+
+    public Map<String, Object> getTrafficLoadStatus() {
+        Map<String, Object> out = new LinkedHashMap<>();
+        out.put("status", "ok");
+        out.put("running", trafficLoadRunning);
+        out.put("startedAt", lastTrafficLoadStartedAt);
+        out.put("finishedAt", lastTrafficLoadFinishedAt);
+        out.put("lastResult", lastTrafficLoadResult);
+        return out;
+    }
+
+    public Map<String, Object> runTrafficLoadTest(Map<String, Object> req) {
+        synchronized (trafficLoadLock) {
+            if (trafficLoadRunning) {
+                Map<String, Object> out = new LinkedHashMap<>();
+                out.put("status", "busy");
+                out.put("message", "이미 부하 테스트가 실행 중입니다.");
+                out.put("startedAt", lastTrafficLoadStartedAt);
+                return out;
+            }
+            trafficLoadRunning = true;
+            lastTrafficLoadStartedAt = LocalDateTime.now().format(TS_FMT);
+            lastTrafficLoadFinishedAt = "";
+        }
+
+        try {
+            Map<String, Object> result = executeTrafficLoadTest(req == null ? Collections.emptyMap() : req);
+            lastTrafficLoadResult = result;
+            return result;
+        } finally {
+            trafficLoadRunning = false;
+            lastTrafficLoadFinishedAt = LocalDateTime.now().format(TS_FMT);
+        }
+    }
+
+    private Map<String, Object> executeTrafficLoadTest(Map<String, Object> req) {
+        int maxUsers = boundedInt(req.get("maxUsers"), 120, 10, 500);
+        int stepUsers = boundedInt(req.get("stepUsers"), 20, 5, 200);
+        int stepSeconds = boundedInt(req.get("stepSeconds"), 3, 1, 20);
+        int timeoutMs = boundedInt(req.get("timeoutMs"), 2500, 300, 15000);
+
+        Map<String, Object> target = resolveTrafficTestTarget(req);
+        String targetUrl = str(target.get("url"));
+        if (targetUrl.isEmpty()) {
+            Map<String, Object> out = new LinkedHashMap<>();
+            out.put("status", "error");
+            out.put("message", "부하 테스트 대상 URL을 찾지 못했습니다. 실행 중인 모듈/경로를 확인하세요.");
+            return out;
+        }
+
+        long started = System.currentTimeMillis();
+        List<Map<String, Object>> stages = new ArrayList<>();
+        int maxStableUsers = 0;
+        double peakRps = 0.0;
+        double stableRps = 0.0;
+        double stableAvgMs = 0.0;
+        double stableP95Ms = 0.0;
+        double stableErrorRate = 0.0;
+        long totalRequests = 0L;
+        long totalSuccess = 0L;
+        long totalErrors = 0L;
+
+        for (int users = stepUsers; users <= maxUsers; users += stepUsers) {
+            Map<String, Object> row = runTrafficLoadStep(targetUrl, users, stepSeconds, timeoutMs);
+            stages.add(row);
+
+            double rps = num(row.get("rps"));
+            double successRate = num(row.get("successRatePct"));
+            double errorRate = num(row.get("errorRatePct"));
+            double p95 = num(row.get("p95Ms"));
+            totalRequests += (long) num(row.get("totalRequests"));
+            totalSuccess += (long) num(row.get("success"));
+            totalErrors += (long) num(row.get("errors"));
+            if (rps > peakRps) {
+                peakRps = rps;
+            }
+
+            boolean stable = successRate >= 97.0 && errorRate <= 3.0 && p95 <= 1500.0;
+            row.put("stable", stable);
+
+            if (stable) {
+                maxStableUsers = users;
+                stableRps = rps;
+                stableAvgMs = num(row.get("avgMs"));
+                stableP95Ms = p95;
+                stableErrorRate = errorRate;
+            }
+
+            if (!stable && users > stepUsers && (errorRate >= 10.0 || p95 > 4000.0)) {
+                break;
+            }
+        }
+
+        long elapsedMs = Math.max(1L, System.currentTimeMillis() - started);
+        Map<String, Object> summary = new LinkedHashMap<>();
+        summary.put("maxConcurrentUsers", maxStableUsers);
+        summary.put("peakRps", round2(peakRps));
+        summary.put("stableRps", round2(stableRps));
+        summary.put("avgMsAtMax", round2(stableAvgMs));
+        summary.put("p95MsAtMax", round2(stableP95Ms));
+        summary.put("errorRatePctAtMax", round2(stableErrorRate));
+        summary.put("totalRequests", totalRequests);
+        summary.put("totalSuccess", totalSuccess);
+        summary.put("totalErrors", totalErrors);
+        summary.put("elapsedMs", elapsedMs);
+
+        Map<String, Object> cfg = new LinkedHashMap<>();
+        cfg.put("maxUsers", maxUsers);
+        cfg.put("stepUsers", stepUsers);
+        cfg.put("stepSeconds", stepSeconds);
+        cfg.put("timeoutMs", timeoutMs);
+
+        Map<String, Object> out = new LinkedHashMap<>();
+        out.put("status", "ok");
+        out.put("time", LocalDateTime.now().format(TS_FMT));
+        out.put("target", target);
+        out.put("config", cfg);
+        out.put("summary", summary);
+        out.put("stages", stages);
+        return out;
+    }
+
+    private Map<String, Object> runTrafficLoadStep(String targetUrl, int virtualUsers, int durationSec, int timeoutMs) {
+        final long endAt = System.currentTimeMillis() + (durationSec * 1000L);
+        final AtomicLong total = new AtomicLong(0L);
+        final AtomicLong success = new AtomicLong(0L);
+        final AtomicLong errors = new AtomicLong(0L);
+        final AtomicLong totalLatencyMs = new AtomicLong(0L);
+        final AtomicLong maxLatencyMs = new AtomicLong(0L);
+        final List<Long> latencies = Collections.synchronizedList(new ArrayList<Long>());
+        List<Thread> threads = new ArrayList<>();
+
+        for (int i = 0; i < virtualUsers; i++) {
+            Thread t = new Thread(() -> {
+                while (System.currentTimeMillis() < endAt) {
+                    long started = System.currentTimeMillis();
+                    int code = doHttpGet(targetUrl, timeoutMs);
+                    long elapsed = Math.max(1L, System.currentTimeMillis() - started);
+
+                    total.incrementAndGet();
+                    totalLatencyMs.addAndGet(elapsed);
+                    latencies.add(elapsed);
+                    while (true) {
+                        long prev = maxLatencyMs.get();
+                        if (elapsed <= prev || maxLatencyMs.compareAndSet(prev, elapsed)) {
+                            break;
+                        }
+                    }
+
+                    if (code >= 200 && code < 400) {
+                        success.incrementAndGet();
+                    } else {
+                        errors.incrementAndGet();
+                    }
+                }
+            }, "traffic-load-" + virtualUsers + "-" + i);
+            t.setDaemon(true);
+            threads.add(t);
+            t.start();
+        }
+
+        for (Thread t : threads) {
+            try {
+                t.join();
+            } catch (InterruptedException ignored) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        long totalReq = total.get();
+        long succ = success.get();
+        long err = errors.get();
+        double seconds = Math.max(1.0, durationSec);
+        double rps = totalReq / seconds;
+        double successRate = totalReq == 0 ? 0.0 : ((succ * 100.0) / totalReq);
+        double errorRate = totalReq == 0 ? 100.0 : ((err * 100.0) / totalReq);
+        double avgMs = totalReq == 0 ? 0.0 : (totalLatencyMs.get() * 1.0 / totalReq);
+        double p95Ms = percentile(latencies, 0.95);
+
+        Map<String, Object> row = new LinkedHashMap<>();
+        row.put("virtualUsers", virtualUsers);
+        row.put("durationSec", durationSec);
+        row.put("totalRequests", totalReq);
+        row.put("success", succ);
+        row.put("errors", err);
+        row.put("rps", round2(rps));
+        row.put("successRatePct", round2(successRate));
+        row.put("errorRatePct", round2(errorRate));
+        row.put("avgMs", round2(avgMs));
+        row.put("p95Ms", round2(p95Ms));
+        row.put("maxMs", maxLatencyMs.get());
+        return row;
+    }
+
+    private Map<String, Object> resolveTrafficTestTarget(Map<String, Object> req) {
+        List<MsaScanner.ModuleInfo> modules = scanner.scan();
+        Map<String, Integer> runningPorts = new HashMap<>();
+        int gatewayPort = 0;
+        for (MsaScanner.ModuleInfo m : modules) {
+            String status = processManager.getStatus(m.getId(), m.getPort());
+            if (!"running".equals(status) || m.getPort() == null) {
+                continue;
+            }
+            runningPorts.put(m.getId(), m.getPort());
+            String idLower = m.getId() == null ? "" : m.getId().toLowerCase(Locale.ROOT);
+            if (idLower.contains("gateway")) {
+                gatewayPort = m.getPort();
+            }
+        }
+
+        String reqPath = str(req.get("path"));
+        String reqModule = str(req.get("module"));
+        String reqUrl = str(req.get("url"));
+        String selectedPath = "";
+        String selectedModule = "";
+        String selectedUrl = "";
+
+        if (!reqUrl.isEmpty()) {
+            selectedUrl = reqUrl;
+        } else if (!reqPath.isEmpty()) {
+            selectedPath = reqPath.startsWith("/") ? reqPath : ("/" + reqPath);
+            if (gatewayPort > 0) {
+                selectedUrl = "http://127.0.0.1:" + gatewayPort + selectedPath;
+                selectedModule = "EgovGateway";
+            } else if (!reqModule.isEmpty() && runningPorts.containsKey(reqModule)) {
+                selectedModule = reqModule;
+                selectedUrl = "http://127.0.0.1:" + runningPorts.get(reqModule) + selectedPath;
+            }
+        }
+
+        if (selectedUrl.isEmpty()) {
+            List<String> preferredPaths = Arrays.asList("/actuator/health", "/health", "/", "/main.do", "/index.do");
+            List<Map<String, Object>> mappings = loadMappings();
+            List<Map<String, String>> candidates = new ArrayList<>();
+            List<Map.Entry<String, Integer>> orderedRunning = new ArrayList<>(runningPorts.entrySet());
+            orderedRunning.sort((a, b) -> Integer.compare(modulePriority(a.getKey()), modulePriority(b.getKey())));
+
+            if (gatewayPort > 0) {
+                for (String p : preferredPaths) {
+                    Map<String, String> row = new LinkedHashMap<>();
+                    row.put("module", "EgovGateway");
+                    row.put("path", p);
+                    row.put("url", "http://127.0.0.1:" + gatewayPort + p);
+                    candidates.add(row);
+                }
+            }
+
+            for (Map.Entry<String, Integer> e : orderedRunning) {
+                String module = e.getKey();
+                Integer port = e.getValue();
+                if (isManagerModule(module)) continue;
+                for (String p : preferredPaths) {
+                    Map<String, String> row = new LinkedHashMap<>();
+                    row.put("module", module);
+                    row.put("path", p);
+                    row.put("url", "http://127.0.0.1:" + port + p);
+                    candidates.add(row);
+                }
+            }
+
+            for (Map<String, Object> m : mappings) {
+                String module = str(m.get("module"));
+                String method = str(m.get("method")).toUpperCase(Locale.ROOT);
+                String path = str(m.get("path"));
+                if (isManagerModule(module)) continue;
+                if (path.isEmpty() || !path.startsWith("/")) continue;
+                if (!"GET".equals(method)) continue;
+                if (path.contains("{") || path.contains("*")) continue;
+                String low = path.toLowerCase(Locale.ROOT);
+                if (low.startsWith("/admin/msa") || low.startsWith("/error")
+                        || low.contains("swagger") || low.contains("api-docs")) continue;
+                if (!runningPorts.containsKey(module)) continue;
+
+                if (gatewayPort > 0) {
+                    Map<String, String> viaGateway = new LinkedHashMap<>();
+                    viaGateway.put("module", "EgovGateway");
+                    viaGateway.put("path", path);
+                    viaGateway.put("url", "http://127.0.0.1:" + gatewayPort + path);
+                    candidates.add(viaGateway);
+                }
+
+                Map<String, String> direct = new LinkedHashMap<>();
+                direct.put("module", module);
+                direct.put("path", path);
+                direct.put("url", "http://127.0.0.1:" + runningPorts.get(module) + path);
+                candidates.add(direct);
+            }
+
+            for (Map<String, String> c : candidates) {
+                String url = str(c.get("url"));
+                int code = doHttpGet(url, 1500);
+                if (code >= 200 && code < 400) {
+                    selectedUrl = url;
+                    selectedPath = str(c.get("path"));
+                    selectedModule = str(c.get("module"));
+                    break;
+                }
+            }
+        }
+
+        if (selectedUrl.isEmpty() && gatewayPort > 0) {
+            selectedPath = "/";
+            selectedModule = "EgovGateway";
+            selectedUrl = "http://127.0.0.1:" + gatewayPort + "/";
+        }
+
+        if (selectedUrl.isEmpty() && !runningPorts.isEmpty()) {
+            List<Map.Entry<String, Integer>> orderedRunning = new ArrayList<>(runningPorts.entrySet());
+            orderedRunning.sort((a, b) -> Integer.compare(modulePriority(a.getKey()), modulePriority(b.getKey())));
+            for (Map.Entry<String, Integer> first : orderedRunning) {
+                if (isManagerModule(first.getKey())) continue;
+                selectedPath = "/";
+                selectedModule = first.getKey();
+                selectedUrl = "http://127.0.0.1:" + first.getValue() + "/";
+                break;
+            }
+        }
+
+        Map<String, Object> out = new LinkedHashMap<>();
+        out.put("module", selectedModule);
+        out.put("path", selectedPath);
+        out.put("url", selectedUrl);
+        out.put("gatewayPort", gatewayPort);
+        return out;
+    }
+
+    private boolean isManagerModule(String module) {
+        String id = module == null ? "" : module.toLowerCase(Locale.ROOT);
+        return id.contains("msamanager");
+    }
+
+    private int modulePriority(String module) {
+        String id = module == null ? "" : module.toLowerCase(Locale.ROOT);
+        if (id.contains("egovhome")) return 0;
+        if (id.contains("gateway")) return 1;
+        if (id.contains("config")) return 3;
+        if (id.contains("eureka")) return 4;
+        if (id.contains("msamanager")) return 9;
+        return 2;
+    }
+
+    private int doHttpGet(String url, int timeoutMs) {
+        HttpURLConnection conn = null;
+        try {
+            URL u = new URL(url);
+            conn = (HttpURLConnection) u.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(timeoutMs);
+            conn.setReadTimeout(timeoutMs);
+            conn.setUseCaches(false);
+            conn.setRequestProperty("Connection", "close");
+            int code = conn.getResponseCode();
+            if (code >= 400) {
+                if (conn.getErrorStream() != null) {
+                    conn.getErrorStream().close();
+                }
+            } else {
+                if (conn.getInputStream() != null) {
+                    conn.getInputStream().close();
+                }
+            }
+            return code;
+        } catch (Exception ignored) {
+            return -1;
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+    }
+
+    private int boundedInt(Object v, int defaultValue, int min, int max) {
+        int n = defaultValue;
+        try {
+            if (v != null) {
+                n = Integer.parseInt(String.valueOf(v).trim());
+            }
+        } catch (Exception ignored) {
+        }
+        if (n < min) return min;
+        if (n > max) return max;
+        return n;
+    }
+
+    private double num(Object v) {
+        if (v == null) return 0.0;
+        try {
+            return Double.parseDouble(String.valueOf(v));
+        } catch (Exception e) {
+            return 0.0;
+        }
+    }
+
+    private double percentile(List<Long> values, double p) {
+        if (values == null || values.isEmpty()) return 0.0;
+        List<Long> copy = new ArrayList<>(values);
+        Collections.sort(copy);
+        int idx = (int) Math.ceil(copy.size() * p) - 1;
+        idx = Math.max(0, Math.min(copy.size() - 1, idx));
+        return copy.get(idx);
     }
 
     public Map<String, Object> getAccessibilityIssues() {
