@@ -59501,3 +59501,138 @@
 {"time":"2026-03-02 14:33:05","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:32:57.365  INFO 500 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_EGOVSR/carbosys-app:EgovSR:19011 - registration status: 204"}
 {"time":"2026-03-02 14:33:05","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:32:57.386  INFO 500 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ..."}
 {"time":"2026-03-02 14:33:05","module":"EgovSR","level":"LOG","message":"[ZD] completed: base=18011, shadowStopped=19011"}
+{"time":"2026-03-02 14:37:43","module":"EgovSR","level":"LOG","message":""}
+{"time":"2026-03-02 14:37:43","module":"EgovSR","level":"LOG","message":"  .   ____          _            __ _ _"}
+{"time":"2026-03-02 14:37:43","module":"EgovSR","level":"LOG","message":" /\\\\ / ___'_ __ _ _(_)_ __  __ _ \\ \\ \\ \\"}
+{"time":"2026-03-02 14:37:43","module":"EgovSR","level":"LOG","message":"( ( )\\___ | '_ | '_| | '_ \\/ _` | \\ \\ \\ \\"}
+{"time":"2026-03-02 14:37:43","module":"EgovSR","level":"LOG","message":" \\\\/  ___)| |_)| | | | | || (_| |  ) ) ) )"}
+{"time":"2026-03-02 14:37:43","module":"EgovSR","level":"LOG","message":"  '  |____| .__|_| |_|_| |_\\__, | / / / /"}
+{"time":"2026-03-02 14:37:43","module":"EgovSR","level":"LOG","message":" =========|_|==============|___/=/_/_/_/"}
+{"time":"2026-03-02 14:37:43","module":"EgovSR","level":"LOG","message":" :: Spring Boot ::               (v2.7.18)"}
+{"time":"2026-03-02 14:37:43","module":"EgovSR","level":"LOG","message":""}
+{"time":"2026-03-02 14:37:34","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:34.127  INFO 357 --- [           main] egovframework.com.EgovSRApplication      : Starting EgovSRApplication v1.0.0 using Java 17.0.18 on carbosys-app with PID 357 (/app/EgovSR.jar started by root in /app)"}
+{"time":"2026-03-02 14:37:34","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:34.131  INFO 357 --- [           main] egovframework.com.EgovSRApplication      : No active profile set, falling back to 1 default profile: \"default\""}
+{"time":"2026-03-02 14:37:35","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:35.915  INFO 357 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=20dd0ae3-3ae1-343f-8183-927f5e17c242"}
+{"time":"2026-03-02 14:37:36","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:36.465  INFO 357 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 18011 (http)"}
+{"time":"2026-03-02 14:37:36","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:36.480  INFO 357 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]"}
+{"time":"2026-03-02 14:37:36","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:36.480  INFO 357 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.83]"}
+{"time":"2026-03-02 14:37:36","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:36.703  INFO 357 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext"}
+{"time":"2026-03-02 14:37:36","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:36.706  INFO 357 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2466 ms"}
+{"time":"2026-03-02 14:37:37","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:37.841  INFO 357 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate."}
+{"time":"2026-03-02 14:37:38","module":"EgovSR","level":"WARN","message":"2026-03-02 14:37:38.079  WARN 357 --- [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath."}
+{"time":"2026-03-02 14:37:38","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:38.167  INFO 357 --- [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING"}
+{"time":"2026-03-02 14:37:38","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:38.499  INFO 357 --- [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1"}
+{"time":"2026-03-02 14:37:38","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:38.513  INFO 357 --- [           main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration"}
+{"time":"2026-03-02 14:37:38","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:38.567  INFO 357 --- [           main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false"}
+{"time":"2026-03-02 14:37:38","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:38.568  INFO 357 --- [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null"}
+{"time":"2026-03-02 14:37:38","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:38.568  INFO 357 --- [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false"}
+{"time":"2026-03-02 14:37:38","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:38.568  INFO 357 --- [           main] com.netflix.discovery.DiscoveryClient    : Application is null : false"}
+{"time":"2026-03-02 14:37:38","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:38.569  INFO 357 --- [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true"}
+{"time":"2026-03-02 14:37:38","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:38.569  INFO 357 --- [           main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true"}
+{"time":"2026-03-02 14:37:38","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:38.569  INFO 357 --- [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server"}
+{"time":"2026-03-02 14:37:39","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:39.397  INFO 357 --- [           main] com.netflix.discovery.DiscoveryClient    : The response status is 200"}
+{"time":"2026-03-02 14:37:39","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:39.405  INFO 357 --- [           main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30"}
+{"time":"2026-03-02 14:37:39","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:39.413  INFO 357 --- [           main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4"}
+{"time":"2026-03-02 14:37:39","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:39.425  INFO 357 --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1772462259424 with initial instances count: 3"}
+{"time":"2026-03-02 14:37:39","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:39.428  INFO 357 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application EGOVSR with eureka with status UP"}
+{"time":"2026-03-02 14:37:39","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:39.430  INFO 357 --- [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1772462259430, current=UP, previous=STARTING]"}
+{"time":"2026-03-02 14:37:39","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:39.434  INFO 357 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_EGOVSR/carbosys-app:EgovSR:18011: registering service..."}
+{"time":"2026-03-02 14:37:39","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:39.474  INFO 357 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 18011 (http) with context path ''"}
+{"time":"2026-03-02 14:37:39","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:39.477  INFO 357 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 18011"}
+{"time":"2026-03-02 14:37:39","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:39.508  INFO 357 --- [           main] egovframework.com.EgovSRApplication      : Started EgovSRApplication in 7.187 seconds (JVM running for 8.659)"}
+{"time":"2026-03-02 14:37:39","module":"EgovSR","level":"INFO","message":"2026-03-02 14:37:39.542  INFO 357 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_EGOVSR/carbosys-app:EgovSR:18011 - registration status: 204"}
+{"time":"2026-03-02 14:38:16","module":"EgovSR","level":"INFO","message":"2026-03-02 14:38:16.635  INFO 357 --- [io-18011-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'"}
+{"time":"2026-03-02 14:38:16","module":"EgovSR","level":"INFO","message":"2026-03-02 14:38:16.636  INFO 357 --- [io-18011-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'"}
+{"time":"2026-03-02 14:38:16","module":"EgovSR","level":"INFO","message":"2026-03-02 14:38:16.638  INFO 357 --- [io-18011-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms"}
+{"time":"2026-03-02 14:42:38","module":"EgovSR","level":"INFO","message":"2026-03-02 14:42:38.468  INFO 357 --- [trap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] Scanning for projects..."}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] "}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] [1m------------------------< [0;36megovframework:EgovSR[0;1m >------------------------[m"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] [1mBuilding EgovSR 1.0.0[m"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] "}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.2.0:resources[m [1m(default-resources)[m @ [36mEgovSR[0;1m ---[m"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered resources."}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered properties files."}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] Copying 1 resource"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] Copying 1 resource"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] "}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.10.1:compile[m [1m(default-compile)[m @ [36mEgovSR[0;1m ---[m"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] Changes detected - recompiling the module!"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] Compiling 3 source files to /opt/carbosys/module/EgovSR/target/classes"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] "}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.2.0:testResources[m [1m(default-testResources)[m @ [36mEgovSR[0;1m ---[m"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered resources."}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered properties files."}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] skip non existing resourceDirectory /opt/carbosys/module/EgovSR/src/test/resources"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] "}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.10.1:testCompile[m [1m(default-testCompile)[m @ [36mEgovSR[0;1m ---[m"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] No sources to compile"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] "}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] [1m--- [0;32mmaven-surefire-plugin:2.22.2:test[m [1m(default-test)[m @ [36mEgovSR[0;1m ---[m"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] Tests are skipped."}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] "}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] [1m--- [0;32mmaven-jar-plugin:3.2.2:jar[m [1m(default-jar)[m @ [36mEgovSR[0;1m ---[m"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] Building jar: /opt/carbosys/module/EgovSR/target/EgovSR.jar"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] "}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] [1m--- [0;32mspring-boot-maven-plugin:2.7.18:repackage[m [1m(repackage)[m @ [36mEgovSR[0;1m ---[m"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] Replacing main artifact with repackaged archive"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] [1m------------------------------------------------------------------------[m"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] [1;32mBUILD SUCCESS[m"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] [1m------------------------------------------------------------------------[m"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] Total time:  22.919 s"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] Finished at: 2026-03-02T14:45:01Z"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[BUILD] [[1;34mINFO[m] [1m------------------------------------------------------------------------[m"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"LOG","message":"[ZD] shadow start: port=19011"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"LOG","message":"[ZD-SHADOW] "}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"LOG","message":"[ZD-SHADOW]   .   ____          _            __ _ _"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"LOG","message":"[ZD-SHADOW]  /\\\\ / ___'_ __ _ _(_)_ __  __ _ \\ \\ \\ \\"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"LOG","message":"[ZD-SHADOW] ( ( )\\___ | '_ | '_| | '_ \\/ _` | \\ \\ \\ \\"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"LOG","message":"[ZD-SHADOW]  \\\\/  ___)| |_)| | | | | || (_| |  ) ) ) )"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"LOG","message":"[ZD-SHADOW]   '  |____| .__|_| |_|_| |_\\__, | / / / /"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"LOG","message":"[ZD-SHADOW]  =========|_|==============|___/=/_/_/_/"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"LOG","message":"[ZD-SHADOW]  :: Spring Boot ::               (v2.7.18)"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"LOG","message":"[ZD-SHADOW] "}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:07.648  INFO 549 --- [           main] egovframework.com.EgovSRApplication      : Starting EgovSRApplication v1.0.0 using Java 17.0.18 on carbosys-app with PID 549 (/app/EgovSR.jar started by root in /app)"}
+{"time":"2026-03-02 14:45:07","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:07.661  INFO 549 --- [           main] egovframework.com.EgovSRApplication      : No active profile set, falling back to 1 default profile: \"default\""}
+{"time":"2026-03-02 14:45:19","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:14.724  INFO 549 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=20dd0ae3-3ae1-343f-8183-927f5e17c242"}
+{"time":"2026-03-02 14:45:19","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:16.216  INFO 549 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 19011 (http)"}
+{"time":"2026-03-02 14:45:19","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:16.266  INFO 549 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]"}
+{"time":"2026-03-02 14:45:19","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:16.267  INFO 549 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.83]"}
+{"time":"2026-03-02 14:45:19","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:16.697  INFO 549 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext"}
+{"time":"2026-03-02 14:45:19","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:16.698  INFO 549 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 8691 ms"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:21.212  INFO 549 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate."}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"WARN","message":"[ZD-SHADOW] 2026-03-02 14:45:23.024  WARN 549 --- [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath."}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:23.547  INFO 549 --- [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:24.786  INFO 549 --- [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:24.821  INFO 549 --- [           main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:25.045  INFO 549 --- [           main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:25.045  INFO 549 --- [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:25.046  INFO 549 --- [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:25.046  INFO 549 --- [           main] com.netflix.discovery.DiscoveryClient    : Application is null : false"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:25.046  INFO 549 --- [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:25.046  INFO 549 --- [           main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:25.047  INFO 549 --- [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:28.778  INFO 549 --- [           main] com.netflix.discovery.DiscoveryClient    : The response status is 200"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:28.811  INFO 549 --- [           main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:28.829  INFO 549 --- [           main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:28.881  INFO 549 --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1772462728879 with initial instances count: 4"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:28.893  INFO 549 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application EGOVSR with eureka with status UP"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:28.895  INFO 549 --- [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1772462728895, current=UP, previous=STARTING]"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:28.915  INFO 549 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_EGOVSR/carbosys-app:EgovSR:19011: registering service..."}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:29.122  INFO 549 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 19011 (http) with context path ''"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:29.127  INFO 549 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 19011"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:29.198  INFO 549 --- [           main] egovframework.com.EgovSRApplication      : Started EgovSRApplication in 24.762 seconds (JVM running for 26.979)"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"INFO","message":"[ZD-SHADOW] 2026-03-02 14:45:29.340  INFO 549 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_EGOVSR/carbosys-app:EgovSR:19011 - registration status: 204"}
+{"time":"2026-03-02 14:45:31","module":"EgovSR","level":"LOG","message":"[ZD] shadow healthy: port=19011"}
+{"time":"2026-03-02 14:45:43","module":"EgovSR","level":"LOG","message":""}
+{"time":"2026-03-02 14:45:43","module":"EgovSR","level":"LOG","message":"  .   ____          _            __ _ _"}
+{"time":"2026-03-02 14:45:43","module":"EgovSR","level":"LOG","message":" /\\\\ / ___'_ __ _ _(_)_ __  __ _ \\ \\ \\ \\"}
+{"time":"2026-03-02 14:45:43","module":"EgovSR","level":"LOG","message":"( ( )\\___ | '_ | '_| | '_ \\/ _` | \\ \\ \\ \\"}
+{"time":"2026-03-02 14:45:43","module":"EgovSR","level":"LOG","message":" \\\\/  ___)| |_)| | | | | || (_| |  ) ) ) )"}
+{"time":"2026-03-02 14:45:43","module":"EgovSR","level":"LOG","message":"  '  |____| .__|_| |_|_| |_\\__, | / / / /"}
+{"time":"2026-03-02 14:45:43","module":"EgovSR","level":"LOG","message":" =========|_|==============|___/=/_/_/_/"}
+{"time":"2026-03-02 14:45:43","module":"EgovSR","level":"LOG","message":" :: Spring Boot ::               (v2.7.18)"}
+{"time":"2026-03-02 14:45:43","module":"EgovSR","level":"LOG","message":""}
+{"time":"2026-03-02 14:45:40","module":"EgovSR","level":"INFO","message":"2026-03-02 14:45:40.606  INFO 627 --- [           main] egovframework.com.EgovSRApplication      : Starting EgovSRApplication v1.0.0 using Java 17.0.18 on carbosys-app with PID 627 (/app/EgovSR.jar started by root in /app)"}
+{"time":"2026-03-02 14:45:40","module":"EgovSR","level":"INFO","message":"2026-03-02 14:45:40.623  INFO 627 --- [           main] egovframework.com.EgovSRApplication      : No active profile set, falling back to 1 default profile: \"default\""}

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 
@@ -36,28 +35,28 @@ public class SrController {
                            @RequestParam String requester,
                            @RequestParam(required = false) String assignee,
                            @RequestParam(required = false) String dueDate,
-                           RedirectAttributes ra) {
+                           Model model) {
         LocalDate due = null;
         if (dueDate != null && !dueDate.trim().isEmpty()) {
             due = LocalDate.parse(dueDate.trim());
         }
         SrBoardService.SrItem created = srBoardService.createSr(title, description, priority, requester, assignee, due);
-        ra.addFlashAttribute("message", "SR 생성 완료: " + created.getId());
-        return "redirect:/sr/dashboard";
+        model.addAttribute("message", "SR 생성 완료: " + created.getId());
+        return dashboard(model);
     }
 
     @PostMapping("/{id}/status")
     public String updateStatus(@PathVariable String id,
                                @RequestParam String status,
                                @RequestParam(required = false) String note,
-                               RedirectAttributes ra) {
+                               Model model) {
         boolean ok = srBoardService.updateSrStatus(id, status, note);
         if (ok) {
-            ra.addFlashAttribute("message", id + " 상태 변경 완료");
+            model.addAttribute("message", id + " 상태 변경 완료");
         } else {
-            ra.addFlashAttribute("message", id + " 상태 변경 실패");
+            model.addAttribute("message", id + " 상태 변경 실패");
         }
-        return "redirect:/sr/dashboard";
+        return dashboard(model);
     }
 
     @PostMapping("/training/create")
@@ -66,13 +65,13 @@ public class SrController {
                                  @RequestParam(required = false) String date,
                                  @RequestParam String owner,
                                  @RequestParam(required = false) String note,
-                                 RedirectAttributes ra) {
+                                 Model model) {
         LocalDate docDate = null;
         if (date != null && !date.trim().isEmpty()) {
             docDate = LocalDate.parse(date.trim());
         }
         SrBoardService.TrainingDoc doc = srBoardService.addTrainingDoc(title, status, docDate, owner, note);
-        ra.addFlashAttribute("message", "교육 문서 등록 완료: " + doc.getId());
-        return "redirect:/sr/dashboard";
+        model.addAttribute("message", "교육 문서 등록 완료: " + doc.getId());
+        return dashboard(model);
     }
 }
