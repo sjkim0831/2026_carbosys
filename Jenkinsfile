@@ -69,7 +69,7 @@ fi
 BASE_COMMIT_LOCAL="$(git rev-parse HEAD)"
 git fetch --all --prune
 git checkout "$DEV_BRANCH"
-git pull --ff-only origin "$DEV_BRANCH"
+git reset --hard "origin/$DEV_BRANCH"
 HEAD_COMMIT_LOCAL="$(git rev-parse HEAD)"
 
 echo "$BASE_COMMIT_LOCAL" > "$DEPLOY_ROOT/.ci_base_commit"
