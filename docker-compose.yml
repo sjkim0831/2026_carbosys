@@ -15,8 +15,8 @@ services:
     volumes:
       - "./infra/cubrid/init:/docker-entrypoint-initdb.d"
       - "./infra/cubrid/conf:/opt/carbosys/conf"
-      - "${CUBRID_DATA_DIR:-//wsl.localhost/Ubuntu/opt/carbosys/data}:/opt/carbosys/data"
-      - "${CUBRID_DATA_DIR:-//wsl.localhost/Ubuntu/opt/carbosys/data}:/opt/data"
+      - "${CUBRID_DATA_DIR:-/opt/carbosys/data}:/opt/carbosys/data"
+      - "${CUBRID_DATA_DIR:-/opt/carbosys/data}:/opt/data"
     platform: linux/x86_64
     hostname: cubrid
     shm_size: '2gb'
