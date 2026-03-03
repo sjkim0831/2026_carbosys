@@ -205,9 +205,9 @@
         })();
 
         (function loadSharedLayout() {
-                fetch('/home3/fragments/header').then(r => r.text()).then(html => {
+                fetch('/home/fragments/header').then(r => r.text()).then(html => {
                     document.getElementById('shared-header').innerHTML = html;
-                    const logoLink = document.querySelector('#shared-header a[href="/home3"]');
+                    const logoLink = document.querySelector('#shared-header a[href="/home"]');
                     if (logoLink) logoLink.href = '/join/reset';
 
                     const ko = document.getElementById('langKoBtn');
@@ -215,7 +215,7 @@
                     if (ko) ko.onclick = () => location.href = '/join/step1?init=T';
                     if (en) en.onclick = () => location.href = '/join/en/step1?init=T';
                 }).catch(() => { });
-                fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
+                fetch('/home/fragments/footer').then(r => r.text()).then(html => {
                     document.getElementById('shared-footer').innerHTML = html;
                 }).catch(() => { });
         })();

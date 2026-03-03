@@ -257,6 +257,19 @@ public class EgovEntrprsManageServiceImpl extends EgovAbstractServiceImpl implem
 	}
 
 	@Override
+	public String selectLatestInsttStatusByBizrno(String bizrno) throws Exception {
+		return entrprsManageDAO.selectLatestInsttStatusByBizrno(bizrno);
+	}
+
+	@Override
+	public void ensureEnterpriseSecurityMapping(String esntlId) throws Exception {
+		if (esntlId == null || esntlId.trim().isEmpty()) {
+			return;
+		}
+		entrprsManageDAO.insertEnterpriseSecurityMappingIfAbsent(esntlId);
+	}
+
+	@Override
 	public void updateInsttInfo(InsttInfoVO insttInfoVO) throws Exception {
 		entrprsManageDAO.updateInsttInfo(insttInfoVO);
 	}

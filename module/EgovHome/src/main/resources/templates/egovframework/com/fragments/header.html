@@ -19,7 +19,7 @@
             <div class="max-w-7xl mx-auto px-4 lg:px-8">
                 <div class="flex justify-between items-center h-20">
                     <div class="flex items-center gap-3">
-                        <a href="/home3" class="flex items-center gap-2 focus-visible">
+                        <a href="/home" class="flex items-center gap-2 focus-visible">
                             <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]"
                                 style="font-variation-settings: 'wght' 600;">eco</span>
                             <div class="flex flex-col">
@@ -41,17 +41,17 @@
                         <a class="h-full flex items-center px-2 text-[17px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible"
                             href="#">고객센터</a>
                         <a class="h-full flex items-center px-2 text-[17px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible"
-                            href="#">마이페이지</a>
+                            href="/mypage">마이페이지</a>
                     </nav>
                     <div class="flex items-center gap-3">
                         <div
                             class="flex border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] overflow-hidden">
                             <button id="langKoBtn"
                                 class="px-2 py-1 text-xs bg-[var(--kr-gov-blue)] text-white font-bold focus-visible"
-                                onclick="location.href='/home3'">KO</button>
+                                onclick="location.href='/home'">KO</button>
                             <button id="langEnBtn"
                                 class="px-2 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold focus-visible border-l border-[var(--kr-gov-border-light)]"
-                                onclick="location.href='/home3/en'">EN</button>
+                                onclick="location.href='/home/en'">EN</button>
                         </div>
                         <button th:if="${isLoggedIn}" id="logoutBtn"
                             class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"

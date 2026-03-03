@@ -191,7 +191,7 @@
     <div id="shared-footer"></div>
     <script>
             (function loadSharedLayout() {
-                fetch('/home3/fragments/header').then(r => r.text()).then(html => {
+                fetch('/home/fragments/header').then(r => r.text()).then(html => {
                     document.getElementById('shared-header').innerHTML = html;
                     // Switch KO/EN buttons (POST-only steps → redirect to step1)
                     const ko = document.getElementById('langKoBtn');
@@ -199,7 +199,7 @@
                     if (ko) ko.onclick = () => location.href = '/join/step1';
                     if (en) en.onclick = () => location.href = '/join/en/step1';
                 }).catch(() => { });
-                fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
+                fetch('/home/fragments/footer').then(r => r.text()).then(html => {
                     document.getElementById('shared-footer').innerHTML = html;
                 }).catch(() => { });
             })();

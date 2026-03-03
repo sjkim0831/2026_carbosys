@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Account Management - CCUS Carbon Footprint Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+            --kr-gov-error: #d92d20;
+            --kr-gov-success: #039855;
+        }
+        @layer base {
+            body { font-family: 'Public Sans', 'Noto Sans KR', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+            .focus-visible:focus-visible {
+                outline: 3px solid var(--kr-gov-focus);
+                outline-offset: 2px;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+        }
+        .gov-btn {
+            @apply px-6 py-3 font-bold rounded-[var(--kr-gov-radius)] transition-colors focus-visible outline-none inline-flex items-center justify-center;
+        }
+        .form-label {
+            @apply block text-sm font-bold text-[var(--kr-gov-text-primary)] mb-2;
+        }
+        .form-input {
+            @apply w-full border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] py-3 px-4 focus:ring-[var(--kr-gov-focus)] focus:border-[var(--kr-gov-focus)] text-sm;
+        }
+        .form-input-readonly {
+            @apply bg-gray-50 border-gray-200 text-gray-500 cursor-not-allowed;
+        }
+        .gnb-item:hover .gnb-depth2 {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-white text-[var(--kr-gov-text-primary)]">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="bg-[var(--kr-gov-bg-gray)] border-b border-[var(--kr-gov-border-light)]">
+<div class="max-w-7xl mx-auto px-4 lg:px-8 py-2 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<img alt="Emblem of the Republic of Korea" class="h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BPzqtzSLVGSrjt4mzhhVBy9SocCRDssk1F3XRVu7Xq9jHh7qzzt48wFi8qduCiJmB0LRQczPB7waPe3h0gkjn3jOEDxt6UJSJjdXNf8P-4WlM2BEZrfg2SL91uSiZrFcCk9KYrsdg-biTS9dtJ_OIghDBEVoAzMc33XcCYR_UP0QQdoYzBe840YrtH40xGyB9MSr0QH4D0foqlvOhG0jX8CDayXNlDsSKlfClVd3K2aodlwg4xSxgXHB3vnnnA0L2yNBNihQQg0"/>
+<span class="text-[13px] font-medium text-[var(--kr-gov-text-secondary)]">Official Website of the Republic of Korea</span>
+</div>
+<div class="hidden md:flex items-center gap-4 text-xs font-medium text-[var(--kr-gov-text-secondary)]">
+<p>This website complies with the 2025 Digital Government UI/UX Guidelines.</p>
+</div>
+</div>
+</div>
+<header class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 lg:px-8">
+<div class="flex justify-between items-center h-20">
+<div class="flex items-center gap-3 shrink-0">
+<a class="flex items-center gap-2 focus-visible" href="/home/en">
+<span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]" style="font-variation-settings: 'wght' 600;">co2</span>
+<div class="flex flex-col">
+<h1 class="text-lg font-bold tracking-tight text-[var(--kr-gov-text-primary)] leading-none">CCUS Carbon Footprint Platform</h1>
+<p class="text-[9px] text-[var(--kr-gov-text-secondary)] font-bold uppercase tracking-wider mt-1">Carbon Footprint Platform</p>
+</div>
+</a>
+</div>
+<nav class="hidden xl:flex items-center space-x-1 h-full ml-8 flex-1 justify-center">
+<div class="gnb-item h-full relative group">
+<a class="h-full flex items-center px-4 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Emission</a>
+</div>
+<div class="gnb-item h-full relative group">
+<a class="h-full flex items-center px-4 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Report &amp; Cert</a>
+</div>
+<div class="gnb-item h-full relative group">
+<a class="h-full flex items-center px-4 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Carbon Info</a>
+</div>
+<div class="gnb-item h-full relative group">
+<a class="h-full flex items-center px-4 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Trading</a>
+</div>
+<div class="gnb-item h-full relative group">
+<a class="h-full flex items-center px-4 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Monitoring</a>
+</div>
+<div class="gnb-item h-full relative group">
+<a class="h-full flex items-center px-4 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Payment</a>
+</div>
+<div class="gnb-item h-full relative group">
+<a class="h-full flex items-center px-4 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Support</a>
+</div>
+</nav>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="text-sm font-bold">Gildong Hong</span>
+<button id="logoutBtn" type="button" class="text-xs text-[var(--kr-gov-text-secondary)] hover:underline">Logout</button>
+</div>
+<a class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors" href="#">
+<span class="material-symbols-outlined text-gray-600">person</span>
+</a>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-4 lg:px-8 py-10" id="main-content">
+<div class="flex flex-col lg:flex-row gap-10">
+<aside class="w-full lg:w-64 shrink-0">
+<h2 class="text-2xl font-black mb-8">My Page</h2>
+<nav class="space-y-1">
+<a class="flex items-center justify-between px-4 py-3 bg-[var(--kr-gov-blue)] text-white rounded-[var(--kr-gov-radius)] font-bold" href="#">
+                    Account Info Management
+                    <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</a>
+<a class="flex items-center justify-between px-4 py-3 hover:bg-gray-100 text-[var(--kr-gov-text-secondary)] font-bold transition-colors" href="#">
+                    Business Site Management
+                    <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</a>
+<a class="flex items-center justify-between px-4 py-3 hover:bg-gray-100 text-[var(--kr-gov-text-secondary)] font-bold transition-colors" href="#">
+                    My Applications
+                    <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</a>
+<a class="flex items-center justify-between px-4 py-3 hover:bg-gray-100 text-[var(--kr-gov-text-secondary)] font-bold transition-colors" href="#">
+                    Certificate Issuance
+                    <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</a>
+<a class="flex items-center justify-between px-4 py-3 hover:bg-gray-100 text-[var(--kr-gov-text-secondary)] font-bold transition-colors" href="#">
+                    1:1 Inquiries
+                    <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</a>
+</nav>
+</aside>
+<div class="flex-1">
+<div class="border-b-2 border-[var(--kr-gov-text-primary)] pb-4 mb-8">
+<h3 class="text-3xl font-bold">Edit Member Information</h3>
+<p class="text-[var(--kr-gov-text-secondary)] mt-2 font-medium">Please keep your basic information up to date for better service access.</p>
+</div>
+<form class="space-y-10">
+<section>
+<div class="flex items-center gap-2 mb-6">
+<span class="w-1.5 h-6 bg-[var(--kr-gov-blue)]"></span>
+<h4 class="text-xl font-bold">Basic Information</h4>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+<div class="space-y-2">
+<label class="form-label" for="user-name">Full Name <span class="text-[var(--kr-gov-error)]">*</span></label>
+<input class="form-input" id="user-name" type="text" value="Gildong Hong"/>
+</div>
+<div class="space-y-2">
+<label class="form-label" for="user-id">Username (ID)</label>
+<input class="form-input form-input-readonly" id="user-id" readonly="" type="text" value="korea_ccus_admin"/>
+<p class="text-[11px] text-[var(--kr-gov-text-secondary)] mt-1">Username cannot be changed.</p>
+</div>
+<div class="space-y-2">
+<label class="form-label" for="user-email">Email Address <span class="text-[var(--kr-gov-error)]">*</span></label>
+<div class="flex gap-2">
+<input class="form-input" id="user-email" type="email" value="honggd@example.co.kr"/>
+<button class="gov-btn bg-gray-100 text-[var(--kr-gov-text-primary)] border border-[var(--kr-gov-border-light)] text-sm shrink-0 px-4" type="button">Verify Change</button>
+</div>
+</div>
+<div class="space-y-2">
+<label class="form-label" for="user-phone">Phone Number <span class="text-[var(--kr-gov-error)]">*</span></label>
+<input class="form-input border-[var(--kr-gov-success)]" id="user-phone" type="tel" value="010-1234-5678"/>
+<p class="text-[11px] text-[var(--kr-gov-success)] mt-1 flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Mobile verification complete
+                            </p>
+</div>
+</div>
+</section>
+<section>
+<div class="flex items-center gap-2 mb-6">
+<span class="w-1.5 h-6 bg-[var(--kr-gov-blue)]"></span>
+<h4 class="text-xl font-bold">Organization Information</h4>
+</div>
+<div class="bg-gray-50 p-6 rounded-[var(--kr-gov-radius)] border border-[var(--kr-gov-border-light)] grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+<div class="space-y-2">
+<label class="form-label" for="org-name">Organization / Company Name</label>
+<input class="form-input form-input-readonly" id="org-name" readonly="" type="text" value="Daehan CCUS Engineering Co., Ltd."/>
+</div>
+<div class="space-y-2">
+<label class="form-label" for="org-code">Business Registration Number</label>
+<input class="form-input form-input-readonly" id="org-code" readonly="" type="text" value="123-45-67890"/>
+</div>
+<div class="space-y-2 md:col-span-2">
+<label class="form-label" for="user-title">Job Title <span class="text-[var(--kr-gov-error)]">*</span></label>
+<input class="form-input max-w-md" id="user-title" type="text" value="Manager, Environmental Safety Team"/>
+</div>
+</div>
+</section>
+<section>
+<div class="flex items-center gap-2 mb-6">
+<span class="w-1.5 h-6 bg-[var(--kr-gov-blue)]"></span>
+<h4 class="text-xl font-bold">Authentication Management</h4>
+</div>
+<div class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] divide-y divide-[var(--kr-gov-border-light)]">
+<div class="p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-blue-50 text-[var(--kr-gov-blue)] rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">security</span>
+</div>
+<div>
+<h5 class="font-bold text-base">Joint Certificate / Financial Certificate</h5>
+<p class="text-sm text-[var(--kr-gov-text-secondary)] mt-0.5">Identify yourself through general public or financial certificates</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-[var(--kr-gov-success)]/10 text-[var(--kr-gov-success)] text-xs font-bold rounded-full border border-[var(--kr-gov-success)]/20 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">link</span> Connected
+                                </span>
+<button class="text-sm font-bold text-[var(--kr-gov-text-secondary)] hover:underline" type="button">Disconnect</button>
+</div>
+</div>
+<div class="p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-gray-50 text-gray-400 rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">key</span>
+</div>
+<div>
+<h5 class="font-bold text-base">Digital OnePass</h5>
+<p class="text-sm text-[var(--kr-gov-text-secondary)] mt-0.5">Access multiple government services securely with a single ID</p>
+</div>
+</div>
+<button class="gov-btn bg-white border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-sm py-2 px-6 hover:bg-blue-50" type="button">Connect</button>
+</div>
+</div>
+</section>
+<div class="pt-10 flex justify-center gap-3 border-t border-[var(--kr-gov-border-light)]">
+<button class="gov-btn bg-white border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-primary)] hover:bg-gray-50 min-w-[160px]" type="button">Cancel</button>
+<button class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)] min-w-[160px]" type="submit">Update Information</button>
+</div>
+</form>
+</div>
+</div>
+</main>
+<footer class="bg-white border-t border-[var(--kr-gov-border-light)] mt-20">
+<div class="max-w-7xl mx-auto px-4 lg:px-8 pt-12 pb-8">
+<div class="flex flex-col md:flex-row justify-between gap-10 pb-10 border-b border-[var(--kr-gov-border-light)]">
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<img alt="Emblem of the Republic of Korea" class="h-8 grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE"/>
+<span class="text-xl font-black text-[var(--kr-gov-text-primary)]">CCUS Integrated Management Office</span>
+</div>
+<address class="not-italic text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                    (04551) 110 Sejong-daero, Jung-gu, Seoul, Korea | Main Contact: 02-1234-5678 (Weekdays 09:00~18:00)<br/>
+                    This service manages greenhouse gas reduction performance in accordance with relevant laws.
+                </address>
+</div>
+<div class="flex flex-wrap gap-x-8 gap-y-4 text-sm font-bold">
+<a class="text-[var(--kr-gov-blue)] hover:underline" href="#">Privacy Policy</a>
+<a class="text-[var(--kr-gov-text-primary)] hover:underline" href="#">Terms of Use</a>
+<a class="text-[var(--kr-gov-text-primary)] hover:underline" href="#">Email Collection Refusal</a>
+</div>
+</div>
+<div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="text-xs font-medium text-[var(--kr-gov-text-secondary)]">
+<p>© 2025 CCUS Carbon Footprint Platform. All rights reserved.</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 px-3 py-1 bg-[var(--kr-gov-bg-gray)] rounded-[var(--kr-gov-radius)] text-xs font-bold text-[var(--kr-gov-text-secondary)]">
+<span>Last Modified:</span>
+<time datetime="2025-08-14">2025.08.14</time>
+</div>
+<img alt="Web Accessibility Quality Mark" class="h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzkKwREcbsB7LV3B2b7fBK7y2M_9Exa0vlGVzxNy2qM0n1LFMRlBCIa_XiIBeCfvv3DkMb9Z0D05Y-RMuAytisqlCS8QTpbtebgKnMnWoefEx5uJOgRW5H_8Pw9jmaRvkiW6sVRrifgIhrWc5hi2PRUGHgXn-q8-veHvu9wSwDhtcvbHKYyokgnP-hqdR10ahEAdBe4vFFkR88N_By8pjpp34KH9TwHOouRLBwdfVCsRGmDCS6wnvQZDwf6s4HyScSMXyJJGQjl8Y"/>
+</div>
+</div>
+</div>
+</footer>
+<script>
+  document.getElementById('logoutBtn')?.addEventListener('click', function () {
+    fetch('/signin/actionLogout', { method: 'POST', headers: { 'Content-Type': 'application/json' } })
+      .then(function () { location.href = '/home/en'; })
+      .catch(function () { location.href = '/home/en'; });
+  });
+</script>
+</body></html>

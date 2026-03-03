@@ -277,10 +277,10 @@
         document.addEventListener('DOMContentLoaded', function () {
             /* ── 헤더/푸터 로드 ── */
             (function loadSharedLayout() {
-                fetch('/home3/fragments/header').then(r => r.text()).then(html => {
+                fetch('/home/fragments/header').then(r => r.text()).then(html => {
                     document.getElementById('shared-header').innerHTML = html;
                 }).catch(() => { });
-                fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
+                fetch('/home/fragments/footer').then(r => r.text()).then(html => {
                     document.getElementById('shared-footer').innerHTML = html;
                 }).catch(() => { });
             })();

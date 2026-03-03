@@ -121,10 +121,10 @@
             class="w-full max-w-[480px] bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm overflow-hidden">
             <div class="flex border-b border-[var(--kr-gov-border-light)] bg-gray-50">
                 <button type="button" class="flex-1 py-4 text-[16px] login-tab login-tab-active" data-value="ENT"
-                    data-join="/join/step1">국내
+                    data-join="/join/step1" data-findid="/signin/findId">국내
                     기업 회원</button>
                 <button type="button" class="flex-1 py-4 text-[16px] login-tab login-tab-inactive" data-value="ENT"
-                    data-join="/join/en/step1">해외
+                    data-join="/join/en/step1" data-findid="/signin/findId/overseas">해외
                     기업 회원</button>
             </div>
             <div class="p-8 lg:p-10">
@@ -168,7 +168,7 @@
                     </button>
                     <div
                         class="flex items-center justify-center gap-4 text-sm text-[var(--kr-gov-text-secondary)] font-medium pt-2">
-                        <a class="hover:underline" href="#">아이디 찾기</a>
+                        <a id="findIdLink" class="hover:underline" href="/signin/findId">아이디 찾기</a>
                         <span class="w-px h-3 bg-[var(--kr-gov-border-light)]"></span>
                         <a class="hover:underline" href="#">비밀번호 재설정</a>
                         <span class="w-px h-3 bg-[var(--kr-gov-border-light)]"></span>
@@ -261,6 +261,8 @@
                 // 탭 선택에 따라 회원가입 링크 변경
                 const joinHref = this.getAttribute('data-join') || '/join/step1';
                 document.getElementById('joinLink').href = joinHref;
+                const findIdHref = this.getAttribute('data-findid') || '/signin/findId';
+                document.getElementById('findIdLink').href = findIdHref;
             });
         });
 

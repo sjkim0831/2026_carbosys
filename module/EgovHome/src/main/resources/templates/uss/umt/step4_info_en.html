@@ -327,14 +327,14 @@
 
     <script>
             (function loadSharedLayout() {
-                fetch('/home3/fragments/header').then(r => r.text()).then(html => {
+                fetch('/home/fragments/header').then(r => r.text()).then(html => {
                     document.getElementById('shared-header').innerHTML = html;
                     const ko = document.getElementById('langKoBtn');
                     const en = document.getElementById('langEnBtn');
                     if (ko) ko.onclick = () => location.href = '/join/step1';
                     if (en) en.onclick = () => location.href = '/join/en/step1';
                 }).catch(() => { });
-                fetch('/home3/fragments/footer').then(r => r.text()).then(html => {
+                fetch('/home/fragments/footer').then(r => r.text()).then(html => {
                     document.getElementById('shared-footer').innerHTML = html;
                 }).catch(() => { });
             })();

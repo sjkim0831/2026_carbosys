@@ -88,7 +88,7 @@ public class EgovLoginManageServiceImpl extends EgovAbstractServiceImpl implemen
                         .on(entrprsMber.esntlId.eq(emplyrscrtyestbs.scrtyDtrmnTrgetId))
                         .where(entrprsMber.entrprsMberId.eq(loginVO.getUserId())
                                 .and(entrprsMber.entrprsMberPassword.eq(encPassword))
-                                .and(entrprsMber.entrprsMberStus.eq("P")))
+                                .and(entrprsMber.entrprsMberStus.in("A", "P")))
                         .fetchOne();
                 EntrprsMber em = Objects.requireNonNull(tuple).get(entrprsMber);
                 es = tuple.get(emplyrscrtyestbs);

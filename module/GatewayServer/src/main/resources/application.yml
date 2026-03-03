@@ -72,7 +72,7 @@ spring:
           predicates:
             - Path=/ # 루트 경로("/")로 접근할 때
           filters:
-            - RedirectTo=302, /main/ # 302 리다이렉트 수행
+            - RedirectTo=302, /home # 302 리다이렉트 수행
 
         - id: EgovMain
           uri: lb://EGOVMAIN
@@ -81,12 +81,10 @@ spring:
           filters:
             - RewritePath=/main/(?<segment>.*), /${segment}
 
-        - id: home3
+        - id: home
           uri: lb://EGOVHOME
           predicates:
-            - Path=/home3/**
-          filters:
-            - RewritePath=/home3/(?<segment>.*), /home3/${segment}
+            - Path=/home,/home/**,/home3,/home3/**,/mypage,/mypage/**
 
         - id: EgovLogin
           uri: lb://EGOVHOME

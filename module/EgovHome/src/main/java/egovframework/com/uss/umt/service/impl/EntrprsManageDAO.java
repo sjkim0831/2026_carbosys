@@ -112,6 +112,16 @@ public class EntrprsManageDAO extends EgovComAbstractDAO {
     }
 
     /**
+     * 성명/이메일로 기업회원 아이디를 조회한다.
+     *
+     * @param entrprsManageVO 조회조건(신청자명, 이메일)
+     * @return String 기업회원아이디
+     */
+    public String selectEntrprsMberIdByNameAndEmail(EntrprsManageVO entrprsManageVO) {
+        return (String) selectOne("entrprsManageDAO.selectEntrprsMberIdByNameAndEmail_S", entrprsManageVO);
+    }
+
+    /**
      * 기 등록된 특정 기업회원의 정보를 데이터베이스에서 읽어와 화면에 출력
      * 
      * @param userSearchVO 검색조건
@@ -187,6 +197,16 @@ public class EntrprsManageDAO extends EgovComAbstractDAO {
      */
     public java.util.Map<String, Object> selectInsttInfoForStatus(InsttInfoVO insttInfoVO) {
         return (java.util.Map<String, Object>) selectOne("entrprsManageDAO.selectInsttInfoForStatus", insttInfoVO);
+    }
+
+    public String selectLatestInsttStatusByBizrno(String bizrno) {
+        Object result = selectOne("entrprsManageDAO.selectLatestInsttStatusByBizrno", bizrno);
+        return result == null ? null : String.valueOf(result);
+    }
+
+    public void insertEnterpriseSecurityMappingIfAbsent(String esntlId) {
+        insert("entrprsManageDAO.insertEnterpriseSecurityMappingComtn", esntlId);
+        insert("entrprsManageDAO.insertEnterpriseSecurityMappingMsatn", esntlId);
     }
 
     /**

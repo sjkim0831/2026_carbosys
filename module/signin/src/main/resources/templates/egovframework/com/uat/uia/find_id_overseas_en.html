@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Find ID - CCUS Integrated Management Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+            --kr-gov-error: #d32f2f;
+            --kr-gov-success: #1b5e20;
+        }
+        @layer base {
+            body { font-family: 'Public Sans', 'Noto Sans KR', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+            .focus-visible:focus-visible {
+                outline: 3px solid var(--kr-gov-focus);
+                outline-offset: 2px;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+        }
+        .tab-active {
+            @apply border-b-4 border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] font-bold;
+        }
+        .tab-inactive {
+            @apply border-b-4 border-transparent text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-text-primary)] transition-colors;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "gov-gray": "#767676",
+                    },
+                    borderRadius: {
+                        'gov': '5px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<div class="bg-white border-b border-[var(--kr-gov-border-light)]">
+<div class="max-w-7xl mx-auto px-4 lg:px-8 py-2 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<img alt="Emblem of the Republic of Korea" class="h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BPzqtzSLVGSrjt4mzhhVBy9SocCRDssk1F3XRVu7Xq9jHh7qzzt48wFi8qduCiJmB0LRQczPB7waPe3h0gkjn3jOEDxt6UJSJjdXNf8P-4WlM2BEZrfg2SL91uSiZrFcCk9KYrsdg-biTS9dtJ_OIghDBEVoAzMc33XcCYR_UP0QQdoYzBe840YrtH40xGyB9MSr0QH4D0foqlvOhG0jX8CDayXNlDsSKlfClVd3K2aodlwg4xSxgXHB3vnnnA0L2yNBNihQQg0"/>
+<span class="text-[13px] font-medium text-[var(--kr-gov-text-secondary)]">Official Government Service of Republic of Korea</span>
+</div>
+</div>
+</div>
+<header class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 lg:px-8">
+<div class="flex justify-between items-center h-20">
+<div class="flex items-center gap-3">
+<a class="flex items-center gap-2" href="/">
+<span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]" style="font-variation-settings: 'wght' 600;">eco</span>
+<div class="flex flex-col">
+<h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)]">CCUS Integrated Management Portal</h1>
+<p class="text-[10px] text-[var(--kr-gov-text-secondary)] font-bold uppercase tracking-wider">Carbon Capture, Utilization and Storage</p>
+</div>
+</a>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden sm:flex items-center gap-1.5 text-xs font-bold text-emerald-600 px-3 py-1.5 bg-emerald-50 rounded-full border border-emerald-100">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+                        Secure SSL Communication
+                    </div>
+<div class="flex border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] overflow-hidden">
+<button class="px-3 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold">KO</button>
+<button class="px-3 py-1 text-xs bg-[var(--kr-gov-blue)] text-white font-bold border-l border-[var(--kr-gov-border-light)]">EN</button>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center py-16 px-4" id="main-content">
+<div class="w-full max-w-[640px] text-center mb-10">
+<h2 class="text-3xl font-black text-[var(--kr-gov-text-primary)] mb-4">Find ID</h2>
+<p class="text-[var(--kr-gov-text-secondary)] text-lg">You can find your ID using the information registered during membership sign-up.</p>
+</div>
+<div class="w-full max-w-[640px] bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm overflow-hidden">
+<div class="flex border-b border-[var(--kr-gov-border-light)] bg-gray-50">
+<button class="flex-1 py-5 text-[15px] tab-active flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">person_check</span>
+                    Find by Identity Verification
+                </button>
+<button class="flex-1 py-5 text-[15px] tab-inactive flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">mail</span>
+                    Find by Registered Email
+                </button>
+</div>
+<div class="p-8 lg:p-12">
+<div class="space-y-8" id="id-find-form">
+<div class="space-y-5">
+<div>
+<label class="block text-sm font-bold text-[var(--kr-gov-text-secondary)] mb-2" for="user-name">Name</label>
+<input class="w-full h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all" id="user-name" placeholder="Enter your full name" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-bold text-[var(--kr-gov-text-secondary)] mb-2" for="user-email">Email Address</label>
+<div class="flex gap-2">
+<input class="flex-grow h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all" id="user-email" placeholder="example@institution.go.kr" type="email"/>
+<button class="px-6 h-14 bg-gray-100 text-[var(--kr-gov-text-secondary)] font-bold border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] hover:bg-gray-200 transition-colors whitespace-nowrap">Send Verification Code</button>
+</div>
+<p class="mt-2 text-xs text-blue-600 font-medium">* For overseas users, official institutional email verification is required.</p>
+</div>
+<div>
+<label class="block text-sm font-bold text-[var(--kr-gov-text-secondary)] mb-2" for="auth-code">Verification Code</label>
+<input class="w-full h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all" id="auth-code" placeholder="Enter the 6-digit verification code" type="text"/>
+</div>
+</div>
+<button class="w-full h-16 bg-[var(--kr-gov-blue)] text-white text-xl font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors focus-visible" type="button">
+                        Find ID
+                    </button>
+</div>
+<div class="hidden space-y-8" id="id-find-result">
+<div class="bg-blue-50 border border-blue-100 rounded-lg p-8 text-center">
+<span class="material-symbols-outlined text-5xl text-[var(--kr-gov-blue)] mb-4">check_circle</span>
+<h3 class="text-xl font-bold text-[var(--kr-gov-text-primary)] mb-2">ID Found Successfully</h3>
+<p class="text-[var(--kr-gov-text-secondary)] mb-6">This is the ID matching the information you provided.</p>
+<div class="bg-white border border-blue-200 rounded-md py-4 px-6 inline-block">
+<span class="text-2xl font-black text-[var(--kr-gov-blue)] tracking-wider">ab**12</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<a class="w-full h-16 bg-[var(--kr-gov-blue)] text-white text-xl font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors flex items-center justify-center" href="/login">
+                            Go to Login Screen
+                        </a>
+<a class="w-full h-16 bg-white border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] text-xl font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors flex items-center justify-center" href="/reset-password">
+                            Reset Password
+                        </a>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12 text-center">
+<p class="text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                Having trouble finding your ID? <br/>
+                Please contact our Support Center at <span class="font-bold text-[var(--kr-gov-text-primary)]">02-1234-5678</span> or use <a class="text-[var(--kr-gov-blue)] underline font-bold" href="#">1:1 Inquiry</a>.
+            </p>
+</div>
+</main>
+<footer class="bg-white border-t border-[var(--kr-gov-border-light)]">
+<div class="max-w-7xl mx-auto px-4 lg:px-8 py-10">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<img alt="Republic of Korea Emblem" class="h-8 grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE"/>
+<span class="text-xl font-black text-[var(--kr-gov-text-primary)]">Carbon Neutral CCUS Management Headquarters</span>
+</div>
+<address class="not-italic text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                        (04551) 110 Sejong-daero, Jung-gu, Seoul, Republic of Korea | Representative: 02-1234-5678 <br/>
+                        © 2025 CCUS Integrated Management Portal. All rights reserved.
+                    </address>
+</div>
+<div class="flex flex-col items-end gap-4">
+<div class="flex flex-wrap gap-6 text-sm font-bold">
+<a class="text-[var(--kr-gov-blue)] hover:underline" href="#">Privacy Policy</a>
+<a class="text-[var(--kr-gov-text-primary)] hover:underline" href="#">Terms of Use</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="px-3 py-1 bg-[var(--kr-gov-bg-gray)] rounded-[var(--kr-gov-radius)] text-[11px] font-bold text-[var(--kr-gov-text-secondary)]">
+                            Last Modified: <time datetime="2025-08-14">2025.08.14</time>
+</div>
+<img alt="Web Accessibility Mark" class="h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzkKwREcbsB7LV3B2b7fBK7y2M_9Exa0vlGVzxNy2qM0n1LFMRlBCIa_XiIBeCfvv3DkMb9Z0D05Y-RMuAytisqlCS8QTpbtebgKnMnWoefEx5uJOgRW5H_8Pw9jmaRvkiW6sVRrifgIhrWc5hi2PRUGHgXn-q8-veHvu9wSwDhtcvbHKYyokgnP-hqdR10ahEAdBe4vFFkR88N_By8pjpp34KH9TwHOouRLBwdfVCsRGmDCS6wnvQZDwf6s4HyScSMXyJJGQjl8Y"/>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+</body></html>

@@ -39,7 +39,7 @@ public class EgovJoinController {
     public String resetJoin(HttpSession session) {
         session.removeAttribute(SESSION_JOIN_VO);
         session.removeAttribute(SESSION_JOIN_STEP);
-        return "redirect:/home3";
+        return "redirect:/home";
     }
 
     /**
@@ -274,6 +274,7 @@ public class EgovJoinController {
 
         // Save to DB
         entrprsManageService.insertEntrprsmber(joinVO);
+        entrprsManageService.ensureEnterpriseSecurityMapping(joinVO.getUniqId());
 
         model.addAttribute("mberId", joinVO.getEntrprsmberId());
         model.addAttribute("mberNm", joinVO.getApplcntNm());
@@ -452,6 +453,7 @@ public class EgovJoinController {
         joinVO.setBizRegFilePath(saveJoinEvidenceFiles(joinVO.getEntrprsmberId(), fileUploads));
 
         entrprsManageService.insertEntrprsmber(joinVO);
+        entrprsManageService.ensureEnterpriseSecurityMapping(joinVO.getUniqId());
 
         model.addAttribute("mberId", joinVO.getEntrprsmberId());
         model.addAttribute("mberNm", joinVO.getApplcntNm());
@@ -518,7 +520,7 @@ public class EgovJoinController {
             vo.setChargerNm(chargerNm);
             vo.setChargerEmail(chargerEmail);
             vo.setChargerTel(chargerTel);
-            vo.setInsttSttus("P");
+            vo.setInsttSttus("A");
 
             // Upload directory
             String uploadDir = "/opt/carbosys/file/instt";
@@ -716,7 +718,7 @@ public class EgovJoinController {
             vo.setChargerNm(chargerNm);
             vo.setChargerEmail(chargerEmail);
             vo.setChargerTel(chargerTel);
-            vo.setInsttSttus("P");
+            vo.setInsttSttus("A");
 
             // Handle file uploads
             String uploadDir = "/opt/carbosys/file/instt";

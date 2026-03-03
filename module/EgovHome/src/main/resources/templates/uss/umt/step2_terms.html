@@ -253,12 +253,12 @@
     <script>
             // home3에서 공유 헤더/푸터를 fetch
             (function loadSharedLayout() {
-                fetch('/home3/fragments/header')
+                fetch('/home/fragments/header')
                     .then(r => r.text())
                     .then(html => {
                         document.getElementById('shared-header').innerHTML = html;
                         // 1. 로고 클릭 시 세션 초기화 후 메인으로
-                        const logoLink = document.querySelector('#shared-header a[href="/home3"]');
+                        const logoLink = document.querySelector('#shared-header a[href="/home"]');
                         if (logoLink) logoLink.href = '/join/reset';
 
                         // 2. 언어 변경 시 세션 초기화 후 해당 언어 1단계로 이동
@@ -268,7 +268,7 @@
                         if (en) en.onclick = () => location.href = '/join/en/step1';
                     })
                     .catch(() => { });
-                fetch('/home3/fragments/footer')
+                fetch('/home/fragments/footer')
                     .then(r => r.text()).then(html => { document.getElementById('shared-footer').innerHTML = html; })
                     .catch(() => { });
             })();

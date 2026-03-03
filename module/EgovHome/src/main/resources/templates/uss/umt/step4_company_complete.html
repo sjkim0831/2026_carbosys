@@ -109,7 +109,7 @@
 
                 <div class="flex flex-col items-center gap-6 pt-6">
                     <a class="w-full sm:w-64 h-14 flex items-center justify-center bg-[var(--kr-gov-blue)] text-white text-lg font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors shadow-lg shadow-blue-900/10"
-                        th:href="@{/home3}">
+                        th:href="@{/home}">
                         홈으로 이동
                     </a>
                     <div class="flex items-center gap-2 text-sm">
@@ -127,17 +127,17 @@
     <div id="shared-footer"></div>
     <script>
             (function loadSharedLayout() {
-                fetch('/home3/fragments/header')
+                fetch('/home/fragments/header')
                     .then(r => r.text())
                     .then(html => {
                         document.getElementById('shared-header').innerHTML = html;
                         // 로고 클릭 시 세션 초기화 후 메인으로
-                        const logoLink = document.querySelector('#shared-header a[href="/home3"]');
+                        const logoLink = document.querySelector('#shared-header a[href="/home"]');
                         if (logoLink) logoLink.href = '/join/reset';
                     })
                     .catch(() => { });
 
-                fetch('/home3/fragments/footer')
+                fetch('/home/fragments/footer')
                     .then(r => r.text())
                     .then(html => { document.getElementById('shared-footer').innerHTML = html; })
                     .catch(() => { });

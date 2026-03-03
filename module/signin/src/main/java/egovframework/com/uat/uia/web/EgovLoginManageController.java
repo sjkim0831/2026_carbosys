@@ -49,6 +49,26 @@ public class EgovLoginManageController {
         return "egovframework/com/uat/uia/auth_choice";
     }
 
+    @GetMapping("/findId")
+    public String findId(@RequestParam(value = "language", required = false) String language, Model model) {
+        model.addAttribute("activeTab", "domestic");
+        model.addAttribute("language", language);
+        if ("en".equals(language)) {
+            return "egovframework/com/uat/uia/find_id_en";
+        }
+        return "egovframework/com/uat/uia/find_id";
+    }
+
+    @GetMapping("/findId/overseas")
+    public String findIdOverseas(@RequestParam(value = "language", required = false) String language, Model model) {
+        model.addAttribute("activeTab", "overseas");
+        model.addAttribute("language", language);
+        if ("en".equals(language)) {
+            return "egovframework/com/uat/uia/find_id_overseas_en";
+        }
+        return "egovframework/com/uat/uia/find_id_overseas";
+    }
+
     @RequestMapping(value = "/loginForbidden", method = { RequestMethod.GET, RequestMethod.POST })
     public String loginForbidden(
             @RequestParam(value = "pathCode", required = false, defaultValue = "1") String pathCode, Model model) {

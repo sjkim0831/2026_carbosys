@@ -399,6 +399,43 @@
         </if>
     </select>
 
+    <select id="selectEntrprsMberIdByNameAndEmail_S" resultType="string">
+        SELECT MIN(ENTRPRS_MBER_ID) AS ENTRPRS_MBER_ID
+        FROM COMTNENTRPRSMBER
+        WHERE APPLCNT_NM = #{applcntNm}
+          AND APPLCNT_EMAIL_ADRES = #{applcntEmailAdres}
+    </select>
+
+    <select id="selectLatestInsttStatusByBizrno" parameterType="string" resultType="string">
+        SELECT INSTT_STTUS
+        FROM COMTNINSTTINFO
+        WHERE BIZRNO = #{value}
+        ORDER BY LAST_UPDT_PNTTM DESC
+        LIMIT 1
+    </select>
+
+    <insert id="insertEnterpriseSecurityMappingComtn" parameterType="string">
+        INSERT INTO COMTNEMPLYRSCRTYESTBS (SCRTY_DTRMN_TRGET_ID, MBER_TY_CODE, AUTHOR_CODE)
+        SELECT #{value}, 'USR02', 'ROLE_USER'
+        FROM db_root
+        WHERE NOT EXISTS (
+            SELECT 1
+            FROM COMTNEMPLYRSCRTYESTBS
+            WHERE SCRTY_DTRMN_TRGET_ID = #{value}
+        )
+    </insert>
+
+    <insert id="insertEnterpriseSecurityMappingMsatn" parameterType="string">
+        INSERT INTO MSATNEMPLYRSCRTYESTBS (SCRTY_DTRMN_TRGET_ID, MBER_TY_CODE, AUTHOR_CODE)
+        SELECT #{value}, 'USR02', 'ROLE_USER'
+        FROM db_root
+        WHERE NOT EXISTS (
+            SELECT 1
+            FROM MSATNEMPLYRSCRTYESTBS
+            WHERE SCRTY_DTRMN_TRGET_ID = #{value}
+        )
+    </insert>
+
     <update id="updateInsttInfo">
         UPDATE COMTNINSTTINFO
         <set>

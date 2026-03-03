@@ -16,7 +16,7 @@ public class Home3Web implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/home3/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/home/**", "/home3/**").addResourceLocations("classpath:/static/");
     }
 
     @Override

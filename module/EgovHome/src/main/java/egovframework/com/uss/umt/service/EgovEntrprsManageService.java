@@ -160,6 +160,23 @@ public interface EgovEntrprsManageService {
 	public java.util.Map<String, Object> selectInsttInfoForStatus(InsttInfoVO insttInfoVO) throws Exception;
 
 	/**
+	 * 사업자번호 기준 최신 기관(회원사) 가입 상태를 조회한다.
+	 *
+	 * @param bizrno 사업자번호
+	 * @return 기관 상태코드(P/A/X 등)
+	 * @throws Exception
+	 */
+	public String selectLatestInsttStatusByBizrno(String bizrno) throws Exception;
+
+	/**
+	 * 기업회원의 권한 매핑(COMTN/MSATN 보안테이블)을 보장한다.
+	 *
+	 * @param esntlId 고유 식별자
+	 * @throws Exception
+	 */
+	public void ensureEnterpriseSecurityMapping(String esntlId) throws Exception;
+
+	/**
 	 * 회원사(기관) 정보를 수정한다. (재신청 시 사용)
 	 * 
 	 * @param insttInfoVO 회원사정보

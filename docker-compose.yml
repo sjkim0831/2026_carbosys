@@ -1,6 +1,7 @@
 services:
   cubrid:
     image: cubrid/cubrid:11.2
+    restart: unless-stopped
     environment:
       TZ: Asia/Seoul
       CUBRID_DB: com
@@ -15,6 +16,7 @@ services:
       - "./infra/cubrid/init:/docker-entrypoint-initdb.d"
       - "./infra/cubrid/conf:/opt/carbosys/conf"
       - "${CUBRID_DATA_DIR:-/opt/carbosys/data}:/opt/carbosys/data"
+      - "${CUBRID_DATA_DIR:-/opt/carbosys/data}:/opt/data"
     platform: linux/x86_64
     hostname: cubrid
     shm_size: '2gb'
@@ -30,6 +32,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    restart: unless-stopped
     depends_on:
       - cubrid
     ports:
@@ -72,6 +75,7 @@ services:
 
   tunnel:
     image: cloudflare/cloudflared:latest
+    restart: unless-stopped
     command: tunnel --url http://carbosys-app:9000
     networks:
       - carbosys-net

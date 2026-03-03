@@ -220,7 +220,7 @@
     <div id="shared-footer"></div>
     <script>
             (function loadSharedLayout() {
-                fetch('/home3/fragments/header')
+                fetch('/home/fragments/header')
                     .then(r => r.text()).then(html => {
                         document.getElementById('shared-header').innerHTML = html;
                         // KO/EN 버튼에 링크 연결 (step3+ 는 POST 전용이라 step1으로 이동)
@@ -230,7 +230,7 @@
                         if (en) en.onclick = () => location.href = '/join/en/step1';
                     })
                     .catch(() => { });
-                fetch('/home3/fragments/footer')
+                fetch('/home/fragments/footer')
                     .then(r => r.text()).then(html => { document.getElementById('shared-footer').innerHTML = html; })
                     .catch(() => { });
             })();
