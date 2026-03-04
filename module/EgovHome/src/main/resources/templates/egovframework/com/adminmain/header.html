@@ -233,13 +233,21 @@
                 if (text.indexOf("백업") !== -1 || text.indexOf("Backup") !== -1 || text.indexOf("복구") !== -1 || text.indexOf("Restore") !== -1) return "backup";
                 return "chevron_right";
             }
+            function resolveExistingPath(text) {
+                var directMap = {
+                    "통합 대시보드": "/adminmain/",
+                    "회원 목록": "/adminmain/member/list",
+                    "권한 그룹": "/adminmain/auth/group"
+                };
+                if (directMap[text]) {
+                    return directMap[text];
+                }
+                return "#";
+            }
             var groupsHtml = groups.map(function (group, idx) {
                 var linksHtml = group.links.map(function (item, linkIdx) {
-                    var href = item.href || item.u || "#";
-                    if (href.indexOf("../../../Downloads/") === 0) {
-                        href = "#";
-                    }
                     var text = item.text || item.t || "";
+                    var href = resolveExistingPath(text);
                     var isActive = false;
                     if (!activeAssigned && href !== "#" && currentPath === href) {
                         isActive = true;
