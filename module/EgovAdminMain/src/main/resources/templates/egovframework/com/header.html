@@ -28,21 +28,20 @@
             </div>
             <nav class="hidden xl:flex items-center space-x-2 h-full">
                 <a class="px-5 py-2 text-[16px] font-bold"
-                    th:classappend="${#httpServletRequest.requestURI == '/adminmain/'} ? 'text-[var(--kr-gov-blue)] border-b-4 border-[var(--kr-gov-blue)]' : 'text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]'"
-                    href="/adminmain/">운영 대시보드</a>
-                <a class="px-5 py-2 text-[16px] font-bold"
                     th:classappend="${#httpServletRequest.requestURI == '/adminmain/member/stats'} ? 'text-[var(--kr-gov-blue)] border-b-4 border-[var(--kr-gov-blue)]' : 'text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]'"
-                    href="/adminmain/member/stats">회원·권한 관리</a>
+                    href="/adminmain/member/stats">회원관리</a>
                 <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                    href="#">산정 로직 관리</a>
+                    href="#">배출/인증</a>
                 <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                    href="#">인증·심사 관리</a>
+                    href="#">거래/정산</a>
                 <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                    href="#">통계·리포트</a>
+                    href="#">콘텐츠</a>
                 <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                    href="http://localhost:18030/admin/msa/manager" target="_blank">모듈 관리</a>
+                    href="#">외부연계</a>
                 <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                    href="#">시스템 설정</a>
+                    href="#">시스템</a>
+                <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
+                    href="#">모니터링</a>
             </nav>
             <div class="flex items-center gap-1">
                 <div class="relative help-button">
