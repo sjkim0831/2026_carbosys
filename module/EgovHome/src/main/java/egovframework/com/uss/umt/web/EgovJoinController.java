@@ -70,6 +70,11 @@ public class EgovJoinController {
         return "uss/umt/step1_join";
     }
 
+    @GetMapping("/overseas/step1")
+    public String overseasStep1View() {
+        return "redirect:/join/step1";
+    }
+
     /**
      * Step 1 실시간 저장 API (GET 방식으로 변경하여 호환성 강화)
      */
@@ -308,6 +313,11 @@ public class EgovJoinController {
         model.addAttribute("joinVO", joinVO);
         model.addAttribute("currType", currType);
         return "uss/umt/step1_join_en";
+    }
+
+    @GetMapping("/en/overseas/step1")
+    public String overseasStep1EnView() {
+        return "redirect:/join/en/step1";
     }
 
     /** EN Step 2: Terms (form submit from step1 EN) */

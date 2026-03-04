@@ -231,7 +231,7 @@
             alert('Please enter your name and email.');
             return;
         }
-        let url = '/signin/findId/result?applcntNm=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email);
+        let url = '/signin/findId/result?applcntNm=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email) + '&tab=domestic';
         if (language === 'en') {
             url += '&language=en';
         }

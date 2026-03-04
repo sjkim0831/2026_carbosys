@@ -326,4 +326,52 @@ public class EgovLoginManageServiceImpl extends EgovAbstractServiceImpl implemen
         }
     }
 
+    @Override
+    public boolean resetPassword(String userId, String newPassword) {
+        if (ObjectUtils.isEmpty(userId) || ObjectUtils.isEmpty(newPassword)) {
+            return false;
+        }
+
+        String encPassword = encryptPassword(newPassword, userId);
+        LocalDateTime now = LocalDateTime.now();
+
+        Optional<EntrprsMber> entOpt = entRepository.findById(userId);
+        if (entOpt.isPresent()) {
+            EntrprsMber entity = entOpt.get();
+            entity.setEntrprsMberPassword(encPassword);
+            entity.setChgPwdLastPnttm(now);
+            entity.setLockAt(null);
+            entity.setLockCnt(0);
+            entity.setLockLastPnttm(null);
+            entRepository.save(entity);
+            return true;
+        }
+
+        Optional<GnrlMber> gnrOpt = genRepository.findById(userId);
+        if (gnrOpt.isPresent()) {
+            GnrlMber entity = gnrOpt.get();
+            entity.setPassword(encPassword);
+            entity.setChgPwdLastPnttm(now);
+            entity.setLockAt(null);
+            entity.setLockCnt(0);
+            entity.setLockLastPnttm(null);
+            genRepository.save(entity);
+            return true;
+        }
+
+        Optional<EmplyrInfo> usrOpt = empRepository.findById(userId);
+        if (usrOpt.isPresent()) {
+            EmplyrInfo entity = usrOpt.get();
+            entity.setPassword(encPassword);
+            entity.setChgPwdLastPnttm(now);
+            entity.setLockAt(null);
+            entity.setLockCnt(0);
+            entity.setLockLastPnttm(null);
+            empRepository.save(entity);
+            return true;
+        }
+
+        return false;
+    }
+
 }

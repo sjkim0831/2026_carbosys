@@ -126,10 +126,10 @@
                 <button type="button" class="flex-1 py-4 text-[16px] login-tab login-tab-active"
                     data-value="ENT" data-join="/join/en/step1" data-findid="/signin/findId?language=en">Domestic Enterprise</button>
                 <button type="button" class="flex-1 py-4 text-[16px] login-tab login-tab-inactive"
-                    data-value="ENT" data-join="/join/en/step1" data-findid="/signin/findId/overseas?language=en">Overseas Enterprise</button>
+                    data-value="ENT" data-join="/join/en/overseas/step1" data-findid="/signin/findId/overseas?language=en">Overseas Enterprise</button>
             </div>
             <div class="p-8 lg:p-10">
-                <form action="/signin/actionLogin" method="post" class="space-y-6">
+                <form id="loginForm" name="loginForm" class="space-y-6">
                     <div class="space-y-4">
                         <div class="relative">
                             <label class="block text-sm font-bold text-[var(--kr-gov-text-secondary)] mb-1.5"
@@ -164,6 +164,7 @@
                     </div>
                     <button
                         class="w-full h-14 bg-[var(--kr-gov-blue)] text-white text-lg font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors focus-visible"
+                        type="button"
                         onclick="loginProcess()">
                         Log In
                     </button>
@@ -171,7 +172,7 @@
                         class="flex items-center justify-center gap-4 text-sm text-[var(--kr-gov-text-secondary)] font-medium pt-2">
                         <a id="findIdLink" class="hover:underline" href="/signin/findId?language=en">Find ID</a>
                         <span class="w-px h-3 bg-[var(--kr-gov-border-light)]"></span>
-                        <a class="hover:underline" href="#">Reset Password</a>
+                        <a class="hover:underline" href="/signin/findPassword?language=en">Reset Password</a>
                         <span class="w-px h-3 bg-[var(--kr-gov-border-light)]"></span>
                         <a id="joinLink" class="text-[var(--kr-gov-blue)] font-bold hover:underline" href="/join/en/step1">Register</a>
                     </div>
@@ -269,6 +270,14 @@
         });
 
         document.addEventListener("DOMContentLoaded", function () {
+            const loginForm = document.getElementById("loginForm");
+            if (loginForm) {
+                loginForm.addEventListener("submit", function (event) {
+                    event.preventDefault();
+                    loginProcess();
+                });
+            }
+
             let userInputId = getCookie("userInputId");
             if (userInputId !== undefined && userInputId !== "") {
                 document.getElementById("id").value = userInputId;

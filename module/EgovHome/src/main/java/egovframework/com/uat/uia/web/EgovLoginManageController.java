@@ -105,8 +105,11 @@ public class EgovLoginManageController {
     public String findIdResult(@RequestParam(value = "language", required = false) String language,
             @RequestParam(value = "applcntNm", required = false) String applcntNm,
             @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "tab", required = false, defaultValue = "domestic") String tab,
             Model model) {
         model.addAttribute("language", language);
+        String normalizedTab = "overseas".equalsIgnoreCase(tab) ? "overseas" : "domestic";
+        model.addAttribute("tab", normalizedTab);
         String foundId = null;
         if (!ObjectUtils.isEmpty(applcntNm) && !ObjectUtils.isEmpty(email)) {
             EntrprsManageVO searchVO = new EntrprsManageVO();
@@ -116,6 +119,15 @@ public class EgovLoginManageController {
         }
         model.addAttribute("maskedId", maskUserId(foundId));
         model.addAttribute("found", !ObjectUtils.isEmpty(foundId));
+
+        String passwordResetUrl = "overseas".equals(normalizedTab)
+                ? "/signin/findPassword/overseas"
+                : "/signin/findPassword";
+        if ("en".equals(language)) {
+            passwordResetUrl += "?language=en";
+        }
+        model.addAttribute("passwordResetUrl", passwordResetUrl);
+
         if ("en".equals(language)) {
             return "egovframework/com/uat/uia/find_id_result_en";
         }

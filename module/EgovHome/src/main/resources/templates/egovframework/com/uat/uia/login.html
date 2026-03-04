@@ -124,7 +124,7 @@
                     data-join="/join/step1" data-findid="/signin/findId">국내
                     기업 회원</button>
                 <button type="button" class="flex-1 py-4 text-[16px] login-tab login-tab-inactive" data-value="ENT"
-                    data-join="/join/en/step1" data-findid="/signin/findId/overseas">해외
+                    data-join="/join/overseas/step1" data-findid="/signin/findId/overseas">해외
                     기업 회원</button>
             </div>
             <div class="p-8 lg:p-10">
@@ -170,7 +170,7 @@
                         class="flex items-center justify-center gap-4 text-sm text-[var(--kr-gov-text-secondary)] font-medium pt-2">
                         <a id="findIdLink" class="hover:underline" href="/signin/findId">아이디 찾기</a>
                         <span class="w-px h-3 bg-[var(--kr-gov-border-light)]"></span>
-                        <a class="hover:underline" href="#">비밀번호 재설정</a>
+                        <a class="hover:underline" href="/signin/findPassword">비밀번호 재설정</a>
                         <span class="w-px h-3 bg-[var(--kr-gov-border-light)]"></span>
                         <a id="joinLink" class="text-[var(--kr-gov-blue)] font-bold hover:underline"
                             href="/join/step1">회원가입</a>
@@ -267,6 +267,14 @@
         });
 
         document.addEventListener("DOMContentLoaded", function () {
+            const loginForm = document.getElementById("loginForm");
+            if (loginForm) {
+                loginForm.addEventListener("submit", function (event) {
+                    event.preventDefault();
+                    loginProcess();
+                });
+            }
+
             // 저장된 ID 가져오기
             let userInputId = getCookie("userInputId");
             if (userInputId !== undefined && userInputId !== "") {

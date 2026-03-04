@@ -12,4 +12,6 @@ public interface EgovLoginManageService {
 
     void updateAuthInfo(String userId, String userSe, String authTy, String authDn, String authCi, String authDi);
 
+    boolean resetPassword(String userId, String newPassword);
+
 }

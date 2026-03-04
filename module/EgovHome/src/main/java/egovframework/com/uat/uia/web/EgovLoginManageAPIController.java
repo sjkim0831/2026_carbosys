@@ -208,6 +208,41 @@ public class EgovLoginManageAPIController {
         return ResponseEntity.ok("Success");
     }
 
+    @PostMapping("/resetPassword")
+    @ResponseBody
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> params) {
+        String userId = params.getOrDefault("userId", "").trim();
+        String newPassword = params.getOrDefault("newPassword", "").trim();
+        String language = params.getOrDefault("language", "").trim();
+        boolean isEn = "en".equalsIgnoreCase(language);
+
+        Map<String, Object> message = new HashMap<>();
+
+        if (ObjectUtils.isEmpty(userId) || ObjectUtils.isEmpty(newPassword)) {
+            message.put("status", "fail");
+            message.put("errors", isEn ? "Required values are missing." : "필수 값이 누락되었습니다.");
+            return ResponseEntity.ok(message);
+        }
+
+        if (!validatePasswordPolicy(newPassword)) {
+            message.put("status", "fail");
+            message.put("errors", isEn
+                    ? "Please meet the password policy (at least 9 chars and 3 character types)."
+                    : "비밀번호 정책(9자리 이상, 3종류 조합)을 충족해 주세요.");
+            return ResponseEntity.ok(message);
+        }
+
+        boolean updated = service.resetPassword(userId, newPassword);
+        if (!updated) {
+            message.put("status", "fail");
+            message.put("errors", isEn ? "No matching user was found." : "일치하는 사용자를 찾을 수 없습니다.");
+            return ResponseEntity.ok(message);
+        }
+
+        message.put("status", "success");
+        return ResponseEntity.ok(message);
+    }
+
     @PostMapping("/actionLogout")
     public ResponseEntity<?> actionLogout(HttpServletRequest request, HttpServletResponse response) {
         log.debug("##### EgovLoginManageAPIController logout started #####");
@@ -260,6 +295,28 @@ public class EgovLoginManageAPIController {
         Map<String, Object> message = new HashMap<>();
         message.put("status", "success");
         return ResponseEntity.ok(message);
+    }
+
+    private boolean validatePasswordPolicy(String password) {
+        if (ObjectUtils.isEmpty(password) || password.length() < 9) {
+            return false;
+        }
+
+        int categoryCount = 0;
+        if (password.matches(".*[a-z].*")) {
+            categoryCount++;
+        }
+        if (password.matches(".*[A-Z].*")) {
+            categoryCount++;
+        }
+        if (password.matches(".*[0-9].*")) {
+            categoryCount++;
+        }
+        if (password.matches(".*[^A-Za-z0-9].*")) {
+            categoryCount++;
+        }
+
+        return categoryCount >= 3;
     }
 
 }
