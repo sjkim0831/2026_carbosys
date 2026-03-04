@@ -6,7 +6,7 @@ services:
       - /bin/sh
       - -lc
       - >
-        mkdir -p /opt/carbosys/data /var/lib && chown -R 999:998 /opt/carbosys/data && chmod 775 /opt/carbosys/data && exec /entrypoint.sh
+        mkdir -p /var/lib/cubrid && exec /entrypoint.sh
     environment:
       TZ: Asia/Seoul
       CUBRID_DB: com
@@ -14,16 +14,15 @@ services:
       CUBRID_CHARSET: utf8
       DB_ROOT_PASSWORD: ""
       CUBRID_COMPONENTS: ALL
-      CUBRID_DATABASES: /opt/carbosys/data
+      CUBRID_DATABASES: /var/lib/cubrid
       CUBRID_CONF: /opt/carbosys/conf/cubrid.conf
       CUBRID_BROKER_CONF: /opt/carbosys/conf/cubrid_broker.conf
     volumes:
       - "./infra/cubrid/init:/docker-entrypoint-initdb.d"
       - "./infra/cubrid/conf:/opt/carbosys/conf"
-      - "./data:/opt/carbosys/data"
       - "./data:/var/lib/cubrid"
     healthcheck:
-      test: ["CMD-SHELL", "cubrid server status com | grep -q 'Server com'"]
+      test: [ "CMD-SHELL", "cubrid server status com | grep -q 'Server com'" ]
       interval: 10s
       timeout: 5s
       retries: 12
@@ -44,6 +43,9 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
+    environment:
+      MSA_MANAGER_XMS: "512m"
+      MSA_MANAGER_XMX: "1024m"
     depends_on:
       cubrid:
         condition: service_healthy
@@ -58,7 +60,6 @@ services:
     volumes:
       - "./file:/opt/carbosys/file"
       - "./module:/opt/carbosys/module"
-      - "./module/EgovHome:/opt/carbosys/module/EgovHome"
       - "./logs:/opt/carbosys/logs"
     extra_hosts:
       - "localhost:127.0.0.1"

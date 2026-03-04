@@ -62,6 +62,9 @@
             margin-bottom: 6px;
             padding: 0 4px;
         }
+        body.mobile-menu-open {
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="bg-white text-[var(--kr-gov-text-primary)]">
@@ -79,13 +82,14 @@
 </div>
 <header class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-50 shadow-sm">
 <div class="max-w-7xl mx-auto px-4 lg:px-8">
-<div class="flex justify-between items-center h-24"> 
-<div class="flex items-center gap-3 shrink-0">
-<a class="flex items-center gap-2 focus-visible" href="/home">
+<div class="relative flex items-center h-24">
+<div class="xl:hidden w-11 h-11 shrink-0" aria-hidden="true"></div>
+<div class="absolute left-1/2 -translate-x-1/2 xl:static xl:translate-x-0 flex items-center gap-3 shrink-0">
+<a class="flex items-center gap-2 focus-visible max-w-[78vw] xl:max-w-none" href="/home">
 <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]" style="font-variation-settings: 'wght' 600;">eco</span>
 <div class="flex flex-col">
-<h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)]">CCUS 탄소발자국 플랫폼</h1>
-<p class="text-[10px] text-[var(--kr-gov-text-secondary)] font-bold uppercase tracking-wider">Carbon Footprint Platform</p>
+<h1 class="text-base sm:text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)] leading-tight">CCUS 탄소발자국 플랫폼</h1>
+<p class="hidden sm:block text-[10px] text-[var(--kr-gov-text-secondary)] font-bold uppercase tracking-wider">Carbon Footprint Platform</p>
 </div>
 </a>
 </div>
@@ -280,19 +284,198 @@
 </div>
 </div>
 </nav>
-<div class="flex items-center gap-3 shrink-0">
-<div class="flex border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] overflow-hidden">
+<div class="ml-auto flex items-center gap-3 shrink-0">
+<div class="hidden xl:flex border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] overflow-hidden">
 <button class="px-2 py-1 text-xs bg-[var(--kr-gov-blue)] text-white font-bold focus-visible" onclick="location.href='/home'">KO</button>
 <button class="px-2 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold focus-visible border-l border-[var(--kr-gov-border-light)]" onclick="location.href='/home/en'">EN</button>
 </div>
-<button th:if="${isLoggedIn}" class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"
+<button th:if="${isLoggedIn}" class="hidden xl:inline-flex gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"
 onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type': 'application/json'}}).then(r => r.json()).then(d => {if(d.status === 'success') location.reload();});">로그아웃</button>
-<a th:unless="${isLoggedIn}" class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)] inline-flex items-center" href="/signin/loginView">로그인</a>
-<a th:unless="${isLoggedIn}" class="gov-btn bg-white text-[var(--kr-gov-blue)] border border-[var(--kr-gov-blue)] hover:bg-[var(--kr-gov-bg-gray)] inline-flex items-center" href="/join/step1">회원가입</a>
+<a th:unless="${isLoggedIn}" class="hidden xl:inline-flex gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)] items-center" href="/signin/loginView">로그인</a>
+<a th:unless="${isLoggedIn}" class="hidden xl:inline-flex gov-btn bg-white text-[var(--kr-gov-blue)] border border-[var(--kr-gov-blue)] hover:bg-[var(--kr-gov-bg-gray)] items-center" href="/join/step1">회원가입</a>
+<button id="mobile-menu-toggle" class="xl:hidden w-11 h-11 rounded-[var(--kr-gov-radius)] border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] flex items-center justify-center hover:bg-[var(--kr-gov-bg-gray)] focus-visible" type="button" aria-controls="mobile-menu" aria-expanded="false" aria-label="전체메뉴 열기">
+<span class="material-symbols-outlined">menu</span>
+</button>
 </div>
 </div>
 </div>
 </header>
+<div id="mobile-menu" class="xl:hidden fixed inset-0 z-[70] hidden" aria-hidden="true">
+<button id="mobile-menu-backdrop" class="absolute inset-0 bg-black/50" aria-label="전체메뉴 닫기"></button>
+<aside class="absolute top-0 right-0 h-full w-[90%] max-w-[380px] bg-white shadow-2xl border-l border-[var(--kr-gov-border-light)] overflow-y-auto">
+<div class="sticky top-0 z-10 flex items-center justify-between px-4 py-4 border-b border-[var(--kr-gov-border-light)] bg-white">
+<strong class="text-lg font-bold text-[var(--kr-gov-text-primary)]">전체메뉴</strong>
+<button id="mobile-menu-close" class="w-10 h-10 rounded-[var(--kr-gov-radius)] border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] flex items-center justify-center hover:bg-[var(--kr-gov-bg-gray)]" type="button" aria-label="전체메뉴 닫기">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-4 space-y-4">
+<div class="flex items-center gap-2">
+<a th:if="${isLoggedIn}" class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)] inline-flex items-center justify-center flex-1" href="#" onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type': 'application/json'}}).then(r => r.json()).then(d => {if(d.status === 'success') location.reload();}); return false;">로그아웃</a>
+<a th:unless="${isLoggedIn}" class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)] inline-flex items-center justify-center flex-1" href="/signin/loginView">로그인</a>
+<a th:unless="${isLoggedIn}" class="gov-btn bg-white text-[var(--kr-gov-blue)] border border-[var(--kr-gov-blue)] hover:bg-[var(--kr-gov-bg-gray)] inline-flex items-center justify-center flex-1" href="/join/step1">회원가입</a>
+</div>
+<div class="grid grid-cols-2 gap-2 text-sm">
+<button class="px-3 py-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-[var(--kr-gov-blue)] text-white font-bold" onclick="location.href='/home'">KO</button>
+<button class="px-3 py-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white text-[var(--kr-gov-text-secondary)] font-bold" onclick="location.href='/home/en'">EN</button>
+</div>
+
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">탄소배출</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">배출량 산정</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">배출량 관리</a>
+<a class="block py-1" href="#">데이터 입력</a>
+<a class="block py-1" href="#">산정/검증</a>
+<a class="block py-1" href="#">보고서 제출</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">분석</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">LCA 분석</a>
+<a class="block py-1" href="#">LCI DB 조회</a>
+<a class="block py-1" href="#">감축 시나리오</a>
+<a class="block py-1" href="#">시뮬레이션</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">보고서·인증서</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">보고서</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">보고서 목록</a>
+<a class="block py-1" href="#">보고서 작성</a>
+<a class="block py-1" href="#">수정/재제출</a>
+<a class="block py-1" href="#">처리 상태</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">인증서</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">인증서 신청</a>
+<a class="block py-1" href="#">인증서 목록</a>
+<a class="block py-1" href="#">재발급</a>
+<a class="block py-1" href="#">인증서 검증</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">탄소정보</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">CO2 정보</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">생산 정보</a>
+<a class="block py-1" href="#">수요 정보</a>
+<a class="block py-1" href="#">무결성 추적</a>
+<a class="block py-1" href="#">크레딧 조회</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">연계</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">플랫폼 매칭</a>
+<a class="block py-1" href="#">품질지표</a>
+<a class="block py-1" href="#">MRV 정보</a>
+<a class="block py-1" href="#">추적 리포트</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">거래</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">주문/체결</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">거래 목록</a>
+<a class="block py-1" href="#">구매 요청</a>
+<a class="block py-1" href="#">판매 등록</a>
+<a class="block py-1" href="#">체결 현황</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">시장</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">시장 동향</a>
+<a class="block py-1" href="#">가격 알림</a>
+<a class="block py-1" href="#">자동 매칭</a>
+<a class="block py-1" href="#">거래 리포트</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">모니터링</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">대시보드</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">통합 대시보드</a>
+<a class="block py-1" href="#">실시간 모니터링</a>
+<a class="block py-1" href="#">성과 추이</a>
+<a class="block py-1" href="#">경보 현황</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">분석 리포트</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">통계 자료</a>
+<a class="block py-1" href="#">ESG 보고서</a>
+<a class="block py-1" href="#">이해관계자 공유</a>
+<a class="block py-1" href="#">내보내기</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">결제</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">결제</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">결제 내역</a>
+<a class="block py-1" href="#">결제 요청</a>
+<a class="block py-1" href="#">가상계좌</a>
+<a class="block py-1" href="#">영수증</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">환불/정산</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">환불 요청</a>
+<a class="block py-1" href="#">환불 계좌</a>
+<a class="block py-1" href="#">정산 내역</a>
+<a class="block py-1" href="#">세금계산서</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">교육</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">과정</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">교육 과정 목록</a>
+<a class="block py-1" href="#">과정 상세</a>
+<a class="block py-1" href="#">교육 신청</a>
+<a class="block py-1" href="#">나의 교육</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">이수</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">진도 관리</a>
+<a class="block py-1" href="#">설문</a>
+<a class="block py-1" href="#">수료증</a>
+<a class="block py-1" href="#">자격 연계</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">마이페이지</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">회원 정보</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="/mypage">내 정보</a>
+<a class="block py-1" href="#">기업 정보</a>
+<a class="block py-1" href="#">담당자 관리</a>
+<a class="block py-1" href="#">알림 설정</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">계정 관리</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">비밀번호 변경</a>
+<a class="block py-1" href="#">이메일/전화 변경</a>
+<a class="block py-1" href="#">보안 설정</a>
+<a class="block py-1" href="#">마케팅 수신</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">고객지원</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">고객센터</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">공지사항</a>
+<a class="block py-1" href="#">FAQ</a>
+<a class="block py-1" href="#">Q&amp;A</a>
+<a class="block py-1" href="#">자료실</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">문의</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">1:1 문의</a>
+<a class="block py-1" href="#">나의 문의 내역</a>
+<a class="block py-1" href="#">서비스 상태</a>
+<a class="block py-1" href="#">버전 정보</a>
+</div>
+</section>
+</div>
+</aside>
+</div>
 <main id="main-content">
 <section class="relative h-[480px] bg-slate-900 overflow-hidden">
 <div class="absolute inset-0">
@@ -513,5 +696,44 @@ onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type'
 </div>
 </div>
 </footer>
+<script>
+    (function () {
+        var toggleBtn = document.getElementById('mobile-menu-toggle');
+        var menu = document.getElementById('mobile-menu');
+        var closeBtn = document.getElementById('mobile-menu-close');
+        var backdrop = document.getElementById('mobile-menu-backdrop');
+        if (!toggleBtn || !menu || !closeBtn || !backdrop) {
+            return;
+        }
 
+        function openMenu() {
+            menu.classList.remove('hidden');
+            document.body.classList.add('mobile-menu-open');
+            toggleBtn.setAttribute('aria-expanded', 'true');
+            menu.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeMenu() {
+            menu.classList.add('hidden');
+            document.body.classList.remove('mobile-menu-open');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            menu.setAttribute('aria-hidden', 'true');
+        }
+
+        toggleBtn.addEventListener('click', function () {
+            if (menu.classList.contains('hidden')) {
+                openMenu();
+            } else {
+                closeMenu();
+            }
+        });
+        closeBtn.addEventListener('click', closeMenu);
+        backdrop.addEventListener('click', closeMenu);
+        window.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeMenu();
+            }
+        });
+    })();
+</script>
 </body></html>

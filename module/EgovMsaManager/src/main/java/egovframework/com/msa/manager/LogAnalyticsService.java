@@ -112,6 +112,12 @@ public class LogAnalyticsService {
             modules.add(row);
         }
         modules.sort(Comparator.comparing(o -> String.valueOf(o.get("module"))));
+        if (modules.isEmpty()) {
+            Map<String, Object> archived = getArchiveModuleLogs(from, to);
+            out.put("modules", archived.getOrDefault("modules", Collections.emptyList()));
+            out.put("criticalCount", archived.getOrDefault("criticalCount", 0));
+            return out;
+        }
         out.put("modules", modules);
         out.put("criticalCount", getCriticalEvents(from, to).size());
         return out;
@@ -123,8 +129,12 @@ public class LogAnalyticsService {
 
     public List<Map<String, Object>> getCriticalEvents(LocalDateTime from, LocalDateTime to) {
         synchronized (criticalEvents) {
-            return filterByRange(new ArrayList<>(criticalEvents), from, to);
+            List<Map<String, Object>> live = filterByRange(new ArrayList<>(criticalEvents), from, to);
+            if (!live.isEmpty()) {
+                return live;
+            }
         }
+        return getArchiveCriticalEvents(from, to);
     }
 
     public List<Map<String, Object>> getTopControllers() {
@@ -470,6 +480,24 @@ public class LogAnalyticsService {
             modules.add(row);
         }
         modules.sort(Comparator.comparing(o -> String.valueOf(o.get("module"))));
+        if (modules.isEmpty()) {
+            for (Map.Entry<String, Deque<Map<String, Object>>> e : logsByModule.entrySet()) {
+                List<Map<String, Object>> logs;
+                synchronized (e.getValue()) {
+                    logs = filterByRange(new ArrayList<>(e.getValue()), from, to);
+                }
+                if (logs.isEmpty()) {
+                    continue;
+                }
+                Map<String, Object> row = new LinkedHashMap<>();
+                row.put("module", e.getKey());
+                row.put("count", logs.size());
+                row.put("logs", logs);
+                row.put("last", logs.get(logs.size() - 1).get("message"));
+                modules.add(row);
+            }
+            modules.sort(Comparator.comparing(o -> String.valueOf(o.get("module"))));
+        }
         out.put("modules", modules);
         out.put("criticalCount", getArchiveCriticalEvents(from, to).size());
         return out;

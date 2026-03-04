@@ -40,6 +40,32 @@
         .gnb-item:hover .gnb-depth2 {
             display: block;
         }
+        .gnb-depth2 {
+            width: 560px !important;
+            padding: 10px;
+        }
+        .gnb-sections {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+        .gnb-section {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 8px;
+            background: #fafafa;
+        }
+        .gnb-section-title {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--kr-gov-blue);
+            margin-bottom: 6px;
+            padding: 0 4px;
+        }
+        body.mobile-menu-open {
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="bg-white text-[var(--kr-gov-text-primary)]">
@@ -57,80 +83,400 @@
 </div>
 <header class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-50 shadow-sm">
 <div class="max-w-7xl mx-auto px-4 lg:px-8">
-<div class="flex justify-between items-center h-24">
-<div class="flex items-center gap-3 shrink-0">
-<a class="flex items-center gap-2 focus-visible" href="/home/en">
+<div class="relative flex items-center h-24">
+<div class="xl:hidden w-11 h-11 shrink-0" aria-hidden="true"></div>
+<div class="absolute left-1/2 -translate-x-1/2 xl:static xl:translate-x-0 flex items-center gap-3 shrink-0">
+<a class="flex items-center gap-2 focus-visible max-w-[78vw] xl:max-w-none" href="/home/en">
 <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]" style="font-variation-settings: 'wght' 600;">eco</span>
 <div class="flex flex-col">
-<h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)]">CCUS Footprint Platform</h1>
-<p class="text-[10px] text-[var(--kr-gov-text-secondary)] font-bold uppercase tracking-wider">Carbon Footprint Platform</p>
+<h1 class="text-base sm:text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)] leading-tight">CCUS Footprint Platform</h1>
+<p class="hidden sm:block text-[10px] text-[var(--kr-gov-text-secondary)] font-bold uppercase tracking-wider">Carbon Footprint Platform</p>
 </div>
 </a>
 </div>
 <nav class="hidden xl:flex items-center space-x-1 h-full ml-8 flex-1 justify-center">
 <div class="gnb-item h-full relative group">
-<a class="h-full flex items-center px-4 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Emissions</a>
-<div class="gnb-depth2 hidden absolute top-full left-0 w-56 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
-<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Calculation Methods</a>
-<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Source Registration</a>
+<a class="h-full flex items-center px-3 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Emissions</a>
+<div class="gnb-depth2 hidden absolute top-full left-0 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
+<div class="gnb-sections">
+<div class="gnb-section">
+<strong class="gnb-section-title">Emission Calculation</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Emission Management</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Data Entry</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Calculation/Verification</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Report Submission</a>
+</div>
+<div class="gnb-section">
+<strong class="gnb-section-title">Analysis</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">LCA Analysis</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">LCI DB Inquiry</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Reduction Scenarios</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Simulation</a>
+</div>
+</div>
 </div>
 </div>
 <div class="gnb-item h-full relative group">
-<a class="h-full flex items-center px-4 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Certificates</a>
-<div class="gnb-depth2 hidden absolute top-full left-0 w-56 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
-<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Application</a>
-<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Report Inquiry</a>
+<a class="h-full flex items-center px-3 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Reports &amp; Certificates</a>
+<div class="gnb-depth2 hidden absolute top-full left-0 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
+<div class="gnb-sections">
+<div class="gnb-section">
+<strong class="gnb-section-title">Reports</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Report List</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Create Report</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Edit/Re-submit</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Processing Status</a>
+</div>
+<div class="gnb-section">
+<strong class="gnb-section-title">Certificates</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Certificate Application</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Certificate List</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Re-issuance</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Certificate Validation</a>
+</div>
+</div>
 </div>
 </div>
 <div class="gnb-item h-full relative group">
-<a class="h-full flex items-center px-4 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Carbon Info</a>
-<div class="gnb-depth2 hidden absolute top-full left-0 w-56 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
-<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Carbon Data</a>
-<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Statistical Analysis</a>
+<a class="h-full flex items-center px-3 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Carbon Information</a>
+<div class="gnb-depth2 hidden absolute top-full left-0 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
+<div class="gnb-sections">
+<div class="gnb-section">
+<strong class="gnb-section-title">CO2 Information</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Production Data</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Demand Data</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Integrity Tracking</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Credit Inquiry</a>
+</div>
+<div class="gnb-section">
+<strong class="gnb-section-title">Interlinking</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Platform Matching</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Quality Indicators</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">MRV Information</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Traceability Report</a>
+</div>
+</div>
 </div>
 </div>
 <div class="gnb-item h-full relative group">
-<a class="h-full flex items-center px-4 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Trading</a>
-<div class="gnb-depth2 hidden absolute top-full left-0 w-56 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
-<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Carbon Credits</a>
-<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Market Status</a>
+<a class="h-full flex items-center px-3 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Trading</a>
+<div class="gnb-depth2 hidden absolute top-full left-0 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
+<div class="gnb-sections">
+<div class="gnb-section">
+<strong class="gnb-section-title">Orders &amp; Execution</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Trade List</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Buy Request</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Sell Registration</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Execution Status</a>
+</div>
+<div class="gnb-section">
+<strong class="gnb-section-title">Market</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Market Trends</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Price Alerts</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Auto Matching</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Trade Reports</a>
+</div>
+</div>
 </div>
 </div>
 <div class="gnb-item h-full relative group">
-<a class="h-full flex items-center px-4 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Monitoring</a>
-<div class="gnb-depth2 hidden absolute top-full left-0 w-56 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
-<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Real-time Dashboard</a>
-<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Alert Settings</a>
+<a class="h-full flex items-center px-3 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Monitoring</a>
+<div class="gnb-depth2 hidden absolute top-full left-0 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
+<div class="gnb-sections">
+<div class="gnb-section">
+<strong class="gnb-section-title">Dashboard</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Integrated Dashboard</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Real-time Monitoring</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Performance Trends</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Alert Status</a>
+</div>
+<div class="gnb-section">
+<strong class="gnb-section-title">Analytical Reports</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Statistics</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">ESG Reports</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Stakeholder Sharing</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Export</a>
+</div>
+</div>
 </div>
 </div>
 <div class="gnb-item h-full relative group">
-<a class="h-full flex items-center px-4 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Payment</a>
-<div class="gnb-depth2 hidden absolute top-full left-0 w-56 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
-<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Fee Settlement</a>
+<a class="h-full flex items-center px-3 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Payment</a>
+<div class="gnb-depth2 hidden absolute top-full left-0 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
+<div class="gnb-sections">
+<div class="gnb-section">
+<strong class="gnb-section-title">Payments</strong>
 <a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Payment History</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Payment Requests</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Virtual Account</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Receipts</a>
+</div>
+<div class="gnb-section">
+<strong class="gnb-section-title">Refunds &amp; Settlement</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Refund Request</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Refund Account</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Settlement History</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Tax Invoice</a>
+</div>
+</div>
 </div>
 </div>
 <div class="gnb-item h-full relative group">
-<a class="h-full flex items-center px-4 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Support</a>
-<div class="gnb-depth2 hidden absolute top-full left-0 w-56 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
+<a class="h-full flex items-center px-3 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Education</a>
+<div class="gnb-depth2 hidden absolute top-full left-0 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
+<div class="gnb-sections">
+<div class="gnb-section">
+<strong class="gnb-section-title">Courses</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Course List</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Course Details</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Enrollment</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">My Learning</a>
+</div>
+<div class="gnb-section">
+<strong class="gnb-section-title">Completion</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Progress Management</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Survey</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Certificate of Completion</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Qualification Linkage</a>
+</div>
+</div>
+</div>
+</div>
+<div class="gnb-item h-full relative group">
+<a class="h-full flex items-center px-3 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="/mypage/en">My Page</a>
+<div class="gnb-depth2 hidden absolute top-full left-0 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
+<div class="gnb-sections">
+<div class="gnb-section">
+<strong class="gnb-section-title">Member Information</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="/mypage/en">My Information</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Company Information</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Manager Accounts</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Notification Settings</a>
+</div>
+<div class="gnb-section">
+<strong class="gnb-section-title">Account Management</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Change Password</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Change Email/Phone</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Security Settings</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Marketing Preferences</a>
+</div>
+</div>
+</div>
+</div>
+<div class="gnb-item h-full relative group">
+<a class="h-full flex items-center px-3 text-[15px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">Support</a>
+<div class="gnb-depth2 hidden absolute top-full left-0 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
+<div class="gnb-sections">
+<div class="gnb-section">
+<strong class="gnb-section-title">Customer Center</strong>
 <a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Announcements</a>
 <a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">FAQ</a>
-<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="/mypage/en">My Page</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Q&amp;A</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Resources</a>
+</div>
+<div class="gnb-section">
+<strong class="gnb-section-title">Inquiry</strong>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">1:1 Inquiry</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">My Inquiries</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Service Status</a>
+<a class="block px-4 py-2 hover:bg-gray-50 text-sm" href="#">Version Information</a>
+</div>
+</div>
 </div>
 </div>
 </nav>
-<div class="flex items-center gap-3 shrink-0">
-<div class="flex border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] overflow-hidden">
+<div class="ml-auto flex items-center gap-3 shrink-0">
+<div class="hidden xl:flex border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] overflow-hidden">
 <button class="px-2 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold focus-visible" onclick="location.href='/home'">KO</button>
 <button class="px-2 py-1 text-xs bg-[var(--kr-gov-blue)] text-white font-bold focus-visible border-l border-[var(--kr-gov-border-light)]" onclick="location.href='/home/en'">EN</button>
 </div>
-<button th:if="${isLoggedIn}" class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"
+<button th:if="${isLoggedIn}" class="hidden xl:inline-flex gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"
 onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type': 'application/json'}}).then(r => r.json()).then(d => {if(d.status === 'success') location.reload();});">Logout</button>
-<a th:unless="${isLoggedIn}" class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)] inline-flex items-center" href="/signin/loginView?language=en">Login</a>
+<a th:unless="${isLoggedIn}" class="hidden xl:inline-flex gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)] items-center" href="/signin/loginView?language=en">Login</a>
+<a th:unless="${isLoggedIn}" class="hidden xl:inline-flex gov-btn bg-white text-[var(--kr-gov-blue)] border border-[var(--kr-gov-blue)] hover:bg-[var(--kr-gov-bg-gray)] items-center" href="/join/step1?language=en">Sign Up</a>
+<button id="mobile-menu-toggle" class="xl:hidden w-11 h-11 rounded-[var(--kr-gov-radius)] border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] flex items-center justify-center hover:bg-[var(--kr-gov-bg-gray)] focus-visible" type="button" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open all menu">
+<span class="material-symbols-outlined">menu</span>
+</button>
 </div>
 </div>
 </div>
 </header>
+<div id="mobile-menu" class="xl:hidden fixed inset-0 z-[70] hidden" aria-hidden="true">
+<button id="mobile-menu-backdrop" class="absolute inset-0 bg-black/50" aria-label="Close all menu"></button>
+<aside class="absolute top-0 right-0 h-full w-[90%] max-w-[380px] bg-white shadow-2xl border-l border-[var(--kr-gov-border-light)] overflow-y-auto">
+<div class="sticky top-0 z-10 flex items-center justify-between px-4 py-4 border-b border-[var(--kr-gov-border-light)] bg-white">
+<strong class="text-lg font-bold text-[var(--kr-gov-text-primary)]">All Menu</strong>
+<button id="mobile-menu-close" class="w-10 h-10 rounded-[var(--kr-gov-radius)] border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] flex items-center justify-center hover:bg-[var(--kr-gov-bg-gray)]" type="button" aria-label="Close all menu">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-4 space-y-4">
+<div class="flex items-center gap-2">
+<a th:if="${isLoggedIn}" class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)] inline-flex items-center justify-center flex-1" href="#" onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type': 'application/json'}}).then(r => r.json()).then(d => {if(d.status === 'success') location.reload();}); return false;">Logout</a>
+<a th:unless="${isLoggedIn}" class="gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)] inline-flex items-center justify-center flex-1" href="/signin/loginView?language=en">Login</a>
+<a th:unless="${isLoggedIn}" class="gov-btn bg-white text-[var(--kr-gov-blue)] border border-[var(--kr-gov-blue)] hover:bg-[var(--kr-gov-bg-gray)] inline-flex items-center justify-center flex-1" href="/join/step1?language=en">Sign Up</a>
+</div>
+<div class="grid grid-cols-2 gap-2 text-sm">
+<button class="px-3 py-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white text-[var(--kr-gov-text-secondary)] font-bold" onclick="location.href='/home'">KO</button>
+<button class="px-3 py-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-[var(--kr-gov-blue)] text-white font-bold" onclick="location.href='/home/en'">EN</button>
+</div>
+
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">Emissions</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Emission Calculation</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">Calculation Methods</a>
+<a class="block py-1" href="#">Source Registration</a>
+<a class="block py-1" href="#">Calculation/Verification</a>
+<a class="block py-1" href="#">Report Submission</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Analysis</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">LCA Analysis</a>
+<a class="block py-1" href="#">LCI DB Inquiry</a>
+<a class="block py-1" href="#">Reduction Scenarios</a>
+<a class="block py-1" href="#">Simulation</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">Certificates</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Reports</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">Report List</a>
+<a class="block py-1" href="#">Create Report</a>
+<a class="block py-1" href="#">Edit/Re-submit</a>
+<a class="block py-1" href="#">Processing Status</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Certificates</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">Application</a>
+<a class="block py-1" href="#">Report Inquiry</a>
+<a class="block py-1" href="#">Re-issuance</a>
+<a class="block py-1" href="#">Certificate Validation</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">Carbon Info</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">CO2 Information</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">Carbon Data</a>
+<a class="block py-1" href="#">Statistical Analysis</a>
+<a class="block py-1" href="#">Traceability</a>
+<a class="block py-1" href="#">Credit Inquiry</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Interlinking</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">Platform Matching</a>
+<a class="block py-1" href="#">Quality Indicators</a>
+<a class="block py-1" href="#">MRV Information</a>
+<a class="block py-1" href="#">Traceability Report</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">Trading</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Orders &amp; Execution</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">Carbon Credits</a>
+<a class="block py-1" href="#">Buy Request</a>
+<a class="block py-1" href="#">Sell Registration</a>
+<a class="block py-1" href="#">Execution Status</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Market</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">Market Status</a>
+<a class="block py-1" href="#">Price Alerts</a>
+<a class="block py-1" href="#">Auto Matching</a>
+<a class="block py-1" href="#">Trade Reports</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">Monitoring</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Dashboard</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">Real-time Dashboard</a>
+<a class="block py-1" href="#">Alert Settings</a>
+<a class="block py-1" href="#">Performance Trends</a>
+<a class="block py-1" href="#">Reports</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Analytical Reports</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">Statistics</a>
+<a class="block py-1" href="#">ESG Reports</a>
+<a class="block py-1" href="#">Stakeholder Sharing</a>
+<a class="block py-1" href="#">Export</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">Payment</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Payments</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">Fee Settlement</a>
+<a class="block py-1" href="#">Payment History</a>
+<a class="block py-1" href="#">Virtual Account</a>
+<a class="block py-1" href="#">Receipts</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Refunds &amp; Settlement</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">Refund Requests</a>
+<a class="block py-1" href="#">Refund Account</a>
+<a class="block py-1" href="#">Settlement History</a>
+<a class="block py-1" href="#">Tax Invoice</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">Education</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Courses</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">Course List</a>
+<a class="block py-1" href="#">Course Details</a>
+<a class="block py-1" href="#">Enrollment</a>
+<a class="block py-1" href="#">My Learning</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Completion</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">Progress Management</a>
+<a class="block py-1" href="#">Survey</a>
+<a class="block py-1" href="#">Certificate of Completion</a>
+<a class="block py-1" href="#">Qualification Linkage</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">My Page</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Member Information</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="/mypage/en">My Information</a>
+<a class="block py-1" href="#">Company Info</a>
+<a class="block py-1" href="#">Manager Accounts</a>
+<a class="block py-1" href="#">Notification Settings</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Account Management</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">Password Change</a>
+<a class="block py-1" href="#">Change Email/Phone</a>
+<a class="block py-1" href="#">Security Settings</a>
+<a class="block py-1" href="#">Marketing Preferences</a>
+</div>
+</section>
+<section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
+<h3 class="text-sm font-extrabold text-[var(--kr-gov-blue)] mb-2">Support</h3>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Customer Center</p>
+<div class="space-y-1 text-sm mb-2">
+<a class="block py-1" href="#">Announcements</a>
+<a class="block py-1" href="#">FAQ</a>
+<a class="block py-1" href="#">Q&amp;A</a>
+<a class="block py-1" href="#">Resources</a>
+</div>
+<p class="text-xs font-bold text-[var(--kr-gov-text-secondary)] mt-2 mb-1">Inquiry</p>
+<div class="space-y-1 text-sm">
+<a class="block py-1" href="#">1:1 Inquiry</a>
+<a class="block py-1" href="#">My Inquiries</a>
+<a class="block py-1" href="#">Service Status</a>
+<a class="block py-1" href="#">Version Information</a>
+</div>
+</section>
+</div>
+</aside>
+</div>
 <main id="main-content">
 <section class="relative h-[480px] bg-slate-900 overflow-hidden">
 <div class="absolute inset-0">
@@ -351,5 +697,44 @@ onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type'
 </div>
 </div>
 </footer>
+<script>
+    (function () {
+        var toggleBtn = document.getElementById('mobile-menu-toggle');
+        var menu = document.getElementById('mobile-menu');
+        var closeBtn = document.getElementById('mobile-menu-close');
+        var backdrop = document.getElementById('mobile-menu-backdrop');
+        if (!toggleBtn || !menu || !closeBtn || !backdrop) {
+            return;
+        }
 
+        function openMenu() {
+            menu.classList.remove('hidden');
+            document.body.classList.add('mobile-menu-open');
+            toggleBtn.setAttribute('aria-expanded', 'true');
+            menu.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeMenu() {
+            menu.classList.add('hidden');
+            document.body.classList.remove('mobile-menu-open');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            menu.setAttribute('aria-hidden', 'true');
+        }
+
+        toggleBtn.addEventListener('click', function () {
+            if (menu.classList.contains('hidden')) {
+                openMenu();
+            } else {
+                closeMenu();
+            }
+        });
+        closeBtn.addEventListener('click', closeMenu);
+        backdrop.addEventListener('click', closeMenu);
+        window.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeMenu();
+            }
+        });
+    })();
+</script>
 </body></html>
