@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller("uiaEgovLoginManageController")
 @RequestMapping({"/signin", "/admin/login"})
@@ -32,6 +34,9 @@ public class EgovLoginManageController {
     public String loginView(@RequestParam(value = "language", required = false) String language, LoginVO loginVO,
             Model model, HttpServletRequest request) {
         boolean adminLoginRequest = request.getRequestURI().startsWith("/admin/login");
+        if (!adminLoginRequest && isAdminMainRequested(request)) {
+            return "redirect:/admin/login/loginView";
+        }
         String accessToken = jwtProvider.getCookie(request, "accessToken");
         if (ObjectUtils.isEmpty(accessToken)) {
             loginVO = new LoginVO();
@@ -45,6 +50,22 @@ public class EgovLoginManageController {
         } else {
             return adminLoginRequest ? "redirect:/adminmain/" : "redirect:/home";
         }
+    }
+
+    private boolean isAdminMainRequested(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Object savedRequest = session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+            if (savedRequest instanceof DefaultSavedRequest) {
+                String redirectUrl = ((DefaultSavedRequest) savedRequest).getRedirectUrl();
+                if (!ObjectUtils.isEmpty(redirectUrl) && redirectUrl.contains("/adminmain")) {
+                    return true;
+                }
+            }
+        }
+
+        String referer = request.getHeader("Referer");
+        return !ObjectUtils.isEmpty(referer) && referer.contains("/adminmain");
     }
 
     @GetMapping("/authChoice")
