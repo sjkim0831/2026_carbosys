@@ -1,14 +1,27 @@
 package egovframework.com.web;
 
+import egovframework.com.uat.uia.util.EgovJwtProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
+@RequestMapping("/adminmain")
+@RequiredArgsConstructor
 public class EgovAdminMainManageController {
 
-    @RequestMapping(value = { "/", "" }, method = { RequestMethod.GET, RequestMethod.POST })
-    public String index() {
+    private final EgovJwtProvider jwtProvider;
+
+    @RequestMapping(value = { "", "/" }, method = { RequestMethod.GET, RequestMethod.POST })
+    public String adminMainEntry(HttpServletRequest request) {
+        String accessToken = jwtProvider.getCookie(request, "accessToken");
+        if (ObjectUtils.isEmpty(accessToken)) {
+            return "redirect:/admin/login/loginView";
+        }
         return "egovframework/com/adminmain/index";
     }
 

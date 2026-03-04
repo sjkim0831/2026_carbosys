@@ -43,7 +43,7 @@ public class EgovLoginManageController {
             return adminLoginRequest ? "egovframework/com/uat/uia/admin_login"
                     : "egovframework/com/uat/uia/login";
         } else {
-            return "redirect:/home";
+            return adminLoginRequest ? "redirect:/adminmain/" : "redirect:/home";
         }
     }
 
