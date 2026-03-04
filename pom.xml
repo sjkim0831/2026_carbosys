@@ -13,11 +13,9 @@
 		<module>module/EgovBoard</module>
 		<module>module/EgovCmmnCode</module>
 		<module>module/EgovLogin</module>
-		<module>module/EgovAdminLogin</module>
 		<module>module/EgovLoginPolicy</module>
 		<module>module/EgovSR</module>
 		<module>module/EgovMain</module>
-		<module>module/EgovAdminMain</module>
 		<module>module/EgovHome</module>
 		<module>module/EgovMobileId</module>
 		<module>module/EgovQuestionnaire</module>

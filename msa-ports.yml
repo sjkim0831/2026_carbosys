@@ -8,8 +8,6 @@ ports:
   GatewayServer: 9000
   
   # Admin Modules
-  EgovAdminMain: 18020
-  EgovAdminLogin: 18021
   EgovMsaManager: 18030
   
   # Core Business Modules

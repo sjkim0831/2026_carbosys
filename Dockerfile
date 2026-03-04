@@ -39,8 +39,6 @@ COPY module/EgovSearch/target/EgovSearch.jar /app/
 COPY module/EgovMobileId/target/EgovMobileId.jar /app/
 COPY module/EgovLoginPolicy/target/EgovLoginPolicy.jar /app/
 COPY module/EgovSR/target/EgovSR.jar /app/
-COPY module/EgovAdminLogin/target/EgovAdminLogin.jar /app/
-COPY module/EgovAdminMain/target/EgovAdminMain.jar /app/
 COPY module/EgovCertLogin/target/EgovCertLogin.jar /app/
 COPY module/EgovSimpleAuth/target/EgovSimpleAuth.jar /app/
 COPY module/EgovGnrLogin/target/EgovGnrLogin.jar /app/
@@ -49,8 +47,8 @@ COPY module/EgovHome/target/EgovHome.jar /app/
 # Create target directories so MsaScanner and other tools find files in their standard locations
 RUN mkdir -p /app/EgovMain/target /app/EgovLogin/target /app/EgovBoard/target \
     /app/EgovAuthor/target /app/EgovCmmnCode/target /app/EgovQuestionnaire/target /app/EgovSearch/target \
-    /app/EgovMobileId/target /app/EgovLoginPolicy/target /app/EgovSR/target /app/EgovAdminMain/target \
-    /app/EgovAdminLogin/target /app/EgovCertLogin/target /app/EgovSimpleAuth/target /app/EgovGnrLogin/target /app/EgovMsaManager/target \
+    /app/EgovMobileId/target /app/EgovLoginPolicy/target /app/EgovSR/target /app/EgovCertLogin/target \
+    /app/EgovSimpleAuth/target /app/EgovGnrLogin/target /app/EgovMsaManager/target \
     /app/EgovHome/target && \
     ln -sf /app/EgovMain.jar /app/EgovMain/target/EgovMain.jar && \
     ln -sf /app/EgovLogin.jar /app/EgovLogin/target/EgovLogin.jar && \
@@ -62,8 +60,6 @@ RUN mkdir -p /app/EgovMain/target /app/EgovLogin/target /app/EgovBoard/target \
     ln -sf /app/EgovMobileId.jar /app/EgovMobileId/target/EgovMobileId.jar && \
     ln -sf /app/EgovLoginPolicy.jar /app/EgovLoginPolicy/target/EgovLoginPolicy.jar && \
     ln -sf /app/EgovSR.jar /app/EgovSR/target/EgovSR.jar && \
-    ln -sf /app/EgovAdminMain.jar /app/EgovAdminMain/target/EgovAdminMain.jar && \
-    ln -sf /app/EgovAdminLogin.jar /app/EgovAdminLogin/target/EgovAdminLogin.jar && \
     ln -sf /app/EgovCertLogin.jar /app/EgovCertLogin/target/EgovCertLogin.jar && \
     ln -sf /app/EgovSimpleAuth.jar /app/EgovSimpleAuth/target/EgovSimpleAuth.jar && \
     ln -sf /app/EgovGnrLogin.jar /app/EgovGnrLogin/target/EgovGnrLogin.jar && \
