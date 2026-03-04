@@ -72,6 +72,35 @@ public class EgovLoginManageController {
         return "egovframework/com/uat/uia/find_id_overseas";
     }
 
+    @GetMapping("/findPassword")
+    public String findPassword(@RequestParam(value = "language", required = false) String language, Model model) {
+        model.addAttribute("activeTab", "domestic");
+        model.addAttribute("language", language);
+        if ("en".equals(language)) {
+            return "egovframework/com/uat/uia/find_password_en";
+        }
+        return "egovframework/com/uat/uia/find_password";
+    }
+
+    @GetMapping("/findPassword/overseas")
+    public String findPasswordOverseas(@RequestParam(value = "language", required = false) String language, Model model) {
+        model.addAttribute("activeTab", "overseas");
+        model.addAttribute("language", language);
+        if ("en".equals(language)) {
+            return "egovframework/com/uat/uia/find_password_overseas_en";
+        }
+        return "egovframework/com/uat/uia/find_password_overseas";
+    }
+
+    @GetMapping("/findPassword/result")
+    public String findPasswordResult(@RequestParam(value = "language", required = false) String language, Model model) {
+        model.addAttribute("language", language);
+        if ("en".equals(language)) {
+            return "egovframework/com/uat/uia/find_password_result_en";
+        }
+        return "egovframework/com/uat/uia/find_password_result";
+    }
+
     @GetMapping("/findId/result")
     public String findIdResult(@RequestParam(value = "language", required = false) String language,
             @RequestParam(value = "applcntNm", required = false) String applcntNm,

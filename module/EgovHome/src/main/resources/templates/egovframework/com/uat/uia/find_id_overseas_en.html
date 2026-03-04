@@ -118,16 +118,16 @@
 <label class="block text-sm font-bold text-[var(--kr-gov-text-secondary)] mb-2" for="user-email">Email Address</label>
 <div class="flex gap-2">
 <input class="flex-grow h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all" id="user-email" placeholder="example@institution.go.kr" type="email"/>
-<button class="px-6 h-14 bg-gray-100 text-[var(--kr-gov-text-secondary)] font-bold border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] hover:bg-gray-200 transition-colors whitespace-nowrap">Send Verification Code</button>
+<button class="px-6 h-14 bg-gray-100 text-[var(--kr-gov-text-secondary)] font-bold border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] hover:bg-gray-200 transition-colors whitespace-nowrap" type="button" onclick="sendVerificationCode('en')">Send Verification Code</button>
 </div>
 <p class="mt-2 text-xs text-blue-600 font-medium">* For overseas users, official institutional email verification is required.</p>
 </div>
 <div>
 <label class="block text-sm font-bold text-[var(--kr-gov-text-secondary)] mb-2" for="auth-code">Verification Code</label>
-<input class="w-full h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all" id="auth-code" placeholder="Enter the 6-digit verification code" type="text"/>
+<input class="w-full h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all" id="auth-code" placeholder="Enter the 6-digit verification code" type="text" maxlength="6" inputmode="numeric"/>
 </div>
 </div>
-<button class="w-full h-16 bg-[var(--kr-gov-blue)] text-white text-xl font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors focus-visible" type="button">
+<button class="w-full h-16 bg-[var(--kr-gov-blue)] text-white text-xl font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors focus-visible" type="button" onclick="submitFindId('en')">
                         Find ID
                     </button>
 </div>
@@ -144,7 +144,7 @@
 <a class="w-full h-16 bg-[var(--kr-gov-blue)] text-white text-xl font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors flex items-center justify-center" href="/login">
                             Go to Login Screen
                         </a>
-<a class="w-full h-16 bg-white border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] text-xl font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors flex items-center justify-center" href="/reset-password">
+<a class="w-full h-16 bg-white border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] text-xl font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors flex items-center justify-center" href="/signin/findPassword/overseas?language=en">
                             Reset Password
                         </a>
 </div>
@@ -186,5 +186,65 @@
 </div>
 </div>
 </footer>
+<script>
+    function sendVerificationCode(language) {
+        const emailInput = document.getElementById('user-email');
+        const email = emailInput ? emailInput.value.trim() : '';
+        if (!email) {
+            alert(language === 'en' ? 'Please enter your email address.' : '이메일 주소를 입력해 주세요.');
+            if (emailInput) {
+                emailInput.focus();
+            }
+            return;
+        }
+        const code = String(Math.floor(Math.random() * 1000000)).padStart(6, '0');
+        window.__findIdVerificationCode = code;
+        const authCodeInput = document.getElementById('auth-code');
+        if (authCodeInput) {
+            authCodeInput.value = '';
+            authCodeInput.focus();
+        }
+        alert((language === 'en' ? 'Verification code: ' : '인증번호: ') + code);
+    }
 
+    function submitFindId(language) {
+        const nameInput = document.getElementById('user-name');
+        const emailInput = document.getElementById('user-email');
+        const codeInput = document.getElementById('auth-code');
+
+        const name = (nameInput?.value || '').trim();
+        const email = (emailInput?.value || '').trim();
+        const enteredCode = (codeInput?.value || '').trim();
+        const sentCode = window.__findIdVerificationCode || '';
+
+        if (!name || !email) {
+            alert(language === 'en' ? 'Please enter your name and email.' : '성명과 이메일을 입력해 주세요.');
+            return;
+        }
+        if (!sentCode) {
+            alert(language === 'en' ? 'Please send the verification code first.' : '먼저 인증번호를 발송해 주세요.');
+            return;
+        }
+        if (!enteredCode) {
+            alert(language === 'en' ? 'Please enter the verification code.' : '인증번호를 입력해 주세요.');
+            if (codeInput) {
+                codeInput.focus();
+            }
+            return;
+        }
+        if (enteredCode !== sentCode) {
+            alert(language === 'en' ? 'The verification code does not match.' : '인증번호가 일치하지 않습니다.');
+            if (codeInput) {
+                codeInput.focus();
+            }
+            return;
+        }
+
+        let url = '/signin/findId/result?applcntNm=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email);
+        if (language === 'en') {
+            url += '&language=en';
+        }
+        location.href = url;
+    }
+</script>
 </body></html>
