@@ -42,67 +42,78 @@
                 <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
                     data-domain="모니터링" href="#">모니터링</a>
             </nav>
-            <div class="flex items-center gap-1">
-                <div class="relative help-button">
-                    <button
-                        class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full flex items-center gap-1.5">
-                        <span class="material-symbols-outlined">help</span>
-                        <span class="text-[14px] font-bold hidden lg:inline">도움말</span>
-                    </button>
-                    <div class="help-tooltip">
-                        <h4 class="font-bold text-[var(--kr-gov-blue)] mb-2 flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[18px]">info</span> 도움말 안내
-                        </h4>
-                        <p class="text-[12px] text-[var(--kr-gov-text-secondary)]">관리자 페이지의 각 메뉴 기능을 안내합니다.</p>
-                    </div>
-                </div>
-                <button class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full relative">
-                    <span class="material-symbols-outlined">notifications</span>
-                    <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-                </button>
-                <button class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full">
-                    <span class="material-symbols-outlined">settings</span>
-                </button>
-            </div>
+<div class="flex items-center gap-1">
+<div class="relative help-button">
+<button aria-label="도움말" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full flex items-center gap-1.5">
+<span class="material-symbols-outlined">help</span>
+<span class="text-[14px] font-bold hidden lg:inline">도움말</span>
+</button>
+<div class="help-tooltip">
+<h4 class="font-bold text-[var(--kr-gov-blue)] mb-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">info</span>
+                                대시보드 가이드
+                            </h4>
+<ul class="space-y-2 text-[12px] text-[var(--kr-gov-text-secondary)]">
+<li class="flex gap-2"><span class="text-blue-500">•</span> 상단 카드는 실시간 주요 지표를 요약하여 표시합니다.</li>
+<li class="flex gap-2"><span class="text-blue-500">•</span> 미승인 회원은 '승인' 버튼을 통해 즉시 처리가 가능합니다.</li>
+<li class="flex gap-2"><span class="text-blue-500">•</span> 시스템 로그의 'CRITICAL' 항목은 즉각적인 조치가 필요합니다.</li>
+</ul>
+<button class="mt-3 w-full py-1.5 bg-[var(--kr-gov-bg-gray)] text-[11px] font-bold rounded hover:bg-gray-200">상세 매뉴얼 다운로드</button>
+</div>
+</div>
+<button aria-label="알림" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+</button>
+<button aria-label="설정" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
         </div>
     </div>
 <style>
-    .gnb-tree-group {
-        border: 1px solid #f1f5f9;
+    .js-admin-lnb .admin-sidebar-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 1rem;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--kr-gov-text-secondary);
         border-radius: var(--kr-gov-radius);
-        background: #f8fafc;
-        margin-bottom: 8px;
+        transition: background-color .15s ease;
     }
-    .gnb-tree-title {
+    .js-admin-lnb .admin-sidebar-link.active {
+        background: var(--kr-gov-blue);
+        color: #fff;
+        font-weight: 700;
+    }
+    .js-admin-lnb .gnb-tree-group {
+        margin-bottom: 1rem;
+    }
+    .js-admin-lnb .gnb-tree-title {
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 10px 12px;
-        font-size: 14px;
-        font-weight: 700;
-        color: var(--kr-gov-text-primary);
+        padding: .5rem;
+        margin-bottom: .25rem;
+        font-size: 13px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: .05em;
         border: 0;
         background: transparent;
         cursor: pointer;
     }
-    .gnb-tree-links {
-        padding: 0 8px 8px;
-    }
-    .gnb-tree-links a {
-        display: block;
-        padding: 8px 10px;
-        margin-top: 6px;
-        border-radius: var(--kr-gov-radius);
-        border: 1px solid var(--kr-gov-border-light);
-        color: var(--kr-gov-text-secondary);
-        text-decoration: none;
-        font-size: 13px;
-        background: #fff;
-    }
-    .gnb-tree-links a:hover {
+    .js-admin-lnb .gnb-tree-title.active {
         color: var(--kr-gov-blue);
-        border-color: var(--kr-gov-blue);
+    }
+    .js-admin-lnb .gnb-tree-title.inactive {
+        color: #9ca3af;
+    }
+    .js-admin-lnb .gnb-tree-links {
+        margin-left: .5rem;
     }
 </style>
 
@@ -154,44 +165,109 @@
         }
 
         function renderLnb(domain) {
+            var isEn = (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0;
             var groups = (domainMenus[domain] && domainMenus[domain].groups) ? domainMenus[domain].groups : [];
+            var currentPath = window.location.pathname || "";
+            var activeAssigned = false;
+            function groupIcon(title) {
+                if (title.indexOf("회원") !== -1 || title.indexOf("Members") !== -1) return "group";
+                if (title.indexOf("권한") !== -1 || title.indexOf("Permissions") !== -1) return "admin_panel_settings";
+                if (title.indexOf("이력") !== -1 || title.indexOf("History") !== -1) return "history";
+                if (title.indexOf("배출") !== -1) return "co2";
+                if (title.indexOf("인증") !== -1) return "verified";
+                if (title.indexOf("감사") !== -1) return "fact_check";
+                if (title.indexOf("거래") !== -1) return "receipt_long";
+                if (title.indexOf("정산") !== -1) return "payments";
+                if (title.indexOf("환불") !== -1) return "currency_exchange";
+                if (title.indexOf("게시판") !== -1) return "article";
+                if (title.indexOf("가시요소") !== -1) return "deployed_code";
+                if (title.indexOf("지원") !== -1) return "support_agent";
+                if (title.indexOf("연계") !== -1) return "hub";
+                if (title.indexOf("API") !== -1) return "api";
+                if (title.indexOf("운영") !== -1) return "dns";
+                if (title.indexOf("환경") !== -1) return "settings";
+                if (title.indexOf("보안") !== -1) return "security";
+                if (title.indexOf("로그") !== -1) return "history";
+                if (title.indexOf("백업") !== -1) return "backup";
+                if (title.indexOf("대시보드") !== -1) return "dashboard";
+                if (title.indexOf("센서") !== -1) return "sensors";
+                if (title.indexOf("성능") !== -1) return "monitoring";
+                return "folder";
+            }
+            function subIcon(text) {
+                if (text.indexOf("목록") !== -1 || text.indexOf("List") !== -1) return "list_alt";
+                if (text.indexOf("승인") !== -1 || text.indexOf("Approve") !== -1 || text.indexOf("Approval") !== -1) return "how_to_reg";
+                if (text.indexOf("상세") !== -1 || text.indexOf("Detail") !== -1) return "person_search";
+                if (text.indexOf("통계") !== -1 || text.indexOf("Statistics") !== -1 || text.indexOf("Stat") !== -1) return "bar_chart";
+                if (text.indexOf("설정") !== -1 || text.indexOf("Config") !== -1 || text.indexOf("Setting") !== -1) return "settings";
+                if (text.indexOf("로그") !== -1 || text.indexOf("Log") !== -1 || text.indexOf("이력") !== -1 || text.indexOf("History") !== -1) return "history";
+                if (text.indexOf("권한") !== -1 || text.indexOf("Role") !== -1 || text.indexOf("Permission") !== -1) return "admin_panel_settings";
+                if (text.indexOf("계정") !== -1 || text.indexOf("Account") !== -1) return "badge";
+                if (text.indexOf("검색") !== -1 || text.indexOf("Search") !== -1) return "search";
+                if (text.indexOf("대시보드") !== -1 || text.indexOf("Dashboard") !== -1) return "dashboard";
+                if (text.indexOf("모니터링") !== -1 || text.indexOf("Monitoring") !== -1) return "monitoring";
+                if (text.indexOf("배너") !== -1 || text.indexOf("Banner") !== -1) return "ad";
+                if (text.indexOf("팝업") !== -1 || text.indexOf("Popup") !== -1) return "open_in_new";
+                if (text.indexOf("API") !== -1) return "api";
+                if (text.indexOf("백업") !== -1 || text.indexOf("Backup") !== -1 || text.indexOf("복구") !== -1 || text.indexOf("Restore") !== -1) return "backup";
+                return "chevron_right";
+            }
             var groupsHtml = groups.map(function (group, idx) {
-                var linksHtml = group.links.map(function (item) {
+                var linksHtml = group.links.map(function (item, linkIdx) {
                     var href = item.href || item.u || "#";
                     if (href.indexOf("../../../Downloads/") === 0) {
                         href = "#";
                     }
                     var text = item.text || item.t || "";
-                    return '<a href="' + href + '">' + text + '</a>';
+                    var isActive = false;
+                    if (!activeAssigned && href !== "#" && currentPath === href) {
+                        isActive = true;
+                    } else if (!activeAssigned && idx === 0 && linkIdx === 0) {
+                        isActive = true;
+                    }
+                    if (isActive) {
+                        activeAssigned = true;
+                    }
+                    return '<a class="admin-sidebar-link' + (isActive ? ' active' : '') + '" href="' + href + '"><span class="material-symbols-outlined text-[20px]">' + subIcon(text) + '</span>' + text + '</a>';
                 }).join("");
                 return '' +
                     '<div class="gnb-tree-group">' +
-                    '<button class="gnb-tree-title" type="button">' + group.title + '<span>' + (idx === 0 ? "−" : "+") + '</span></button>' +
+                    '<button class="gnb-tree-title ' + (idx === 0 ? 'active' : 'inactive') + '" type="button">' +
+                    '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[20px]">' + groupIcon(group.title) + '</span>' + group.title + '</span>' +
+                    '<span class="material-symbols-outlined text-[18px] gnb-toggle-icon">' + (idx === 0 ? "expand_more" : "chevron_right") + '</span></button>' +
                     '<div class="gnb-tree-links" style="' + (idx === 0 ? "" : "display:none;") + '">' + linksHtml + '</div>' +
                     '</div>';
             }).join("");
 
             lnb.innerHTML = '' +
-                '<div class="mb-4 px-2 py-2 flex items-center justify-between">' +
-                '<h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">' + domain + '</h2>' +
-                '<span class="material-symbols-outlined text-gray-400">menu_open</span>' +
+                '<div class="mb-6"><div class="relative">' +
+                '<input class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-[var(--kr-gov-radius)] text-sm focus:ring-2 focus:ring-[var(--kr-gov-blue)] focus:border-[var(--kr-gov-blue)] outline-none" id="gnbMenuFilter" placeholder="' + (isEn ? 'Search menu (e.g. log, approval)' : '메뉴 검색 (예: 로그, 승인)') + '" type="text">' +
+                '<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[20px]">search</span>' +
                 '</div>' +
-                '<input class="w-full px-3 py-2 text-sm border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] mb-3" id="gnbMenuFilter" placeholder="메뉴 검색" type="text">' +
-                '<div id="gnbTreeWrap">' + groupsHtml + '</div>' +
-                '<div class="mt-auto border-t pt-4 border-[var(--kr-gov-border-light)]">' +
-                '<div class="p-4 bg-emerald-50 rounded-[var(--kr-gov-radius)] text-[13px]">' +
-                '<p class="font-bold text-[var(--kr-gov-green)] mb-1">시스템 상태: 정상</p>' +
-                '<p class="text-[var(--kr-gov-text-secondary)]">2025.08 가이드라인 적용</p>' +
+                '<div class="space-y-1 overflow-y-auto" id="gnbTreeWrap">' + groupsHtml + '</div>' +
+                '<div class="mt-auto border-t pt-5 border-[var(--kr-gov-border-light)]">' +
+                '<div class="p-4 bg-blue-50 rounded-[var(--kr-gov-radius)] border border-blue-100">' +
+                '<p class="text-[12px] font-bold text-[var(--kr-gov-blue)] mb-1">' + (isEn ? (domain + ' Domain Active') : (domain + ' 도메인 활성화')) + '</p>' +
+                '<p class="text-[11px] text-[var(--kr-gov-text-secondary)]">' + (isEn ? ('Currently displaying ' + groups.reduce(function(acc, g){ return acc + g.links.length; }, 0) + ' menus') : ('현재 전체 메뉴 ' + groups.reduce(function(acc, g){ return acc + g.links.length; }, 0) + '개 노출 중')) + '</p>' +
                 '</div>' +
                 '</div>';
 
             Array.prototype.forEach.call(lnb.querySelectorAll(".gnb-tree-title"), function (btn) {
                 btn.addEventListener("click", function () {
                     var links = btn.nextElementSibling;
-                    var marker = btn.querySelector("span");
+                    var marker = btn.querySelector(".gnb-toggle-icon");
                     var open = links.style.display !== "none";
                     links.style.display = open ? "none" : "";
-                    marker.textContent = open ? "+" : "−";
+                    marker.textContent = open ? "chevron_right" : "expand_more";
+                });
+            });
+
+            Array.prototype.forEach.call(lnb.querySelectorAll(".admin-sidebar-link"), function (a) {
+                a.addEventListener("click", function () {
+                    Array.prototype.forEach.call(lnb.querySelectorAll(".admin-sidebar-link.active"), function (activeEl) {
+                        activeEl.classList.remove("active");
+                    });
+                    a.classList.add("active");
                 });
             });
 
