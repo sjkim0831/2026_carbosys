@@ -26,22 +26,21 @@
                     </div>
                 </div>
             </div>
-            <nav class="hidden xl:flex items-center space-x-2 h-full">
-                <a class="px-5 py-2 text-[16px] font-bold"
-                    th:classappend="${#httpServletRequest.requestURI == '/adminmain/member/stats'} ? 'text-[var(--kr-gov-blue)] border-b-4 border-[var(--kr-gov-blue)]' : 'text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]'"
-                    href="/adminmain/member/stats">회원관리</a>
-                <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                    href="#">배출/인증</a>
-                <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                    href="#">거래/정산</a>
-                <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                    href="#">콘텐츠</a>
-                <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                    href="#">외부연계</a>
-                <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                    href="#">시스템</a>
-                <a class="px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                    href="#">모니터링</a>
+            <nav class="hidden xl:flex items-center space-x-2 h-full" id="adminGnbMenu">
+                <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
+                    data-domain="회원관리" href="/adminmain/member/stats">회원관리</a>
+                <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
+                    data-domain="배출/인증" href="#">배출/인증</a>
+                <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
+                    data-domain="거래/정산" href="#">거래/정산</a>
+                <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
+                    data-domain="콘텐츠" href="#">콘텐츠</a>
+                <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
+                    data-domain="외부연계" href="#">외부연계</a>
+                <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
+                    data-domain="시스템" href="#">시스템</a>
+                <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
+                    data-domain="모니터링" href="#">모니터링</a>
             </nav>
             <div class="flex items-center gap-1">
                 <div class="relative help-button">
@@ -67,6 +66,184 @@
             </div>
         </div>
     </div>
+<style>
+    .gnb-tree-group {
+        border: 1px solid #f1f5f9;
+        border-radius: var(--kr-gov-radius);
+        background: #f8fafc;
+        margin-bottom: 8px;
+    }
+    .gnb-tree-title {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--kr-gov-text-primary);
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+    }
+    .gnb-tree-links {
+        padding: 0 8px 8px;
+    }
+    .gnb-tree-links a {
+        display: block;
+        padding: 8px 10px;
+        margin-top: 6px;
+        border-radius: var(--kr-gov-radius);
+        border: 1px solid var(--kr-gov-border-light);
+        color: var(--kr-gov-text-secondary);
+        text-decoration: none;
+        font-size: 13px;
+        background: #fff;
+    }
+    .gnb-tree-links a:hover {
+        color: var(--kr-gov-blue);
+        border-color: var(--kr-gov-blue);
+    }
+</style>
+
+<script>
+    window.addEventListener("DOMContentLoaded", function () {
+        var domainMenus = {
+            "회원관리": { summary: "회원 생애주기(가입/승인/권한/탈퇴)와 접근 이력 관리", groups: [
+                { title: "회원", links: [{ t: "회원 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/approve.html" }, { t: "회원 상세", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/detail.html" }, { t: "탈퇴 회원", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/withdrawn.html" }, { t: "휴면 계정", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/activate.html" }] },
+                { title: "권한", links: [{ t: "권한 그룹", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/role.html" }, { t: "권한 변경", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/role.html" }, { t: "부서 권한 맵핑", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/access_log.html" }] },
+                { title: "이력", links: [{ t: "로그인 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/login_history.html" }, { t: "접근 차단 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/security.html" }, { t: "비밀번호 초기화 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/reset_password.html" }] }
+            ]},
+            "배출/인증": { summary: "배출량 산정 결과 검토 및 인증서 발급 프로세스 운영", groups: [
+                { title: "배출", links: [{ t: "산정 결과 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/emission/result_list.html" }, { t: "결과 상세", u: "../../../Downloads/화면설계/화면설계/화면/admin/emission/result_detail.html" }, { t: "데이터 변경 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/emission/data_history.html" }, { t: "검증 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/emission/validate.html" }] },
+                { title: "인증", links: [{ t: "발급 검토", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/review.html" }, { t: "이의신청 처리", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/objection_list.html" }, { t: "인증서 통계", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/statistics.html" }, { t: "REC 중복 확인", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/rec_check.html" }] },
+                { title: "감사", links: [{ t: "감사 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/audit_log.html" }, { t: "승인자 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/pending_list.html" }, { t: "반려 사유 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/approve.html" }] }
+            ]},
+            "거래/정산": { summary: "거래 승인, 이상거래 모니터링, 결제/정산/환불 처리", groups: [
+                { title: "거래", links: [{ t: "거래 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/trade/list.html" }, { t: "거래 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/trade/approve.html" }, { t: "거래 거절", u: "../../../Downloads/화면설계/화면설계/화면/admin/trade/reject.html" }, { t: "이상거래 점검", u: "../../../Downloads/화면설계/화면설계/화면/admin/trade/duplicate.html" }] },
+                { title: "정산", links: [{ t: "수수료 설정", u: "../../../Downloads/화면설계/화면설계/화면/admin/payment/commission.html" }, { t: "정산 리포트", u: "../../../Downloads/화면설계/화면설계/화면/admin/trade/statistics.html" }, { t: "정산 캘린더", u: "../../../Downloads/화면설계/화면설계/화면/admin/payment/settlement.html" }] },
+                { title: "환불", links: [{ t: "환불 요청 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/payment/refund_list.html" }, { t: "환불 처리", u: "../../../Downloads/화면설계/화면설계/화면/admin/payment/refund_process.html" }, { t: "환불 계좌 검수", u: "../../../Downloads/화면설계/화면설계/화면/admin/payment/virtual_issue.html" }] }
+            ]},
+            "콘텐츠": { summary: "공지/FAQ/게시판/배너/팝업 등 대민 콘텐츠 운영", groups: [
+                { title: "게시판", links: [{ t: "게시판 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/board_list.html" }, { t: "게시글 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/post_list.html" }, { t: "공지 배포", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/board_add.html" }, { t: "첨부파일 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/file.html" }] },
+                { title: "가시요소", links: [{ t: "배너 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/banner_list.html" }, { t: "배너 편집", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/banner_edit.html" }, { t: "팝업 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/popup_list.html" }, { t: "팝업 스케줄", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/popup_edit.html" }] },
+                { title: "지원", links: [{ t: "FAQ 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/faq_list.html" }, { t: "Q&A 분류", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/tag.html" }, { t: "태그 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/tag.html" }, { t: "메뉴 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/menu.html" }] }
+            ]},
+            "외부연계": { summary: "외부 API/플랫폼 연계 상태와 키/스키마/재시도 정책 관리", groups: [
+                { title: "연계", links: [{ t: "연계 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/connection_list.html" }, { t: "연계 등록", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/connection_add.html" }, { t: "연계 수정", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/connection_edit.html" }, { t: "동기화 실행", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/sync.html" }] },
+                { title: "API", links: [{ t: "API 키", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/keys.html" }, { t: "API 사용량", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/usage.html" }, { t: "웹훅 설정", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/webhooks.html" }, { t: "스키마 맵핑", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/schema.html" }] },
+                { title: "운영", links: [{ t: "연계 모니터링", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/monitoring.html" }, { t: "실패 재처리", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/retry.html" }, { t: "연계 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/logs.html" }, { t: "점검 모드", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/maintenance.html" }] }
+            ]},
+            "시스템": { summary: "설정/보안/로그/백업/복구 등 플랫폼 운영 핵심 기능", groups: [
+                { title: "환경", links: [{ t: "환경설정", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/config.html" }, { t: "코드 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/code.html" }, { t: "모듈 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/module.html" }, { t: "테마 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/theme.html" }] },
+                { title: "보안", links: [{ t: "IP 화이트리스트", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/ip_whitelist.html" }, { t: "세션 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/session.html" }, { t: "SSL 인증서", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/ssl.html" }, { t: "보안 정책", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/security.html" }] },
+                { title: "로그", links: [{ t: "접속 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/access_history.html" }, { t: "감사 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/audit_log.html" }, { t: "에러 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/error_log.html" }, { t: "통합 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/unified_log.html" }] },
+                { title: "백업", links: [{ t: "백업 설정", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/backup_config.html" }, { t: "백업 실행", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/backup.html" }, { t: "복구 실행", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/restore.html" }, { t: "버전 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/version.html" }] }
+            ]},
+            "모니터링": { summary: "서비스/센서/인프라 실시간 상태 감시 및 경보 관리", groups: [
+                { title: "대시보드", links: [{ t: "통합 대시보드", u: "../../../Downloads/화면설계/화면설계/화면/admin/monitoring/index.html" }, { t: "운영센터", u: "../../../Downloads/화면설계/화면설계/화면/admin/monitoring/center.html" }, { t: "알림센터", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/notification.html" }] },
+                { title: "센서", links: [{ t: "센서 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/monitoring/sensor_list.html" }, { t: "센서 등록", u: "../../../Downloads/화면설계/화면설계/화면/admin/monitoring/sensor_add.html" }, { t: "센서 설정", u: "../../../Downloads/화면설계/화면설계/화면/admin/monitoring/sensor_edit.html" }] },
+                { title: "성능", links: [{ t: "응답속도", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/performance.html" }, { t: "배치 성능", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/batch.html" }, { t: "리소스 사용량", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/infra.html" }] }
+            ]}
+        };
+
+        var gnbLinks = Array.prototype.slice.call(document.querySelectorAll(".js-gnb-menu"));
+        var lnb = document.querySelector(".js-admin-lnb");
+        if (!gnbLinks.length || !lnb) {
+            return;
+        }
+
+        function renderLnb(domain) {
+            var groups = (domainMenus[domain] && domainMenus[domain].groups) ? domainMenus[domain].groups : [];
+            var groupsHtml = groups.map(function (group, idx) {
+                var linksHtml = group.links.map(function (item) {
+                    var href = item.href || item.u || "#";
+                    if (href.indexOf("../../../Downloads/") === 0) {
+                        href = "#";
+                    }
+                    var text = item.text || item.t || "";
+                    return '<a href="' + href + '">' + text + '</a>';
+                }).join("");
+                return '' +
+                    '<div class="gnb-tree-group">' +
+                    '<button class="gnb-tree-title" type="button">' + group.title + '<span>' + (idx === 0 ? "−" : "+") + '</span></button>' +
+                    '<div class="gnb-tree-links" style="' + (idx === 0 ? "" : "display:none;") + '">' + linksHtml + '</div>' +
+                    '</div>';
+            }).join("");
+
+            lnb.innerHTML = '' +
+                '<div class="mb-4 px-2 py-2 flex items-center justify-between">' +
+                '<h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">' + domain + '</h2>' +
+                '<span class="material-symbols-outlined text-gray-400">menu_open</span>' +
+                '</div>' +
+                '<input class="w-full px-3 py-2 text-sm border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] mb-3" id="gnbMenuFilter" placeholder="메뉴 검색" type="text">' +
+                '<div id="gnbTreeWrap">' + groupsHtml + '</div>' +
+                '<div class="mt-auto border-t pt-4 border-[var(--kr-gov-border-light)]">' +
+                '<div class="p-4 bg-emerald-50 rounded-[var(--kr-gov-radius)] text-[13px]">' +
+                '<p class="font-bold text-[var(--kr-gov-green)] mb-1">시스템 상태: 정상</p>' +
+                '<p class="text-[var(--kr-gov-text-secondary)]">2025.08 가이드라인 적용</p>' +
+                '</div>' +
+                '</div>';
+
+            Array.prototype.forEach.call(lnb.querySelectorAll(".gnb-tree-title"), function (btn) {
+                btn.addEventListener("click", function () {
+                    var links = btn.nextElementSibling;
+                    var marker = btn.querySelector("span");
+                    var open = links.style.display !== "none";
+                    links.style.display = open ? "none" : "";
+                    marker.textContent = open ? "+" : "−";
+                });
+            });
+
+            var filter = lnb.querySelector("#gnbMenuFilter");
+            filter.addEventListener("input", function () {
+                var keyword = filter.value.trim().toLowerCase();
+                Array.prototype.forEach.call(lnb.querySelectorAll(".gnb-tree-group"), function (groupEl) {
+                    var title = groupEl.querySelector(".gnb-tree-title").textContent.toLowerCase();
+                    var visibleCount = 0;
+                    Array.prototype.forEach.call(groupEl.querySelectorAll(".gnb-tree-links a"), function (a) {
+                        var show = a.textContent.toLowerCase().indexOf(keyword) !== -1 || title.indexOf(keyword) !== -1;
+                        a.style.display = show ? "" : "none";
+                        if (show) {
+                            visibleCount += 1;
+                        }
+                    });
+                    groupEl.style.display = visibleCount > 0 || keyword === "" ? "" : "none";
+                });
+            });
+        }
+
+        function setActive(domain) {
+            gnbLinks.forEach(function (link) {
+                var active = link.getAttribute("data-domain") === domain;
+                link.classList.toggle("text-[var(--kr-gov-blue)]", active);
+                link.classList.toggle("border-b-4", active);
+                link.classList.toggle("border-[var(--kr-gov-blue)]", active);
+                link.classList.toggle("text-[var(--kr-gov-text-secondary)]", !active);
+                link.classList.toggle("hover:text-[var(--kr-gov-blue)]", !active);
+            });
+        }
+
+        var savedDomain = window.localStorage.getItem("adminGnbDomain");
+        var currentDomain = domainMenus[savedDomain] ? savedDomain : "회원관리";
+        setActive(currentDomain);
+        renderLnb(currentDomain);
+
+        gnbLinks.forEach(function (link) {
+            link.addEventListener("click", function (e) {
+                var domain = link.getAttribute("data-domain");
+                if (!domainMenus[domain]) {
+                    return;
+                }
+                e.preventDefault();
+                window.localStorage.setItem("adminGnbDomain", domain);
+                setActive(domain);
+                renderLnb(domain);
+            });
+        });
+    });
+</script>
+
 </header>
 
 </html>
