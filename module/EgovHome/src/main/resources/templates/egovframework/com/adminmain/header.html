@@ -72,6 +72,27 @@
         </div>
     </div>
 <style>
+    .help-tooltip {
+        visibility: hidden;
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        top: 100%;
+        margin-top: 0.5rem;
+        width: 16rem;
+        padding: 1rem;
+        background: #fff;
+        border: 1px solid var(--kr-gov-border-light);
+        border-radius: var(--kr-gov-radius);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        z-index: 50;
+        font-size: 0.875rem;
+        transition: opacity .2s ease, visibility .2s ease;
+    }
+    .help-button:hover .help-tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
     .js-admin-lnb .admin-sidebar-link {
         display: flex;
         align-items: center;
