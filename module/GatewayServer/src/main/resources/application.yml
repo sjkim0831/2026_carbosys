@@ -30,7 +30,7 @@ spring:
 
       routes:
         - id: EgovAdminMain
-          uri: lb://EGOVADMINMAIN
+          uri: http://localhost:18000
           predicates:
             - Path=/adminmain/**
           filters:
@@ -41,7 +41,7 @@ spring:
             - RewritePath=/adminmain/(?<segment>.*), /${segment}
 
         - id: EgovAdminLogin
-          uri: lb://EGOVADMINLOGIN
+          uri: http://localhost:18000
           predicates:
             - Path=/admin/login/**
           filters:

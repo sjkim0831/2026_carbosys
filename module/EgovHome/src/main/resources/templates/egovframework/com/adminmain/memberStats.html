@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>관리자 회원 통계 현황 | CCUS 통합관리 시스템</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-green: #006b5d;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+        }
+        @layer base {
+            body { font-family: 'Noto Sans KR', 'Public Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+            line-height: 1.6;
+        }
+        .admin-sidebar-link {
+            @apply flex items-center gap-3 px-4 py-3 text-[15px] font-medium text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-[var(--kr-gov-radius)] transition-colors;
+        }
+        .admin-sidebar-link.active {
+            @apply bg-[var(--kr-gov-blue)] text-white font-bold;
+        }
+        .gov-card {
+            @apply border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white p-6 shadow-sm;
+        }
+        .chart-container {
+            @apply relative w-full h-64 flex items-center justify-center;
+        }
+        .donut-segment {
+            stroke-dasharray: 100 100;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 0.3s;
+        }
+        .help-tooltip {
+            @apply invisible opacity-0 absolute right-0 top-full mt-2 w-72 p-4 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] shadow-xl z-50 text-sm transition-all;
+        }
+        .help-button:hover .help-tooltip {
+            @apply visible opacity-100;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "secondary": "#006b5d",
+                        "gov-gray": "#767676",
+                        "chart-1": "#00378b",
+                        "chart-2": "#006b5d",
+                        "chart-3": "#ed6c02",
+                    },
+                    borderRadius: {
+                        'gov': '5px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-[#f8f9fa] text-[var(--kr-gov-text-primary)]">
+    <a class="skip-link" href="#main-content">본문 바로가기</a>
+
+    <!-- Header fragment inclusion -->
+    <div th:replace="~{egovframework/com/adminmain/header :: headerFragment}"></div>
+
+    <div class="flex min-h-[calc(100vh-124px)]">
+        <aside class="w-64 bg-white border-r border-[var(--kr-gov-border-light)] p-4 flex flex-col gap-2">
+            <div class="mb-4 px-2 py-2 flex items-center justify-between">
+                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Operation Tools</h2>
+                <span class="material-symbols-outlined text-gray-400 cursor-pointer">menu_open</span>
+            </div>
+            <a class="admin-sidebar-link" href="/adminmain/">
+                <span class="material-symbols-outlined">dashboard</span>
+                운영 대시보드
+            </a>
+            <a class="admin-sidebar-link active" href="/adminmain/member/stats">
+                <span class="material-symbols-outlined">group</span>
+                회원·권한 관리
+            </a>
+            <a class="admin-sidebar-link" href="#">
+                <span class="material-symbols-outlined">terminal</span>
+                코드 관리
+            </a>
+            <a class="admin-sidebar-link" href="#">
+                <span class="material-symbols-outlined">analytics</span>
+                로그 분석
+            </a>
+            <div class="mt-auto border-t pt-4 border-[var(--kr-gov-border-light)]">
+                <div class="p-4 bg-emerald-50 rounded-[var(--kr-gov-radius)] text-[13px]">
+                    <p class="font-bold text-[var(--kr-gov-green)] mb-1">시스템 상태: 정상</p>
+                    <p class="text-[var(--kr-gov-text-secondary)]">2025.08 가이드라인 적용</p>
+                </div>
+            </div>
+        </aside>
+
+        <main class="flex-1 p-8 overflow-y-auto" id="main-content">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)]">회원 통계 현황</h2>
+                    <p class="text-[var(--kr-gov-text-secondary)] text-sm mt-1">시스템에 등록된 전체 회원 정보를 유형별, 지역별로 분석합니다.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button
+                        class="flex items-center gap-1 px-3 py-1.5 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] text-[13px] font-bold hover:bg-gray-50 transition-all">
+                        <span class="material-symbols-outlined text-[18px]">calendar_today</span> 기간 설정
+                    </button>
+                    <button
+                        class="flex items-center gap-1 px-3 py-1.5 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] text-[13px] font-bold hover:bg-gray-50 transition-all">
+                        <span class="material-symbols-outlined text-[18px]">refresh</span> 데이터 갱신
+                    </button>
+                    <button
+                        class="flex items-center gap-1 px-3 py-1.5 bg-[var(--kr-gov-blue)] text-white rounded-[var(--kr-gov-radius)] text-[13px] font-bold hover:bg-[var(--kr-gov-blue-hover)] transition-all ml-2">
+                        <span class="material-symbols-outlined text-[18px]">description</span> 보고서 생성
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
+                <div class="gov-card col-span-1 lg:col-span-1">
+                    <h3 class="font-bold text-lg mb-8 flex items-center justify-between">
+                        <span class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-blue-600">pie_chart</span> 회원 유형 비율
+                        </span>
+                        <span class="text-xs text-gray-400 font-normal">누적 기준</span>
+                    </h3>
+                    <div class="chart-container">
+                        <!-- Simple CSS Donut Visualization -->
+                        <svg class="w-48 h-48 -rotate-90" viewBox="0 0 100 100">
+                            <circle class="text-gray-100" cx="50" cy="50" fill="transparent" r="40"
+                                stroke="currentColor" stroke-width="12"></circle>
+                            <circle class="text-blue-600 donut-segment" cx="50" cy="50" fill="transparent" r="40"
+                                stroke="currentColor" stroke-dasharray="78.7 100" stroke-width="12"></circle>
+                            <circle class="text-emerald-500 donut-segment" cx="50" cy="50" fill="transparent" r="40"
+                                stroke="currentColor" stroke-dasharray="21.3 100" stroke-dashoffset="-78.7"
+                                stroke-width="12"></circle>
+                        </svg>
+                        <div class="absolute flex flex-col items-center">
+                            <span class="text-2xl font-black">1,422</span>
+                            <span class="text-[10px] text-gray-400 font-bold uppercase">Total Members</span>
+                        </div>
+                    </div>
+                    <div class="mt-8 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+                                <span class="text-sm font-bold">기업 회원</span>
+                            </div>
+                            <span class="text-sm font-black">78.7% (1,120명)</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                                <span class="text-sm font-bold">개인 회원</span>
+                            </div>
+                            <span class="text-sm font-black">21.3% (302명)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gov-card col-span-1 lg:col-span-2">
+                    <h3 class="font-bold text-lg mb-8 flex items-center justify-between">
+                        <span class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-emerald-600">bar_chart</span> 월별 신규 가입 추이
+                        </span>
+                        <div class="flex gap-2">
+                            <span class="flex items-center gap-1 text-[10px] font-bold text-gray-400">
+                                <span class="w-2 h-2 rounded-full bg-blue-200"></span> 2024년
+                            </span>
+                            <span class="flex items-center gap-1 text-[10px] font-bold text-blue-600">
+                                <span class="w-2 h-2 rounded-full bg-[var(--kr-gov-blue)]"></span> 2025년
+                            </span>
+                        </div>
+                    </h3>
+                    <div class="relative h-64 mt-12">
+                        <div class="absolute bottom-0 left-0 w-full h-[1px] bg-gray-200"></div>
+                        <div class="flex items-end justify-between h-full px-4">
+                            <div class="flex flex-col items-center gap-2 group cursor-pointer">
+                                <div class="w-8 bg-blue-100 group-hover:bg-[var(--kr-gov-blue)] transition-colors rounded-t-sm"
+                                    style="height: 100px"></div>
+                                <span class="text-[11px] font-medium text-gray-400">04월</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-2 group cursor-pointer">
+                                <div class="w-8 bg-blue-100 group-hover:bg-[var(--kr-gov-blue)] transition-colors rounded-t-sm"
+                                    style="height: 85px"></div>
+                                <span class="text-[11px] font-medium text-gray-400">05월</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-2 group cursor-pointer">
+                                <div class="w-8 bg-blue-200 group-hover:bg-[var(--kr-gov-blue)] transition-colors rounded-t-sm"
+                                    style="height: 120px"></div>
+                                <span class="text-[11px] font-medium text-gray-400">06월</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-2 group cursor-pointer">
+                                <div class="w-8 bg-blue-300 group-hover:bg-[var(--kr-gov-blue)] transition-colors rounded-t-sm"
+                                    style="height: 145px"></div>
+                                <span class="text-[11px] font-medium text-gray-400">07월</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-2 group cursor-pointer">
+                                <div class="w-8 bg-[var(--kr-gov-blue)] rounded-t-sm" style="height: 170px"></div>
+                                <span class="text-[11px] font-bold text-[var(--kr-gov-blue)]">08월</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gov-card">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h3 class="font-bold text-lg flex items-center gap-2">
+                            <span class="material-symbols-outlined text-orange-500">map</span>
+                            기업 회원 지역별 분포 현황
+                        </h3>
+                        <p class="text-xs text-gray-500 mt-1">기업 회원 소재지 정보를 기준으로 집계된 데이터입니다.</p>
+                    </div>
+                    <button
+                        class="px-3 py-1.5 border border-[var(--kr-gov-border-light)] text-xs font-bold rounded hover:bg-gray-50 flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">download</span> 데이터 내려받기 (CSV)
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="p-4 bg-gray-50 rounded-[var(--kr-gov-radius)] border border-gray-100">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-bold text-[var(--kr-gov-text-primary)]">수도권</span>
+                            <span
+                                class="text-[11px] font-black text-blue-600 bg-blue-50 px-2 py-0.5 rounded">42.5%</span>
+                        </div>
+                        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-blue-500" style="width: 42.5%"></div>
+                        </div>
+                        <p class="text-[13px] mt-2 font-medium text-[var(--kr-gov-text-secondary)]">774개 기업</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-[var(--kr-gov-radius)] border border-gray-100">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-bold text-[var(--kr-gov-text-primary)]">영남권</span>
+                            <span
+                                class="text-[11px] font-black text-blue-600 bg-blue-50 px-2 py-0.5 rounded">28.2%</span>
+                        </div>
+                        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-blue-500" style="width: 28.2%"></div>
+                        </div>
+                        <p class="text-[13px] mt-2 font-medium text-[var(--kr-gov-text-secondary)]">513개 기업</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-[var(--kr-gov-radius)] border border-gray-100">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-bold text-[var(--kr-gov-text-primary)]">충청권</span>
+                            <span
+                                class="text-[11px] font-black text-blue-600 bg-blue-50 px-2 py-0.5 rounded">18.4%</span>
+                        </div>
+                        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-blue-500" style="width: 18.4%"></div>
+                        </div>
+                        <p class="text-[13px] mt-2 font-medium text-[var(--kr-gov-text-secondary)]">335개 기업</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-[var(--kr-gov-radius)] border border-gray-100">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-bold text-[var(--kr-gov-text-primary)]">호남·기타</span>
+                            <span
+                                class="text-[11px] font-black text-blue-600 bg-blue-50 px-2 py-0.5 rounded">10.9%</span>
+                        </div>
+                        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-blue-500" style="width: 10.9%"></div>
+                        </div>
+                        <p class="text-[13px] mt-2 font-medium text-[var(--kr-gov-text-secondary)]">198개 기업</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer fragment inclusion -->
+    <div th:replace="~{egovframework/com/adminmain/footer :: footerFragment}"></div>
+
+    <script th:inline="javascript">
+        function logout() {
+            if (confirm("로그아웃 하시겠습니까?")) {
+                fetch('/admin/login/actionLogout', {
+                    method: 'POST'
+                })
+                    .then(response => response.json())
+                    .then(response => {
+                        if (response.status === 'success') {
+                            location.href = '/admin/login/loginView';
+                        }
+                    });
+            }
+        }
+    </script>
+</body>
+
+</html>

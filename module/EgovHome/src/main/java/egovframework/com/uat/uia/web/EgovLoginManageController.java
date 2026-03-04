@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller("uiaEgovLoginManageController")
-@RequestMapping("/signin")
+@RequestMapping({"/signin", "/admin/login"})
 @RequiredArgsConstructor
 public class EgovLoginManageController {
 
@@ -31,14 +31,17 @@ public class EgovLoginManageController {
     @RequestMapping(value = "/loginView", method = { RequestMethod.GET, RequestMethod.POST })
     public String loginView(@RequestParam(value = "language", required = false) String language, LoginVO loginVO,
             Model model, HttpServletRequest request) {
+        boolean adminLoginRequest = request.getRequestURI().startsWith("/admin/login");
         String accessToken = jwtProvider.getCookie(request, "accessToken");
         if (ObjectUtils.isEmpty(accessToken)) {
             loginVO = new LoginVO();
             model.addAttribute("loginVO", loginVO);
             if ("en".equals(language)) {
-                return "egovframework/com/uat/uia/login_en"; // Fix path
+                return adminLoginRequest ? "egovframework/com/uat/uia/admin_login_en"
+                        : "egovframework/com/uat/uia/login_en";
             }
-            return "egovframework/com/uat/uia/login"; // Fix path
+            return adminLoginRequest ? "egovframework/com/uat/uia/admin_login"
+                    : "egovframework/com/uat/uia/login";
         } else {
             return "redirect:/home";
         }

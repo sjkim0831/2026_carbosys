@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ADMIN INTEGRATED LOGIN - CCUS Integrated Management Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #002d72;
+            --kr-gov-blue-hover: #001a4d;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #454545;
+            --kr-gov-border-light: #cccccc;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f8f9fa;
+            --kr-gov-radius: 4px;
+            --kr-gov-error: #b91c1c;
+            --admin-accent: #1e293b;
+        }
+        @layer base {
+            body { font-family: 'Public Sans', 'Noto Sans KR', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+            .focus-visible:focus-visible {
+                outline: 3px solid var(--kr-gov-focus);
+                outline-offset: 2px;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#002d72",
+                        "gov-gray": "#454545",
+                        "admin-bg": "#1e293b",
+                    },
+                    borderRadius: {
+                        'gov': '4px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="bg-white border-b border-[var(--kr-gov-border-light)]">
+<div class="max-w-7xl mx-auto px-4 lg:px-8 py-2 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<img alt="Government of the Republic of Korea Emblem" class="h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BPzqtzSLVGSrjt4mzhhVBy9SocCRDssk1F3XRVu7Xq9jHh7qzzt48wFi8qduCiJmB0LRQczPB7waPe3h0gkjn3jOEDxt6UJSJjdXNf8P-4WlM2BEZrfg2SL91uSiZrFcCk9KYrsdg-biTS9dtJ_OIghDBEVoAzMc33XcCYR_UP0QQdoYzBe840YrtH40xGyB9MSr0QH4D0foqlvOhG0jX8CDayXNlDsSKlfClVd3K2aodlwg4xSxgXHB3vnnnA0L2yNBNihQQg0"/>
+<span class="text-[12px] font-medium text-[var(--kr-gov-text-secondary)]">Official Government Service of the Republic of Korea</span>
+</div>
+</div>
+</div>
+<header class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 lg:px-8">
+<div class="flex justify-between items-center h-20">
+<div class="flex items-center gap-3">
+<a class="flex items-center gap-2" href="/">
+<span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]" style="font-variation-settings: 'wght' 600;">shield_person</span>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h1 class="text-lg font-bold tracking-tight text-[var(--kr-gov-text-primary)] uppercase">CCUS Portal</h1>
+<span class="bg-[var(--admin-accent)] text-white text-[10px] px-1.5 py-0.5 rounded font-black tracking-widest">ADMIN</span>
+</div>
+<p class="text-[9px] text-[var(--kr-gov-text-secondary)] font-bold uppercase tracking-wider">Carbon Capture, Utilization and Storage System</p>
+</div>
+</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-1.5 text-[11px] font-bold text-slate-700 px-3 py-1.5 bg-slate-100 rounded-full border border-slate-200">
+<span class="material-symbols-outlined text-[14px]">security</span>
+                    Security Session Active
+                </div>
+<div class="flex border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] overflow-hidden">
+<button class="px-3 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold">KO</button>
+<button class="px-3 py-1 text-xs bg-[var(--kr-gov-blue)] text-white font-bold border-l border-[var(--kr-gov-border-light)]">EN</button>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center justify-center py-12 px-4" id="main-content">
+<div class="w-full max-w-[520px] mb-8">
+<div class="bg-red-50 border-2 border-red-200 p-5 rounded-[var(--kr-gov-radius)] flex gap-4">
+<span class="material-symbols-outlined text-red-700 font-bold shrink-0">gavel</span>
+<div class="text-sm text-red-900 leading-relaxed">
+<p class="font-black mb-1 text-[15px]">WARNING: RESTRICTED ADMIN SYSTEM</p>
+<p class="font-medium text-[13px]">This system is accessible only to authorized administrators. Unauthorized access is strictly prohibited and punishable under relevant laws and regulations. All access attempts and activities are monitored and recorded for security auditing purposes.</p>
+</div>
+</div>
+</div>
+<div class="w-full max-w-[520px] bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-xl overflow-hidden">
+<div class="p-8 lg:p-12">
+<div class="text-center mb-10">
+<h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)] mb-2 uppercase tracking-tight">ADMIN INTEGRATED LOGIN</h2>
+<p class="text-[var(--kr-gov-text-secondary)] font-medium text-sm">Please provide administrator credentials and complete 2nd factor authentication.</p>
+</div>
+<form action="#" class="space-y-6" onsubmit="event.preventDefault(); loginProcess();">
+<div class="space-y-4">
+<div class="relative">
+<label class="block text-sm font-bold text-[var(--kr-gov-text-secondary)] mb-1.5" for="admin-id">Admin ID</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
+<span class="material-symbols-outlined">person</span>
+</span>
+<input class="w-full h-14 pl-12 pr-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all placeholder:text-gray-300" id="admin-id" placeholder="Enter Administrator ID" type="text"/>
+</div>
+</div>
+<div class="relative">
+<label class="block text-sm font-bold text-[var(--kr-gov-text-secondary)] mb-1.5" for="password">Password</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
+<span class="material-symbols-outlined">lock_open</span>
+</span>
+<input class="w-full h-14 pl-12 pr-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all placeholder:text-gray-300" id="password" placeholder="Enter password" type="password"/>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<label class="inline-flex items-center cursor-pointer">
+<input class="w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]" type="checkbox"/>
+<span class="ml-2 text-sm text-[var(--kr-gov-text-secondary)] font-bold">Save ID in secure environment</span>
+</label>
+<a class="text-sm font-bold text-[var(--kr-gov-blue)] hover:underline" href="#">Reset Password (MFA Required)</a>
+</div>
+<button class="w-full h-14 bg-[var(--kr-gov-blue)] text-white text-lg font-black rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-all shadow-md focus-visible flex items-center justify-center gap-2" type="button" onclick="loginProcess()">
+                    SIGN IN <span class="material-symbols-outlined">chevron_right</span>
+</button>
+<div class="relative py-4">
+<div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-200"></div></div>
+<div class="relative flex justify-center text-[12px]"><span class="px-4 bg-white text-slate-500 font-black uppercase tracking-widest">2nd Factor Authentication (MFA)</span></div>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<button class="w-full h-14 flex items-center justify-between px-6 border-2 border-slate-200 rounded-[var(--kr-gov-radius)] hover:border-[var(--kr-gov-blue)] hover:bg-slate-50 transition-all group" type="button">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[var(--kr-gov-blue)]">badge</span>
+<span class="font-black text-sm text-slate-700">Joint Certificate (Corporate/Public Official)</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-[var(--kr-gov-blue)]">arrow_forward</span>
+</button>
+<div class="grid grid-cols-2 gap-4">
+<button class="h-14 flex items-center justify-center gap-2 border-2 border-slate-200 rounded-[var(--kr-gov-radius)] hover:border-[var(--kr-gov-blue)] hover:bg-slate-50 transition-all" type="button">
+<span class="material-symbols-outlined text-slate-600">vibration</span>
+<span class="font-black text-sm text-slate-700">OTP Authentication</span>
+</button>
+<button class="h-14 flex items-center justify-center gap-2 border-2 border-slate-200 rounded-[var(--kr-gov-radius)] hover:border-[var(--kr-gov-blue)] hover:bg-slate-50 transition-all" type="button">
+<span class="material-symbols-outlined text-slate-600">phonelink_lock</span>
+<span class="font-black text-sm text-slate-700">Mobile ID</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<div class="mt-8 text-center max-w-lg">
+<div class="flex items-center justify-center gap-2 mb-2 text-slate-500">
+<span class="material-symbols-outlined text-sm">info</span>
+<span class="text-xs font-bold">Last Login: 2025-08-16 14:22:05 (IP: 10.12.***.***)</span>
+</div>
+<p class="text-[11px] text-[var(--kr-gov-text-secondary)] leading-relaxed font-medium">
+            If you suspect any exposure or theft of administrator information, please report it immediately to the security officer.<br/>
+            (Internal Ext: 8822 / Email: security@ccus.go.kr)
+        </p>
+</div>
+</main>
+<footer class="bg-white border-t border-[var(--kr-gov-border-light)]">
+<div class="max-w-7xl mx-auto px-4 lg:px-8 py-10">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<img alt="Government of the Republic of Korea Emblem" class="h-8 grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE"/>
+<span class="text-lg font-black text-[var(--kr-gov-text-primary)]">Carbon Neutral CCUS Integrated Management HQ</span>
+</div>
+<address class="not-italic text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
+                    (04551) 110 Sejong-daero, Jung-gu, Seoul, Republic of Korea | Admin Team: +82-2-1234-5678 <br/>
+                    © 2025 CCUS Integration Management Portal. Admin Security System. All Rights Reserved.
+                </address>
+</div>
+<div class="flex flex-col items-end gap-4">
+<div class="flex flex-wrap gap-6 text-sm font-bold">
+<a class="text-[var(--kr-gov-blue)] hover:underline" href="#">Privacy Policy</a>
+<a class="text-[var(--kr-gov-text-primary)] hover:underline" href="#">Security Guidelines</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="px-3 py-1 bg-[var(--kr-gov-bg-gray)] rounded-[var(--kr-gov-radius)] text-[11px] font-bold text-[var(--kr-gov-text-secondary)]">
+                        Security Update: <time datetime="2025-08-14">2025.08.14</time>
+</div>
+<img alt="Web Accessibility Quality Certification Mark" class="h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzkKwREcbsB7LV3B2b7fBK7y2M_9Exa0vlGVzxNy2qM0n1LFMRlBCIa_XiIBeCfvv3DkMb9Z0D05Y-RMuAytisqlCS8QTpbtebgKnMnWoefEx5uJOgRW5H_8Pw9jmaRvkiW6sVRrifgIhrWc5hi2PRUGHgXn-q8-veHvu9wSwDhtcvbHKYyokgnP-hqdR10ahEAdBe4vFFkR88N_By8pjpp34KH9TwHOouRLBwdfVCsRGmDCS6wnvQZDwf6s4HyScSMXyJJGQjl8Y"/>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+<script>
+    function loginProcess() {
+        const userId = (document.getElementById('admin-id')?.value || '').trim();
+        const userPw = document.getElementById('password')?.value || '';
+        const userSe = "USR";
+
+        if (!userId) {
+            alert("Please enter your admin ID.");
+            return;
+        }
+        if (!userPw) {
+            alert("Please enter your password.");
+            return;
+        }
+
+        fetch('/admin/login/actionLogin', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId, userPw, userSe })
+        })
+            .then(res => res.json())
+            .then(res => {
+                if (res.status === 'loginFailure') {
+                    alert(res.errors || 'Login failed.');
+                    return;
+                }
+                window.location.href = '/adminmain/';
+            })
+            .catch(() => alert('An error occurred while requesting login.'));
+    }
+</script>
+</body></html>

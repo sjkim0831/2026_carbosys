@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller("uiaEgovLoginManageAPIController")
-@RequestMapping("/signin")
+@RequestMapping({"/signin", "/admin/login"})
 @RequiredArgsConstructor
 @Slf4j
 public class EgovLoginManageAPIController {

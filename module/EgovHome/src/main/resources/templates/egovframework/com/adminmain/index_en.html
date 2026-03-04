@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CCUS Integrated Management Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-green: #006b5d;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+        }
+        @layer base {
+            body { font-family: 'Public Sans', 'Noto Sans KR', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+            line-height: 1.6;
+        }
+        .admin-sidebar-link {
+            @apply flex items-center gap-3 px-4 py-3 text-[15px] font-medium text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-[var(--kr-gov-radius)] transition-colors;
+        }
+        .admin-sidebar-link.active {
+            @apply bg-[var(--kr-gov-blue)] text-white font-bold;
+        }
+        .gov-card {
+            @apply border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white p-6 shadow-sm;
+        }
+        .status-dot {
+            @apply w-2.5 h-2.5 rounded-full inline-block;
+        }
+        .help-tooltip {
+            @apply invisible opacity-0 absolute right-0 top-full mt-2 w-72 p-4 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] shadow-xl z-50 text-sm transition-all;
+        }
+        .help-button:hover .help-tooltip {
+            @apply visible opacity-100;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "secondary": "#006b5d",
+                        "gov-gray": "#767676",
+                    },
+                    borderRadius: {
+                        'gov': '5px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-[#f8f9fa] text-[var(--kr-gov-text-primary)]">
+<a class="skip-link" href="#main-content">Skip to Main Content</a>
+<div class="bg-[var(--kr-gov-bg-gray)] border-b border-[var(--kr-gov-border-light)]">
+<div class="max-w-full mx-auto px-6 py-1.5 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<img alt="Government Symbol of Korea" class="h-3.5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BPzqtzSLVGSrjt4mzhhVBy9SocCRDssk1F3XRVu7Xq9jHh7qzzt48wFi8qduCiJmB0LRQczPB7waPe3h0gkjn3jOEDxt6UJSJjdXNf8P-4WlM2BEZrfg2SL91uSiZrFcCk9KYrsdg-biTS9dtJ_OIghDBEVoAzMc33XcCYR_UP0QQdoYzBe840YrtH40xGyB9MSr0QH4D0foqlvOhG0jX8CDayXNlDsSKlfClVd3K2aodlwg4xSxgXHB3vnnnA0L2yNBNihQQg0"/>
+<span class="text-[12px] font-medium text-[var(--kr-gov-text-secondary)]">Official Government Service of the Republic of Korea</span>
+</div>
+<div class="flex items-center gap-4 text-[11px] font-medium text-[var(--kr-gov-text-secondary)]">
+<span>Admin: Gildong Hong (Super Admin)</span>
+<button class="hover:underline">Logout</button>
+</div>
+</div>
+</div>
+<header class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-40">
+<div class="max-w-full mx-auto px-6">
+<div class="flex justify-between items-center h-20">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]">eco</span>
+<div class="flex flex-col">
+<h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)] uppercase">CCUS Integrated System</h1>
+<p class="text-[10px] text-[var(--kr-gov-blue)] font-black uppercase tracking-widest">Admin Dashboard</p>
+</div>
+</div>
+</div>
+<nav class="hidden xl:flex items-center space-x-2 h-full">
+<a class="px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-blue)] border-b-4 border-[var(--kr-gov-blue)]" href="#">Operation Dashboard</a>
+<a class="px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" href="#">Users &amp; Permissions</a>
+<a class="px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" href="#">Logic Management</a>
+<a class="px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" href="#">Certification &amp; Audit</a>
+<a class="px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" href="#">Stats &amp; Reports</a>
+<a class="px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" href="#">System Settings</a>
+</nav>
+<div class="flex items-center gap-1">
+<div class="relative help-button">
+<button aria-label="Help" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full flex items-center gap-1.5">
+<span class="material-symbols-outlined">help</span>
+<span class="text-[14px] font-bold hidden lg:inline">Help</span>
+</button>
+<div class="help-tooltip">
+<h4 class="font-bold text-[var(--kr-gov-blue)] mb-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">info</span>
+                            Dashboard Guide
+                        </h4>
+<ul class="space-y-2 text-[12px] text-[var(--kr-gov-text-secondary)]">
+<li class="flex gap-2"><span class="text-blue-500">•</span> Top cards display real-time key performance indicators.</li>
+<li class="flex gap-2"><span class="text-blue-500">•</span> Pending members can be processed via the 'Approve' button.</li>
+<li class="flex gap-2"><span class="text-blue-500">•</span> 'CRITICAL' logs require immediate administrative attention.</li>
+</ul>
+<button class="mt-3 w-full py-1.5 bg-[var(--kr-gov-bg-gray)] text-[11px] font-bold rounded hover:bg-gray-200 uppercase">Download Manual</button>
+</div>
+</div>
+<button aria-label="Notifications" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+</button>
+<button aria-label="Settings" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<div class="flex min-h-[calc(100vh-124px)]">
+<aside class="w-64 bg-white border-r border-[var(--kr-gov-border-light)] p-4 flex flex-col gap-2">
+<div class="mb-4 px-2 py-2 flex items-center justify-between">
+<h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Operation Tools</h2>
+<span class="material-symbols-outlined text-gray-400 cursor-pointer">menu_open</span>
+</div>
+<a class="admin-sidebar-link active" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+            Operation Dashboard
+        </a>
+<a class="admin-sidebar-link" href="#">
+<span class="material-symbols-outlined">terminal</span>
+            Code Management
+        </a>
+<a class="admin-sidebar-link" href="#">
+<span class="material-symbols-outlined">analytics</span>
+            Log Analysis
+        </a>
+<div class="mt-auto border-t pt-4 border-[var(--kr-gov-border-light)]">
+<div class="p-4 bg-emerald-50 rounded-[var(--kr-gov-radius)] text-[13px]">
+<p class="font-bold text-[var(--kr-gov-green)] mb-1 uppercase">System Status: Normal</p>
+<p class="text-[var(--kr-gov-text-secondary)] text-[11px]">2025.08 Guidelines Applied</p>
+</div>
+</div>
+</aside>
+<main class="flex-1 p-8 overflow-y-auto" id="main-content">
+<div class="flex justify-between items-end mb-6">
+<div>
+<h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)]">Operation Dashboard</h2>
+<p class="text-[var(--kr-gov-text-secondary)] text-sm mt-1">Real-time monitoring of carbon capture, utilization, and storage operations.</p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-1 px-3 py-1.5 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] text-[13px] font-bold hover:bg-gray-50">
+<span class="material-symbols-outlined text-[18px]">refresh</span> Refresh
+                </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="gov-card border-l-4 border-l-[var(--kr-gov-blue)]">
+<div class="flex justify-between items-start">
+<p class="font-bold text-[var(--kr-gov-text-secondary)]">Active Members</p>
+<span class="material-symbols-outlined text-[var(--kr-gov-blue)]">group</span>
+</div>
+<div class="mt-4 flex items-baseline gap-2">
+<span class="text-4xl font-black tracking-tight">1,422</span>
+<span class="text-sm font-bold text-gray-400">total</span>
+</div>
+<div class="mt-4 flex gap-2">
+<span class="px-2 py-0.5 bg-blue-50 text-[var(--kr-gov-blue)] text-[11px] font-bold rounded border border-blue-100">Corp 1,120</span>
+<span class="px-2 py-0.5 bg-gray-50 text-gray-600 text-[11px] font-bold rounded border border-gray-100">Indiv 302</span>
+</div>
+</div>
+<div class="gov-card border-l-4 border-l-[var(--kr-gov-green)]">
+<div class="flex justify-between items-start">
+<p class="font-bold text-[var(--kr-gov-text-secondary)]">Monthly Emission Estimate</p>
+<span class="material-symbols-outlined text-[var(--kr-gov-green)]">monitoring</span>
+</div>
+<div class="mt-4 flex items-baseline gap-2">
+<span class="text-4xl font-black tracking-tight">85,240</span>
+<span class="text-sm font-bold text-gray-400">tCO2e</span>
+</div>
+<p class="text-[12px] text-emerald-600 font-bold mt-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> 12.4% vs last month
+                </p>
+</div>
+<div class="gov-card border-l-4 border-l-orange-400">
+<div class="flex justify-between items-start">
+<p class="font-bold text-[var(--kr-gov-text-secondary)]">Certification Audit Status</p>
+<span class="material-symbols-outlined text-orange-400">verified</span>
+</div>
+<div class="mt-4 flex justify-between items-center bg-gray-50 p-3 rounded-[var(--kr-gov-radius)]">
+<div class="text-center px-2">
+<p class="text-[11px] text-gray-500 font-bold mb-1">Pending</p>
+<span class="px-2 py-0.5 bg-orange-100 text-orange-700 text-[12px] font-black rounded-full">12</span>
+</div>
+<div class="text-center px-2">
+<p class="text-[11px] text-gray-500 font-bold mb-1">In Review</p>
+<span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-[12px] font-black rounded-full">28</span>
+</div>
+<div class="text-center px-2">
+<p class="text-[11px] text-gray-500 font-bold mb-1">Completed</p>
+<span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[12px] font-black rounded-full">154</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+<div class="gov-card">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-[var(--kr-gov-blue)]">person_add</span>
+                        Member Registration Requests
+                    </h3>
+<button class="text-xs font-bold text-[var(--kr-gov-blue)] hover:underline flex items-center gap-1">View All <span class="material-symbols-outlined text-[14px]">chevron_right</span></button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left">
+<thead class="bg-gray-50 border-y border-[var(--kr-gov-border-light)]">
+<tr>
+<th class="px-4 py-3 font-bold text-[var(--kr-gov-text-secondary)]">Name</th>
+<th class="px-4 py-3 font-bold text-[var(--kr-gov-text-secondary)]">Type</th>
+<th class="px-4 py-3 font-bold text-[var(--kr-gov-text-secondary)]">Date</th>
+<th class="px-4 py-3 font-bold text-center text-[var(--kr-gov-text-secondary)]">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100">
+<tr class="hover:bg-gray-50/50 transition-colors">
+<td class="px-4 py-4 font-medium">Gildong Hong</td>
+<td class="px-4 py-4 text-gray-600 text-xs">General Corp</td>
+<td class="px-4 py-4 text-gray-500 text-xs">2025.08.14</td>
+<td class="px-4 py-4 text-center space-x-1">
+<button class="px-3 py-1.5 bg-[var(--kr-gov-blue)] text-white text-[11px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)]">Approve</button>
+<button class="px-3 py-1.5 border border-[var(--kr-gov-border-light)] text-gray-600 text-[11px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-100">Detail</button>
+</td>
+</tr>
+<tr class="hover:bg-gray-50/50 transition-colors">
+<td class="px-4 py-4 font-medium">Chunhyang Sung</td>
+<td class="px-4 py-4 text-gray-600 text-xs">Verification Body</td>
+<td class="px-4 py-4 text-gray-500 text-xs">2025.08.14</td>
+<td class="px-4 py-4 text-center space-x-1">
+<button class="px-3 py-1.5 bg-[var(--kr-gov-blue)] text-white text-[11px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)]">Approve</button>
+<button class="px-3 py-1.5 border border-[var(--kr-gov-border-light)] text-gray-600 text-[11px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-100">Detail</button>
+</td>
+</tr>
+<tr class="hover:bg-gray-50/50 transition-colors">
+<td class="px-4 py-4 font-medium">Mongryong Lee</td>
+<td class="px-4 py-4 text-gray-600 text-xs">Research Inst.</td>
+<td class="px-4 py-4 text-gray-500 text-xs">2025.08.13</td>
+<td class="px-4 py-4 text-center space-x-1">
+<button class="px-3 py-1.5 bg-[var(--kr-gov-blue)] text-white text-[11px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)]">Approve</button>
+<button class="px-3 py-1.5 border border-[var(--kr-gov-border-light)] text-gray-600 text-[11px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-100">Detail</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="gov-card">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-[var(--kr-gov-green)]">bar_chart</span>
+                        Audit Progress Overview
+                    </h3>
+<span class="text-[11px] font-bold text-gray-400 uppercase">Unit: Project Counts</span>
+</div>
+<div aria-label="Audit stage bar chart" class="space-y-5">
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-[13px] font-bold text-[var(--kr-gov-text-secondary)]">Stage 1: Application</span>
+<span class="text-[13px] font-black text-[var(--kr-gov-blue)]">45</span>
+</div>
+<div class="h-5 bg-gray-100 rounded-full overflow-hidden">
+<div class="h-full bg-blue-400" style="width: 85%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-[13px] font-bold text-[var(--kr-gov-text-secondary)]">Stage 2: Technical Validation</span>
+<span class="text-[13px] font-black text-[var(--kr-gov-blue)]">28</span>
+</div>
+<div class="h-5 bg-gray-100 rounded-full overflow-hidden">
+<div class="h-full bg-blue-500" style="width: 55%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-[13px] font-bold text-[var(--kr-gov-text-secondary)]">Stage 3: Committee Deliberation</span>
+<span class="text-[13px] font-black text-[var(--kr-gov-blue)]">12</span>
+</div>
+<div class="h-5 bg-gray-100 rounded-full overflow-hidden">
+<div class="h-full bg-blue-700" style="width: 25%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-[13px] font-bold text-[var(--kr-gov-text-secondary)]">Stage 4: Final Approval</span>
+<span class="text-[13px] font-black text-[var(--kr-gov-blue)]">8</span>
+</div>
+<div class="h-5 bg-gray-100 rounded-full overflow-hidden">
+<div class="h-full bg-[var(--kr-gov-green)]" style="width: 15%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div class="gov-card">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-500">hub</span>
+                        Real-time System Integrations
+                    </h3>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-4 bg-gray-50 rounded-[var(--kr-gov-radius)] border border-gray-100">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400">electric_bolt</span>
+<span class="text-sm font-bold">KEPCO (Korea Electric Power Corp)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[11px] font-medium text-gray-500">Latency 14ms</span>
+<span class="status-dot bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-gray-50 rounded-[var(--kr-gov-radius)] border border-gray-100">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400">currency_exchange</span>
+<span class="text-sm font-bold">KRX Carbon Exchange</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[11px] font-medium text-gray-500">Latency 42ms</span>
+<span class="status-dot bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-red-50 rounded-[var(--kr-gov-radius)] border border-red-100">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-red-500">fingerprint</span>
+<span class="text-sm font-bold text-red-700">G-PIN Authentication Service</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[11px] font-bold text-red-500">TIMEOUT</span>
+<span class="status-dot bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]"></span>
+</div>
+</div>
+</div>
+</div>
+<div class="gov-card">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-orange-500">history_edu</span>
+                        Recent System Logs
+                    </h3>
+<button class="text-xs font-bold text-gray-400 hover:text-[var(--kr-gov-blue)]">Full Log Analysis</button>
+</div>
+<div class="space-y-4">
+<div class="flex gap-4 items-start pb-3 border-b border-gray-100">
+<span class="px-2 py-0.5 bg-red-100 text-red-700 text-[10px] font-black rounded">CRITICAL</span>
+<div class="flex-1">
+<p class="text-[13px] font-medium">G-PIN connection module not responding - Auto-retrying</p>
+<p class="text-[11px] text-gray-400 mt-1">2025.08.14 14:42:10</p>
+</div>
+</div>
+<div class="flex gap-4 items-start pb-3 border-b border-gray-100">
+<span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-black rounded">INFO</span>
+<div class="flex-1">
+<p class="text-[13px] font-medium">New carbon credit calculation logic (v2.4) successfully applied</p>
+<p class="text-[11px] text-gray-400 mt-1">2025.08.14 13:05:00</p>
+</div>
+</div>
+<div class="flex gap-4 items-start pb-1">
+<span class="px-2 py-0.5 bg-orange-100 text-orange-700 text-[10px] font-black rounded">WARNING</span>
+<div class="flex-1">
+<p class="text-[13px] font-medium">Suspicious access attempt detected for Admin 'Gildong Hong' (IP: 192.168.0.42)</p>
+<p class="text-[11px] text-gray-400 mt-1">2025.08.14 12:45:22</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<footer class="bg-white border-t border-[var(--kr-gov-border-light)] z-40 relative">
+<div class="max-w-full mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-4">
+<img alt="Government Symbol of Korea" class="h-8 grayscale opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUw404pm2QFmL61j73Dpfn72GnHGEg-KXTkLQ8WVJYUJ4iekrO0IvqJK8cd0cOSNSIh9Yq1LAodkSNj7oHtVAltdnnymj25ZzOI3l167qrrWmkEoYsZGu3ztT-YGo9se-fFR3NhBG3rZ8DYfs2vna0bxSzVG8VjryTnsz40LCDS2SN3-AeqXrbaPEva2ptmrQzO8iQSwbqSGyGKddlGf7FtnhHT25Cz5a5Xhk8MTve0BF4RWxN-ULiw64ZBbrTASIHQUaURqiZXyE"/>
+<div class="text-[12px] text-[var(--kr-gov-text-secondary)] leading-tight border-l border-gray-200 pl-4">
+<p class="font-bold text-[13px] mb-0.5 uppercase">Carbon Neutral CCUS Integrated Management Headquarters (Admin Console)</p>
+<p>© 2025 CCUS Integration Management Portal. All rights reserved.</p>
+</div>
+</div>
+<div class="flex items-center gap-4 text-[12px] font-medium text-[var(--kr-gov-text-secondary)]">
+<a class="hover:underline" href="#">Operation Policy</a>
+<span class="text-gray-300">|</span>
+<a class="hover:underline" href="#">Privacy Policy</a>
+<span class="text-gray-300">|</span>
+<div class="bg-[var(--kr-gov-bg-gray)] px-3 py-1 rounded-[5px] text-[11px] font-bold border border-gray-200">
+                Last Updated: 2025.08.14 14:45
+            </div>
+</div>
+</div>
+</footer>
+
+</body></html>
