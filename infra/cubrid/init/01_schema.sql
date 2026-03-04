@@ -711,7 +711,12 @@ ALTER CLASS [dba].[comtninsttinfo] ADD ATTRIBUTE
        [biz_reg_file_path] character varying(500) COLLATE utf8_bin,
        [instt_sttus] character(1) COLLATE utf8_bin DEFAULT 'P',
        [frst_regist_pnttm] datetime DEFAULT SYS_DATETIME,
-       [last_updt_pnttm] datetime DEFAULT SYS_DATETIME;
+       [last_updt_pnttm] datetime DEFAULT SYS_DATETIME,
+       [charger_nm] character varying(100) COLLATE utf8_bin,
+       [charger_email] character varying(100) COLLATE utf8_bin,
+       [charger_tel] character varying(20) COLLATE utf8_bin,
+       [rjct_rsn] character varying(1000) COLLATE utf8_bin,
+       [rjct_pnttm] datetime;
 ALTER CLASS [dba].[comtninsttinfo] ADD ATTRIBUTE
        CONSTRAINT [pk_comtninsttinfo_instt_id] PRIMARY KEY([instt_id]);
 

@@ -3,6 +3,8 @@
 ## 핵심 변경 사항
 
 - DB 파일 저장 위치를 프로젝트 상대경로(`./data`)가 아니라 **WSL 절대경로(`/opt/carbosys/data`)** 기준으로 고정했습니다.
+- 호스트 데이터 소스는 **`/opt/carbosys/data` 하나만** 사용합니다.  
+  (`/var/lib/cubrid`는 같은 폴더로 바인드, `/opt/data`는 사용하지 않음)
 - `docker compose down` / `up -d` 반복 시에도 `/opt/carbosys/data`가 유지되면 DB가 초기화되지 않습니다.
 - 브로커는 `CUBRID_COMPONENTS=ALL` + `cubrid.conf(service=server,broker)` 기준으로 자동 기동됩니다.
 - **외부 접속 지원**: 브로커(33000) 외에도 실제 데이터 처리를 담당하는 **CAS 포트(33001)**가 외부로 노출되어야 합니다.
@@ -65,7 +67,8 @@ services:
       - "./infra/cubrid/init:/docker-entrypoint-initdb.d"
       - "./infra/cubrid/conf/cubrid.conf:/opt/carbosys/conf/cubrid.conf"
       - "./infra/cubrid/conf/cubrid_broker.conf:/opt/carbosys/conf/cubrid_broker.conf"
-      - "${CUBRID_DATA_DIR:-/opt/carbosys/data}:/opt/carbosys/data"
+      - "/opt/carbosys/data:/opt/carbosys/data"
+      - "/opt/carbosys/data:/var/lib/cubrid"
     ports:
       - "33000:33000"
       - "33001:33001"

@@ -2,6 +2,11 @@ services:
   cubrid:
     image: cubrid/cubrid:11.2
     restart: unless-stopped
+    entrypoint:
+      - /bin/sh
+      - -lc
+      - >
+        mkdir -p /opt/carbosys/data /var/lib && chown -R 999:998 /opt/carbosys/data && chmod 775 /opt/carbosys/data && exec /entrypoint.sh
     environment:
       TZ: Asia/Seoul
       CUBRID_DB: com
@@ -15,8 +20,14 @@ services:
     volumes:
       - "./infra/cubrid/init:/docker-entrypoint-initdb.d"
       - "./infra/cubrid/conf:/opt/carbosys/conf"
-      - "${CUBRID_DATA_DIR:-/opt/carbosys/data}:/opt/carbosys/data"
-      - "${CUBRID_DATA_DIR:-/opt/carbosys/data}:/opt/data"
+      - "./data:/opt/carbosys/data"
+      - "./data:/var/lib/cubrid"
+    healthcheck:
+      test: ["CMD-SHELL", "cubrid server status com | grep -q 'Server com'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
     platform: linux/x86_64
     hostname: cubrid
     shm_size: '2gb'
@@ -34,7 +45,8 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:
-      - cubrid
+      cubrid:
+        condition: service_healthy
     ports:
       - "8761:8761"
       - "9000:9000"
@@ -52,7 +64,7 @@ services:
       - "localhost:127.0.0.1"
 
   jenkins:
-    profiles: ["ci"]
+    profiles: [ "ci" ]
     build:
       context: .
       dockerfile: infra/jenkins/Dockerfile
