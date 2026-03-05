@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>관리자용 회원 정보 수정 | CCUS 통합관리 시스템</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-green: #006b5d;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+            --kr-gov-error: #d32f2f;
+        }
+
+        @layer base {
+            body {
+                font-family: 'Noto Sans KR', 'Public Sans', sans-serif;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+            line-height: 1.6;
+        }
+
+        .gov-card {
+            @apply border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white p-8 shadow-sm;
+        }
+
+        .gov-label {
+            @apply block text-[15px] font-bold text-[var(--kr-gov-text-primary)] mb-2 flex items-center gap-1;
+        }
+
+        .gov-input {
+            @apply w-full h-11 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-[var(--kr-gov-focus)] outline-none transition-all text-[15px];
+        }
+
+        .gov-input:disabled,
+        .gov-input[readonly] {
+            @apply bg-gray-100 text-gray-500 cursor-not-allowed border-gray-200;
+        }
+
+        .gov-select {
+            @apply w-full h-11 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-[var(--kr-gov-focus)] outline-none bg-white text-[15px];
+        }
+
+        .validation-msg {
+            @apply mt-1.5 text-[13px] text-[var(--kr-gov-error)] flex items-center gap-1;
+        }
+
+        .permission-checkbox {
+            @apply w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)];
+        }
+
+        .required-dot::after {
+            content: '*';
+            @apply text-[var(--kr-gov-error)] ml-0.5;
+        }
+    </style>
+</head>
+
+<body class="bg-[#f8f9fa] text-[var(--kr-gov-text-primary)]">
+    <a class="skip-link" href="#main-content">본문 바로가기</a>
+
+    <div th:replace="~{egovframework/com/adminmain/header :: headerFragment}"></div>
+
+    <div class="flex min-h-[calc(100vh-124px)]">
+        <aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col"
+               aria-label="관리자 사이드 메뉴"></aside>
+
+        <main class="flex-1 p-8 overflow-y-auto" id="main-content">
+            <div class="mb-8">
+                <nav class="flex items-center gap-2 text-sm text-gray-500 mb-2" aria-label="Breadcrumb">
+                    <span>회원</span>
+                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    <span class="font-medium text-[var(--kr-gov-blue)]">회원 정보 수정</span>
+                </nav>
+                <h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)]">관리자용 회원 정보 수정</h2>
+                <p class="text-[var(--kr-gov-text-secondary)] text-sm mt-1">시스템 사용자의 기본 정보와 권한을 상세하게 관리합니다.</p>
+            </div>
+
+            <form>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <section class="gov-card">
+                        <div class="flex items-center gap-2 mb-6 border-b pb-4">
+                            <span class="material-symbols-outlined text-[var(--kr-gov-blue)]">account_circle</span>
+                            <h3 class="text-lg font-bold">기본 정보</h3>
+                        </div>
+                        <div class="space-y-6">
+                            <div>
+                                <label class="gov-label" for="member-id">사용자 아이디</label>
+                                <input class="gov-input" id="member-id" readonly type="text"
+                                       th:value="${memberId != null and !#strings.isEmpty(memberId) ? memberId : 'ccus_user_01'}"
+                                       value="ccus_user_01" />
+                                <p class="text-[12px] text-gray-400 mt-1">아이디는 수정할 수 없습니다.</p>
+                            </div>
+                            <div>
+                                <label class="gov-label" for="member-name">성명</label>
+                                <input class="gov-input" id="member-name" readonly type="text" value="이몽룡" />
+                                <p class="text-[12px] text-gray-400 mt-1">성명은 실명인증 정보를 기반으로 하며 수정이 제한됩니다.</p>
+                            </div>
+                            <div>
+                                <label class="gov-label required-dot" for="member-email">이메일 주소</label>
+                                <input class="gov-input" id="member-email" placeholder="example@domain.com" type="email"
+                                       value="mryi@ccus-korea.or.kr" />
+                                <div class="validation-msg">
+                                    <span class="material-symbols-outlined text-[16px]">error</span>
+                                    올바른 이메일 형식을 입력해 주세요.
+                                </div>
+                            </div>
+                            <div>
+                                <label class="gov-label required-dot" for="member-contact">연락처</label>
+                                <input class="gov-input" id="member-contact" placeholder="010-0000-0000" type="tel"
+                                       value="010-1234-5678" />
+                                <p class="text-[12px] text-gray-500 mt-1">하이픈(-)을 포함하여 입력해 주세요.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="gov-card">
+                        <div class="flex items-center gap-2 mb-6 border-b pb-4">
+                            <span class="material-symbols-outlined text-[var(--kr-gov-green)]">badge</span>
+                            <h3 class="text-lg font-bold">소속 및 권한 정보</h3>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="gov-label required-dot" for="member-affil">소속 기관</label>
+                                    <select class="gov-select" id="member-affil">
+                                        <option value="1">한국탄소포집연구소</option>
+                                        <option value="2">환경부</option>
+                                        <option value="3">산업통상자원부</option>
+                                        <option value="4">에너지관리공단</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="gov-label" for="member-dept">부서명</label>
+                                    <input class="gov-input" id="member-dept" placeholder="부서명을 입력하세요" type="text"
+                                           value="전략기술실" />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="gov-label required-dot" for="member-type">회원 유형</label>
+                                <select class="gov-select" id="member-type">
+                                    <option value="1">정규 사용자</option>
+                                    <option value="2">외부 전문가</option>
+                                    <option value="3">시스템 관리자</option>
+                                    <option value="4">단순 열람자</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="gov-label">시스템 접근 권한 설정</label>
+                                <div class="mt-4 p-4 bg-gray-50 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] grid grid-cols-2 gap-y-4">
+                                    <label class="flex items-center gap-3 cursor-pointer"><input checked class="permission-checkbox" type="checkbox" /><span class="text-[14px] font-medium">운영 대시보드</span></label>
+                                    <label class="flex items-center gap-3 cursor-pointer"><input class="permission-checkbox" type="checkbox" /><span class="text-[14px] font-medium">회원/권한 관리</span></label>
+                                    <label class="flex items-center gap-3 cursor-pointer"><input checked class="permission-checkbox" type="checkbox" /><span class="text-[14px] font-medium">산정 로직 관리</span></label>
+                                    <label class="flex items-center gap-3 cursor-pointer"><input checked class="permission-checkbox" type="checkbox" /><span class="text-[14px] font-medium">인증/심사 관리</span></label>
+                                    <label class="flex items-center gap-3 cursor-pointer"><input class="permission-checkbox" type="checkbox" /><span class="text-[14px] font-medium">통계/리포트</span></label>
+                                    <label class="flex items-center gap-3 cursor-pointer"><input class="permission-checkbox" type="checkbox" /><span class="text-[14px] font-medium">시스템 설정</span></label>
+                                </div>
+                                <p class="text-[12px] text-amber-600 mt-2 font-medium flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[16px]">warning</span>
+                                    관리자 권한 부여 시 보안 정책을 확인하시기 바랍니다.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="mt-12 flex justify-center items-center gap-3 border-t pt-8">
+                    <button class="px-8 py-3 bg-white border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors min-w-[140px]"
+                            onclick="window.location.href='/adminmain/member/list'" type="button">취소하기</button>
+                    <button class="px-8 py-3 bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors min-w-[140px] shadow-lg shadow-blue-900/10"
+                            type="submit">저장하기</button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <div th:replace="~{egovframework/com/adminmain/footer :: footerFragment}"></div>
+</body>
+
+</html>

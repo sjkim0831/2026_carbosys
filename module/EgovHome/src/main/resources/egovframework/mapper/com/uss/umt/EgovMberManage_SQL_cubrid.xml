@@ -29,12 +29,15 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
         <if test='sbscrbSttus != null and sbscrbSttus neq "0" and sbscrbSttus neq ""'>
             AND MBER_STTUS LIKE  #{sbscrbSttus}
         </if>
-        <if test="@egovframework.com.cmm.util.EgovMybatisUtil@isNotEmpty(searchKeyword)">
-        <if test="searchCondition == 0">AND
+        <if test="searchKeyword != null and searchKeyword != ''">
+        <if test='searchCondition == "0"'>AND
              MBER_ID LIKE '%' || #{searchKeyword} || '%'
         </if>
-        <if test="searchCondition == 1">AND
+        <if test='searchCondition == "1"'>AND
              MBER_NM LIKE '%' ||#{searchKeyword}|| '%'
+        </if>
+        <if test='searchCondition == null or searchCondition == "" or searchCondition == "all"'>AND
+             (MBER_ID LIKE '%' || #{searchKeyword} || '%' OR MBER_NM LIKE '%' ||#{searchKeyword}|| '%')
         </if>
         </if>
          <![CDATA[
@@ -51,12 +54,15 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
             <if test='sbscrbSttus != null and sbscrbSttus neq "0" and sbscrbSttus neq ""'>
                 AND MBER_STTUS LIKE  #{sbscrbSttus}
             </if>
-            <if test="@egovframework.com.cmm.util.EgovMybatisUtil@isNotEmpty(searchKeyword)">
-            <if test="searchCondition == 0">AND
+            <if test="searchKeyword != null and searchKeyword != ''">
+            <if test='searchCondition == "0"'>AND
                  MBER_ID LIKE '%' || #{searchKeyword} || '%'
             </if>
-            <if test="searchCondition == 1">AND
+            <if test='searchCondition == "1"'>AND
                  MBER_NM LIKE '%' ||#{searchKeyword}|| '%'
+            </if>
+            <if test='searchCondition == null or searchCondition == "" or searchCondition == "all"'>AND
+                 (MBER_ID LIKE '%' || #{searchKeyword} || '%' OR MBER_NM LIKE '%' ||#{searchKeyword}|| '%')
             </if>
             </if>
     </select>

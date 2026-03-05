@@ -377,7 +377,7 @@
             currentKeyword = modalSearchInput.value.trim();
             renderLoadingTbody();
 
-            fetch(`/join/searchCompany?keyword=${encodeURIComponent(currentKeyword)}&page=${page}&size=${PAGE_SIZE}&status=A`)
+            fetch(`/join/searchCompany?keyword=${encodeURIComponent(currentKeyword)}&page=${page}&size=${PAGE_SIZE}&status=P`)
                 .then(r => r.json())
                 .then(data => {
                     renderTbody(data.list, data.totalCnt, page);
