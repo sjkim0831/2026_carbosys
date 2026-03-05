@@ -26,6 +26,8 @@ spring:
     password: ""
     hikari:
       maximum-pool-size: 20
+      connection-timeout: 30000
+      initialization-fail-timeout: -1
   jpa:
     database-platform: org.hibernate.dialect.CUBRIDDialect
     hibernate:

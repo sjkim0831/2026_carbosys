@@ -38,6 +38,9 @@ public class EgovLoginDataSource {
     @Value("${spring.datasource.hikari.max-lifetime:1800000}")
     private long maxLifetime;
 
+    @Value("${spring.datasource.hikari.initialization-fail-timeout:-1}")
+    private long initializationFailTimeout;
+
     @Bean(name = "dataSource")
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
@@ -50,6 +53,7 @@ public class EgovLoginDataSource {
         config.setIdleTimeout(idleTimeout);
         config.setMinimumIdle(minimumIdle);
         config.setMaxLifetime(maxLifetime);
+        config.setInitializationFailTimeout(initializationFailTimeout);
 
         return new HikariDataSource(config);
     }

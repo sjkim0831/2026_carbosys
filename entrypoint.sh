@@ -16,21 +16,55 @@ MSA_MANAGER_XMX="${MSA_MANAGER_XMX:-512m}"
 EGOV_HOME_XMS="${EGOV_HOME_XMS:-128m}"
 EGOV_HOME_XMX="${EGOV_HOME_XMX:-384m}"
 
-# Wait for CUBRID to be ready
-echo "Waiting for CUBRID broker (33000) or CAS (33001)..."
-MAX_RETRIES=30
+# Wait for CUBRID to be really ready (both broker and CAS, consecutive checks)
+echo "Waiting for CUBRID broker (33000) and CAS (33001)..."
+MAX_RETRIES="${CUBRID_MAX_RETRIES:-120}"
+SLEEP_SEC="${CUBRID_RETRY_INTERVAL_SEC:-2}"
+REQUIRED_STABLE="${CUBRID_REQUIRED_STABLE:-5}"
+REQUIRE_CAS="${CUBRID_REQUIRE_CAS:-false}"
 COUNT=0
-while ! (timeout 1 bash -c "</dev/tcp/cubrid/33000" 2>/dev/null) \
-   && ! (timeout 1 bash -c "</dev/tcp/cubrid/33001" 2>/dev/null); do
+STABLE=0
+while true; do
+  BROKER_OK=0
+  CAS_OK=0
+
+  if timeout 1 bash -c "</dev/tcp/cubrid/33000" 2>/dev/null; then
+    BROKER_OK=1
+  fi
+  if timeout 1 bash -c "</dev/tcp/cubrid/33001" 2>/dev/null; then
+    CAS_OK=1
+  fi
+
+  READY=0
+  if [ "$BROKER_OK" -eq 1 ]; then
+    if [ "$REQUIRE_CAS" = "true" ]; then
+      [ "$CAS_OK" -eq 1 ] && READY=1
+    else
+      READY=1
+    fi
+  fi
+
+  if [ "$READY" -eq 1 ]; then
+    STABLE=$((STABLE + 1))
+    echo "CUBRID readiness check passed (${STABLE}/${REQUIRED_STABLE})"
+    if [ "$STABLE" -ge "$REQUIRED_STABLE" ]; then
+      break
+    fi
+  else
+    if [ "$STABLE" -gt 0 ]; then
+      echo "CUBRID readiness lost; resetting stability counter."
+    fi
+    STABLE=0
+  fi
+
   COUNT=$((COUNT + 1))
-  if [ $COUNT -ge $MAX_RETRIES ]; then
-    echo "CUBRID is not ready after $MAX_RETRIES seconds. Proceeding anyway..."
+  if [ "$COUNT" -ge "$MAX_RETRIES" ]; then
+    echo "CUBRID is not stably ready after $((MAX_RETRIES * SLEEP_SEC)) seconds. Proceeding anyway..."
     break
   fi
-  sleep 2
+  sleep "$SLEEP_SEC"
 done
-echo "CUBRID port is reachable. Waiting another 10s for initialization..."
-sleep 10
+echo "CUBRID stable readiness wait completed."
 
 # Start Infrastructure Services (Eureka, Config, Gateway)
 echo "Starting EurekaServer..."
