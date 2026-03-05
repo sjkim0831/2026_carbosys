@@ -17,6 +17,7 @@ public class AdminMainWeb implements WebMvcConfigurer {
         registry.addInterceptor(adminMainAuthInterceptor)
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns(
+                        "/admin/login/**",
                         "/admin/css/**",
                         "/admin/js/**",
                         "/admin/img/**",

@@ -35,7 +35,8 @@ public class EgovLoginManageController {
             Model model, HttpServletRequest request) {
         boolean adminLoginRequest = isAdminLoginRequest(request);
         if (!adminLoginRequest && isAdminMainRequested(request)) {
-            return "redirect:/admin/login/loginView";
+            // Gateway rewrite 환경에서 /signin/loginView 로 들어와도 admin 화면을 직접 렌더링해 루프 방지
+            adminLoginRequest = true;
         }
         String accessToken = jwtProvider.getCookie(request, "accessToken");
         if (ObjectUtils.isEmpty(accessToken)) {

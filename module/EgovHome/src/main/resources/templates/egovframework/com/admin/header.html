@@ -435,7 +435,7 @@
                 var nextMain = doc.querySelector("#main-content");
                 var currentMain = document.querySelector("#main-content");
                 if (!nextMain || !currentMain) {
-                    window.location.href = targetPath;
+                    loadDashboardFallback(targetPath, push);
                     return;
                 }
                 syncPageHeadStyles(doc);
@@ -446,7 +446,38 @@
                 }
                 applyPathState(targetPath, push);
             }).catch(function () {
-                window.location.href = targetPath;
+                loadDashboardFallback(targetPath, push);
+            });
+        }
+
+        function loadDashboardFallback(targetPath, push) {
+            fetch("/admin", {
+                method: "GET",
+                credentials: "same-origin",
+                headers: { "X-Requested-With": "XMLHttpRequest" }
+            }).then(function (response) {
+                if (!response.ok) {
+                    throw new Error("HTTP " + response.status);
+                }
+                return response.text();
+            }).then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, "text/html");
+                var nextMain = doc.querySelector("#main-content");
+                var currentMain = document.querySelector("#main-content");
+                if (!nextMain || !currentMain) {
+                    window.location.href = "/admin";
+                    return;
+                }
+                syncPageHeadStyles(doc);
+                currentMain.className = nextMain.className;
+                currentMain.innerHTML = nextMain.innerHTML;
+                if (doc.title) {
+                    document.title = doc.title;
+                }
+                applyPathState(targetPath, push);
+            }).catch(function () {
+                window.location.href = "/admin";
             });
         }
 
