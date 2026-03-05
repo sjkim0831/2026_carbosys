@@ -67,6 +67,16 @@ public class EgovAdminMainManageController {
         return "egovframework/com/adminmain/memberRegister";
     }
 
+    @RequestMapping(value = "/member/approve", method = { RequestMethod.GET, RequestMethod.POST })
+    public String memberApprove() {
+        return "egovframework/com/adminmain/memberApprove";
+    }
+
+    @RequestMapping(value = "/member/company-approve", method = { RequestMethod.GET, RequestMethod.POST })
+    public String companyMemberApprove() {
+        return "egovframework/com/adminmain/memberApprove";
+    }
+
     @RequestMapping(value = "/member/edit", method = { RequestMethod.GET, RequestMethod.POST })
     public String memberEdit(
             @RequestParam(value = "memberId", required = false) String memberId,
@@ -114,7 +124,7 @@ public class EgovAdminMainManageController {
         return "egovframework/com/adminmain/adminAccount";
     }
 
-    @RequestMapping(value = "/member/list", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = { "/member/list", "/member/admin-list" }, method = { RequestMethod.GET, RequestMethod.POST })
     public String memberList(
             @RequestParam(value = "pageIndex", required = false) String pageIndexParam,
             @RequestParam(value = "searchKeyword", required = false) String searchKeyword,

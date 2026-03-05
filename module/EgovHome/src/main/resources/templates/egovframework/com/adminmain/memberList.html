@@ -92,33 +92,7 @@
     <div th:replace="~{egovframework/com/adminmain/header :: headerFragment}"></div>
 
     <div class="flex min-h-[calc(100vh-124px)]">
-        <aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col" aria-label="관리자 사이드 메뉴">
-            <div class="mb-4 px-2 py-2 flex items-center justify-between">
-                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Operation Tools</h2>
-                <span class="material-symbols-outlined text-gray-400 cursor-pointer">menu_open</span>
-            </div>
-            <a class="admin-sidebar-link" href="/adminmain/">
-                <span class="material-symbols-outlined">dashboard</span>
-                운영 대시보드
-            </a>
-            <div class="bg-gray-50 rounded-[var(--kr-gov-radius)] border border-gray-100 pb-2">
-                <a class="admin-sidebar-link active" href="/adminmain/member/stats">
-                    <span class="material-symbols-outlined">group</span>
-                    회원·권한 관리
-                </a>
-                <a class="admin-sidebar-sublink active" href="/adminmain/member/list">회원 목록 조회</a>
-                <a class="admin-sidebar-sublink" href="#">권한 그룹 설정</a>
-                <a class="admin-sidebar-sublink" href="#">관리자 계정 생성</a>
-            </div>
-            <a class="admin-sidebar-link" href="#">
-                <span class="material-symbols-outlined">terminal</span>
-                코드 관리
-            </a>
-            <a class="admin-sidebar-link" href="#">
-                <span class="material-symbols-outlined">analytics</span>
-                로그 분석
-            </a>
-        </aside>
+        <aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col" aria-label="관리자 사이드 메뉴"></aside>
 
         <main class="flex-1 p-8 overflow-y-auto" id="main-content">
             <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-sm text-[var(--kr-gov-text-secondary)] mb-4">

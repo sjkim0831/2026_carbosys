@@ -28,7 +28,7 @@
             </div>
             <nav class="hidden xl:flex items-center space-x-2 h-full" id="adminGnbMenu" aria-label="관리자 주 메뉴">
                 <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                    data-domain="회원관리" href="/adminmain/member/stats">회원관리</a>
+                    data-domain="회원관리" href="/adminmain/member/list">회원관리</a>
                 <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
                     data-domain="배출/인증" href="#">배출/인증</a>
                 <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
@@ -43,6 +43,10 @@
                     data-domain="모니터링" href="#">모니터링</a>
             </nav>
 <div class="flex items-center gap-1">
+<div class="hidden md:flex items-center gap-1 mr-1">
+<a href="/adminmain" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100">한글</a>
+<a href="/adminmain/en" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100">ENG</a>
+</div>
 <div class="relative help-button">
 <button type="button" aria-label="도움말" aria-haspopup="true" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full flex items-center gap-1.5">
 <span class="material-symbols-outlined">help</span>
@@ -146,8 +150,9 @@
     window.addEventListener("DOMContentLoaded", function () {
         var domainMenus = {
             "회원관리": { summary: "회원 생애주기(가입/승인/권한/탈퇴)와 접근 이력 관리", groups: [
-                { title: "회원", links: [{ t: "회원 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/approve.html" }, { t: "회원 상세", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/detail.html", route: "/adminmain/member/edit" }, { t: "탈퇴 회원", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/withdrawn.html" }, { t: "휴면 계정", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/activate.html" }] },
-                { title: "회원사", links: [{ t: "회원사 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/company_list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/company_approve.html" }] },
+                { title: "회원", links: [{ t: "회원 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/approve.html" }, { t: "회원 상세", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/detail.html", route: "/adminmain/member/detail" }, { t: "탈퇴 회원", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/withdrawn.html" }, { t: "휴면 계정", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/activate.html" }] },
+                { title: "회원사", links: [{ t: "회원사 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/company_list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/company_approve.html", route: "/adminmain/member/company-approve" }] },
+                { title: "관리자", links: [{ t: "회원 목록", route: "/adminmain/member/admin-list" }] },
                 { title: "권한", links: [{ t: "권한 그룹", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/role.html" }, { t: "권한 변경", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/role.html" }, { t: "부서 권한 맵핑", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/access_log.html" }] },
                 { title: "이력", links: [{ t: "로그인 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/login_history.html" }, { t: "접근 차단 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/security.html" }, { t: "비밀번호 초기화 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/reset_password.html" }] }
             ]},
@@ -200,17 +205,19 @@
 
         function resolveMenuPath(item) {
             var text = item.text || item.t || "";
+            var route = item.route || item.path || "";
+            if (route) {
+                return route;
+            }
             var directMap = {
                 "통합 대시보드": "/adminmain/",
                 "회원 목록": "/adminmain/member/list",
+                "가입 승인": "/adminmain/member/approve",
+                "회원 상세": "/adminmain/member/detail",
                 "권한 그룹": "/adminmain/auth/group"
             };
             if (directMap[text]) {
                 return directMap[text];
-            }
-            var route = item.route || item.path || "";
-            if (route) {
-                return route;
             }
             var source = item.u || item.url || "";
             if (!source) {
@@ -253,6 +260,7 @@
             function groupIcon(title) {
                 if (title.indexOf("회원사") !== -1 || title.indexOf("Company") !== -1) return "apartment";
                 if (title.indexOf("회원") !== -1 || title.indexOf("Members") !== -1) return "group";
+                if (title.indexOf("관리자") !== -1 || title.indexOf("Admin") !== -1) return "admin_panel_settings";
                 if (title.indexOf("권한") !== -1 || title.indexOf("Permissions") !== -1) return "admin_panel_settings";
                 if (title.indexOf("이력") !== -1 || title.indexOf("History") !== -1) return "history";
                 if (title.indexOf("배출") !== -1) return "co2";
@@ -430,6 +438,7 @@
                     window.location.href = targetPath;
                     return;
                 }
+                syncPageHeadStyles(doc);
                 currentMain.className = nextMain.className;
                 currentMain.innerHTML = nextMain.innerHTML;
                 if (doc.title) {
@@ -439,6 +448,32 @@
             }).catch(function () {
                 window.location.href = targetPath;
             });
+        }
+
+        function syncPageHeadStyles(doc) {
+            var head = document.head;
+            Array.prototype.forEach.call(
+                head.querySelectorAll("[data-admin-dynamic-head='true']"),
+                function (el) { el.remove(); }
+            );
+
+            var nextStyle = doc.head.querySelector("style[type='text/tailwindcss']");
+            if (nextStyle) {
+                var styleClone = document.createElement("style");
+                styleClone.setAttribute("type", "text/tailwindcss");
+                styleClone.setAttribute("data-admin-dynamic-head", "true");
+                styleClone.textContent = nextStyle.textContent || "";
+                head.appendChild(styleClone);
+            }
+
+            var nextConfig = doc.head.querySelector("script#tailwind-config");
+            if (nextConfig) {
+                var configClone = document.createElement("script");
+                configClone.setAttribute("id", "tailwind-config");
+                configClone.setAttribute("data-admin-dynamic-head", "true");
+                configClone.textContent = nextConfig.textContent || "";
+                head.appendChild(configClone);
+            }
         }
 
         var savedDomain = window.localStorage.getItem("adminGnbDomain");

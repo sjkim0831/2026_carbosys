@@ -42,6 +42,22 @@
             font-size: 24px;
             line-height: 1.6;
         }
+        .admin-sidebar-link {
+            @apply flex items-center gap-3 px-4 py-3 text-[15px] font-medium text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-[var(--kr-gov-radius)] transition-colors;
+        }
+        .admin-sidebar-link.active {
+            @apply bg-[var(--kr-gov-blue)] text-white font-bold;
+        }
+        .admin-sidebar-sublink {
+            @apply flex items-center gap-2 pl-12 pr-4 py-2 text-[14px] text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)] hover:font-bold transition-all;
+        }
+        .admin-sidebar-sublink.active {
+            @apply text-[var(--kr-gov-blue)] font-bold relative;
+        }
+        .admin-sidebar-sublink.active::before {
+            content: '';
+            @apply absolute left-8 w-1.5 h-1.5 bg-[var(--kr-gov-blue)] rounded-full top-1/2 -translate-y-1/2;
+        }
 
         .gov-card {
             @apply border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white p-8 shadow-sm;
