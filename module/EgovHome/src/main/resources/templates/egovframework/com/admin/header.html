@@ -148,6 +148,41 @@
 
 <script>
     window.addEventListener("DOMContentLoaded", function () {
+        function getCurrentLanguage() {
+            var params = new URLSearchParams(window.location.search || "");
+            var lang = (params.get("language") || "").toLowerCase();
+            if (lang === "en") {
+                return "en";
+            }
+            if (lang === "ko") {
+                return "ko";
+            }
+            return (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0 ? "en" : "ko";
+        }
+
+        function normalizeUrl(url) {
+            var raw = (url || "").trim();
+            if (!raw) {
+                return "/";
+            }
+            var parts = raw.split("#");
+            var withoutHash = parts[0];
+            var qIndex = withoutHash.indexOf("?");
+            var path = qIndex >= 0 ? withoutHash.substring(0, qIndex) : withoutHash;
+            var query = qIndex >= 0 ? withoutHash.substring(qIndex) : "";
+            if (!path) {
+                path = "/";
+            }
+            if (path.length > 1 && path.charAt(path.length - 1) === "/") {
+                path = path.slice(0, -1);
+            }
+            return path + query;
+        }
+
+        function pathOnly(url) {
+            return normalizeUrl(url).split("?")[0];
+        }
+
         var domainMenus = {
             "회원관리": { summary: "회원 생애주기(가입/승인/권한/탈퇴)와 접근 이력 관리", groups: [
                 { title: "회원", links: [{ t: "회원 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/approve.html" }, { t: "회원 상세", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/detail.html", route: "/admin/member/detail" }, { t: "탈퇴 회원", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/withdrawn.html" }, { t: "휴면 계정", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/activate.html" }] },
@@ -195,13 +230,7 @@
             return;
         }
 
-        function normalizePath(path) {
-            var clean = (path || "/").split("?")[0].split("#")[0];
-            if (clean.length > 1 && clean.charAt(clean.length - 1) === "/") {
-                clean = clean.slice(0, -1);
-            }
-            return clean || "/";
-        }
+        function normalizePath(path) { return pathOnly(path); }
 
         function buildLocaleTarget(toEnglish) {
             var path = normalizePath(window.location.pathname || "/admin");
@@ -232,6 +261,97 @@
             params.delete("content");
             var query = params.toString();
             return path + (query ? "?" + query : "");
+        }
+
+        function applyLocaleToStaticLinksAndForms(root) {
+            var currentLang = getCurrentLanguage();
+            var scope = root || document;
+            Array.prototype.forEach.call(scope.querySelectorAll("a[href]"), function (a) {
+                var href = a.getAttribute("href") || "";
+                if (!href || href === "#" || href.indexOf("/admin") !== 0) {
+                    return;
+                }
+                var normalized = withLanguage(href);
+                if (normalized && normalized !== href) {
+                    a.setAttribute("href", normalized);
+                }
+            });
+
+            Array.prototype.forEach.call(scope.querySelectorAll("form[action]"), function (form) {
+                var action = form.getAttribute("action") || "";
+                if (!action || action.indexOf("/admin") !== 0) {
+                    return;
+                }
+                form.setAttribute("action", action.split("?")[0]);
+                var langInput = form.querySelector("input[name='language']");
+                if (!langInput) {
+                    langInput = document.createElement("input");
+                    langInput.type = "hidden";
+                    langInput.name = "language";
+                    form.appendChild(langInput);
+                }
+                langInput.value = currentLang;
+            });
+        }
+
+        function translateDomainLabel(label, lang) {
+            if (lang !== "en") {
+                return label;
+            }
+            var map = {
+                "회원관리": "Member Management",
+                "배출/인증": "Emissions/Certification",
+                "거래/정산": "Transactions/Settlement",
+                "콘텐츠": "Content",
+                "외부연계": "External Integration",
+                "시스템": "System",
+                "모니터링": "Monitoring"
+            };
+            return map[label] || label;
+        }
+
+        function translateMenuLabel(label, lang) {
+            if (lang !== "en") {
+                return label;
+            }
+            var map = {
+                "회원": "Members",
+                "회원사": "Company Members",
+                "관리자": "Admin",
+                "권한": "Permissions",
+                "이력": "History",
+                "배출": "Emissions",
+                "인증": "Certification",
+                "감사": "Audit",
+                "거래": "Transactions",
+                "정산": "Settlement",
+                "환불": "Refund",
+                "게시판": "Board",
+                "가시요소": "Visual",
+                "지원": "Support",
+                "연계": "Connections",
+                "운영": "Operations",
+                "환경": "Environment",
+                "보안": "Security",
+                "로그": "Logs",
+                "백업": "Backup",
+                "대시보드": "Dashboard",
+                "센서": "Sensors",
+                "성능": "Performance",
+                "회원 목록": "Member List",
+                "가입 승인": "Approval",
+                "회원 상세": "Member Detail",
+                "탈퇴 회원": "Withdrawn Members",
+                "휴면 계정": "Dormant Accounts",
+                "회원사 목록": "Company List",
+                "권한 그룹": "Permission Groups",
+                "권한 변경": "Permission Changes",
+                "부서 권한 맵핑": "Department Permission Mapping",
+                "로그인 이력": "Login History",
+                "접근 차단 이력": "Access Block History",
+                "비밀번호 초기화 이력": "Password Reset History"
+            };
+            return map[label] || label;
         }
 
         function updateLocaleSwitchLinks() {
@@ -309,7 +429,7 @@
         }
 
         function renderLnb(domain, pathOverride) {
-            var isEn = (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0;
+            var isEn = getCurrentLanguage() === "en";
             var groups = (domainMenus[domain] && domainMenus[domain].groups) ? domainMenus[domain].groups : [];
             var currentPath = normalizePath(pathOverride || window.location.pathname || "");
             function groupIcon(title) {
@@ -373,18 +493,20 @@
                 var groupHasActive = false;
                 var linksHtml = group.links.map(function (item, linkIdx) {
                     var text = item.text || item.t || "";
+                    var displayText = translateMenuLabel(text, isEn ? "en" : "ko");
                     var href = resolveMenuPath(item);
                     var normalizedHref = normalizePath(href);
                     var isActive = (activePath && href !== "#" && normalizedHref === activePath) || (!activePath && idx === 0 && linkIdx === 0);
                     if (isActive && activePath) {
                         groupHasActive = true;
                     }
-                    return '<a class="admin-sidebar-link' + (isActive ? ' active' : '') + '" href="' + href + '"><span class="material-symbols-outlined text-[20px]">' + subIcon(text) + '</span>' + text + '</a>';
+                    return '<a class="admin-sidebar-link' + (isActive ? ' active' : '') + '" href="' + href + '"><span class="material-symbols-outlined text-[20px]">' + subIcon(text) + '</span>' + displayText + '</a>';
                 }).join("");
+                var groupTitle = translateMenuLabel(group.title, isEn ? "en" : "ko");
                 return '' +
                     '<div class="gnb-tree-group">' +
                     '<button class="gnb-tree-title ' + ((activePath ? groupHasActive : idx === 0) ? 'active' : 'inactive') + '" type="button">' +
-                    '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[20px]">' + groupIcon(group.title) + '</span>' + group.title + '</span>' +
+                    '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[20px]">' + groupIcon(group.title) + '</span>' + groupTitle + '</span>' +
                     '<span class="material-symbols-outlined text-[18px] gnb-toggle-icon">' + ((activePath ? groupHasActive : idx === 0) ? "expand_more" : "chevron_right") + '</span></button>' +
                     '<div class="gnb-tree-links" style="' + ((activePath ? groupHasActive : idx === 0) ? "" : "display:none;") + '">' + linksHtml + '</div>' +
                     '</div>';
@@ -415,9 +537,9 @@
 
             Array.prototype.forEach.call(lnb.querySelectorAll(".admin-sidebar-link"), function (a) {
                 a.addEventListener("click", function (e) {
-                    var href = a.getAttribute("href") || "";
-                    var isModified = e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
-                    if (isModified || !href || href === "#" || href.indexOf("/admin/") !== 0) {
+                var href = a.getAttribute("href") || "";
+                var isModified = e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
+                if (isModified || !href || href === "#" || href.indexOf("/admin/") !== 0) {
                         return;
                     }
                     e.preventDefault();
@@ -444,8 +566,11 @@
         }
 
         function setActive(domain) {
+            var lang = getCurrentLanguage();
             gnbLinks.forEach(function (link) {
                 var active = link.getAttribute("data-domain") === domain;
+                var domainLabel = link.getAttribute("data-domain") || "";
+                link.textContent = translateDomainLabel(domainLabel, lang);
                 link.classList.toggle("text-[var(--kr-gov-blue)]", active);
                 link.classList.toggle("border-b-4", active);
                 link.classList.toggle("border-[var(--kr-gov-blue)]", active);
@@ -455,28 +580,31 @@
         }
 
         function applyPathState(pathname, push) {
-            var targetPath = normalizePath(pathname || window.location.pathname || "/");
+            var targetUrl = normalizeUrl(pathname || (window.location.pathname + window.location.search) || "/");
+            var targetPath = normalizePath(targetUrl);
             var matchedDomain = findDomainByPath(targetPath);
             var domain = matchedDomain || currentDomain || "회원관리";
             currentDomain = domain;
             window.localStorage.setItem("adminGnbDomain", domain);
             if (push) {
-                window.history.pushState({ admin: true }, "", targetPath);
+                window.history.pushState({ admin: true }, "", targetUrl);
             }
             setActive(domain);
             renderLnb(domain, targetPath);
             updateLocaleSwitchLinks();
+            applyLocaleToStaticLinksAndForms(document);
             document.title = document.title || "Admin";
             window.scrollTo(0, 0);
         }
 
         function navigateAdminRoute(pathname, push) {
-            var targetPath = normalizePath(pathname);
-            if (targetPath === normalizePath(window.location.pathname || "")) {
-                applyPathState(targetPath, false);
+            var targetUrl = normalizeUrl(pathname);
+            var currentUrl = normalizeUrl(window.location.pathname + window.location.search);
+            if (targetUrl === currentUrl) {
+                applyPathState(targetUrl, false);
                 return;
             }
-            fetch(targetPath, {
+            fetch(targetUrl, {
                 method: "GET",
                 credentials: "same-origin",
                 headers: { "X-Requested-With": "XMLHttpRequest" }
@@ -491,7 +619,7 @@
                 var nextMain = doc.querySelector("#main-content");
                 var currentMain = document.querySelector("#main-content");
                 if (!nextMain || !currentMain) {
-                    loadDashboardFallback(targetPath, push);
+                    loadDashboardFallback(targetUrl, push);
                     return;
                 }
                 syncPageHeadStyles(doc);
@@ -500,9 +628,9 @@
                 if (doc.title) {
                     document.title = doc.title;
                 }
-                applyPathState(targetPath, push);
+                applyPathState(targetUrl, push);
             }).catch(function () {
-                loadDashboardFallback(targetPath, push);
+                loadDashboardFallback(targetUrl, push);
             });
         }
 
@@ -572,6 +700,7 @@
         setActive(currentDomain);
         renderLnb(currentDomain);
         updateLocaleSwitchLinks();
+        applyLocaleToStaticLinksAndForms(document);
 
         gnbLinks.forEach(function (link) {
             link.addEventListener("click", function (e) {
