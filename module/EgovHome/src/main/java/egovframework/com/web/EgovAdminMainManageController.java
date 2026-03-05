@@ -35,6 +35,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/admin")
@@ -45,10 +46,13 @@ public class EgovAdminMainManageController {
     private final EgovEntrprsManageService entrprsManageService;
 
     @RequestMapping(value = { "", "/" }, method = { RequestMethod.GET, RequestMethod.POST })
-    public String adminMainEntry(HttpServletRequest request) {
+    public String adminMainEntry(HttpServletRequest request, Locale locale) {
         String accessToken = jwtProvider.getCookie(request, "accessToken");
         if (ObjectUtils.isEmpty(accessToken)) {
             return "redirect:/admin/login/loginView";
+        }
+        if (locale != null && "en".equalsIgnoreCase(locale.getLanguage())) {
+            return "egovframework/com/admin/index_en";
         }
         return "egovframework/com/admin/index";
     }
@@ -61,13 +65,33 @@ public class EgovAdminMainManageController {
             @RequestParam(value = "membershipType", required = false) String membershipType,
             @RequestParam(value = "sbscrbSttus", required = false) String sbscrbSttus,
             Model model) {
+        UriComponentsBuilder redirectBuilder;
         if ("member-list".equalsIgnoreCase(content)) {
-            model.addAttribute("enContent", "member-list");
-            return populateMemberList(pageIndexParam, searchKeyword, membershipType, sbscrbSttus, model,
-                    "egovframework/com/admin/index_en");
+            redirectBuilder = UriComponentsBuilder.fromPath("/admin/member/list").queryParam("language", "en");
+            if (!ObjectUtils.isEmpty(pageIndexParam)) {
+                redirectBuilder.queryParam("pageIndex", pageIndexParam);
+            }
+            if (!ObjectUtils.isEmpty(searchKeyword)) {
+                redirectBuilder.queryParam("searchKeyword", searchKeyword);
+            }
+            if (!ObjectUtils.isEmpty(membershipType)) {
+                redirectBuilder.queryParam("membershipType", membershipType);
+            }
+            if (!ObjectUtils.isEmpty(sbscrbSttus)) {
+                redirectBuilder.queryParam("sbscrbSttus", sbscrbSttus);
+            }
+        } else {
+            redirectBuilder = UriComponentsBuilder.fromPath("/admin").queryParam("language", "en");
         }
-        model.addAttribute("enContent", "dashboard");
-        return "egovframework/com/admin/index_en";
+        return "redirect:" + redirectBuilder.build().toUriString();
+    }
+
+    @RequestMapping(value = "/system/infra", method = { RequestMethod.GET, RequestMethod.POST })
+    public String systemInfra(Locale locale) {
+        if (locale != null && "en".equalsIgnoreCase(locale.getLanguage())) {
+            return "egovframework/com/admin/index_en";
+        }
+        return "egovframework/com/admin/index";
     }
 
     @RequestMapping(value = "/member/stats", method = { RequestMethod.GET, RequestMethod.POST })
@@ -143,9 +167,14 @@ public class EgovAdminMainManageController {
             @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
             @RequestParam(value = "membershipType", required = false) String membershipType,
             @RequestParam(value = "sbscrbSttus", required = false) String sbscrbSttus,
+            Locale locale,
             Model model) {
+        String viewName = "egovframework/com/admin/memberList";
+        if (locale != null && "en".equalsIgnoreCase(locale.getLanguage())) {
+            viewName = "egovframework/com/admin/memberList_en";
+        }
         return populateMemberList(pageIndexParam, searchKeyword, membershipType, sbscrbSttus, model,
-                "egovframework/com/admin/memberList");
+                viewName);
     }
 
     @RequestMapping(value = "/member/list/en", method = { RequestMethod.GET, RequestMethod.POST })
@@ -155,8 +184,8 @@ public class EgovAdminMainManageController {
             @RequestParam(value = "membershipType", required = false) String membershipType,
             @RequestParam(value = "sbscrbSttus", required = false) String sbscrbSttus,
             Model model) {
-        UriComponentsBuilder redirectBuilder = UriComponentsBuilder.fromPath("/admin/en")
-                .queryParam("content", "member-list");
+        UriComponentsBuilder redirectBuilder = UriComponentsBuilder.fromPath("/admin/member/list")
+                .queryParam("language", "en");
         if (!ObjectUtils.isEmpty(pageIndexParam)) {
             redirectBuilder.queryParam("pageIndex", pageIndexParam);
         }

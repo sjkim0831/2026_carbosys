@@ -104,18 +104,18 @@
 </div>
 </div>
 <nav class="hidden xl:flex items-center space-x-2 h-full" id="adminGnbMenu" aria-label="Admin Main Menu">
-<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-blue)] border-b-4 border-[var(--kr-gov-blue)]" data-domain="Member Management" href="/admin/en?content=member-list">Member Management</a>
-<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="Emissions/Certification" href="/admin/en?content=emission-result-list">Emissions/Certification</a>
-<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="Transactions/Settlement" href="/admin/en?content=trade-list">Transactions/Settlement</a>
-<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="Content" href="/admin/en?content=content-board-list">Content</a>
-<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="External Integration" href="/admin/en?content=external-connection-list">External Integration</a>
-<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="System" href="/admin/en?content=system-config">System</a>
-<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="Monitoring" href="/admin/en?content=monitoring-dashboard">Monitoring</a>
+<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-blue)] border-b-4 border-[var(--kr-gov-blue)]" data-domain="Member Management" href="/admin/member/list?language=en">Member Management</a>
+<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="Emissions/Certification" href="#">Emissions/Certification</a>
+<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="Transactions/Settlement" href="#">Transactions/Settlement</a>
+<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="Content" href="#">Content</a>
+<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="External Integration" href="#">External Integration</a>
+<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="System" href="#">System</a>
+<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="Monitoring" href="#">Monitoring</a>
 </nav>
 <div class="flex items-center gap-1">
 <div class="hidden md:flex items-center gap-1 mr-1">
-<a class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100" href="/admin">한글</a>
-<a class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100" href="/admin/en">ENG</a>
+<a id="admin-lang-ko" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100" href="/admin">한글</a>
+<a id="admin-lang-en" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100" href="/admin?language=en">ENG</a>
 </div>
 <div class="relative help-button">
 <button aria-label="Help" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full flex items-center gap-1.5">
@@ -476,7 +476,7 @@ window.addEventListener("DOMContentLoaded", function () {
         "Member Management": {
             groups: [
                 { title: "Members", links: [
-                    { t: "Member List", route: "/admin/en?content=member-list" },
+                    { t: "Member List", route: "/admin/member/list?language=en" },
                     { t: "Approval", route: "/admin/member/approve" },
                     { t: "Member Detail", route: "/admin/member/detail" },
                     { t: "Withdrawn Members", route: "#" },
@@ -487,7 +487,7 @@ window.addEventListener("DOMContentLoaded", function () {
                     { t: "Approval", route: "/admin/member/company-approve" }
                 ]},
                 { title: "Admin", links: [
-                    { t: "Member List", route: "/admin/en?content=member-list" }
+                    { t: "Member List", route: "/admin/member/list?language=en" }
                 ]},
                 { title: "Permissions", links: [
                     { t: "Permission Groups", route: "/admin/auth/group" },
@@ -556,23 +556,58 @@ window.addEventListener("DOMContentLoaded", function () {
         return clean;
     }
 
-    function slugify(text) {
-        return String(text || "")
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, "-")
-            .replace(/^-+|-+$/g, "");
+    function buildLocaleTarget(toEnglish) {
+        var path = (window.location.pathname || "/admin").split("?")[0];
+        if (path.length > 1 && path.charAt(path.length - 1) === "/") {
+            path = path.slice(0, -1);
+        }
+        if (path === "/admin/en") {
+            path = "/admin";
+        } else if (path === "/admin/member/list/en") {
+            path = "/admin/member/list";
+        }
+        var params = new URLSearchParams(window.location.search || "");
+        params.delete("content");
+        params.set("language", toEnglish ? "en" : "ko");
+        var query = params.toString();
+        return path + (query ? "?" + query : "");
+    }
+
+    function withLanguage(pathOrUrl) {
+        if (!pathOrUrl || pathOrUrl === "#" || pathOrUrl.indexOf("/admin") !== 0) {
+            return pathOrUrl;
+        }
+        var parts = pathOrUrl.split("?");
+        var path = parts[0];
+        if (path === "/admin/en") {
+            path = "/admin";
+        } else if (path === "/admin/member/list/en") {
+            path = "/admin/member/list";
+        }
+        var params = new URLSearchParams(parts[1] || "");
+        if (!params.get("language")) {
+            params.set("language", "en");
+        }
+        params.delete("content");
+        var query = params.toString();
+        return path + (query ? "?" + query : "");
+    }
+
+    function updateLocaleSwitchLinks() {
+        var koLink = document.getElementById("admin-lang-ko");
+        var enLink = document.getElementById("admin-lang-en");
+        if (!koLink || !enLink) {
+            return;
+        }
+        koLink.setAttribute("href", buildLocaleTarget(false));
+        enLink.setAttribute("href", buildLocaleTarget(true));
+        koLink.classList.remove("bg-[var(--kr-gov-blue)]", "text-white");
+        enLink.classList.add("bg-[var(--kr-gov-blue)]", "text-white");
     }
 
     function resolveContentRoute(domainName, group, item) {
         var route = item.route || item.path || "";
-        if (route && route.indexOf("/admin/en?content=") === 0) {
-            return route;
-        }
-        if (item.content) {
-            return "/admin/en?content=" + encodeURIComponent(item.content);
-        }
-        var key = slugify(domainName + "-" + (group.title || "") + "-" + (item.t || item.text || "menu"));
-        return "/admin/en?content=" + key;
+        return withLanguage(route || "#");
     }
 
     function findDomainByPath(currentPath) {
@@ -679,6 +714,7 @@ window.addEventListener("DOMContentLoaded", function () {
         }
     });
     renderLnb(currentDomain);
+    updateLocaleSwitchLinks();
 });
 </script>
 

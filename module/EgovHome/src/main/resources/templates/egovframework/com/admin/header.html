@@ -44,8 +44,8 @@
             </nav>
 <div class="flex items-center gap-1">
 <div class="hidden md:flex items-center gap-1 mr-1">
-<a href="/admin" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100">한글</a>
-<a href="/admin/en" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100">ENG</a>
+<a id="admin-lang-ko" href="/admin" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100">한글</a>
+<a id="admin-lang-en" href="/admin?language=en" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100">ENG</a>
 </div>
 <div class="relative help-button">
 <button type="button" aria-label="도움말" aria-haspopup="true" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full flex items-center gap-1.5">
@@ -203,11 +203,76 @@
             return clean || "/";
         }
 
+        function buildLocaleTarget(toEnglish) {
+            var path = normalizePath(window.location.pathname || "/admin");
+            if (path === "/admin/en") {
+                path = "/admin";
+            } else if (path === "/admin/member/list/en") {
+                path = "/admin/member/list";
+            }
+
+            var params = new URLSearchParams(window.location.search || "");
+            params.delete("content");
+            params.set("language", toEnglish ? "en" : "ko");
+
+            var query = params.toString();
+            return path + (query ? "?" + query : "");
+        }
+
+        function withLanguage(pathOrUrl) {
+            if (!pathOrUrl || pathOrUrl === "#" || pathOrUrl.indexOf("/admin") !== 0) {
+                return pathOrUrl;
+            }
+            var parts = pathOrUrl.split("?");
+            var path = parts[0];
+            if (path === "/admin/en") {
+                path = "/admin";
+            } else if (path === "/admin/member/list/en") {
+                path = "/admin/member/list";
+            }
+            var params = new URLSearchParams(parts[1] || "");
+            if (!params.get("language")) {
+                var currentParams = new URLSearchParams(window.location.search || "");
+                var currentLang = (currentParams.get("language") || "").toLowerCase();
+                if (!currentLang) {
+                    currentLang = (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0 ? "en" : "ko";
+                }
+                params.set("language", currentLang === "en" ? "en" : "ko");
+            }
+            params.delete("content");
+            var query = params.toString();
+            return path + (query ? "?" + query : "");
+        }
+
+        function updateLocaleSwitchLinks() {
+            var koLink = document.getElementById("admin-lang-ko");
+            var enLink = document.getElementById("admin-lang-en");
+            if (!koLink || !enLink) {
+                return;
+            }
+
+            koLink.setAttribute("href", buildLocaleTarget(false));
+            enLink.setAttribute("href", buildLocaleTarget(true));
+
+            var path = normalizePath(window.location.pathname || "");
+            var params = new URLSearchParams(window.location.search || "");
+            var lang = (params.get("language") || "").toLowerCase();
+            var isEn = lang === "en";
+            if (!lang) {
+                isEn = (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0;
+            }
+
+            koLink.classList.toggle("bg-[var(--kr-gov-blue)]", !isEn);
+            koLink.classList.toggle("text-white", !isEn);
+            enLink.classList.toggle("bg-[var(--kr-gov-blue)]", isEn);
+            enLink.classList.toggle("text-white", isEn);
+        }
+
         function resolveMenuPath(item) {
             var text = item.text || item.t || "";
             var route = item.route || item.path || "";
             if (route) {
-                return route;
+                return withLanguage(route);
             }
             var directMap = {
                 "통합 대시보드": "/admin/",
@@ -217,18 +282,18 @@
                 "권한 그룹": "/admin/auth/group"
             };
             if (directMap[text]) {
-                return directMap[text];
+                return withLanguage(directMap[text]);
             }
             var source = item.u || item.url || "";
             if (!source) {
                 return "#";
             }
             if (source.charAt(0) === "/" && source.indexOf(".html") === -1) {
-                return source;
+                return withLanguage(source);
             }
             var match = source.match(/\/admin\/(.+)\.html$/);
             if (match && match[1]) {
-                return "/admin/" + match[1];
+                return withLanguage("/admin/" + match[1]);
             }
             return "#";
         }
@@ -410,6 +475,7 @@
             }
             setActive(domain);
             renderLnb(domain, targetPath);
+            updateLocaleSwitchLinks();
             document.title = document.title || "Admin";
             window.scrollTo(0, 0);
         }
@@ -515,6 +581,7 @@
         }
         setActive(currentDomain);
         renderLnb(currentDomain);
+        updateLocaleSwitchLinks();
 
         gnbLinks.forEach(function (link) {
             link.addEventListener("click", function (e) {

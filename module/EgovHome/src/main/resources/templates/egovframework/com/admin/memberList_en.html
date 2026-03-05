@@ -109,7 +109,8 @@
                 </div>
             </div>
             <div class="gov-card mb-8">
-                <form action="/admin/member/list/en" class="grid grid-cols-1 md:grid-cols-4 gap-6" method="get">
+                <form action="/admin/member/list" class="grid grid-cols-1 md:grid-cols-4 gap-6" method="get">
+                    <input type="hidden" name="language" value="en" />
                     <div>
                         <label class="block text-[14px] font-bold text-[var(--kr-gov-text-secondary)] mb-2" for="member-type">Member Type</label>
                         <select class="w-full border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] text-sm focus:ring-[var(--kr-gov-focus)] focus:border-[var(--kr-gov-focus)]"
@@ -224,26 +225,26 @@
                 <div class="px-6 py-4 border-t border-[var(--kr-gov-border-light)] bg-gray-50 flex justify-center">
                     <nav class="flex items-center gap-1">
                         <a class="p-1 rounded hover:bg-white border border-transparent hover:border-gray-200"
-                           th:href="@{/admin/member/list/en(pageIndex=1,searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
+                       th:href="@{/admin/member/list(language='en',pageIndex=1,searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
                             <span class="material-symbols-outlined">first_page</span>
                         </a>
                         <a class="p-1 rounded hover:bg-white border border-transparent hover:border-gray-200"
-                           th:href="@{/admin/member/list/en(pageIndex=${pageIndex > 1 ? pageIndex - 1 : 1},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
+                           th:href="@{/admin/member/list(language='en',pageIndex=${pageIndex > 1 ? pageIndex - 1 : 1},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
                             <span class="material-symbols-outlined">chevron_left</span>
                         </a>
                         <div class="flex items-center gap-1 mx-4">
                             <a th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
-                               th:href="@{/admin/member/list/en(pageIndex=${pageNum},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}"
+                               th:href="@{/admin/member/list(language='en',pageIndex=${pageNum},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}"
                                th:text="${pageNum}"
                                th:classappend="${pageNum == pageIndex} ? 'bg-[var(--kr-gov-blue)] text-white font-bold' : 'hover:bg-white hover:border-gray-200'"
                                class="w-8 h-8 rounded border border-transparent text-sm flex items-center justify-center">1</a>
                         </div>
                         <a class="p-1 rounded hover:bg-white border border-transparent hover:border-gray-200"
-                           th:href="@{/admin/member/list/en(pageIndex=${pageIndex < totalPages ? pageIndex + 1 : totalPages},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
+                           th:href="@{/admin/member/list(language='en',pageIndex=${pageIndex < totalPages ? pageIndex + 1 : totalPages},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
                             <span class="material-symbols-outlined">chevron_right</span>
                         </a>
                         <a class="p-1 rounded hover:bg-white border border-transparent hover:border-gray-200"
-                           th:href="@{/admin/member/list/en(pageIndex=${totalPages},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
+                           th:href="@{/admin/member/list(language='en',pageIndex=${totalPages},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
                             <span class="material-symbols-outlined">last_page</span>
                         </a>
                     </nav>
