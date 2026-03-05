@@ -144,19 +144,19 @@
                             <label class="form-label" for="charger-name">Contact Person Name <span aria-hidden="true"
                                     class="text-red-500">*</span></label>
                             <input class="form-input" id="charger-name" name="chargerName"
-                                placeholder="Enter contact person's name" required type="text" />
+                                placeholder="Enter contact person's name" required type="text" autocomplete="name" />
                         </div>
                         <div class="space-y-1">
                             <label class="form-label" for="charger-email">Email Address <span aria-hidden="true"
                                     class="text-red-500">*</span></label>
                             <input class="form-input" id="charger-email" name="chargerEmail"
-                                placeholder="example@email.com" required type="email" />
+                                placeholder="example@email.com" required type="email" autocomplete="email" />
                         </div>
                         <div class="space-y-1">
                             <label class="form-label" for="charger-tel">Phone Number <span aria-hidden="true"
                                     class="text-red-500">*</span></label>
                             <input class="form-input" id="charger-tel" name="chargerTel" placeholder="010-0000-0000"
-                                required type="tel" />
+                                required type="tel" autocomplete="tel-national" inputmode="numeric" />
                         </div>
                     </div>
                 </section>
@@ -174,7 +174,7 @@
                                 <div class="relative flex-grow">
                                     <input class="form-input pr-20" id="agency-name" name="agencyName"
                                         placeholder="Enter formal name (e.g., Korea Energy Technology Co., Ltd.)"
-                                        required type="text" />
+                                        required type="text" autocomplete="organization" />
                                     <button id="btnCompanySearch"
                                         class="absolute right-2 top-2 bottom-2 px-3 bg-[var(--kr-gov-blue)] text-white text-xs font-bold rounded-[var(--kr-gov-radius)] flex items-center gap-1"
                                         type="button">
@@ -184,20 +184,20 @@
                                 <button type="button" id="idCheckBtn"
                                     class="px-4 bg-gray-800 text-white text-sm font-bold rounded-[var(--kr-gov-radius)] whitespace-nowrap">Check</button>
                             </div>
-                            <p id="duplicate-check-msg" class="mt-1 text-xs hidden"></p>
+                            <p id="duplicate-check-msg" class="mt-1 text-xs hidden" aria-live="polite"></p>
                             <input type="hidden" id="is-name-checked" value="N" />
                         </div>
                         <div class="space-y-1">
                             <label class="form-label" for="representative-name">Representative Name <span
                                     aria-hidden="true" class="text-red-500">*</span></label>
                             <input class="form-input" id="representative-name" name="representativeName"
-                                placeholder="Enter representative's name" required type="text" />
+                                placeholder="Enter representative's name" required type="text" autocomplete="name" />
                         </div>
                         <div class="space-y-1">
                             <label class="form-label" for="biz-registration-number">Business Registration Number
                                 <span aria-hidden="true" class="text-red-500">*</span></label>
                             <input class="form-input" id="biz-registration-number" name="bizRegistrationNumber"
-                                placeholder="Numbers only (10 digits)" required type="text" />
+                                placeholder="Numbers only (10 digits)" required type="text" inputmode="numeric" pattern="[0-9]{10}" />
                         </div>
                         <div class="md:col-span-2 space-y-1">
                             <label class="form-label" for="company-address">Company Address <span aria-hidden="true"
@@ -213,7 +213,7 @@
                                 name="companyAddress" placeholder="Address will be auto-filled" type="text" required
                                 readonly onclick="execDaumPostcode()" />
                             <input class="form-input" id="company-address-detail" name="companyAddressDetail"
-                                placeholder="Enter detailed address" type="text" />
+                                placeholder="Enter detailed address" type="text" autocomplete="address-line2" />
                         </div>
                     </div>
                 </section>
@@ -308,7 +308,7 @@
                                     class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
                                 <input id="modal-search" aria-label="Enter name or business registration number"
                                     class="form-input pl-11" placeholder="Enter name or business registration number"
-                                    type="text" />
+                                    type="text" autocomplete="off" />
                             </div>
                             <button id="modalInnerSearchBtn"
                                 class="px-8 bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors"

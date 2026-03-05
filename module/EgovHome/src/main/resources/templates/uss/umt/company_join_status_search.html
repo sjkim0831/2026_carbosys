@@ -62,6 +62,7 @@
 </head>
 
 <body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
+    <a class="skip-link" href="#main-content">본문 바로가기</a>
     <div id="shared-header"></div>
 
     <main class="flex-grow py-12 px-4" id="main-content">
@@ -78,13 +79,13 @@
         <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div
                 class="lg:col-span-12 bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm overflow-hidden">
-                <div class="flex h-14">
-                    <button class="flex-1 text-[16px] tab-active" id="tab-biz">사업자등록번호로 조회</button>
-                    <button class="flex-1 text-[16px] tab-inactive" id="tab-app">신청번호로 조회</button>
+                <div class="flex h-14" role="tablist" aria-label="조회 방식 선택">
+                    <button type="button" class="flex-1 text-[16px] tab-active" id="tab-biz" role="tab" aria-selected="true" tabindex="0">사업자등록번호로 조회</button>
+                    <button type="button" class="flex-1 text-[16px] tab-inactive" id="tab-app" role="tab" aria-selected="false" tabindex="-1">신청번호로 조회</button>
                 </div>
                 <div class="p-8 lg:p-10">
                     <!-- Form for Search -->
-                    <form id="searchForm" class="space-y-6">
+                    <form id="searchForm" class="space-y-6" aria-label="가입 현황 조회 폼">
                         <div class="space-y-5">
                             <div id="input-biz">
                                 <label class="block text-sm font-bold text-[var(--kr-gov-text-primary)] mb-2"
@@ -94,7 +95,7 @@
                                 <div class="flex gap-2">
                                     <input
                                         class="flex-1 h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-gov focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent"
-                                        id="biz-no" placeholder="000-00-00000 (숫자만 입력)" type="text" maxlength="10" />
+                                        id="biz-no" name="bizNo" placeholder="000-00-00000 (숫자만 입력)" type="text" maxlength="10" inputmode="numeric" pattern="[0-9]{10}" autocomplete="off" />
                                 </div>
                             </div>
                             <div id="input-app" class="hidden">
@@ -105,7 +106,7 @@
                                 <div class="flex gap-2">
                                     <input
                                         class="flex-1 h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-gov focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent"
-                                        id="app-no" placeholder="APP-YYYYMMDD-XXX" type="text" />
+                                        id="app-no" name="appNo" placeholder="APP-YYYYMMDD-XXX" type="text" autocomplete="off" />
                                 </div>
                             </div>
                             <div>
@@ -115,7 +116,7 @@
                                 </label>
                                 <input
                                     class="w-full h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-gov focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent"
-                                    id="rep-name" placeholder="대표자 성함을 입력하세요" type="text" />
+                                    id="rep-name" name="repName" placeholder="대표자 성함을 입력하세요" type="text" autocomplete="name" />
                             </div>
                         </div>
                         <div class="bg-gray-50 p-6 rounded-gov border border-[var(--kr-gov-border-light)]">
@@ -140,7 +141,7 @@
                             <label class="inline-flex items-start cursor-pointer group">
                                 <input
                                     class="mt-1 w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
-                                    id="agree-check" type="checkbox" />
+                                    id="agree-check" name="agreeCheck" type="checkbox" />
                                 <span class="ml-3 text-sm text-[var(--kr-gov-text-secondary)] leading-relaxed">
                                     조회를 위한 개인정보 수집 및 이용에 동의합니다. (필수)
                                 </span>
@@ -168,6 +169,10 @@
         tabBiz.addEventListener('click', () => {
             tabBiz.className = 'flex-1 text-[16px] tab-active';
             tabApp.className = 'flex-1 text-[16px] tab-inactive';
+            tabBiz.setAttribute('aria-selected', 'true');
+            tabBiz.setAttribute('tabindex', '0');
+            tabApp.setAttribute('aria-selected', 'false');
+            tabApp.setAttribute('tabindex', '-1');
             inputBiz.classList.remove('hidden');
             inputApp.classList.add('hidden');
         });
@@ -175,6 +180,10 @@
         tabApp.addEventListener('click', () => {
             tabApp.className = 'flex-1 text-[16px] tab-active';
             tabBiz.className = 'flex-1 text-[16px] tab-inactive';
+            tabApp.setAttribute('aria-selected', 'true');
+            tabApp.setAttribute('tabindex', '0');
+            tabBiz.setAttribute('aria-selected', 'false');
+            tabBiz.setAttribute('tabindex', '-1');
             inputApp.classList.remove('hidden');
             inputBiz.classList.add('hidden');
         });

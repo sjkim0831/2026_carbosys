@@ -151,7 +151,7 @@
                         <span class="ml-3 text-lg font-bold text-[var(--kr-gov-blue)]">전체 약관에 모두 동의합니다.</span>
                     </label>
                 </div>
-                <form action="/join/step3" method="post" class="space-y-10">
+                <form id="termsForm" action="/join/step3" method="post" class="space-y-10">
                     <div class="space-y-4">
                         <div class="flex justify-between items-end">
                             <label class="flex items-center">
@@ -171,7 +171,7 @@
                         </div>
                         <div class="flex justify-end">
                             <label class="flex items-center cursor-pointer">
-                                <input required
+                                <input id="agree-terms" name="agreeTerms" required
                                     class="term-check w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
                                     type="checkbox" />
                                 <span class="ml-2 text-[15px] font-medium text-[var(--kr-gov-text-secondary)]">이용약관에
@@ -198,7 +198,7 @@
                         </div>
                         <div class="flex justify-end">
                             <label class="flex items-center cursor-pointer">
-                                <input required
+                                <input id="agree-privacy" name="agreePrivacy" required
                                     class="term-check w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
                                     type="checkbox" />
                                 <span class="ml-2 text-[15px] font-medium text-[var(--kr-gov-text-secondary)]">개인정보 수집 및

@@ -112,7 +112,7 @@
                             conditions.</span>
                     </label>
                 </div>
-                <form action="/join/en/step3" method="post" class="space-y-10">
+                <form id="termsFormEn" action="/join/en/step3" method="post" class="space-y-10">
                     <div class="space-y-4">
                         <div class="flex justify-between items-end">
                             <label class="flex items-center">
@@ -138,7 +138,7 @@
                         </div>
                         <div class="flex justify-end">
                             <label class="flex items-center cursor-pointer">
-                                <input required
+                                <input id="agree-terms" name="agreeTerms" required
                                     class="term-check w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
                                     type="checkbox" />
                                 <span class="ml-2 text-[15px] font-medium text-[var(--kr-gov-text-secondary)]">I agree
@@ -172,7 +172,7 @@
                         </div>
                         <div class="flex justify-end">
                             <label class="flex items-center cursor-pointer">
-                                <input required
+                                <input id="agree-privacy" name="agreePrivacy" required
                                     class="term-check w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
                                     type="checkbox" />
                                 <span class="ml-2 text-[15px] font-medium text-[var(--kr-gov-text-secondary)]">I agree

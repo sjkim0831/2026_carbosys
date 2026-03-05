@@ -74,6 +74,7 @@
 </head>
 
 <body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
+    <a class="skip-link" href="#main-content">본문 바로가기</a>
     <div id="shared-header"></div>
 
     <main class="flex-grow max-w-5xl mx-auto w-full py-12 px-4" id="main-content">
@@ -171,7 +172,7 @@
         </div>
 
         <div class="flex justify-center">
-            <button onclick="window.close()"
+            <button type="button" onclick="window.close()"
                 class="px-8 py-3 bg-gray-800 text-white font-bold rounded-lg hover:bg-gray-700 transition-colors">
                 창 닫기
             </button>
