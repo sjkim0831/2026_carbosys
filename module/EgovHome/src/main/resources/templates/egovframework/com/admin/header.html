@@ -16,7 +16,7 @@
     <div class="max-w-full mx-auto px-6">
         <div class="flex justify-between items-center h-20">
             <div class="flex items-center gap-4">
-                <a class="flex items-center gap-2" href="/adminmain">
+                <a class="flex items-center gap-2" href="/admin">
                     <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]">eco</span>
                     <div class="flex flex-col">
                         <h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)]">CCUS 통합관리 시스템
@@ -28,7 +28,7 @@
             </div>
             <nav class="hidden xl:flex items-center space-x-2 h-full" id="adminGnbMenu" aria-label="관리자 주 메뉴">
                 <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                    data-domain="회원관리" href="/adminmain/member/list">회원관리</a>
+                    data-domain="회원관리" href="/admin/member/list">회원관리</a>
                 <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
                     data-domain="배출/인증" href="#">배출/인증</a>
                 <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
@@ -44,8 +44,8 @@
             </nav>
 <div class="flex items-center gap-1">
 <div class="hidden md:flex items-center gap-1 mr-1">
-<a href="/adminmain" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100">한글</a>
-<a href="/adminmain/en" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100">ENG</a>
+<a href="/admin" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100">한글</a>
+<a href="/admin/en" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100">ENG</a>
 </div>
 <div class="relative help-button">
 <button type="button" aria-label="도움말" aria-haspopup="true" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full flex items-center gap-1.5">
@@ -150,16 +150,16 @@
     window.addEventListener("DOMContentLoaded", function () {
         var domainMenus = {
             "회원관리": { summary: "회원 생애주기(가입/승인/권한/탈퇴)와 접근 이력 관리", groups: [
-                { title: "회원", links: [{ t: "회원 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/approve.html" }, { t: "회원 상세", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/detail.html", route: "/adminmain/member/detail" }, { t: "탈퇴 회원", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/withdrawn.html" }, { t: "휴면 계정", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/activate.html" }] },
-                { title: "회원사", links: [{ t: "회원사 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/company_list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/company_approve.html", route: "/adminmain/member/company-approve" }] },
-                { title: "관리자", links: [{ t: "회원 목록", route: "/adminmain/member/admin-list" }] },
+                { title: "회원", links: [{ t: "회원 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/approve.html" }, { t: "회원 상세", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/detail.html", route: "/admin/member/detail" }, { t: "탈퇴 회원", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/withdrawn.html" }, { t: "휴면 계정", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/activate.html" }] },
+                { title: "회원사", links: [{ t: "회원사 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/company_list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/company_approve.html", route: "/admin/member/company-approve" }] },
+                { title: "관리자", links: [{ t: "회원 목록", route: "/admin/member/admin-list" }] },
                 { title: "권한", links: [{ t: "권한 그룹", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/role.html" }, { t: "권한 변경", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/role.html" }, { t: "부서 권한 맵핑", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/access_log.html" }] },
                 { title: "이력", links: [{ t: "로그인 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/login_history.html" }, { t: "접근 차단 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/security.html" }, { t: "비밀번호 초기화 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/reset_password.html" }] }
             ]},
             "배출/인증": { summary: "배출량 산정 결과 검토 및 인증서 발급 프로세스 운영", groups: [
                 { title: "배출", links: [{ t: "산정 결과 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/emission/result_list.html" }, { t: "결과 상세", u: "../../../Downloads/화면설계/화면설계/화면/admin/emission/result_detail.html" }, { t: "데이터 변경 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/emission/data_history.html" }, { t: "검증 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/emission/validate.html" }] },
                 { title: "인증", links: [{ t: "발급 검토", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/review.html" }, { t: "이의신청 처리", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/objection_list.html" }, { t: "인증서 통계", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/statistics.html" }, { t: "REC 중복 확인", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/rec_check.html" }] },
-                { title: "감사", links: [{ t: "감사 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/audit_log.html", route: "/adminmain/certificate/audit-log" }, { t: "승인자 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/pending_list.html" }, { t: "반려 사유 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/approve.html" }] }
+                { title: "감사", links: [{ t: "감사 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/audit_log.html", route: "/admin/certificate/audit-log" }, { t: "승인자 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/pending_list.html" }, { t: "반려 사유 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/approve.html" }] }
             ]},
             "거래/정산": { summary: "거래 승인, 이상거래 모니터링, 결제/정산/환불 처리", groups: [
                 { title: "거래", links: [{ t: "거래 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/trade/list.html" }, { t: "거래 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/trade/approve.html" }, { t: "거래 거절", u: "../../../Downloads/화면설계/화면설계/화면/admin/trade/reject.html" }, { t: "이상거래 점검", u: "../../../Downloads/화면설계/화면설계/화면/admin/trade/duplicate.html" }] },
@@ -178,8 +178,8 @@
             ]},
             "시스템": { summary: "설정/보안/로그/백업/복구 등 플랫폼 운영 핵심 기능", groups: [
                 { title: "환경", links: [{ t: "환경설정", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/config.html" }, { t: "코드 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/code.html" }, { t: "모듈 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/module.html" }, { t: "테마 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/theme.html" }] },
-                { title: "보안", links: [{ t: "IP 화이트리스트", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/ip_whitelist.html" }, { t: "세션 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/session.html" }, { t: "SSL 인증서", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/ssl.html" }, { t: "보안 정책", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/security.html", route: "/adminmain/system/security-policy" }] },
-                { title: "로그", links: [{ t: "접속 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/access_history.html" }, { t: "감사 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/audit_log.html", route: "/adminmain/system/audit-log" }, { t: "에러 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/error_log.html" }, { t: "통합 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/unified_log.html" }] },
+                { title: "보안", links: [{ t: "IP 화이트리스트", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/ip_whitelist.html" }, { t: "세션 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/session.html" }, { t: "SSL 인증서", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/ssl.html" }, { t: "보안 정책", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/security.html", route: "/admin/system/security-policy" }] },
+                { title: "로그", links: [{ t: "접속 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/access_history.html" }, { t: "감사 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/audit_log.html", route: "/admin/system/audit-log" }, { t: "에러 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/error_log.html" }, { t: "통합 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/unified_log.html" }] },
                 { title: "백업", links: [{ t: "백업 설정", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/backup_config.html" }, { t: "백업 실행", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/backup.html" }, { t: "복구 실행", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/restore.html" }, { t: "버전 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/version.html" }] }
             ]},
             "모니터링": { summary: "서비스/센서/인프라 실시간 상태 감시 및 경보 관리", groups: [
@@ -210,11 +210,11 @@
                 return route;
             }
             var directMap = {
-                "통합 대시보드": "/adminmain/",
-                "회원 목록": "/adminmain/member/list",
-                "가입 승인": "/adminmain/member/approve",
-                "회원 상세": "/adminmain/member/detail",
-                "권한 그룹": "/adminmain/auth/group"
+                "통합 대시보드": "/admin/",
+                "회원 목록": "/admin/member/list",
+                "가입 승인": "/admin/member/approve",
+                "회원 상세": "/admin/member/detail",
+                "권한 그룹": "/admin/auth/group"
             };
             if (directMap[text]) {
                 return directMap[text];
@@ -228,7 +228,7 @@
             }
             var match = source.match(/\/admin\/(.+)\.html$/);
             if (match && match[1]) {
-                return "/adminmain/" + match[1];
+                return "/admin/" + match[1];
             }
             return "#";
         }
@@ -362,7 +362,7 @@
                 a.addEventListener("click", function (e) {
                     var href = a.getAttribute("href") || "";
                     var isModified = e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
-                    if (isModified || !href || href === "#" || href.indexOf("/adminmain/") !== 0) {
+                    if (isModified || !href || href === "#" || href.indexOf("/admin/") !== 0) {
                         return;
                     }
                     e.preventDefault();
@@ -406,7 +406,7 @@
             currentDomain = domain;
             window.localStorage.setItem("adminGnbDomain", domain);
             if (push) {
-                window.history.pushState({ adminmain: true }, "", targetPath);
+                window.history.pushState({ admin: true }, "", targetPath);
             }
             setActive(domain);
             renderLnb(domain, targetPath);
@@ -499,7 +499,7 @@
         });
 
         window.addEventListener("popstate", function () {
-            navigateAdminRoute(window.location.pathname || "/adminmain/", false);
+            navigateAdminRoute(window.location.pathname || "/admin/", false);
         });
     });
 </script>

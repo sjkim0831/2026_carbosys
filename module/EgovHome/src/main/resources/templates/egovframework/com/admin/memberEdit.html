@@ -98,7 +98,7 @@
 <body class="bg-[#f8f9fa] text-[var(--kr-gov-text-primary)]">
     <a class="skip-link" href="#main-content">본문 바로가기</a>
 
-    <div th:replace="~{egovframework/com/adminmain/header :: headerFragment}"></div>
+    <div th:replace="~{egovframework/com/admin/header :: headerFragment}"></div>
 
     <div class="flex min-h-[calc(100vh-124px)]">
         <aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col"
@@ -205,7 +205,7 @@
 
                 <div class="mt-12 flex justify-center items-center gap-3 border-t pt-8">
                     <button class="px-8 py-3 bg-white border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors min-w-[140px]"
-                            onclick="window.location.href='/adminmain/member/list'" type="button">취소하기</button>
+                            onclick="window.location.href='/admin/member/list'" type="button">취소하기</button>
                     <button class="px-8 py-3 bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors min-w-[140px] shadow-lg shadow-blue-900/10"
                             type="submit">저장하기</button>
                 </div>
@@ -213,7 +213,7 @@
         </main>
     </div>
 
-    <div th:replace="~{egovframework/com/adminmain/footer :: footerFragment}"></div>
+    <div th:replace="~{egovframework/com/admin/footer :: footerFragment}"></div>
 </body>
 
 </html>

@@ -17,10 +17,11 @@ EGOV_HOME_XMS="${EGOV_HOME_XMS:-128m}"
 EGOV_HOME_XMX="${EGOV_HOME_XMX:-384m}"
 
 # Wait for CUBRID to be ready
-echo "Waiting for CUBRID database (cas:33001)..."
+echo "Waiting for CUBRID broker (33000) or CAS (33001)..."
 MAX_RETRIES=30
 COUNT=0
-while ! (timeout 1 bash -c "</dev/tcp/cubrid/33001" 2>/dev/null); do
+while ! (timeout 1 bash -c "</dev/tcp/cubrid/33000" 2>/dev/null) \
+   && ! (timeout 1 bash -c "</dev/tcp/cubrid/33001" 2>/dev/null); do
   COUNT=$((COUNT + 1))
   if [ $COUNT -ge $MAX_RETRIES ]; then
     echo "CUBRID is not ready after $MAX_RETRIES seconds. Proceeding anyway..."
@@ -28,7 +29,7 @@ while ! (timeout 1 bash -c "</dev/tcp/cubrid/33001" 2>/dev/null); do
   fi
   sleep 2
 done
-echo "CUBRID CAS port is open. Waiting another 10s for initialization..."
+echo "CUBRID port is reachable. Waiting another 10s for initialization..."
 sleep 10
 
 # Start Infrastructure Services (Eureka, Config, Gateway)

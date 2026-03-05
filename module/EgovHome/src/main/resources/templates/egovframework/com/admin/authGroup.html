@@ -83,7 +83,7 @@
     <a class="skip-link" href="#main-content">본문 바로가기</a>
 
     <!-- Header fragment inclusion -->
-    <div th:replace="~{egovframework/com/adminmain/header :: headerFragment}"></div>
+    <div th:replace="~{egovframework/com/admin/header :: headerFragment}"></div>
 
     <div class="flex min-h-[calc(100vh-124px)]">
         <aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col" aria-label="관리자 사이드 메뉴">
@@ -91,18 +91,18 @@
                 <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Operation Tools</h2>
                 <span class="material-symbols-outlined text-gray-400 cursor-pointer">menu_open</span>
             </div>
-            <a class="admin-sidebar-link" href="/adminmain/">
+            <a class="admin-sidebar-link" href="/admin/">
                 <span class="material-symbols-outlined">dashboard</span>
                 운영 대시보드
             </a>
             <div class="bg-gray-50 rounded-[var(--kr-gov-radius)] border border-gray-100 pb-2">
-                <a class="admin-sidebar-link active" href="/adminmain/member/stats">
+                <a class="admin-sidebar-link active" href="/admin/member/stats">
                     <span class="material-symbols-outlined">group</span>
                     회원·권한 관리
                 </a>
-                <a class="admin-sidebar-sublink" href="/adminmain/member/list">회원 목록 조회</a>
-                <a class="admin-sidebar-sublink active" href="/adminmain/auth/group">권한 그룹 설정</a>
-                <a class="admin-sidebar-sublink" href="/adminmain/admin/account">관리자 계정 생성</a>
+                <a class="admin-sidebar-sublink" href="/admin/member/list">회원 목록 조회</a>
+                <a class="admin-sidebar-sublink active" href="/admin/auth/group">권한 그룹 설정</a>
+                <a class="admin-sidebar-sublink" href="/admin/admin/account">관리자 계정 생성</a>
             </div>
             <a class="admin-sidebar-link" href="#">
                 <span class="material-symbols-outlined">terminal</span>
@@ -184,7 +184,7 @@
     </div>
 
     <!-- Footer fragment inclusion -->
-    <div th:replace="~{egovframework/com/adminmain/footer :: footerFragment}"></div>
+    <div th:replace="~{egovframework/com/admin/footer :: footerFragment}"></div>
 
     <script th:inline="javascript">
         function logout() {

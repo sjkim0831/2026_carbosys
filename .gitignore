@@ -14,6 +14,7 @@ gen
 
 # maven
 target/
+**/target/
 .project
 .classpath
 **/.mvn/wrapper/
@@ -39,7 +40,6 @@ sonar-project.properties
 .scannerwork
 
 model/
-target/
 
 # Build artifacts
 *.jar
@@ -65,3 +65,8 @@ file/instt/INSTT_1772173772820.jpg
 backup
 backup/*
 logs/*
+
+# Runtime/generated logs
+module/**/runtime/*.log
+module/**/runtime/*.jsonl
+module/**/runtime/log-offsets.properties

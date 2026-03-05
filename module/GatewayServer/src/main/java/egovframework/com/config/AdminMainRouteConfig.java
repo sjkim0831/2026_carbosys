@@ -15,9 +15,9 @@ public class AdminMainRouteConfig {
                         r -> r.order(-2000)
                                 .path("/admin/login/**")
                                 .uri("http://localhost:18000"))
-                .route("adminmain-merged-fixed",
+                .route("admin-merged-fixed",
                         r -> r.order(-1000)
-                                .path("/adminmain", "/adminmain/**")
+                                .path("/admin", "/admin/**")
                                 .uri("http://localhost:18000"))
                 .build();
     }

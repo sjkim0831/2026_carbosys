@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
@@ -36,7 +37,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/adminmain")
+@RequestMapping("/admin")
 @RequiredArgsConstructor
 public class EgovAdminMainManageController {
 
@@ -49,32 +50,44 @@ public class EgovAdminMainManageController {
         if (ObjectUtils.isEmpty(accessToken)) {
             return "redirect:/admin/login/loginView";
         }
-        return "egovframework/com/adminmain/index";
+        return "egovframework/com/admin/index";
     }
 
     @RequestMapping(value = "/en", method = { RequestMethod.GET, RequestMethod.POST })
-    public String indexEn() {
-        return "egovframework/com/adminmain/index_en";
+    public String indexEn(
+            @RequestParam(value = "content", required = false) String content,
+            @RequestParam(value = "pageIndex", required = false) String pageIndexParam,
+            @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+            @RequestParam(value = "membershipType", required = false) String membershipType,
+            @RequestParam(value = "sbscrbSttus", required = false) String sbscrbSttus,
+            Model model) {
+        if ("member-list".equalsIgnoreCase(content)) {
+            model.addAttribute("enContent", "member-list");
+            return populateMemberList(pageIndexParam, searchKeyword, membershipType, sbscrbSttus, model,
+                    "egovframework/com/admin/index_en");
+        }
+        model.addAttribute("enContent", "dashboard");
+        return "egovframework/com/admin/index_en";
     }
 
     @RequestMapping(value = "/member/stats", method = { RequestMethod.GET, RequestMethod.POST })
     public String memberStats() {
-        return "egovframework/com/adminmain/memberStats";
+        return "egovframework/com/admin/memberStats";
     }
 
     @RequestMapping(value = "/member/register", method = { RequestMethod.GET, RequestMethod.POST })
     public String memberRegister() {
-        return "egovframework/com/adminmain/memberRegister";
+        return "egovframework/com/admin/memberRegister";
     }
 
     @RequestMapping(value = "/member/approve", method = { RequestMethod.GET, RequestMethod.POST })
     public String memberApprove() {
-        return "egovframework/com/adminmain/memberApprove";
+        return "egovframework/com/admin/memberApprove";
     }
 
     @RequestMapping(value = "/member/company-approve", method = { RequestMethod.GET, RequestMethod.POST })
     public String companyMemberApprove() {
-        return "egovframework/com/adminmain/memberApprove";
+        return "egovframework/com/admin/memberApprove";
     }
 
     @RequestMapping(value = "/member/edit", method = { RequestMethod.GET, RequestMethod.POST })
@@ -82,7 +95,7 @@ public class EgovAdminMainManageController {
             @RequestParam(value = "memberId", required = false) String memberId,
             Model model) {
         model.addAttribute("memberId", memberId == null ? "" : memberId.trim());
-        return "egovframework/com/adminmain/memberEdit";
+        return "egovframework/com/admin/memberEdit";
     }
 
     @RequestMapping(value = "/member/detail", method = { RequestMethod.GET, RequestMethod.POST })
@@ -94,14 +107,14 @@ public class EgovAdminMainManageController {
 
         if (normalizedMemberId.isEmpty()) {
             model.addAttribute("memberDetailError", "회원 ID가 전달되지 않았습니다.");
-            return "egovframework/com/adminmain/memberDetail";
+            return "egovframework/com/admin/memberDetail";
         }
 
         try {
             EntrprsManageVO member = entrprsManageService.selectEntrprsmberByMberId(normalizedMemberId);
             if (member == null || ObjectUtils.isEmpty(member.getEntrprsmberId())) {
                 model.addAttribute("memberDetailError", "회원 정보를 찾을 수 없습니다.");
-                return "egovframework/com/adminmain/memberDetail";
+                return "egovframework/com/admin/memberDetail";
             }
 
             model.addAttribute("member", member);
@@ -113,7 +126,7 @@ public class EgovAdminMainManageController {
             model.addAttribute("memberDetailError", "회원 정보 조회 중 오류가 발생했습니다.");
         }
 
-        return "egovframework/com/adminmain/memberDetail";
+        return "egovframework/com/admin/memberDetail";
     }
 
     @RequestMapping(value = { "/member/admin-account", "/admin/account" }, method = {
@@ -121,7 +134,7 @@ public class EgovAdminMainManageController {
             RequestMethod.POST
     })
     public String adminAccount() {
-        return "egovframework/com/adminmain/adminAccount";
+        return "egovframework/com/admin/adminAccount";
     }
 
     @RequestMapping(value = { "/member/list", "/member/admin-list" }, method = { RequestMethod.GET, RequestMethod.POST })
@@ -131,6 +144,41 @@ public class EgovAdminMainManageController {
             @RequestParam(value = "membershipType", required = false) String membershipType,
             @RequestParam(value = "sbscrbSttus", required = false) String sbscrbSttus,
             Model model) {
+        return populateMemberList(pageIndexParam, searchKeyword, membershipType, sbscrbSttus, model,
+                "egovframework/com/admin/memberList");
+    }
+
+    @RequestMapping(value = "/member/list/en", method = { RequestMethod.GET, RequestMethod.POST })
+    public String memberListEn(
+            @RequestParam(value = "pageIndex", required = false) String pageIndexParam,
+            @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+            @RequestParam(value = "membershipType", required = false) String membershipType,
+            @RequestParam(value = "sbscrbSttus", required = false) String sbscrbSttus,
+            Model model) {
+        UriComponentsBuilder redirectBuilder = UriComponentsBuilder.fromPath("/admin/en")
+                .queryParam("content", "member-list");
+        if (!ObjectUtils.isEmpty(pageIndexParam)) {
+            redirectBuilder.queryParam("pageIndex", pageIndexParam);
+        }
+        if (!ObjectUtils.isEmpty(searchKeyword)) {
+            redirectBuilder.queryParam("searchKeyword", searchKeyword);
+        }
+        if (!ObjectUtils.isEmpty(membershipType)) {
+            redirectBuilder.queryParam("membershipType", membershipType);
+        }
+        if (!ObjectUtils.isEmpty(sbscrbSttus)) {
+            redirectBuilder.queryParam("sbscrbSttus", sbscrbSttus);
+        }
+        return "redirect:" + redirectBuilder.build().toUriString();
+    }
+
+    private String populateMemberList(
+            String pageIndexParam,
+            String searchKeyword,
+            String membershipType,
+            String sbscrbSttus,
+            Model model,
+            String viewName) {
         int pageIndex = 1;
         if (pageIndexParam != null && !pageIndexParam.trim().isEmpty()) {
             try {
@@ -200,12 +248,12 @@ public class EgovAdminMainManageController {
         model.addAttribute("searchKeyword", keyword);
         model.addAttribute("membershipType", memberType);
         model.addAttribute("sbscrbSttus", status);
-        return "egovframework/com/adminmain/memberList";
+        return viewName;
     }
 
     @RequestMapping(value = { "/member/auth-group", "/auth/group" }, method = { RequestMethod.GET, RequestMethod.POST })
     public String authGroup() {
-        return "egovframework/com/adminmain/authGroup";
+        return "egovframework/com/admin/authGroup";
     }
 
     @RequestMapping(value = "/member/list/excel", method = { RequestMethod.GET, RequestMethod.POST })

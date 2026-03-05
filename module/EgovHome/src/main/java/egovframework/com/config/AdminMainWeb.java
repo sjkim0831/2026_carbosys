@@ -15,23 +15,23 @@ public class AdminMainWeb implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(adminMainAuthInterceptor)
-                .addPathPatterns("/adminmain/**")
+                .addPathPatterns("/admin/**")
                 .excludePathPatterns(
-                        "/adminmain/css/**",
-                        "/adminmain/js/**",
-                        "/adminmain/img/**",
-                        "/adminmain/fonts/**",
-                        "/adminmain/**/*.png",
-                        "/adminmain/**/*.jpg",
-                        "/adminmain/**/*.jpeg",
-                        "/adminmain/**/*.gif",
-                        "/adminmain/**/*.svg",
-                        "/adminmain/**/*.woff",
-                        "/adminmain/**/*.woff2",
-                        "/adminmain/**/*.ttf",
-                        "/adminmain/**/*.otf",
-                        "/adminmain/**/*.eot",
-                        "/adminmain/**/*.ico"
+                        "/admin/css/**",
+                        "/admin/js/**",
+                        "/admin/img/**",
+                        "/admin/fonts/**",
+                        "/admin/**/*.png",
+                        "/admin/**/*.jpg",
+                        "/admin/**/*.jpeg",
+                        "/admin/**/*.gif",
+                        "/admin/**/*.svg",
+                        "/admin/**/*.woff",
+                        "/admin/**/*.woff2",
+                        "/admin/**/*.ttf",
+                        "/admin/**/*.otf",
+                        "/admin/**/*.eot",
+                        "/admin/**/*.ico"
                 );
     }
 }

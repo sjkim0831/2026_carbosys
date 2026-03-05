@@ -89,7 +89,7 @@
     <a class="skip-link" href="#main-content">본문 바로가기</a>
 
     <!-- Header fragment inclusion -->
-    <div th:replace="~{egovframework/com/adminmain/header :: headerFragment}"></div>
+    <div th:replace="~{egovframework/com/admin/header :: headerFragment}"></div>
 
     <div class="flex min-h-[calc(100vh-124px)]">
         <aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col" aria-label="관리자 사이드 메뉴"></aside>
@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div class="gov-card mb-8">
-                <form action="/adminmain/member/list" class="grid grid-cols-1 md:grid-cols-4 gap-6" method="get">
+                <form action="/admin/member/list" class="grid grid-cols-1 md:grid-cols-4 gap-6" method="get">
                     <div>
                         <label class="block text-[14px] font-bold text-[var(--kr-gov-text-secondary)] mb-2" for="member-type">회원 유형</label>
                         <select class="w-full border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] text-sm focus:ring-[var(--kr-gov-focus)] focus:border-[var(--kr-gov-focus)]"
@@ -151,11 +151,11 @@
                 </div>
                 <div class="flex gap-2">
                     <a class="flex items-center gap-1.5 px-3 py-2 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] text-[13px] font-bold hover:bg-gray-50"
-                       th:href="@{/adminmain/member/list/excel(searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
+                       th:href="@{/admin/member/list/excel(searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
                         <span class="material-symbols-outlined text-[18px]">download</span> 엑셀 다운로드
                     </a>
                     <a class="flex items-center gap-1.5 px-3 py-2 bg-[var(--kr-gov-green)] text-white rounded-[var(--kr-gov-radius)] text-[13px] font-bold hover:opacity-90"
-                       href="/adminmain/member/register">
+                       href="/admin/member/register">
                         <span class="material-symbols-outlined text-[18px]">person_add</span> 신규 회원 등록
                     </a>
                 </div>
@@ -210,9 +210,9 @@
                                 </td>
                                 <td class="px-6 py-4 text-center space-x-1">
                                     <a class="inline-flex px-3 py-1.5 border border-[var(--kr-gov-border-light)] text-[12px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-100"
-                                       th:href="@{/adminmain/member/edit(memberId=${member.entrprsmberId})}">수정</a>
+                                       th:href="@{/admin/member/edit(memberId=${member.entrprsmberId})}">수정</a>
                                     <a class="inline-flex px-3 py-1.5 bg-[var(--kr-gov-blue)] text-white text-[12px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)]"
-                                       th:href="@{/adminmain/member/detail(memberId=${member.entrprsmberId})}">상세</a>
+                                       th:href="@{/admin/member/detail(memberId=${member.entrprsmberId})}">상세</a>
                                 </td>
                             </tr>
                             <tr th:if="${#lists.isEmpty(memberList)}">
@@ -224,26 +224,26 @@
                 <div class="px-6 py-4 border-t border-[var(--kr-gov-border-light)] bg-gray-50 flex justify-center">
                     <nav class="flex items-center gap-1">
                         <a class="p-1 rounded hover:bg-white border border-transparent hover:border-gray-200"
-                           th:href="@{/adminmain/member/list(pageIndex=1,searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
+                           th:href="@{/admin/member/list(pageIndex=1,searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
                             <span class="material-symbols-outlined">first_page</span>
                         </a>
                         <a class="p-1 rounded hover:bg-white border border-transparent hover:border-gray-200"
-                           th:href="@{/adminmain/member/list(pageIndex=${pageIndex > 1 ? pageIndex - 1 : 1},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
+                           th:href="@{/admin/member/list(pageIndex=${pageIndex > 1 ? pageIndex - 1 : 1},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
                             <span class="material-symbols-outlined">chevron_left</span>
                         </a>
                         <div class="flex items-center gap-1 mx-4">
                             <a th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
-                               th:href="@{/adminmain/member/list(pageIndex=${pageNum},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}"
+                               th:href="@{/admin/member/list(pageIndex=${pageNum},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}"
                                th:text="${pageNum}"
                                th:classappend="${pageNum == pageIndex} ? 'bg-[var(--kr-gov-blue)] text-white font-bold' : 'hover:bg-white hover:border-gray-200'"
                                class="w-8 h-8 rounded border border-transparent text-sm flex items-center justify-center">1</a>
                         </div>
                         <a class="p-1 rounded hover:bg-white border border-transparent hover:border-gray-200"
-                           th:href="@{/adminmain/member/list(pageIndex=${pageIndex < totalPages ? pageIndex + 1 : totalPages},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
+                           th:href="@{/admin/member/list(pageIndex=${pageIndex < totalPages ? pageIndex + 1 : totalPages},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
                             <span class="material-symbols-outlined">chevron_right</span>
                         </a>
                         <a class="p-1 rounded hover:bg-white border border-transparent hover:border-gray-200"
-                           th:href="@{/adminmain/member/list(pageIndex=${totalPages},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
+                           th:href="@{/admin/member/list(pageIndex=${totalPages},searchKeyword=${searchKeyword},membershipType=${membershipType},sbscrbSttus=${sbscrbSttus})}">
                             <span class="material-symbols-outlined">last_page</span>
                         </a>
                     </nav>
@@ -253,7 +253,7 @@
     </div>
 
     <!-- Footer fragment inclusion -->
-    <div th:replace="~{egovframework/com/adminmain/footer :: footerFragment}"></div>
+    <div th:replace="~{egovframework/com/admin/footer :: footerFragment}"></div>
 
     <script th:inline="javascript">
         function logout() {

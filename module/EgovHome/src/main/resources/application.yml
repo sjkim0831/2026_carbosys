@@ -84,7 +84,7 @@ org:
       csrfAccessDeniedUrl: /signin/csrfAccessDenied
       defaultTargetUrl: /main
       dataSource: dataSource
-      excludeList: /css/**, /images/**, /js/**, /uat/**, /uss/umt/**, /home/**, /home3/**, /signin/**, /join/**, /admin/login/**, /adminmain, /adminmain/**
+      excludeList: /css/**, /images/**, /js/**, /uat/**, /uss/umt/**, /home/**, /home3/**, /signin/**, /join/**, /admin/login/**, /admin, /admin/**
       csrf: false
       xframeOptions: sameorigin
       sniff: false
