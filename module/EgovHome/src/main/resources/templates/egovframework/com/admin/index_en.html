@@ -149,70 +149,7 @@
 <div class="flex min-h-[calc(100vh-124px)]">
 <aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col"></aside>
 <main class="flex-1 p-8 overflow-y-auto" id="main-content">
-<div th:if="${enContent == 'member-list'}">
-<div class="flex justify-between items-end mb-8">
 <div>
-<h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)]">Member List</h2>
-</div>
-</div>
-<div class="gov-card mb-8">
-<form action="/admin/en" class="grid grid-cols-1 md:grid-cols-4 gap-6" method="get">
-<input type="hidden" name="content" value="member-list" />
-<div>
-<label class="block text-[14px] font-bold text-[var(--kr-gov-text-secondary)] mb-2" for="member-type">Member Type</label>
-<select class="w-full border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] text-sm focus:ring-[var(--kr-gov-focus)] focus:border-[var(--kr-gov-focus)]" id="member-type" name="membershipType">
-<option value="" th:selected="${membershipType == null or membershipType == ''}">All</option>
-<option value="EMITTER" th:selected="${membershipType == 'EMITTER'}">CO2 Emitting/Capturing Company</option>
-<option value="PERFORMER" th:selected="${membershipType == 'PERFORMER'}">CCUS Project Operator</option>
-<option value="CENTER" th:selected="${membershipType == 'CENTER'}">CCUS Promotion Center</option>
-<option value="GOV" th:selected="${membershipType == 'GOV'}">Government / Public Agency</option>
-</select>
-</div>
-<div>
-<label class="block text-[14px] font-bold text-[var(--kr-gov-text-secondary)] mb-2" for="status">Status</label>
-<select class="w-full border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] text-sm focus:ring-[var(--kr-gov-focus)] focus:border-[var(--kr-gov-focus)]" id="status" name="sbscrbSttus">
-<option value="" th:selected="${sbscrbSttus == null or sbscrbSttus == ''}">All</option>
-<option value="P" th:selected="${sbscrbSttus == 'P'}">Active</option>
-<option value="A" th:selected="${sbscrbSttus == 'A'}">Pending</option>
-<option value="D" th:selected="${sbscrbSttus == 'D'}">Suspended</option>
-</select>
-</div>
-<div class="md:col-span-2">
-<label class="block text-[14px] font-bold text-[var(--kr-gov-text-secondary)] mb-2" for="keyword">Keyword</label>
-<div class="flex gap-2">
-<input class="flex-1 border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] text-sm focus:ring-[var(--kr-gov-focus)] focus:border-[var(--kr-gov-focus)]" id="keyword" name="searchKeyword" placeholder="Search by name, ID, or company" th:value="${searchKeyword}" type="text" />
-<button class="px-6 py-2 bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors flex items-center gap-2" type="submit">
-<span class="material-symbols-outlined text-[18px]">search</span>Search
-</button>
-</div>
-</div>
-</form>
-</div>
-<div class="gov-card p-0 overflow-hidden">
-<div class="overflow-x-auto">
-<table class="w-full text-sm text-left border-collapse">
-<thead><tr class="gov-table-header">
-<th class="px-6 py-4 text-center w-16">No.</th><th class="px-6 py-4">Name (ID)</th><th class="px-6 py-4">Member Type</th><th class="px-6 py-4">Organization</th><th class="px-6 py-4">Registered At</th><th class="px-6 py-4 text-center">Status</th><th class="px-6 py-4 text-center">Actions</th>
-</tr></thead>
-<tbody class="divide-y divide-gray-100">
-<tr class="hover:bg-gray-50/50 transition-colors" th:each="member, stat : ${memberList}">
-<td class="px-6 py-4 text-center text-gray-500" th:text="${totalCount - ((pageIndex - 1) * pageSize + stat.index)}">1</td>
-<td class="px-6 py-4"><div class="font-bold text-[var(--kr-gov-text-primary)]" th:text="${member.applcntNm}">Applicant</div><div class="text-xs text-gray-400" th:text="${member.entrprsmberId}">userId</div></td>
-<td class="px-6 py-4" th:with="mtype=${#strings.toUpperCase(#strings.trim(member.entrprsSeCode))}">
-<span th:switch="${mtype}"><span th:case="'E'">CO2 Emitting/Capturing Company</span><span th:case="'EMITTER'">CO2 Emitting/Capturing Company</span><span th:case="'P'">CCUS Project Operator</span><span th:case="'PERFORMER'">CCUS Project Operator</span><span th:case="'C'">CCUS Promotion Center</span><span th:case="'CENTER'">CCUS Promotion Center</span><span th:case="'G'">Government / Public Agency</span><span th:case="'GOV'">Government / Public Agency</span><span th:case="*" th:text="${#strings.isEmpty(mtype) ? 'Other' : mtype}">Other</span></span>
-</td>
-<td class="px-6 py-4 font-medium text-[var(--kr-gov-text-secondary)]" th:text="${member.cmpnyNm}">Company</td>
-<td class="px-6 py-4 text-gray-500" th:text="${member.sbscrbDe}">Registered At</td>
-<td class="px-6 py-4 text-center"><span class="status-badge bg-emerald-100 text-emerald-700" th:if="${member.entrprsMberSttus == 'P'}">Active</span><span class="status-badge bg-blue-100 text-blue-700" th:if="${member.entrprsMberSttus == 'A'}">Pending</span><span class="status-badge bg-red-100 text-red-700" th:if="${member.entrprsMberSttus == 'D'}">Suspended</span><span class="status-badge bg-gray-100 text-gray-700" th:if="${member.entrprsMberSttus != 'P' and member.entrprsMberSttus != 'A' and member.entrprsMberSttus != 'D'}" th:text="${member.entrprsMberSttus}">Other</span></td>
-<td class="px-6 py-4 text-center space-x-1"><a class="inline-flex px-3 py-1.5 border border-[var(--kr-gov-border-light)] text-[12px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-100" th:href="@{/admin/member/edit(memberId=${member.entrprsmberId})}">Edit</a><a class="inline-flex px-3 py-1.5 bg-[var(--kr-gov-blue)] text-white text-[12px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)]" th:href="@{/admin/member/detail(memberId=${member.entrprsmberId})}">Detail</a></td>
-</tr>
-<tr th:if="${#lists.isEmpty(memberList)}"><td class="px-6 py-8 text-center text-gray-500" colspan="7">No member records found.</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div th:if="${enContent == null or enContent != 'member-list'}">
 <div class="flex justify-between items-end mb-6">
 <div>
 <h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)]">Operation Dashboard</h2>
@@ -561,11 +498,6 @@ window.addEventListener("DOMContentLoaded", function () {
         if (path.length > 1 && path.charAt(path.length - 1) === "/") {
             path = path.slice(0, -1);
         }
-        if (path === "/admin/en") {
-            path = "/admin";
-        } else if (path === "/admin/member/list/en") {
-            path = "/admin/member/list";
-        }
         var params = new URLSearchParams(window.location.search || "");
         params.delete("content");
         params.set("language", toEnglish ? "en" : "ko");
@@ -579,11 +511,6 @@ window.addEventListener("DOMContentLoaded", function () {
         }
         var parts = pathOrUrl.split("?");
         var path = parts[0];
-        if (path === "/admin/en") {
-            path = "/admin";
-        } else if (path === "/admin/member/list/en") {
-            path = "/admin/member/list";
-        }
         var params = new URLSearchParams(parts[1] || "");
         if (!params.get("language")) {
             params.set("language", "en");

@@ -23,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
@@ -55,35 +54,6 @@ public class EgovAdminMainManageController {
             return "egovframework/com/admin/index_en";
         }
         return "egovframework/com/admin/index";
-    }
-
-    @RequestMapping(value = "/en", method = { RequestMethod.GET, RequestMethod.POST })
-    public String indexEn(
-            @RequestParam(value = "content", required = false) String content,
-            @RequestParam(value = "pageIndex", required = false) String pageIndexParam,
-            @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
-            @RequestParam(value = "membershipType", required = false) String membershipType,
-            @RequestParam(value = "sbscrbSttus", required = false) String sbscrbSttus,
-            Model model) {
-        UriComponentsBuilder redirectBuilder;
-        if ("member-list".equalsIgnoreCase(content)) {
-            redirectBuilder = UriComponentsBuilder.fromPath("/admin/member/list").queryParam("language", "en");
-            if (!ObjectUtils.isEmpty(pageIndexParam)) {
-                redirectBuilder.queryParam("pageIndex", pageIndexParam);
-            }
-            if (!ObjectUtils.isEmpty(searchKeyword)) {
-                redirectBuilder.queryParam("searchKeyword", searchKeyword);
-            }
-            if (!ObjectUtils.isEmpty(membershipType)) {
-                redirectBuilder.queryParam("membershipType", membershipType);
-            }
-            if (!ObjectUtils.isEmpty(sbscrbSttus)) {
-                redirectBuilder.queryParam("sbscrbSttus", sbscrbSttus);
-            }
-        } else {
-            redirectBuilder = UriComponentsBuilder.fromPath("/admin").queryParam("language", "en");
-        }
-        return "redirect:" + redirectBuilder.build().toUriString();
     }
 
     @RequestMapping(value = "/system/infra", method = { RequestMethod.GET, RequestMethod.POST })
@@ -175,30 +145,6 @@ public class EgovAdminMainManageController {
         }
         return populateMemberList(pageIndexParam, searchKeyword, membershipType, sbscrbSttus, model,
                 viewName);
-    }
-
-    @RequestMapping(value = "/member/list/en", method = { RequestMethod.GET, RequestMethod.POST })
-    public String memberListEn(
-            @RequestParam(value = "pageIndex", required = false) String pageIndexParam,
-            @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
-            @RequestParam(value = "membershipType", required = false) String membershipType,
-            @RequestParam(value = "sbscrbSttus", required = false) String sbscrbSttus,
-            Model model) {
-        UriComponentsBuilder redirectBuilder = UriComponentsBuilder.fromPath("/admin/member/list")
-                .queryParam("language", "en");
-        if (!ObjectUtils.isEmpty(pageIndexParam)) {
-            redirectBuilder.queryParam("pageIndex", pageIndexParam);
-        }
-        if (!ObjectUtils.isEmpty(searchKeyword)) {
-            redirectBuilder.queryParam("searchKeyword", searchKeyword);
-        }
-        if (!ObjectUtils.isEmpty(membershipType)) {
-            redirectBuilder.queryParam("membershipType", membershipType);
-        }
-        if (!ObjectUtils.isEmpty(sbscrbSttus)) {
-            redirectBuilder.queryParam("sbscrbSttus", sbscrbSttus);
-        }
-        return "redirect:" + redirectBuilder.build().toUriString();
     }
 
     private String populateMemberList(

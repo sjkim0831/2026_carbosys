@@ -205,11 +205,6 @@
 
         function buildLocaleTarget(toEnglish) {
             var path = normalizePath(window.location.pathname || "/admin");
-            if (path === "/admin/en") {
-                path = "/admin";
-            } else if (path === "/admin/member/list/en") {
-                path = "/admin/member/list";
-            }
 
             var params = new URLSearchParams(window.location.search || "");
             params.delete("content");
@@ -225,11 +220,6 @@
             }
             var parts = pathOrUrl.split("?");
             var path = parts[0];
-            if (path === "/admin/en") {
-                path = "/admin";
-            } else if (path === "/admin/member/list/en") {
-                path = "/admin/member/list";
-            }
             var params = new URLSearchParams(parts[1] || "");
             if (!params.get("language")) {
                 var currentParams = new URLSearchParams(window.location.search || "");
