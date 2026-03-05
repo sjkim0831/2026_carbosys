@@ -93,7 +93,7 @@
 </div>
 </a>
 </div>
-<nav class="hidden xl:flex items-center space-x-1 h-full ml-8 flex-1 justify-center">
+<nav class="hidden xl:flex items-center space-x-1 h-full ml-8 flex-1 justify-center" aria-label="주 메뉴">
 <div class="gnb-item h-full relative group">
 <a class="h-full flex items-center px-4 text-[17px] font-bold text-[var(--kr-gov-text-primary)] border-b-4 border-transparent hover:text-[var(--kr-gov-blue)] hover:border-[var(--kr-gov-blue)] transition-all focus-visible" href="#">탄소배출</a>
 <div class="gnb-depth2 hidden absolute top-full left-0 w-56 bg-white border border-[var(--kr-gov-border-light)] shadow-lg rounded-b-[var(--kr-gov-radius)] py-2">
@@ -286,10 +286,10 @@
 </nav>
 <div class="ml-auto flex items-center gap-3 shrink-0">
 <div class="hidden xl:flex border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] overflow-hidden">
-<button class="px-2 py-1 text-xs bg-[var(--kr-gov-blue)] text-white font-bold focus-visible" onclick="location.href='/home'">KO</button>
-<button class="px-2 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold focus-visible border-l border-[var(--kr-gov-border-light)]" onclick="location.href='/home/en'">EN</button>
+<button type="button" class="px-2 py-1 text-xs bg-[var(--kr-gov-blue)] text-white font-bold focus-visible" onclick="location.href='/home'">KO</button>
+<button type="button" class="px-2 py-1 text-xs bg-white text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 font-bold focus-visible border-l border-[var(--kr-gov-border-light)]" onclick="location.href='/home/en'">EN</button>
 </div>
-<button th:if="${isLoggedIn}" class="hidden xl:inline-flex gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"
+<button type="button" th:if="${isLoggedIn}" class="hidden xl:inline-flex gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)]"
 onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type': 'application/json'}}).then(r => r.json()).then(d => {if(d.status === 'success') location.reload();});">로그아웃</button>
 <a th:unless="${isLoggedIn}" class="hidden xl:inline-flex gov-btn bg-[var(--kr-gov-blue)] text-white hover:bg-[var(--kr-gov-blue-hover)] items-center" href="/signin/loginView">로그인</a>
 <a th:unless="${isLoggedIn}" class="hidden xl:inline-flex gov-btn bg-white text-[var(--kr-gov-blue)] border border-[var(--kr-gov-blue)] hover:bg-[var(--kr-gov-bg-gray)] items-center" href="/join/step1">회원가입</a>
@@ -301,7 +301,7 @@ onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type'
 </div>
 </header>
 <div id="mobile-menu" class="xl:hidden fixed inset-0 z-[70] hidden" aria-hidden="true">
-<button id="mobile-menu-backdrop" class="absolute inset-0 bg-black/50" aria-label="전체메뉴 닫기"></button>
+<button type="button" id="mobile-menu-backdrop" class="absolute inset-0 bg-black/50" aria-label="전체메뉴 닫기"></button>
 <aside class="absolute top-0 right-0 h-full w-[90%] max-w-[380px] bg-white shadow-2xl border-l border-[var(--kr-gov-border-light)] overflow-y-auto">
 <div class="sticky top-0 z-10 flex items-center justify-between px-4 py-4 border-b border-[var(--kr-gov-border-light)] bg-white">
 <strong class="text-lg font-bold text-[var(--kr-gov-text-primary)]">전체메뉴</strong>
@@ -316,8 +316,8 @@ onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type'
 <a th:unless="${isLoggedIn}" class="gov-btn bg-white text-[var(--kr-gov-blue)] border border-[var(--kr-gov-blue)] hover:bg-[var(--kr-gov-bg-gray)] inline-flex items-center justify-center flex-1" href="/join/step1">회원가입</a>
 </div>
 <div class="grid grid-cols-2 gap-2 text-sm">
-<button class="px-3 py-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-[var(--kr-gov-blue)] text-white font-bold" onclick="location.href='/home'">KO</button>
-<button class="px-3 py-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white text-[var(--kr-gov-text-secondary)] font-bold" onclick="location.href='/home/en'">EN</button>
+<button type="button" class="px-3 py-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-[var(--kr-gov-blue)] text-white font-bold" onclick="location.href='/home'">KO</button>
+<button type="button" class="px-3 py-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white text-[var(--kr-gov-text-secondary)] font-bold" onclick="location.href='/home/en'">EN</button>
 </div>
 
 <section class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-3">
@@ -487,13 +487,13 @@ onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type'
 <h2 class="text-5xl font-extrabold mb-4 leading-tight">지속 가능한 미래,<br/>탄소 중립의 새로운 파트너</h2>
 <p class="text-xl text-blue-50/90 mb-10 max-w-2xl font-medium leading-relaxed">CCUS 기술 기반 탄소배출량 산정부터 인증까지 원스톱으로 지원합니다.</p>
 <div class="flex gap-4">
-<button class="gov-btn bg-white text-[var(--kr-gov-blue)] px-8 py-4 text-lg hover:bg-gray-100 flex items-center gap-2">
+<button type="button" class="gov-btn bg-white text-[var(--kr-gov-blue)] px-8 py-4 text-lg hover:bg-gray-100 flex items-center gap-2">
                         서비스 가이드 보기 <span class="material-symbols-outlined">arrow_forward</span>
 </button>
 <div class="flex items-center gap-2 mt-auto self-end pb-4 ml-8">
-<button class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10"><span class="material-symbols-outlined">chevron_left</span></button>
+<button type="button" class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10"><span class="material-symbols-outlined">chevron_left</span></button>
 <span class="text-sm font-bold tracking-widest">1 / 4</span>
-<button class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10"><span class="material-symbols-outlined">chevron_right</span></button>
+<button type="button" class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10"><span class="material-symbols-outlined">chevron_right</span></button>
 </div>
 </div>
 </div>
@@ -502,8 +502,8 @@ onclick="fetch('/signin/actionLogout', {method: 'POST', headers: {'Content-Type'
 <div class="max-w-4xl mx-auto px-4 text-center">
 <h3 class="text-2xl font-bold mb-8 text-[var(--kr-gov-text-primary)]">무엇을 도와드릴까요?</h3>
 <div class="relative group max-w-3xl mx-auto">
-<input class="w-full h-16 pl-8 pr-20 text-lg border-2 border-[var(--kr-gov-blue)] rounded-[var(--kr-gov-radius)] focus:ring-4 focus:ring-[var(--kr-gov-blue)]/10 focus:border-[var(--kr-gov-blue)] transition-all focus-visible shadow-sm placeholder-gray-500" placeholder="서비스, 정책자료, 공지사항 등 통합 검색" type="text"/>
-<button class="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-[var(--kr-gov-blue)] text-white rounded-[var(--kr-gov-radius)] flex items-center justify-center hover:bg-[var(--kr-gov-blue-hover)] focus-visible">
+<input class="w-full h-16 pl-8 pr-20 text-lg border-2 border-[var(--kr-gov-blue)] rounded-[var(--kr-gov-radius)] focus:ring-4 focus:ring-[var(--kr-gov-blue)]/10 focus:border-[var(--kr-gov-blue)] transition-all focus-visible shadow-sm placeholder-gray-500" placeholder="서비스, 정책자료, 공지사항 등 통합 검색" type="text" aria-label="통합 검색" autocomplete="off"/>
+<button type="button" class="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-[var(--kr-gov-blue)] text-white rounded-[var(--kr-gov-radius)] flex items-center justify-center hover:bg-[var(--kr-gov-blue-hover)] focus-visible">
 <span class="material-symbols-outlined text-[28px]">search</span>
 </button>
 </div>

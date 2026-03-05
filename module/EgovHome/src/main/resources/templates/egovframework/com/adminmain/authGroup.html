@@ -86,7 +86,7 @@
     <div th:replace="~{egovframework/com/adminmain/header :: headerFragment}"></div>
 
     <div class="flex min-h-[calc(100vh-124px)]">
-        <aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col">
+        <aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col" aria-label="관리자 사이드 메뉴">
             <div class="mb-4 px-2 py-2 flex items-center justify-between">
                 <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Operation Tools</h2>
                 <span class="material-symbols-outlined text-gray-400 cursor-pointer">menu_open</span>
@@ -133,9 +133,9 @@
             <div class="gov-card">
                 <div
                     class="flex items-center gap-4 mb-8 p-4 bg-gray-50 rounded-[var(--kr-gov-radius)] border border-gray-100">
-                    <span class="text-sm font-bold text-[var(--kr-gov-text-secondary)] whitespace-nowrap">설정 대상
-                        그룹:</span>
-                    <select
+                    <label for="roleGroupSelect" class="text-sm font-bold text-[var(--kr-gov-text-secondary)] whitespace-nowrap">설정 대상
+                        그룹:</label>
+                    <select id="roleGroupSelect" name="roleGroup"
                         class="px-4 py-2 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white text-sm font-bold focus:ring-2 focus:ring-[var(--kr-gov-blue)] outline-none">
                         <option value="ROLE_ADMIN">시스템 운영자 (Level 1)</option>
                         <option value="ROLE_OPERATOR">일반 운영팀 (Level 2)</option>
@@ -171,11 +171,11 @@
                 </div>
             </div>
             <div class="flex justify-center gap-3 mt-10">
-                <button
+                <button type="button"
                     class="px-10 py-3 border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-primary)] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors min-w-[140px]">
                     취소
                 </button>
-                <button
+                <button type="button"
                     class="px-10 py-3 bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] shadow-md transition-colors min-w-[140px]">
                     설정 저장
                 </button>

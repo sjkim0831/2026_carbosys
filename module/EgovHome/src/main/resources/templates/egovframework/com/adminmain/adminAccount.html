@@ -92,7 +92,7 @@
     <div th:replace="~{egovframework/com/adminmain/header :: headerFragment}"></div>
 
     <div class="flex min-h-[calc(100vh-124px)]">
-        <aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col">
+        <aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col" aria-label="관리자 사이드 메뉴">
             <div class="mb-4 px-2 py-2 flex items-center justify-between">
                 <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Operation Tools</h2>
                 <span class="material-symbols-outlined text-gray-400 cursor-pointer">menu_open</span>
@@ -144,7 +144,7 @@
                                 <label class="gov-label" for="admin-id">아이디 <span class="text-red-500">*</span></label>
                                 <div class="flex gap-2">
                                     <input class="gov-input flex-1" id="admin-id" name="admin-id"
-                                        placeholder="영문, 숫자 조합 5~20자" required="" type="text" />
+                                        placeholder="영문, 숫자 조합 5~20자" required="" type="text" autocomplete="username" spellcheck="false" />
                                     <button class="gov-btn-secondary px-4 py-2 whitespace-nowrap" type="button">중복
                                         확인</button>
                                 </div>
@@ -152,23 +152,23 @@
                             <div>
                                 <label class="gov-label" for="admin-name">성명 <span class="text-red-500">*</span></label>
                                 <input class="gov-input" id="admin-name" name="admin-name" placeholder="실명을 입력하세요"
-                                    required="" type="text" />
+                                    required="" type="text" autocomplete="name" />
                             </div>
                             <div>
                                 <label class="gov-label" for="admin-pw">임시 비밀번호 <span
                                         class="text-red-500">*</span></label>
                                 <input class="gov-input" id="admin-pw" name="admin-pw" placeholder="특수문자 포함 10자 이상"
-                                    required="" type="password" />
+                                    required="" type="password" autocomplete="new-password" />
                             </div>
                             <div>
                                 <label class="gov-label" for="dept-name">부서명</label>
                                 <input class="gov-input" id="dept-name" name="dept-name" placeholder="소속 부서를 입력하세요"
-                                    type="text" />
+                                    type="text" autocomplete="organization-title" />
                             </div>
                             <div>
                                 <label class="gov-label" for="contact">연락처 <span class="text-red-500">*</span></label>
                                 <input class="gov-input" id="contact" name="contact" placeholder="010-0000-0000"
-                                    required="" type="tel" />
+                                    required="" type="tel" autocomplete="tel-national" inputmode="numeric" />
                             </div>
                         </div>
                         <div class="flex items-center justify-end gap-3 pt-8 mt-8 border-t border-gray-100">

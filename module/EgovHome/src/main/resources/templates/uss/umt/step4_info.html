@@ -147,7 +147,7 @@
 
             <div
                 class="bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm overflow-hidden p-8 md:p-12">
-                <form action="/join/step5" method="post" enctype="multipart/form-data" class="space-y-10">
+                <form id="joinStep4Form" action="/join/step5" method="post" enctype="multipart/form-data" class="space-y-10">
                     <section>
                         <h3 class="section-title">
                             <span class="material-symbols-outlined text-[var(--kr-gov-blue)]">person</span>
@@ -158,43 +158,43 @@
                                 <label class="form-label" for="user-id">아이디 <span class="text-red-500">*</span></label>
                                 <div class="flex gap-2">
                                     <input class="form-input" id="user-id" name="mberId" placeholder="6~16자 영문, 숫자"
-                                        type="text" required />
+                                        type="text" required autocomplete="username" spellcheck="false" />
                                     <button id="idCheckBtn"
                                         class="px-4 bg-gray-800 text-white text-sm font-bold rounded-[var(--kr-gov-radius)] whitespace-nowrap"
                                         type="button">중복확인</button>
                                 </div>
-                                <div id="id-check-msg"></div>
+                                <div id="id-check-msg" aria-live="polite"></div>
                             </div>
                             <div class="space-y-1">
                                 <label class="form-label" for="user-name">이름 <span class="text-red-500">*</span></label>
                                 <input class="form-input" id="user-name" name="mberNm" type="text" th:value="${mberNm}"
-                                    required />
+                                    required autocomplete="name" />
                             </div>
                             <div class="space-y-1">
                                 <label class="form-label" for="password">비밀번호 <span
                                         class="text-red-500">*</span></label>
                                 <input class="form-input" id="password" name="password"
-                                    placeholder="영문, 숫자, 특수문자 조합 8자 이상" type="password" required />
+                                    placeholder="영문, 숫자, 특수문자 조합 8자 이상" type="password" required autocomplete="new-password" />
                             </div>
                             <div class="space-y-1">
                                 <label class="form-label" for="password-confirm">비밀번호 확인 <span
                                         class="text-red-500">*</span></label>
                                 <input class="form-input" id="password-confirm" placeholder="비밀번호를 다시 입력하세요"
-                                    type="password" required />
-                                <div id="pw-check-msg"></div>
+                                    type="password" required autocomplete="new-password" />
+                                <div id="pw-check-msg" aria-live="polite"></div>
                             </div>
                             <div class="md:col-span-2 space-y-1">
                                 <label class="form-label" for="contact">연락처 <span class="text-red-500">*</span></label>
                                 <div class="flex gap-2">
-                                    <select class="w-24 form-input" name="moblphonNo1">
+                                    <select class="w-24 form-input" name="moblphonNo1" required autocomplete="tel-country-code">
                                         <option>010</option>
                                         <option>011</option>
                                         <option>02</option>
                                     </select>
                                     <span class="flex items-center">-</span>
-                                    <input class="flex-1 form-input" name="moblphonNo2" type="text" required />
+                                    <input class="flex-1 form-input" name="moblphonNo2" type="text" required inputmode="numeric" pattern="[0-9]{3,4}" autocomplete="tel-local-prefix" />
                                     <span class="flex items-center">-</span>
-                                    <input class="flex-1 form-input" name="moblphonNo3" type="text" required />
+                                    <input class="flex-1 form-input" name="moblphonNo3" type="text" required inputmode="numeric" pattern="[0-9]{4}" autocomplete="tel-local-suffix" />
                                 </div>
                             </div>
                             <div class="md:col-span-2 space-y-1">
@@ -202,12 +202,12 @@
                                 <div class="flex gap-2">
                                     <input class="form-input" id="email" name="applcntEmailAdres"
                                         th:value="${joinVO != null ? joinVO.authEmail : ''}"
-                                        placeholder="example@email.com" type="email" required />
+                                        placeholder="example@email.com" type="email" required autocomplete="email" />
                                     <button id="emailCheckBtn"
                                         class="px-4 bg-gray-800 text-white text-sm font-bold rounded-[var(--kr-gov-radius)] whitespace-nowrap"
                                         type="button">중복확인</button>
                                 </div>
-                                <div id="email-check-msg"></div>
+                                <div id="email-check-msg" aria-live="polite"></div>
                             </div>
                         </div>
                     </section>
@@ -221,8 +221,8 @@
                                 <label class="form-label" for="company-search">기관/기업명 <span
                                         class="text-red-500">*</span></label>
                                 <div class="relative">
-                                    <input class="form-input pr-24" id="company-search" name="insttNm"
-                                        placeholder="기관명 또는 기업명을 검색하세요" type="text" required readonly />
+                                <input class="form-input pr-24" id="company-search" name="insttNm"
+                                    placeholder="기관명 또는 기업명을 검색하세요" type="text" required readonly autocomplete="organization" />
                                     <button id="btnCompanySearch"
                                         class="absolute right-2 top-2 bottom-2 px-4 bg-[var(--kr-gov-blue)] text-white text-sm font-bold rounded-[var(--kr-gov-radius)] flex items-center gap-1"
                                         type="button">
@@ -234,12 +234,12 @@
                                 <label class="form-label" for="biz-number">사업자등록번호 <span
                                         class="text-red-500">*</span></label>
                                 <input class="form-input bg-gray-50" id="biz-number" name="bizrno"
-                                    placeholder="기관 검색 시 자동 입력" type="text" readonly />
+                                    placeholder="기관 검색 시 자동 입력" type="text" readonly required inputmode="numeric" pattern="[0-9-]{10,12}" />
                             </div>
                             <div class="space-y-1">
                                 <label class="form-label" for="department">부서명</label>
                                 <input class="form-input" id="department" name="deptNm" placeholder="소속 부서를 입력하세요"
-                                    type="text" />
+                                    type="text" autocomplete="organization-title" />
                             </div>
                             <div class="md:col-span-2 space-y-1">
                                 <label class="form-label">증빙 서류 업로드 <span class="text-red-500">*</span></label>
@@ -326,7 +326,7 @@
                                 <span
                                     class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
                                 <input aria-label="기관명 또는 사업자등록번호 입력" class="form-input pl-11" id="modal-search"
-                                    placeholder="기관명 또는 사업자등록번호를 입력하세요" type="text" />
+                                    placeholder="기관명 또는 사업자등록번호를 입력하세요" type="text" autocomplete="off" />
                             </div>
                             <button id="modalInnerSearchBtn"
                                 class="px-8 bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors"
