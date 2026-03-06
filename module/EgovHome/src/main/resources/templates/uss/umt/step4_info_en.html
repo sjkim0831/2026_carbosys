@@ -168,6 +168,21 @@
                                 </div>
                                 <div id="email-check-msg" aria-live="polite"></div>
                             </div>
+                            <div class="md:col-span-2 space-y-1">
+                                <label class="form-label" for="user-address">Address <span class="text-red-500">*</span></label>
+                                <div class="flex gap-2 mb-2">
+                                    <input class="form-input w-32 bg-gray-50 cursor-pointer" id="zip-code" name="zip"
+                                        placeholder="Zip Code" type="text" required readonly onclick="execDaumPostcode()" />
+                                    <button
+                                        class="px-5 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-sm font-bold rounded-[var(--kr-gov-radius)] hover:bg-blue-50 transition-colors"
+                                        type="button" onclick="execDaumPostcode()">Find Address</button>
+                                </div>
+                                <input class="form-input mb-2 bg-gray-50 cursor-pointer" id="user-address"
+                                    name="adres" placeholder="Address will be auto-filled" type="text" required readonly
+                                    onclick="execDaumPostcode()" />
+                                <input class="form-input" id="user-address-detail" name="detailAdres"
+                                    placeholder="Enter detailed address" type="text" autocomplete="address-line2" />
+                            </div>
                         </div>
                     </section>
                     <section>
@@ -180,8 +195,9 @@
                                 <label class="form-label" for="company-search">Organization / Company Name <span
                                         class="text-red-500">*</span></label>
                                 <div class="relative">
-                                    <input class="form-input pr-24" id="company-search" name="insttNm"
-                                        placeholder="Search for institution or company name" type="text" required autocomplete="organization" />
+                                    <input type="hidden" name="insttId" id="instt-id" />
+                                    <input class="form-input pr-24 bg-gray-50" id="company-search" name="insttNm"
+                                        placeholder="Search for institution or company name" type="text" required readonly autocomplete="organization" />
                                     <button id="btnCompanySearch"
                                         class="absolute right-2 top-2 bottom-2 px-4 bg-[var(--kr-gov-blue)] text-white text-sm font-bold rounded-[var(--kr-gov-radius)] flex items-center gap-1"
                                         type="button">
@@ -193,7 +209,13 @@
                                 <label class="form-label" for="biz-number">Business Registration Number <span
                                         class="text-red-500">*</span></label>
                                 <input class="form-input bg-gray-50" id="biz-number" name="bizrno"
-                                    placeholder="Auto-filled after organization search" type="text" required inputmode="numeric" pattern="[0-9-]{10,12}" />
+                                    placeholder="Auto-filled after organization search" type="text" readonly required inputmode="numeric" pattern="[0-9-]{10,12}" />
+                            </div>
+                            <div class="space-y-1">
+                                <label class="form-label" for="representative-name">Representative Name <span
+                                        class="text-red-500">*</span></label>
+                                <input class="form-input bg-gray-50" id="representative-name" name="representativeName"
+                                    placeholder="Auto-filled after organization search" type="text" readonly required autocomplete="name" />
                             </div>
                             <div class="space-y-1">
                                 <label class="form-label" for="department">Department</label>
@@ -325,6 +347,7 @@
         </div>
     </div>
 
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
             (function loadSharedLayout() {
                 fetch('/home/fragments/header').then(r => r.text()).then(html => {
@@ -339,6 +362,19 @@
                 }).catch(() => { });
             })();
 
+        window.execDaumPostcode = function () {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    const addr = data.userSelectedType === 'R'
+                        ? (data.roadAddressEnglish || data.roadAddress)
+                        : (data.jibunAddressEnglish || data.jibunAddress);
+                    document.getElementById('zip-code').value = data.zonecode;
+                    document.getElementById('user-address').value = addr;
+                    document.getElementById('user-address-detail').focus();
+                }
+            }).open();
+        };
+
         // ─── Modal Logic ───
         const companySearchModal = document.getElementById('companySearchModal');
         const btnCompanySearch = document.getElementById('btnCompanySearch');
@@ -349,7 +385,9 @@
         const modalTbody = document.getElementById('modal-tbody');
         const modalPagination = document.getElementById('modal-pagination');
         const companySearchInput = document.getElementById('company-search');
+        const insttIdInput = document.getElementById('instt-id');
         const bizNumberInput = document.getElementById('biz-number');
+        const representativeNameInput = document.getElementById('representative-name');
 
         let currentPage = 1;
         let currentKeyword = '';
@@ -436,11 +474,13 @@
             const offset = (page - 1) * PAGE_SIZE;
             modalTbody.innerHTML = list.map((item, idx) => {
                 const nm = item.cmpnyNm || item.CMPNY_NM || item.cmpny_nm || '-';
+                const insttId = item.insttId || item.INSTT_ID || '';
                 const biz = item.bizrno || item.BIZRNO || '-';
                 const rep = item.cxfc || item.CXFC || '-';
                 const no = offset + idx + 1;
                 const actionHtml = `<button class="modal-select-btn px-3 py-1.5 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-xs font-bold rounded-md hover:bg-[var(--kr-gov-blue)] hover:text-white transition-all"
                                 type="button"
+                                data-instt-id="${escAttr(insttId)}"
                                 data-name="${escAttr(nm)}"
                                 data-biz="${escAttr(biz)}"
                                 data-rep="${escAttr(rep)}">Select</button>`;
@@ -457,8 +497,10 @@
 
             modalTbody.querySelectorAll('.modal-select-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
+                    insttIdInput.value = btn.dataset.insttId;
                     companySearchInput.value = btn.dataset.name;
                     bizNumberInput.value = btn.dataset.biz;
+                    representativeNameInput.value = btn.dataset.rep;
                     closeModal();
                     companySearchInput.focus();
                 });

@@ -3,6 +3,8 @@ package egovframework.com.web;
 import egovframework.com.uat.uia.entity.EntrprsMber;
 import egovframework.com.uat.uia.repository.EgovEnterpriseMemberRepository;
 import egovframework.com.uat.uia.util.EgovJwtProvider;
+import egovframework.com.uss.umt.service.EgovEntrprsManageService;
+import egovframework.com.uss.umt.service.InsttInfoVO;
 import io.jsonwebtoken.Claims;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,23 +17,29 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Optional;
 
 @Controller
 public class Home3ManageController {
 
+    private static final DateTimeFormatter DISPLAY_DATE_TIME = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
+
     private final TemplateEngine templateEngine;
     private final EgovJwtProvider jwtProvider;
     private final EgovEnterpriseMemberRepository enterpriseMemberRepository;
+    private final EgovEntrprsManageService entrprsManageService;
 
     public Home3ManageController(
             TemplateEngine templateEngine,
             EgovJwtProvider jwtProvider,
-            EgovEnterpriseMemberRepository enterpriseMemberRepository) {
+            EgovEnterpriseMemberRepository enterpriseMemberRepository,
+            EgovEntrprsManageService entrprsManageService) {
         this.templateEngine = templateEngine;
         this.jwtProvider = jwtProvider;
         this.enterpriseMemberRepository = enterpriseMemberRepository;
+        this.entrprsManageService = entrprsManageService;
     }
 
     @RequestMapping(value = { "/home", "/home3" }, method = { RequestMethod.GET, RequestMethod.POST })
@@ -80,11 +88,13 @@ public class Home3ManageController {
                 ? ""
                 : enterprise.getEntrprsMberStus().trim();
 
-        // COMTNENTRPRSMBER 기준: A(승인 대기)일 때만 승인 대기 화면 표시
-        if ("A".equalsIgnoreCase(entrprsMberSttus)) {
-            model.addAttribute("submittedAt", "-");
+        // COMTNENTRPRSMBER 기준: A(승인 대기), R(반려)일 때 승인 대기 화면 표시
+        if ("A".equalsIgnoreCase(entrprsMberSttus) || "R".equalsIgnoreCase(entrprsMberSttus)) {
+            model.addAttribute("submittedAt", formatSubmittedAt(enterprise));
             model.addAttribute("userId", userId);
             model.addAttribute("companyName", ObjectUtils.isEmpty(enterprise.getCmpnyNm()) ? "-" : enterprise.getCmpnyNm());
+            model.addAttribute("pendingStatus", entrprsMberSttus.toUpperCase(Locale.ROOT));
+            populateInstitutionReviewInfo(model, enterprise);
             return en ? "egovframework/com/mypage_pending_en" : "egovframework/com/mypage_pending";
         }
 
@@ -102,6 +112,47 @@ public class Home3ManageController {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    private void populateInstitutionReviewInfo(Model model, EntrprsMber enterprise) {
+        try {
+            InsttInfoVO searchVO = new InsttInfoVO();
+            if (!ObjectUtils.isEmpty(enterprise.getInsttId())) {
+                searchVO.setInsttId(enterprise.getInsttId());
+            } else if (!ObjectUtils.isEmpty(enterprise.getBizrno())) {
+                searchVO.setBizrno(enterprise.getBizrno());
+            } else {
+                return;
+            }
+
+            java.util.Map<String, Object> insttInfo = entrprsManageService.selectInsttInfoForStatus(searchVO);
+            if (insttInfo == null || insttInfo.isEmpty()) {
+                return;
+            }
+
+            Object submittedAt = insttInfo.get("frstRegistPnttm");
+            Object rejectReason = insttInfo.get("rjctRsn");
+            Object rejectProcessedAt = insttInfo.get("rjctPnttm");
+
+            if (!ObjectUtils.isEmpty(submittedAt)) {
+                model.addAttribute("submittedAt", submittedAt);
+            }
+            if (!ObjectUtils.isEmpty(rejectReason)) {
+                model.addAttribute("rejectionReason", rejectReason.toString());
+            }
+            if (!ObjectUtils.isEmpty(rejectProcessedAt)) {
+                model.addAttribute("rejectionProcessedAt", rejectProcessedAt.toString());
+            }
+        } catch (Exception ignored) {
+            // Mypage gating must not fail even if institution review info lookup fails.
+        }
+    }
+
+    private String formatSubmittedAt(EntrprsMber enterprise) {
+        if (enterprise.getSbscrbDe() == null) {
+            return "-";
+        }
+        return enterprise.getSbscrbDe().format(DISPLAY_DATE_TIME);
     }
 
     /**

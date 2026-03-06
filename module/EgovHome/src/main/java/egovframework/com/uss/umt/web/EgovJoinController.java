@@ -19,7 +19,9 @@ import java.util.UUID;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import egovframework.com.uss.umt.service.EgovEntrprsManageService;
+import egovframework.com.uss.umt.service.EntrprsMberFileVO;
 import egovframework.com.uss.umt.service.EntrprsManageVO;
+import egovframework.com.uss.umt.service.InsttFileVO;
 import egovframework.com.uss.umt.service.InsttInfoVO;
 import egovframework.com.uss.umt.service.MberManageVO;
 
@@ -237,7 +239,12 @@ public class EgovJoinController {
             @RequestParam("password") String password,
             @RequestParam("mberNm") String mberNm,
             @RequestParam("insttNm") String insttNm,
+            @RequestParam("insttId") String insttId,
+            @RequestParam("representativeName") String representativeName,
             @RequestParam("bizrno") String bizrno,
+            @RequestParam("zip") String zip,
+            @RequestParam("adres") String adres,
+            @RequestParam(value = "detailAdres", required = false) String detailAdres,
             @RequestParam(value = "deptNm", required = false) String deptNm,
             @RequestParam("moblphonNo1") String tel1,
             @RequestParam("moblphonNo2") String tel2,
@@ -252,8 +259,8 @@ public class EgovJoinController {
         if (getJoinStep(session) < 4 || !hasVerifiedIdentity(joinVO) || !hasRequiredJoinSessionValues(joinVO)) {
             return "redirect:/join/step3";
         }
-        if (!hasText(mberId) || !hasText(password) || !hasText(mberNm) || !hasText(insttNm) ||
-                !hasText(bizrno) || !hasText(tel1) || !hasText(tel2) || !hasText(tel3) || !hasText(email)) {
+        if (!hasText(mberId) || !hasText(password) || !hasText(mberNm) || !hasText(insttNm) || !hasText(insttId) || !hasText(representativeName) ||
+                !hasText(bizrno) || !hasText(zip) || !hasText(adres) || !hasText(tel1) || !hasText(tel2) || !hasText(tel3) || !hasText(email)) {
             return "redirect:/join/step4";
         }
         if (!hasValidEvidenceFiles(fileUploads)) {
@@ -265,7 +272,12 @@ public class EgovJoinController {
         joinVO.setEntrprsMberPassword(password);
         joinVO.setApplcntNm(mberNm);
         joinVO.setCmpnyNm(insttNm);
+        joinVO.setInsttId(insttId);
+        joinVO.setCxfc(representativeName);
         joinVO.setBizrno(bizrno);
+        joinVO.setZip(zip);
+        joinVO.setAdres(adres);
+        joinVO.setDetailAdres(detailAdres);
         joinVO.setEntrprsSeCode(normalizeMembershipCode(joinVO.getEntrprsSeCode()));
         joinVO.setMarketingYn(normalizeMarketingYn(joinVO.getMarketingYn()));
         joinVO.setAuthTy(normalizeAuthType(joinVO.getAuthTy()));
@@ -275,10 +287,12 @@ public class EgovJoinController {
         joinVO.setApplcntEmailAdres(email);
         joinVO.setEntrprsMberSttus("A");
         applyJoinDbDefaults(joinVO);
-        joinVO.setBizRegFilePath(saveJoinEvidenceFiles(joinVO.getEntrprsmberId(), fileUploads));
+        List<EntrprsMberFileVO> evidenceFiles = saveJoinEvidenceFiles(joinVO.getEntrprsmberId(), fileUploads);
+        joinVO.setBizRegFilePath(joinEvidencePaths(evidenceFiles));
 
         // Save to DB
         entrprsManageService.insertEntrprsmber(joinVO);
+        entrprsManageService.insertEntrprsMberFiles(evidenceFiles);
         entrprsManageService.ensureEnterpriseSecurityMapping(joinVO.getUniqId());
 
         model.addAttribute("mberId", joinVO.getEntrprsmberId());
@@ -423,7 +437,12 @@ public class EgovJoinController {
             @RequestParam("password") String password,
             @RequestParam("mberNm") String mberNm,
             @RequestParam("insttNm") String insttNm,
+            @RequestParam("insttId") String insttId,
+            @RequestParam("representativeName") String representativeName,
             @RequestParam("bizrno") String bizrno,
+            @RequestParam("zip") String zip,
+            @RequestParam("adres") String adres,
+            @RequestParam(value = "detailAdres", required = false) String detailAdres,
             @RequestParam(value = "deptNm", required = false) String deptNm,
             @RequestParam("moblphonNo1") String tel1,
             @RequestParam("moblphonNo2") String tel2,
@@ -438,8 +457,8 @@ public class EgovJoinController {
         if (getJoinStep(session) < 4 || !hasVerifiedIdentity(joinVO) || !hasRequiredJoinSessionValues(joinVO)) {
             return "redirect:/join/en/step3";
         }
-        if (!hasText(mberId) || !hasText(password) || !hasText(mberNm) || !hasText(insttNm) ||
-                !hasText(bizrno) || !hasText(tel1) || !hasText(tel2) || !hasText(tel3) || !hasText(email)) {
+        if (!hasText(mberId) || !hasText(password) || !hasText(mberNm) || !hasText(insttNm) || !hasText(insttId) || !hasText(representativeName) ||
+                !hasText(bizrno) || !hasText(zip) || !hasText(adres) || !hasText(tel1) || !hasText(tel2) || !hasText(tel3) || !hasText(email)) {
             return "redirect:/join/en/step4";
         }
         if (!hasValidEvidenceFiles(fileUploads)) {
@@ -450,7 +469,12 @@ public class EgovJoinController {
         joinVO.setEntrprsMberPassword(password);
         joinVO.setApplcntNm(mberNm);
         joinVO.setCmpnyNm(insttNm);
+        joinVO.setInsttId(insttId);
+        joinVO.setCxfc(representativeName);
         joinVO.setBizrno(bizrno);
+        joinVO.setZip(zip);
+        joinVO.setAdres(adres);
+        joinVO.setDetailAdres(detailAdres);
         joinVO.setEntrprsSeCode(normalizeMembershipCode(joinVO.getEntrprsSeCode()));
         joinVO.setMarketingYn(normalizeMarketingYn(joinVO.getMarketingYn()));
         joinVO.setAuthTy(normalizeAuthType(joinVO.getAuthTy()));
@@ -460,9 +484,11 @@ public class EgovJoinController {
         joinVO.setApplcntEmailAdres(email);
         joinVO.setEntrprsMberSttus("A");
         applyJoinDbDefaults(joinVO);
-        joinVO.setBizRegFilePath(saveJoinEvidenceFiles(joinVO.getEntrprsmberId(), fileUploads));
+        List<EntrprsMberFileVO> evidenceFiles = saveJoinEvidenceFiles(joinVO.getEntrprsmberId(), fileUploads);
+        joinVO.setBizRegFilePath(joinEvidencePaths(evidenceFiles));
 
         entrprsManageService.insertEntrprsmber(joinVO);
+        entrprsManageService.insertEntrprsMberFiles(evidenceFiles);
         entrprsManageService.ensureEnterpriseSecurityMapping(joinVO.getUniqId());
 
         model.addAttribute("mberId", joinVO.getEntrprsmberId());
@@ -532,41 +558,13 @@ public class EgovJoinController {
             vo.setChargerTel(chargerTel);
             vo.setInsttSttus("A");
 
-            // Upload directory
-            String uploadDir = "/opt/carbosys/file/instt";
-            java.io.File dir = new java.io.File(uploadDir);
-            if (!dir.exists() && !dir.mkdirs()) {
-                throw new Exception("Cannot create upload directory: " + uploadDir);
-            }
-
-            java.util.List<String> savedPaths = new java.util.ArrayList<>();
-            if (fileUploads != null && !fileUploads.isEmpty()) {
-                for (int i = 0; i < fileUploads.size(); i++) {
-                    org.springframework.web.multipart.MultipartFile file = fileUploads.get(i);
-                    if (file == null || file.isEmpty())
-                        continue;
-
-                    String originalFileName = file.getOriginalFilename();
-                    String ext = "";
-                    if (originalFileName != null) {
-                        int lastDotIndex = originalFileName.lastIndexOf(".");
-                        if (lastDotIndex > -1) {
-                            ext = originalFileName.substring(lastDotIndex);
-                        }
-                    }
-
-                    String newFileName = tempId + (fileUploads.size() > 1 ? "_" + i : "") + ext;
-                    java.io.File targetFile = new java.io.File(dir, newFileName);
-                    file.transferTo(targetFile);
-                    savedPaths.add(targetFile.getAbsolutePath());
-                }
-            }
-
-            if (!savedPaths.isEmpty()) {
-                vo.setBizRegFilePath(String.join(",", savedPaths));
+            List<InsttFileVO> insttFiles = saveInsttEvidenceFiles(tempId, fileUploads, 1);
+            if (!insttFiles.isEmpty()) {
+                vo.setBizRegFilePath(joinInsttEvidencePaths(insttFiles));
             }
 
             entrprsManageService.insertInsttInfo(vo);
+            entrprsManageService.insertInsttFiles(insttFiles);
 
             java.time.LocalDateTime now = java.time.LocalDateTime.now();
             java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter
@@ -674,7 +672,7 @@ public class EgovJoinController {
             return "uss/umt/company_join_status_search";
         }
 
-        if (!"X".equals(result.get("insttSttus"))) {
+        if (!"R".equals(result.get("insttSttus"))) {
             model.addAttribute("errorMessage", "반려된 건만 재신청이 가능합니다.");
             return "redirect:/join/companyJoinStatusDetail?bizNo=" + bizNo + "&repName=" + repName;
         }
@@ -712,7 +710,7 @@ public class EgovJoinController {
             }
 
             String insttSttus = String.valueOf(current.get("insttSttus"));
-            if (!"X".equals(insttSttus)) {
+            if (!"R".equals(insttSttus)) {
                 model.addAttribute("errorMessage", "반려된 건만 재신청이 가능합니다.");
                 return "redirect:/join/companyJoinStatusDetail?bizNo=" + bizNo + "&repName=" + repName;
             }
@@ -730,42 +728,19 @@ public class EgovJoinController {
             vo.setChargerTel(chargerTel);
             vo.setInsttSttus("A");
 
-            // Handle file uploads
-            String uploadDir = "/opt/carbosys/file/instt";
-            java.io.File dir = new java.io.File(uploadDir);
-            if (!dir.exists() && !dir.mkdirs()) {
-                throw new Exception("Cannot create upload directory: " + uploadDir);
-            }
+            List<InsttFileVO> existingFiles = entrprsManageService.selectInsttFiles(normalizedInsttId);
+            int nextFileSn = existingFiles == null ? 1 : existingFiles.size() + 1;
+            List<InsttFileVO> insttFiles = saveInsttEvidenceFiles(normalizedInsttId, fileUploads, nextFileSn);
 
-            java.util.List<String> savedPaths = new java.util.ArrayList<>();
-            if (fileUploads != null && !fileUploads.isEmpty()) {
-                for (int i = 0; i < fileUploads.size(); i++) {
-                    org.springframework.web.multipart.MultipartFile file = fileUploads.get(i);
-                    if (file == null || file.isEmpty())
-                        continue;
-
-                    String originalFileName = file.getOriginalFilename();
-                    String ext = "";
-                    if (originalFileName != null) {
-                        int lastDotIndex = originalFileName.lastIndexOf(".");
-                        if (lastDotIndex > -1)
-                            ext = originalFileName.substring(lastDotIndex);
-                    }
-                    String newFileName = normalizedInsttId + "_" + System.currentTimeMillis() + "_" + i + ext;
-                    java.io.File targetFile = new java.io.File(uploadDir, newFileName);
-                    file.transferTo(targetFile);
-                    savedPaths.add(targetFile.getAbsolutePath());
-                }
-            }
-
-            if (!savedPaths.isEmpty()) {
-                vo.setBizRegFilePath(String.join(",", savedPaths));
+            if (!insttFiles.isEmpty()) {
+                vo.setBizRegFilePath(joinInsttEvidencePaths(insttFiles));
             } else {
                 Object existingPath = current.get("bizRegFilePath");
                 vo.setBizRegFilePath(existingPath == null ? null : String.valueOf(existingPath));
             }
 
             entrprsManageService.updateInsttInfo(vo);
+            entrprsManageService.insertInsttFiles(insttFiles);
 
             model.addAttribute("insttNm", agencyName);
             model.addAttribute("bizrno", bizNo);
@@ -862,7 +837,7 @@ public class EgovJoinController {
         return hasRealFile;
     }
 
-    private String saveJoinEvidenceFiles(String memberId, List<MultipartFile> fileUploads) throws Exception {
+    private List<EntrprsMberFileVO> saveJoinEvidenceFiles(String memberId, List<MultipartFile> fileUploads) throws Exception {
         String uploadDir = "/opt/carbosys/file/instt";
         File dir = new File(uploadDir);
         if (!dir.exists() && !dir.mkdirs()) {
@@ -874,7 +849,7 @@ public class EgovJoinController {
             safeMemberId = "JOIN";
         }
 
-        List<String> savedPaths = new ArrayList<>();
+        List<EntrprsMberFileVO> savedFiles = new ArrayList<>();
         for (int i = 0; i < fileUploads.size(); i++) {
             MultipartFile file = fileUploads.get(i);
             if (file == null || file.isEmpty()) {
@@ -893,10 +868,93 @@ public class EgovJoinController {
             String newFileName = safeMemberId + "_" + System.currentTimeMillis() + "_" + i + ext;
             File targetFile = new File(dir, newFileName);
             file.transferTo(targetFile);
-            savedPaths.add(targetFile.getAbsolutePath());
+            EntrprsMberFileVO fileVO = new EntrprsMberFileVO();
+            fileVO.setFileId(safeMemberId + "_FILE_" + System.currentTimeMillis() + "_" + i);
+            fileVO.setEntrprsmberId(memberId);
+            fileVO.setFileSn(i + 1);
+            fileVO.setStreFileNm(newFileName);
+            fileVO.setOrignlFileNm(originalFileName == null ? newFileName : originalFileName);
+            fileVO.setFileStrePath(targetFile.getAbsolutePath());
+            fileVO.setFileMg(file.getSize());
+            fileVO.setFileExtsn(ext);
+            fileVO.setFileCn(file.getContentType());
+            savedFiles.add(fileVO);
         }
 
-        return String.join(",", savedPaths);
+        return savedFiles;
+    }
+
+    private String joinEvidencePaths(List<EntrprsMberFileVO> fileList) {
+        if (fileList == null || fileList.isEmpty()) {
+            return "";
+        }
+        List<String> paths = new ArrayList<>();
+        for (EntrprsMberFileVO fileVO : fileList) {
+            if (fileVO != null && hasText(fileVO.getFileStrePath())) {
+                paths.add(fileVO.getFileStrePath());
+            }
+        }
+        return String.join(",", paths);
+    }
+
+    private List<InsttFileVO> saveInsttEvidenceFiles(String insttId, List<MultipartFile> fileUploads, int startFileSn) throws Exception {
+        String uploadDir = "/opt/carbosys/file/instt";
+        File dir = new File(uploadDir);
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new Exception("Cannot create upload directory: " + uploadDir);
+        }
+
+        String safeInsttId = hasText(insttId) ? insttId.replaceAll("[^a-zA-Z0-9_-]", "") : "INSTT";
+        if (!hasText(safeInsttId)) {
+            safeInsttId = "INSTT";
+        }
+
+        List<InsttFileVO> savedFiles = new ArrayList<>();
+        for (int i = 0; i < fileUploads.size(); i++) {
+            MultipartFile file = fileUploads.get(i);
+            if (file == null || file.isEmpty()) {
+                continue;
+            }
+
+            String originalFileName = file.getOriginalFilename();
+            String ext = "";
+            if (originalFileName != null) {
+                int lastDotIndex = originalFileName.lastIndexOf(".");
+                if (lastDotIndex > -1) {
+                    ext = originalFileName.substring(lastDotIndex).toLowerCase();
+                }
+            }
+
+            String newFileName = safeInsttId + "_" + System.currentTimeMillis() + "_" + i + ext;
+            File targetFile = new File(dir, newFileName);
+            file.transferTo(targetFile);
+
+            InsttFileVO fileVO = new InsttFileVO();
+            fileVO.setFileId(safeInsttId + "_FILE_" + System.currentTimeMillis() + "_" + i);
+            fileVO.setInsttId(insttId);
+            fileVO.setFileSn(startFileSn + savedFiles.size());
+            fileVO.setStreFileNm(newFileName);
+            fileVO.setOrignlFileNm(originalFileName == null ? newFileName : originalFileName);
+            fileVO.setFileStrePath(targetFile.getAbsolutePath());
+            fileVO.setFileMg(file.getSize());
+            fileVO.setFileExtsn(ext);
+            fileVO.setFileCn(file.getContentType());
+            savedFiles.add(fileVO);
+        }
+        return savedFiles;
+    }
+
+    private String joinInsttEvidencePaths(List<InsttFileVO> fileList) {
+        if (fileList == null || fileList.isEmpty()) {
+            return "";
+        }
+        List<String> paths = new ArrayList<>();
+        for (InsttFileVO fileVO : fileList) {
+            if (fileVO != null && hasText(fileVO.getFileStrePath())) {
+                paths.add(fileVO.getFileStrePath());
+            }
+        }
+        return String.join(",", paths);
     }
 
     private String normalizeMembershipCode(String membershipType) {

@@ -8,8 +8,10 @@ import org.egovframe.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import org.egovframe.rte.fdl.idgnr.EgovIdGnrService;
 import org.springframework.stereotype.Service;
 
+import egovframework.com.uss.umt.service.EntrprsMberFileVO;
 import egovframework.com.uss.umt.service.EgovEntrprsManageService;
 import egovframework.com.uss.umt.service.EntrprsManageVO;
+import egovframework.com.uss.umt.service.InsttFileVO;
 import egovframework.com.uss.umt.service.InsttInfoVO;
 import egovframework.com.uss.umt.service.StplatVO;
 import egovframework.com.uss.umt.service.UserDefaultVO;
@@ -73,6 +75,24 @@ public class EgovEntrprsManageServiceImpl extends EgovAbstractServiceImpl implem
 
 		String result = entrprsManageDAO.insertEntrprsmber(entrprsManageVO);
 		return result;
+	}
+
+	@Override
+	public void insertEntrprsMberFiles(List<EntrprsMberFileVO> fileList) throws Exception {
+		if (fileList == null || fileList.isEmpty()) {
+			return;
+		}
+		for (EntrprsMberFileVO fileVO : fileList) {
+			if (fileVO == null) {
+				continue;
+			}
+			entrprsManageDAO.insertEntrprsMberFile(fileVO);
+		}
+	}
+
+	@Override
+	public List<EntrprsMberFileVO> selectEntrprsMberFiles(String entrprsmberId) throws Exception {
+		return entrprsManageDAO.selectEntrprsMberFiles(entrprsmberId);
 	}
 
 	/**
@@ -250,6 +270,24 @@ public class EgovEntrprsManageServiceImpl extends EgovAbstractServiceImpl implem
 	@Override
 	public void insertInsttInfo(InsttInfoVO insttInfoVO) throws Exception {
 		entrprsManageDAO.insertInsttInfo(insttInfoVO);
+	}
+
+	@Override
+	public void insertInsttFiles(List<InsttFileVO> fileList) throws Exception {
+		if (fileList == null || fileList.isEmpty()) {
+			return;
+		}
+		for (InsttFileVO fileVO : fileList) {
+			if (fileVO == null) {
+				continue;
+			}
+			entrprsManageDAO.insertInsttFile(fileVO);
+		}
+	}
+
+	@Override
+	public List<InsttFileVO> selectInsttFiles(String insttId) throws Exception {
+		return entrprsManageDAO.selectInsttFiles(insttId);
 	}
 
 	@Override

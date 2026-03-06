@@ -121,12 +121,12 @@
                 </div>
 
                 <div class="flex-grow h-0.5 mx-4"
-                    th:classappend="${result['insttSttus'] == 'A' ? 'bg-gray-200' : (result['insttSttus'] == 'X' ? 'bg-[var(--kr-gov-red)]' : 'bg-emerald-500')}">
+                    th:classappend="${result['insttSttus'] == 'A' ? 'bg-gray-200' : (result['insttSttus'] == 'R' ? 'bg-[var(--kr-gov-red)]' : 'bg-emerald-500')}">
                 </div>
 
                 <!-- Step 3: Pending if A, Active if P/X -->
                 <div class="relative z-10 flex flex-col items-center gap-3"
-                    th:classappend="${result['insttSttus'] == 'A' ? 'stepper-pending' : (result['insttSttus'] == 'X' ? 'stepper-active-reject' : 'stepper-active')}">
+                    th:classappend="${result['insttSttus'] == 'A' ? 'stepper-pending' : (result['insttSttus'] == 'R' ? 'stepper-active-reject' : 'stepper-active')}">
                     <div
                         class="stepper-circle w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-lg">
                         03</div>
@@ -134,7 +134,8 @@
                         th:classappend="${result['insttSttus'] == 'A' ? 'text-gray-400' : (result['insttSttus'] == 'P' ? 'text-emerald-600' : 'text-red-600')}">
                         <span th:if="${result['insttSttus'] == 'A'}">승인 대기</span>
                         <span th:if="${result['insttSttus'] == 'P'}">승인 완료</span>
-                        <span th:if="${result['insttSttus'] == 'X'}">승인 반려</span>
+                        <span th:if="${result['insttSttus'] == 'R'}">승인 반려</span>
+                        <span th:if="${result['insttSttus'] == 'X'}">차단</span>
                     </span>
                 </div>
             </div>
@@ -159,7 +160,7 @@
                 </div>
             </div>
             <div class="bg-red-50 border border-red-100 rounded-lg p-6 flex flex-col gap-4"
-                th:if="${result['insttSttus'] == 'X'}">
+                th:if="${result['insttSttus'] == 'R'}">
                 <div class="flex items-start gap-4">
                     <span class="material-symbols-outlined text-red-600 mt-0.5">error</span>
                     <div class="space-y-1">
@@ -167,6 +168,14 @@
                         <p class="text-sm text-red-800 leading-relaxed">입력하신 정보 또는 제출하신 서류에 보완이 필요합니다. 아래의 반려 사유를 확인하시고,
                             [재신청하기] 버튼을 통해 정보를 수정하여 다시 제출해 주시기 바랍니다.</p>
                     </div>
+                </div>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-lg p-6 flex items-start gap-4"
+                th:if="${result['insttSttus'] == 'X'}">
+                <span class="material-symbols-outlined text-red-600 mt-0.5">block</span>
+                <div class="space-y-1">
+                    <h4 class="text-base font-bold text-red-900">회원사 접근이 차단되었습니다.</h4>
+                    <p class="text-sm text-red-800 leading-relaxed">현재 신청 건은 운영 정책에 따라 차단 상태입니다. 재신청은 불가하며 운영자에게 문의해 주세요.</p>
                 </div>
             </div>
 
@@ -225,7 +234,7 @@
                 <span class="material-symbols-outlined">arrow_back</span>
                 뒤로가기
             </button>
-            <a th:if="${result['insttSttus'] == 'X'}"
+            <a th:if="${result['insttSttus'] == 'R'}"
                 th:href="@{/join/companyReapply(bizNo=${result['bizrno']}, repName=${result['reprsntNm']})}"
                 class="px-10 h-14 bg-[var(--kr-gov-blue)] text-white font-bold rounded-lg hover:bg-[var(--kr-gov-blue-hover)] transition-colors flex items-center gap-2 shadow-lg shadow-blue-100">
                 <span class="material-symbols-outlined">edit_note</span>
@@ -233,7 +242,7 @@
             </a>
             <button type="button" onclick="location.href='/home'"
                 class="px-8 h-14 bg-[var(--kr-gov-blue)] text-white font-bold rounded-lg hover:bg-[var(--kr-gov-blue-hover)] transition-colors flex items-center gap-2"
-                th:if="${result['insttSttus'] != 'X'}">
+                th:if="${result['insttSttus'] != 'R'}">
                 <span class="material-symbols-outlined">home</span>
                 홈으로 이동
             </button>

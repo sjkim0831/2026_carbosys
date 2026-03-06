@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>관리자용 회원 정보 수정 | CCUS 통합관리 시스템</title>
+    <title>회원 정보 수정 | CCUS 통합관리 시스템</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Public+Sans:wght@400;600;700&display=swap"
         rel="stylesheet" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
     <style type="text/tailwindcss">
         :root {
@@ -21,9 +21,8 @@
             --kr-gov-text-secondary: #4d4d4d;
             --kr-gov-border-light: #d9d9d9;
             --kr-gov-focus: #005fde;
-            --kr-gov-bg-gray: #f2f2f2;
             --kr-gov-radius: 5px;
-            --kr-gov-error: #d32f2f;
+            --kr-gov-error: #c62828;
         }
 
         @layer base {
@@ -42,55 +41,37 @@
             font-size: 24px;
             line-height: 1.6;
         }
-        .admin-sidebar-link {
-            @apply flex items-center gap-3 px-4 py-3 text-[15px] font-medium text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-[var(--kr-gov-radius)] transition-colors;
-        }
-        .admin-sidebar-link.active {
-            @apply bg-[var(--kr-gov-blue)] text-white font-bold;
-        }
-        .admin-sidebar-sublink {
-            @apply flex items-center gap-2 pl-12 pr-4 py-2 text-[14px] text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)] hover:font-bold transition-all;
-        }
-        .admin-sidebar-sublink.active {
-            @apply text-[var(--kr-gov-blue)] font-bold relative;
-        }
-        .admin-sidebar-sublink.active::before {
-            content: '';
-            @apply absolute left-8 w-1.5 h-1.5 bg-[var(--kr-gov-blue)] rounded-full top-1/2 -translate-y-1/2;
-        }
 
         .gov-card {
-            @apply border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white p-8 shadow-sm;
+            @apply border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white p-6 shadow-sm;
         }
 
         .gov-label {
-            @apply block text-[15px] font-bold text-[var(--kr-gov-text-primary)] mb-2 flex items-center gap-1;
+            @apply block text-[14px] font-bold text-[var(--kr-gov-text-primary)] mb-2;
         }
 
-        .gov-input {
-            @apply w-full h-11 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-[var(--kr-gov-focus)] outline-none transition-all text-[15px];
+        .gov-input,
+        .gov-select,
+        .gov-textarea {
+            @apply w-full border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-[var(--kr-gov-focus)] outline-none transition-all text-[15px];
         }
 
-        .gov-input:disabled,
-        .gov-input[readonly] {
-            @apply bg-gray-100 text-gray-500 cursor-not-allowed border-gray-200;
-        }
-
+        .gov-input,
         .gov-select {
-            @apply w-full h-11 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-[var(--kr-gov-focus)] outline-none bg-white text-[15px];
+            @apply h-11 px-4;
         }
 
-        .validation-msg {
-            @apply mt-1.5 text-[13px] text-[var(--kr-gov-error)] flex items-center gap-1;
+        .gov-textarea {
+            @apply min-h-[96px] px-4 py-3;
         }
 
-        .permission-checkbox {
-            @apply w-5 h-5 rounded border-[var(--kr-gov-border-light)] text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)];
+        .gov-readonly {
+            @apply bg-gray-50 text-gray-600;
         }
 
         .required-dot::after {
             content: '*';
-            @apply text-[var(--kr-gov-error)] ml-0.5;
+            @apply text-[var(--kr-gov-error)] ml-1;
         }
     </style>
 </head>
@@ -101,113 +82,219 @@
     <div th:replace="~{egovframework/com/admin/header :: headerFragment}"></div>
 
     <div class="flex min-h-[calc(100vh-124px)]">
-        <aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col"
-               aria-label="관리자 사이드 메뉴"></aside>
+        <aside aria-label="관리자 사이드 메뉴"
+               class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col"></aside>
 
         <main class="flex-1 p-8 overflow-y-auto" id="main-content">
             <div class="mb-8">
-                <nav class="flex items-center gap-2 text-sm text-gray-500 mb-2" aria-label="Breadcrumb">
-                    <span>회원</span>
+                <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                    <span>회원 관리</span>
                     <span class="material-symbols-outlined text-sm">chevron_right</span>
                     <span class="font-medium text-[var(--kr-gov-blue)]">회원 정보 수정</span>
                 </nav>
-                <h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)]">관리자용 회원 정보 수정</h2>
-                <p class="text-[var(--kr-gov-text-secondary)] text-sm mt-1">시스템 사용자의 기본 정보와 권한을 상세하게 관리합니다.</p>
+                <h2 class="text-2xl font-black">회원 정보 수정</h2>
+                <p class="text-sm text-[var(--kr-gov-text-secondary)] mt-1">회원 계정의 신청자 정보, 연락처, 상태를 수정합니다. 회원사 정보는 하단에서 참조용으로만 확인합니다.</p>
             </div>
 
-            <form>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-                    <section class="gov-card">
-                        <div class="flex items-center gap-2 mb-6 border-b pb-4">
-                            <span class="material-symbols-outlined text-[var(--kr-gov-blue)]">account_circle</span>
-                            <h3 class="text-lg font-bold">기본 정보</h3>
+            <div class="mb-4 rounded-[var(--kr-gov-radius)] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                 th:if="${memberEditError}" th:text="${memberEditError}"></div>
+            <div class="mb-4 rounded-[var(--kr-gov-radius)] border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
+                 th:if="${memberEditErrors != null}">
+                <p class="font-bold mb-1">입력값을 확인해 주세요.</p>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li th:each="error : ${memberEditErrors}" th:text="${error}"></li>
+                </ul>
+            </div>
+            <div class="mb-4 rounded-[var(--kr-gov-radius)] border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800"
+                 th:if="${memberEditUpdated}">
+                회원 정보가 저장되었습니다.
+            </div>
+
+            <form method="post" th:if="${member != null}" th:action="@{/admin/member/edit(language='ko')}">
+                <input name="memberId" th:value="${member.entrprsmberId}" type="hidden" />
+                <input name="language" type="hidden" value="ko" />
+
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+                    <section class="gov-card xl:col-span-1 space-y-5">
+                        <div class="flex items-center gap-2 border-b pb-4">
+                            <span class="material-symbols-outlined text-[var(--kr-gov-blue)]">assignment_ind</span>
+                            <h3 class="text-lg font-bold">계정 요약</h3>
                         </div>
-                        <div class="space-y-6">
-                            <div>
-                                <label class="gov-label" for="member-id">사용자 아이디</label>
-                                <input class="gov-input" id="member-id" readonly type="text"
-                                       th:value="${memberId != null and !#strings.isEmpty(memberId) ? memberId : 'ccus_user_01'}"
-                                       value="ccus_user_01" />
-                                <p class="text-[12px] text-gray-400 mt-1">아이디는 수정할 수 없습니다.</p>
+                        <div>
+                            <label class="gov-label">회원 ID</label>
+                            <input class="gov-input gov-readonly" readonly type="text" th:value="${member.entrprsmberId}" />
+                        </div>
+                        <div>
+                            <label class="gov-label">가입일</label>
+                            <input class="gov-input gov-readonly" readonly type="text" th:value="${#strings.isEmpty(member.sbscrbDe) ? '-' : member.sbscrbDe}" />
+                        </div>
+                        <div>
+                            <label class="gov-label">업무 역할</label>
+                            <div class="rounded-[var(--kr-gov-radius)] bg-blue-50 border border-blue-100 px-4 py-3">
+                                <p class="text-sm font-bold text-[var(--kr-gov-blue)]" th:text="${businessRoleLabel}">-</p>
+                                <p class="mt-1 text-xs text-slate-600">회원 유형에 따라 연결되는 핵심 업무를 요약합니다.</p>
                             </div>
-                            <div>
-                                <label class="gov-label" for="member-name">성명</label>
-                                <input class="gov-input" id="member-name" readonly type="text" value="이몽룡" />
-                                <p class="text-[12px] text-gray-400 mt-1">성명은 실명인증 정보를 기반으로 하며 수정이 제한됩니다.</p>
+                        </div>
+                        <div>
+                            <label class="gov-label">계정 상태</label>
+                            <div class="rounded-[var(--kr-gov-radius)] bg-slate-50 px-4 py-3 text-sm">
+                                <p><span class="font-bold">회원 유형:</span> <span th:text="${membershipTypeLabel}">-</span></p>
+                                <p class="mt-1"><span class="font-bold">회원 상태:</span> <span th:text="${statusLabel}">-</span></p>
+                                <p class="mt-1"><span class="font-bold">회원 제출 문서:</span> <span th:text="${memberDocumentStatusLabel}">-</span></p>
                             </div>
-                            <div>
-                                <label class="gov-label required-dot" for="member-email">이메일 주소</label>
-                                <input class="gov-input" id="member-email" placeholder="example@domain.com" type="email"
-                                       value="mryi@ccus-korea.or.kr" />
-                                <div class="validation-msg">
-                                    <span class="material-symbols-outlined text-[16px]">error</span>
-                                    올바른 이메일 형식을 입력해 주세요.
-                                </div>
+                        </div>
+                        <div>
+                            <label class="gov-label">우선 제공 업무</label>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700"
+                                      th:each="scope : ${accessScopes}" th:text="${scope}">기능</span>
                             </div>
-                            <div>
-                                <label class="gov-label required-dot" for="member-contact">연락처</label>
-                                <input class="gov-input" id="member-contact" placeholder="010-0000-0000" type="tel"
-                                       value="010-1234-5678" />
-                                <p class="text-[12px] text-gray-500 mt-1">하이픈(-)을 포함하여 입력해 주세요.</p>
+                        </div>
+                        <div th:if="${institutionInfo != null and !#maps.isEmpty(institutionInfo)}">
+                            <label class="gov-label">회원사 참조 정보</label>
+                            <div class="rounded-[var(--kr-gov-radius)] bg-gray-50 px-4 py-3 text-sm text-[var(--kr-gov-text-secondary)]">
+                                <p><span class="font-bold text-[var(--kr-gov-text-primary)]">기관 승인 상태:</span> <span th:text="${institutionStatusLabel}">-</span></p>
+                                <p class="mt-1"><span class="font-bold text-[var(--kr-gov-text-primary)]">증빙 문서 상태:</span> <span th:text="${documentStatusLabel}">-</span></p>
+                                <p class="mt-1"><span class="font-bold text-[var(--kr-gov-text-primary)]">기관 ID:</span> <span th:text="${institutionInfo['INSTT_ID']}">-</span></p>
                             </div>
                         </div>
                     </section>
 
-                    <section class="gov-card">
-                        <div class="flex items-center gap-2 mb-6 border-b pb-4">
-                            <span class="material-symbols-outlined text-[var(--kr-gov-green)]">badge</span>
-                            <h3 class="text-lg font-bold">소속 및 권한 정보</h3>
-                        </div>
-                        <div class="space-y-6">
-                            <div class="grid grid-cols-2 gap-4">
+                    <div class="xl:col-span-2 space-y-6">
+                        <section class="gov-card">
+                            <div class="flex items-center gap-2 border-b pb-4 mb-5">
+                                <span class="material-symbols-outlined text-[var(--kr-gov-blue)]">person</span>
+                                <h3 class="text-lg font-bold">회원 기본 정보</h3>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div>
-                                    <label class="gov-label required-dot" for="member-affil">소속 기관</label>
-                                    <select class="gov-select" id="member-affil">
-                                        <option value="1">한국탄소포집연구소</option>
-                                        <option value="2">환경부</option>
-                                        <option value="3">산업통상자원부</option>
-                                        <option value="4">에너지관리공단</option>
+                                    <label class="gov-label required-dot" for="applcntNm">회원명</label>
+                                    <input class="gov-input" id="applcntNm" name="applcntNm"
+                                           th:value="${member.applcntNm}" type="text" />
+                                </div>
+                                <div>
+                                    <label class="gov-label required-dot" for="applcntEmailAdres">이메일</label>
+                                    <input class="gov-input" id="applcntEmailAdres" name="applcntEmailAdres"
+                                           th:value="${member.applcntEmailAdres}" type="email" />
+                                </div>
+                                <div>
+                                    <label class="gov-label required-dot" for="phoneNumber">연락처</label>
+                                    <input class="gov-input" id="phoneNumber" name="phoneNumber"
+                                           placeholder="010-1234-5678" th:value="${phoneNumber}" type="text" />
+                                </div>
+                                <div>
+                                    <label class="gov-label required-dot" for="entrprsSeCode">회원 유형</label>
+                                    <select class="gov-select" id="entrprsSeCode" name="entrprsSeCode">
+                                        <option th:selected="${memberTypeCode == 'E'}" value="E">CO2 배출 및 포집 기업</option>
+                                        <option th:selected="${memberTypeCode == 'P'}" value="P">CCUS 사업 수행 기업</option>
+                                        <option th:selected="${memberTypeCode == 'C'}" value="C">CCUS 진흥센터</option>
+                                        <option th:selected="${memberTypeCode == 'G'}" value="G">주무관청 / 행정기관</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="gov-label" for="member-dept">부서명</label>
-                                    <input class="gov-input" id="member-dept" placeholder="부서명을 입력하세요" type="text"
-                                           value="전략기술실" />
+                                    <label class="gov-label required-dot" for="entrprsMberSttus">회원 상태</label>
+                                    <select class="gov-select" id="entrprsMberSttus" name="entrprsMberSttus">
+                                        <option th:selected="${memberStatusCode == 'P'}" value="P">활성</option>
+                                        <option th:selected="${memberStatusCode == 'A'}" value="A">승인 대기</option>
+                                        <option th:selected="${memberStatusCode == 'R'}" value="R">반려</option>
+                                        <option th:selected="${memberStatusCode == 'D'}" value="D">삭제</option>
+                                        <option th:selected="${memberStatusCode == 'X'}" value="X">차단</option>
+                                    </select>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="inline-flex items-center gap-3 text-sm font-medium cursor-pointer">
+                                        <input class="h-4 w-4 rounded border-gray-300 text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
+                                               name="marketingYn" th:checked="${member.marketingYn == 'Y'}" type="checkbox" value="Y" />
+                                        마케팅 정보 수신 동의
+                                    </label>
                                 </div>
                             </div>
-                            <div>
-                                <label class="gov-label required-dot" for="member-type">회원 유형</label>
-                                <select class="gov-select" id="member-type">
-                                    <option value="1">정규 사용자</option>
-                                    <option value="2">외부 전문가</option>
-                                    <option value="3">시스템 관리자</option>
-                                    <option value="4">단순 열람자</option>
-                                </select>
+                        </section>
+
+                        <section class="gov-card">
+                            <div class="flex items-center gap-2 border-b pb-4 mb-5">
+                                <span class="material-symbols-outlined text-[var(--kr-gov-green)]">location_on</span>
+                                <h3 class="text-lg font-bold">연락 및 제출 주소</h3>
                             </div>
-                            <div>
-                                <label class="gov-label">시스템 접근 권한 설정</label>
-                                <div class="mt-4 p-4 bg-gray-50 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] grid grid-cols-2 gap-y-4">
-                                    <label class="flex items-center gap-3 cursor-pointer"><input checked class="permission-checkbox" type="checkbox" /><span class="text-[14px] font-medium">운영 대시보드</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input class="permission-checkbox" type="checkbox" /><span class="text-[14px] font-medium">회원/권한 관리</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input checked class="permission-checkbox" type="checkbox" /><span class="text-[14px] font-medium">산정 로직 관리</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input checked class="permission-checkbox" type="checkbox" /><span class="text-[14px] font-medium">인증/심사 관리</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input class="permission-checkbox" type="checkbox" /><span class="text-[14px] font-medium">통계/리포트</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input class="permission-checkbox" type="checkbox" /><span class="text-[14px] font-medium">시스템 설정</span></label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="gov-label" for="zip">우편번호</label>
+                                    <input class="gov-input" id="zip" name="zip" th:value="${member.zip}" type="text" />
                                 </div>
-                                <p class="text-[12px] text-amber-600 mt-2 font-medium flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-[16px]">warning</span>
-                                    관리자 권한 부여 시 보안 정책을 확인하시기 바랍니다.
-                                </p>
+                                <div>
+                                    <label class="gov-label" for="detailAdres">상세주소</label>
+                                    <input class="gov-input" id="detailAdres" name="detailAdres" th:value="${member.detailAdres}" type="text" />
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="gov-label" for="adres">기본주소</label>
+                                    <textarea class="gov-textarea" id="adres" name="adres" th:text="${member.adres}"></textarea>
+                                </div>
+                                <div class="md:col-span-2 rounded-[var(--kr-gov-radius)] border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+                                    이 영역은 회원 테이블의 연락/제출 주소입니다. 회원사 주소와 별도로 관리됩니다.
+                                </div>
                             </div>
-                        </div>
-                    </section>
+                        </section>
+
+                        <section class="gov-card">
+                            <div class="flex items-center gap-2 border-b pb-4 mb-5">
+                                <span class="material-symbols-outlined text-[var(--kr-gov-blue)]">description</span>
+                                <h3 class="text-lg font-bold">회원 제출 증빙 문서</h3>
+                            </div>
+                            <div class="space-y-3" th:if="${memberEvidenceFiles != null and !#lists.isEmpty(memberEvidenceFiles)}">
+                                <div class="rounded-[var(--kr-gov-radius)] border border-slate-200 bg-slate-50 px-4 py-3"
+                                     th:each="file : ${memberEvidenceFiles}">
+                                    <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                                        <div class="min-w-0">
+                                            <p class="text-sm font-bold text-[var(--kr-gov-text-primary)]" th:text="${file.fileName}">evidence.pdf</p>
+                                            <p class="mt-1 text-xs text-slate-500 break-all" th:text="${file.filePath}">/path/file.pdf</p>
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <a class="px-3 py-1.5 text-[12px] font-bold border border-[var(--kr-gov-border-light)] bg-white rounded hover:bg-gray-50"
+                                               target="_blank" th:href="${file.previewUrl}">미리보기</a>
+                                            <a class="px-3 py-1.5 text-[12px] font-bold border border-[var(--kr-gov-border-light)] bg-white rounded hover:bg-gray-50"
+                                               th:href="${file.downloadUrl}">다운로드</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rounded-[var(--kr-gov-radius)] border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-sm text-slate-500"
+                                 th:if="${memberEvidenceFiles == null or #lists.isEmpty(memberEvidenceFiles)}">
+                                회원 테이블에 등록된 증빙 문서가 없습니다.
+                            </div>
+                        </section>
+
+                        <section class="gov-card">
+                            <div class="flex items-center gap-2 border-b pb-4 mb-5">
+                                <span class="material-symbols-outlined text-[var(--kr-gov-green)]">business_center</span>
+                                <h3 class="text-lg font-bold">회원사 정보</h3>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div class="md:col-span-2">
+                                    <label class="gov-label" for="cmpnyNm">기관명</label>
+                                    <input class="gov-input gov-readonly" id="cmpnyNm" readonly th:value="${member.cmpnyNm}" type="text" />
+                                </div>
+                                <div>
+                                    <label class="gov-label" for="cxfc">대표자명</label>
+                                    <input class="gov-input gov-readonly" id="cxfc" readonly th:value="${member.cxfc}" type="text" />
+                                </div>
+                                <div>
+                                    <label class="gov-label" for="bizrno">사업자등록번호</label>
+                                    <input class="gov-input gov-readonly" id="bizrno" readonly th:value="${member.bizrno}" type="text" />
+                                </div>
+                                <div class="md:col-span-2 rounded-[var(--kr-gov-radius)] border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+                                    이 영역은 회원사 기준 참조 정보입니다. 수정은 기관 관리 또는 승인 화면에서 진행해 주세요.
+                                </div>
+                            </div>
+                        </section>
+                    </div>
                 </div>
 
-                <div class="mt-12 flex justify-center items-center gap-3 border-t pt-8">
-                    <button class="px-8 py-3 bg-white border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors min-w-[140px]"
-                            onclick="window.location.href='/admin/member/list'" type="button">취소하기</button>
-                    <button class="px-8 py-3 bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors min-w-[140px] shadow-lg shadow-blue-900/10"
-                            type="submit">저장하기</button>
+                <div class="mt-8 flex justify-center gap-3 border-t pt-6">
+                    <button class="min-w-[140px] rounded-[var(--kr-gov-radius)] border border-[var(--kr-gov-border-light)] bg-white px-8 py-3 font-bold text-[var(--kr-gov-text-secondary)] hover:bg-gray-50"
+                            onclick="window.location.href='/admin/member/detail?memberId=' + encodeURIComponent(document.querySelector('input[name=memberId]').value)"
+                            type="button">상세로 이동</button>
+                    <button class="min-w-[140px] rounded-[var(--kr-gov-radius)] bg-[var(--kr-gov-blue)] px-8 py-3 font-bold text-white hover:bg-[var(--kr-gov-blue-hover)]"
+                            type="submit">저장</button>
                 </div>
             </form>
         </main>

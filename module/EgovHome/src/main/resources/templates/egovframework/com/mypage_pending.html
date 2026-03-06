@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>가입 승인 대기 안내 - CCUS 통합관리 포털</title>
+<title th:text="${pendingStatus == 'R' ? '가입 반려 안내 - CCUS 통합관리 포털' : '가입 승인 대기 안내 - CCUS 통합관리 포털'}">가입 승인 대기 안내 - CCUS 통합관리 포털</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -83,12 +83,16 @@
 <main class="flex-grow flex flex-col items-center justify-center py-12 px-4" id="main-content">
 <div class="w-full max-w-[640px] bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm overflow-hidden p-8 md:p-12 text-center">
 <div class="mb-6 flex justify-center">
-<div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined text-[48px] text-[var(--kr-gov-blue)]">pending_actions</span>
+<div class="w-20 h-20 rounded-full flex items-center justify-center"
+     th:classappend="${pendingStatus == 'R' ? ' bg-red-50' : ' bg-blue-50'}">
+<span class="material-symbols-outlined text-[48px]"
+      th:classappend="${pendingStatus == 'R' ? ' text-[var(--kr-gov-error)]' : ' text-[var(--kr-gov-blue)]'}"
+      th:text="${pendingStatus == 'R' ? 'error' : 'pending_actions'}">pending_actions</span>
 </div>
 </div>
-<h2 class="text-2xl font-bold text-[var(--kr-gov-text-primary)] mb-4">가입 승인 대기 안내</h2>
-<p class="text-lg font-medium text-[var(--kr-gov-text-primary)] mb-8">
+<h2 class="text-2xl font-bold text-[var(--kr-gov-text-primary)] mb-4" th:text="${pendingStatus == 'R' ? '가입 반려 안내' : '가입 승인 대기 안내'}">가입 승인 대기 안내</h2>
+<p class="text-lg font-medium text-[var(--kr-gov-text-primary)] mb-8"
+   th:text="${pendingStatus == 'R' ? '현재 회원가입 신청이 반려되어 보완 후 다시 진행이 필요합니다.' : '현재 회원가입 신청이 완료되어 운영자의 승인을 기다리고 있습니다.'}">
                 현재 회원가입 신청이 완료되어 운영자의 승인을 기다리고 있습니다.
             </p>
 <div class="bg-gray-50 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-6 mb-8 text-left">
@@ -111,18 +115,43 @@
 <div class="flex">
 <dt class="w-32 text-sm font-bold text-[var(--kr-gov-text-secondary)]">진행 상태</dt>
 <dd class="text-sm">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold"
+      th:classappend="${pendingStatus == 'R' ? ' bg-red-100 text-red-700' : ' bg-blue-100 text-blue-800'}"
+      th:text="${pendingStatus == 'R' ? '반려' : '승인 대기'}">
                                 승인 대기
                             </span>
 </dd>
 </div>
 </dl>
 </div>
-<div class="bg-amber-50 border border-amber-100 p-4 rounded-[var(--kr-gov-radius)] mb-10">
-<p class="text-[13px] text-amber-900 leading-relaxed">
+<div class="p-4 rounded-[var(--kr-gov-radius)] mb-10"
+     th:classappend="${pendingStatus == 'R' ? ' bg-red-50 border border-red-100' : ' bg-amber-50 border border-amber-100'}">
+<p class="text-[13px] leading-relaxed"
+   th:classappend="${pendingStatus == 'R' ? ' text-red-800' : ' text-amber-900'}"
+   th:utext="${pendingStatus == 'R' ? '입력하신 정보 또는 제출하신 서류에 보완이 필요합니다.<br/>아래의 반려 사유를 확인하시고, 회원사 반려 화면 기준으로 보완 후 다시 진행해 주세요.' : '운영자 검토는 영업일 기준 <strong>2~3일</strong>이 소요될 수 있으며,<br/>승인 결과는 회원정보에 등록된 <strong>이메일과 SMS</strong>로 안내해 드립니다.'}">
                     운영자 검토는 영업일 기준 <strong>2~3일</strong>이 소요될 수 있으며,<br/>
                     승인 결과는 회원정보에 등록된 <strong>이메일과 SMS</strong>로 안내해 드립니다.
                 </p>
+</div>
+<div class="border border-red-200 rounded-lg overflow-hidden bg-white mt-4 mb-10"
+     th:if="${pendingStatus == 'R' and rejectionReason != null and rejectionReason != ''}">
+<div class="bg-red-50 px-6 py-3 border-b border-red-100">
+<h5 class="text-sm font-bold text-red-900 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">speaker_notes</span>
+                        상세 반려 사유
+                    </h5>
+</div>
+<div class="p-6 text-left">
+<p class="text-base text-[var(--kr-gov-text-primary)] leading-relaxed"
+   th:text="${rejectionReason}">
+                        반려 사유 내용이 표시됩니다.
+                    </p>
+<p class="mt-4 text-xs text-[var(--kr-gov-text-secondary)]">
+                        처리기한: 탄소중립 CCUS 통합관리본부 운영국
+<span th:if="${rejectionProcessedAt != null and rejectionProcessedAt != ''}"
+      th:text="'(' + ${rejectionProcessedAt} + ')'">(2026.00.00)</span>
+</p>
+</div>
 </div>
 <div class="flex flex-col sm:flex-row gap-3 justify-center">
 <a class="min-w-[160px] h-12 flex items-center justify-center bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors focus-visible" href="/home">
@@ -134,7 +163,8 @@
 </div>
 </div>
 <div class="mt-8 text-center">
-<p class="text-sm text-[var(--kr-gov-text-secondary)]">
+<p class="text-sm text-[var(--kr-gov-text-secondary)]"
+   th:text="${pendingStatus == 'R' ? '반려 관련 문의: 02-1234-5678 (시스템 관리팀)' : '승인 지연 등 관련 문의: 02-1234-5678 (시스템 관리팀)'}">
                 승인 지연 등 관련 문의: <strong>02-1234-5678</strong> (시스템 관리팀)
             </p>
 </div>

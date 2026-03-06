@@ -128,7 +128,9 @@
                             <option value="" th:selected="${sbscrbSttus == null or sbscrbSttus == ''}">전체</option>
                             <option value="P" th:selected="${sbscrbSttus == 'P'}">활성</option>
                             <option value="A" th:selected="${sbscrbSttus == 'A'}">승인 대기</option>
-                            <option value="D" th:selected="${sbscrbSttus == 'D'}">정지</option>
+                            <option value="R" th:selected="${sbscrbSttus == 'R'}">반려</option>
+                            <option value="D" th:selected="${sbscrbSttus == 'D'}">삭제</option>
+                            <option value="X" th:selected="${sbscrbSttus == 'X'}">차단</option>
                         </select>
                     </div>
                     <div class="md:col-span-2">
@@ -202,10 +204,14 @@
                                           th:if="${member.entrprsMberSttus == 'P'}">활성</span>
                                     <span class="status-badge bg-blue-100 text-blue-700"
                                           th:if="${member.entrprsMberSttus == 'A'}">승인 대기</span>
+                                    <span class="status-badge bg-amber-100 text-amber-700"
+                                          th:if="${member.entrprsMberSttus == 'R'}">반려</span>
+                                    <span class="status-badge bg-slate-200 text-slate-700"
+                                          th:if="${member.entrprsMberSttus == 'D'}">삭제</span>
                                     <span class="status-badge bg-red-100 text-red-700"
-                                          th:if="${member.entrprsMberSttus == 'D'}">정지</span>
+                                          th:if="${member.entrprsMberSttus == 'X'}">차단</span>
                                     <span class="status-badge bg-gray-100 text-gray-700"
-                                          th:if="${member.entrprsMberSttus != 'P' and member.entrprsMberSttus != 'A' and member.entrprsMberSttus != 'D'}"
+                                          th:if="${member.entrprsMberSttus != 'P' and member.entrprsMberSttus != 'A' and member.entrprsMberSttus != 'R' and member.entrprsMberSttus != 'D' and member.entrprsMberSttus != 'X'}"
                                           th:text="${member.entrprsMberSttus}">기타</span>
                                 </td>
                                 <td class="px-6 py-4 text-center space-x-1">

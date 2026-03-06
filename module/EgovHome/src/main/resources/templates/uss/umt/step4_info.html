@@ -209,6 +209,21 @@
                                 </div>
                                 <div id="email-check-msg" aria-live="polite"></div>
                             </div>
+                            <div class="md:col-span-2 space-y-1">
+                                <label class="form-label" for="user-address">주소 <span class="text-red-500">*</span></label>
+                                <div class="flex gap-2 mb-2">
+                                    <input class="form-input w-32 bg-gray-50 cursor-pointer" id="zip-code" name="zip"
+                                        placeholder="우편번호" type="text" required readonly onclick="execDaumPostcode()" />
+                                    <button
+                                        class="px-5 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-sm font-bold rounded-[var(--kr-gov-radius)] hover:bg-blue-50 transition-colors"
+                                        type="button" onclick="execDaumPostcode()">주소 검색</button>
+                                </div>
+                                <input class="form-input mb-2 bg-gray-50 cursor-pointer" id="user-address"
+                                    name="adres" placeholder="기본 주소를 입력하세요" type="text" required readonly
+                                    onclick="execDaumPostcode()" />
+                                <input class="form-input" id="user-address-detail" name="detailAdres" placeholder="상세 주소를 입력하세요"
+                                    type="text" autocomplete="address-line2" />
+                            </div>
                         </div>
                     </section>
                     <section>
@@ -221,6 +236,7 @@
                                 <label class="form-label" for="company-search">기관/기업명 <span
                                         class="text-red-500">*</span></label>
                                 <div class="relative">
+                                <input type="hidden" name="insttId" id="instt-id" />
                                 <input class="form-input pr-24" id="company-search" name="insttNm"
                                     placeholder="기관명 또는 기업명을 검색하세요" type="text" required readonly autocomplete="organization" />
                                     <button id="btnCompanySearch"
@@ -235,6 +251,12 @@
                                         class="text-red-500">*</span></label>
                                 <input class="form-input bg-gray-50" id="biz-number" name="bizrno"
                                     placeholder="기관 검색 시 자동 입력" type="text" readonly required inputmode="numeric" pattern="[0-9-]{10,12}" />
+                            </div>
+                            <div class="space-y-1">
+                                <label class="form-label" for="representative-name">대표자명 <span
+                                        class="text-red-500">*</span></label>
+                                <input class="form-input bg-gray-50" id="representative-name" name="representativeName"
+                                    placeholder="기관 검색 시 자동 입력" type="text" readonly required autocomplete="name" />
                             </div>
                             <div class="space-y-1">
                                 <label class="form-label" for="department">부서명</label>
@@ -372,6 +394,7 @@
         </div>
     </div>
 
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
             (function loadSharedLayout() {
                 fetch('/home/fragments/header')
@@ -387,6 +410,17 @@
                     .catch(() => { });
             })();
 
+        window.execDaumPostcode = function () {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    const addr = data.userSelectedType === 'R' ? data.roadAddress : data.jibunAddress;
+                    document.getElementById('zip-code').value = data.zonecode;
+                    document.getElementById('user-address').value = addr;
+                    document.getElementById('user-address-detail').focus();
+                }
+            }).open();
+        };
+
         // ─── 모달 로직 ───
         const companySearchModal = document.getElementById('companySearchModal');
         const btnCompanySearch = document.getElementById('btnCompanySearch');
@@ -398,7 +432,9 @@
         const modalPagination = document.getElementById('modal-pagination');
 
         const companySearchInput = document.getElementById('company-search');
+        const insttIdInput = document.getElementById('instt-id');
         const bizNumberInput = document.getElementById('biz-number');
+        const representativeNameInput = document.getElementById('representative-name');
         const addFileBtn = document.getElementById('add-file-btn');
         const fileListContainer = document.getElementById('file-list-container');
 
@@ -486,6 +522,7 @@
             const offset = (page - 1) * PAGE_SIZE;
             modalTbody.innerHTML = list.map((item, idx) => {
                 const nm = item.cmpnyNm || item.CMPNY_NM || item.cmpny_nm || '-';
+                const insttId = item.insttId || item.INSTT_ID || '';
                 const biz = item.bizrno || item.BIZRNO || '-';
                 const rep = item.cxfc || item.CXFC || '-';
                 const no = offset + idx + 1;
@@ -493,6 +530,7 @@
                 // 이 페이지에서는 상태와 무관하게 선택 버튼 렌더링
                 const actionHtml = `<button class="modal-select-btn px-3 py-1.5 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] text-xs font-bold rounded-md hover:bg-[var(--kr-gov-blue)] hover:text-white transition-all"
                                 type="button"
+                                data-instt-id="${escAttr(insttId)}"
                                 data-name="${escAttr(nm)}"
                                 data-biz="${escAttr(biz)}"
                                 data-rep="${escAttr(rep)}">선택</button>`;
@@ -509,8 +547,10 @@
 
             modalTbody.querySelectorAll('.modal-select-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
+                    insttIdInput.value = btn.dataset.insttId;
                     companySearchInput.value = btn.dataset.name;
                     bizNumberInput.value = btn.dataset.biz;
+                    representativeNameInput.value = btn.dataset.rep;
                     closeModal();
                     companySearchInput.focus();
                 });

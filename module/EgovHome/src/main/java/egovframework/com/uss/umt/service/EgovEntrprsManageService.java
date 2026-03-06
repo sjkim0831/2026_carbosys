@@ -31,6 +31,10 @@ public interface EgovEntrprsManageService {
 	 */
 	public String insertEntrprsmber(EntrprsManageVO entrprsManageVO) throws Exception;
 
+	public void insertEntrprsMberFiles(List<EntrprsMberFileVO> fileList) throws Exception;
+
+	public List<EntrprsMberFileVO> selectEntrprsMberFiles(String entrprsmberId) throws Exception;
+
 	/**
 	 * 기 등록된 사용자 중 검색조건에 맞는기업회원의 정보를 데이터베이스에서 읽어와 화면에 출력
 	 * 
@@ -149,6 +153,10 @@ public interface EgovEntrprsManageService {
 	 * @throws Exception
 	 */
 	public void insertInsttInfo(InsttInfoVO insttInfoVO) throws Exception;
+
+	public void insertInsttFiles(List<InsttFileVO> fileList) throws Exception;
+
+	public List<InsttFileVO> selectInsttFiles(String insttId) throws Exception;
 
 	/**
 	 * 회사명(기관명) 중복 여부를 체크한다.

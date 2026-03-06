@@ -44,6 +44,9 @@ COPY module/EgovSimpleAuth/target/EgovSimpleAuth.jar /app/
 COPY module/EgovGnrLogin/target/EgovGnrLogin.jar /app/
 COPY module/EgovHome/target/EgovHome.jar /app/
 
+# Keep full module sources in image as a fallback build source when host bind mount is unavailable.
+COPY module /app/module
+
 # Create target directories so MsaScanner and other tools find files in their standard locations
 RUN mkdir -p /app/EgovMain/target /app/EgovLogin/target /app/EgovBoard/target \
     /app/EgovAuthor/target /app/EgovCmmnCode/target /app/EgovQuestionnaire/target /app/EgovSearch/target \

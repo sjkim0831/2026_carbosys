@@ -25,6 +25,9 @@ public class EntrprsMber implements CommonEntity {
     @Column(name = "BIZRNO")
     private String bizrno;
 
+    @Column(name = "INSTT_ID")
+    private String insttId;
+
     @Column(name = "JURIRNO")
     private String jurirno;
 

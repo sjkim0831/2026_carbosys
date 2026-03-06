@@ -54,6 +54,10 @@ public class EntrprsManageVO extends UserDefaultVO {
 	 */
 	private String bizrno;
 	/**
+	 * 기관 ID
+	 */
+	private String insttId;
+	/**
 	 * 회사명
 	 */
 	private String cmpnyNm;
@@ -348,6 +352,24 @@ public class EntrprsManageVO extends UserDefaultVO {
 	 */
 	public void setBizrno(String bizrno) {
 		this.bizrno = bizrno;
+	}
+
+	/**
+	 * insttId attribute 값을 리턴한다.
+	 *
+	 * @return String
+	 */
+	public String getInsttId() {
+		return insttId;
+	}
+
+	/**
+	 * insttId attribute 값을 설정한다.
+	 *
+	 * @param insttId String
+	 */
+	public void setInsttId(String insttId) {
+		this.insttId = insttId;
 	}
 
 	/**

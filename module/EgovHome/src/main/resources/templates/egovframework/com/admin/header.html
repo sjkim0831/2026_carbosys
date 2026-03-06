@@ -5,11 +5,16 @@
             <div class="flex items-center gap-2">
                 <img alt="대한민국정부 상징" class="h-3.5"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BPzqtzSLVGSrjt4mzhhVBy9SocCRDssk1F3XRVu7Xq9jHh7qzzt48wFi8qduCiJmB0LRQczPB7waPe3h0gkjn3jOEDxt6UJSJjdXNf8P-4WlM2BEZrfg2SL91uSiZrFcCk9KYrsdg-biTS9dtJ_OIghDBEVoAzMc33XcCYR_UP0QQdoYzBe840YrtH40xGyB9MSr0QH4D0foqlvOhG0jX8CDayXNlDsSKlfClVd3K2aodlwg4xSxgXHB3vnnnA0L2yNBNihQQg0" />
-                <span class="text-[12px] font-medium text-[var(--kr-gov-text-secondary)]">대한민국정부 공식 누리집</span>
+                <span class="text-[12px] font-medium text-[var(--kr-gov-text-secondary)]"
+                    th:text="${#locale.language == 'en'} ? 'Official Government Service of the Republic of Korea' : '대한민국정부 공식 누리집'">대한민국정부 공식 누리집</span>
             </div>
             <div class="flex items-center gap-4 text-[11px] font-medium text-[var(--kr-gov-text-secondary)]">
-                <span th:if="${loginVO != null}">관리자 로그인: <span th:text="${loginVO.userName}">홍길동</span></span>
-                <button type="button" class="hover:underline" onclick="logout()">로그아웃</button>
+                <span th:if="${loginVO != null}">
+                    <span th:text="${#locale.language == 'en'} ? 'Admin Login:' : '관리자 로그인:'">관리자 로그인:</span>
+                    <span th:text="${loginVO.userName}">홍길동</span>
+                </span>
+                <button type="button" class="hover:underline" onclick="logout()"
+                    th:text="${#locale.language == 'en'} ? 'Logout' : '로그아웃'">로그아웃</button>
             </div>
         </div>
     </div>
@@ -19,14 +24,15 @@
                 <a class="flex items-center gap-2" href="/admin">
                     <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]">eco</span>
                     <div class="flex flex-col">
-                        <h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)]">CCUS 통합관리 시스템
-                        </h1>
+                        <h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)]"
+                            th:text="${#locale.language == 'en'} ? 'CCUS Integrated Management System' : 'CCUS 통합관리 시스템'">CCUS 통합관리 시스템</h1>
                         <p class="text-[10px] text-[var(--kr-gov-blue)] font-black uppercase tracking-widest">Admin
                             Dashboard</p>
                     </div>
                 </a>
             </div>
-            <nav class="hidden xl:flex items-center space-x-2 h-full" id="adminGnbMenu" aria-label="관리자 주 메뉴">
+            <nav class="hidden xl:flex items-center space-x-2 h-full" id="adminGnbMenu"
+                th:attr="aria-label=${#locale.language == 'en'} ? 'Admin Main Menu' : '관리자 주 메뉴'" aria-label="관리자 주 메뉴">
                 <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
                     data-domain="회원관리" href="/admin/member/list">회원관리</a>
                 <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
@@ -44,32 +50,37 @@
             </nav>
 <div class="flex items-center gap-1">
 <div class="hidden md:flex items-center gap-1 mr-1">
-<a id="admin-lang-ko" href="/admin" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100">한글</a>
+<a id="admin-lang-ko" href="/admin" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100"
+    th:text="${#locale.language == 'en'} ? 'KOR' : '한글'">한글</a>
 <a id="admin-lang-en" href="/admin?language=en" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100">ENG</a>
 </div>
 <div class="relative help-button">
-<button type="button" aria-label="도움말" aria-haspopup="true" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full flex items-center gap-1.5">
+<button type="button" aria-haspopup="true" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full flex items-center gap-1.5"
+    th:attr="aria-label=${#locale.language == 'en'} ? 'Help' : '도움말'" aria-label="도움말">
 <span class="material-symbols-outlined">help</span>
-<span class="text-[14px] font-bold hidden lg:inline">도움말</span>
+<span class="text-[14px] font-bold hidden lg:inline" th:text="${#locale.language == 'en'} ? 'Help' : '도움말'">도움말</span>
 </button>
 <div class="help-tooltip">
 <h4 class="font-bold text-[var(--kr-gov-blue)] mb-2 flex items-center gap-1">
 <span class="material-symbols-outlined text-[18px]">info</span>
-                                대시보드 가이드
+                                <span th:text="${#locale.language == 'en'} ? 'Dashboard Guide' : '대시보드 가이드'">대시보드 가이드</span>
                             </h4>
 <ul class="space-y-2 text-[12px] text-[var(--kr-gov-text-secondary)]">
-<li class="flex gap-2"><span class="text-blue-500">•</span> 상단 카드는 실시간 주요 지표를 요약하여 표시합니다.</li>
-<li class="flex gap-2"><span class="text-blue-500">•</span> 미승인 회원은 '승인' 버튼을 통해 즉시 처리가 가능합니다.</li>
-<li class="flex gap-2"><span class="text-blue-500">•</span> 시스템 로그의 'CRITICAL' 항목은 즉각적인 조치가 필요합니다.</li>
+<li class="flex gap-2"><span class="text-blue-500">•</span><span th:text="${#locale.language == 'en'} ? 'Top cards summarize key real-time indicators.' : '상단 카드는 실시간 주요 지표를 요약하여 표시합니다.'">상단 카드는 실시간 주요 지표를 요약하여 표시합니다.</span></li>
+<li class="flex gap-2"><span class="text-blue-500">•</span><span th:text="${#locale.language == 'en'} ? 'Pending members can be processed immediately with the approve button.' : '미승인 회원은 승인 버튼을 통해 즉시 처리가 가능합니다.'">미승인 회원은 승인 버튼을 통해 즉시 처리가 가능합니다.</span></li>
+<li class="flex gap-2"><span class="text-blue-500">•</span><span th:text="${#locale.language == 'en'} ? 'CRITICAL logs require immediate action.' : '시스템 로그의 CRITICAL 항목은 즉각적인 조치가 필요합니다.'">시스템 로그의 CRITICAL 항목은 즉각적인 조치가 필요합니다.</span></li>
 </ul>
-<button type="button" class="mt-3 w-full py-1.5 bg-[var(--kr-gov-bg-gray)] text-[11px] font-bold rounded hover:bg-gray-200">상세 매뉴얼 다운로드</button>
+<button type="button" class="mt-3 w-full py-1.5 bg-[var(--kr-gov-bg-gray)] text-[11px] font-bold rounded hover:bg-gray-200"
+    th:text="${#locale.language == 'en'} ? 'Download Full Manual' : '상세 매뉴얼 다운로드'">상세 매뉴얼 다운로드</button>
 </div>
 </div>
-<button type="button" aria-label="알림" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full relative">
+<button type="button" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full relative"
+    th:attr="aria-label=${#locale.language == 'en'} ? 'Notifications' : '알림'" aria-label="알림">
 <span class="material-symbols-outlined">notifications</span>
 <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
 </button>
-<button type="button" aria-label="설정" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full">
+<button type="button" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full"
+    th:attr="aria-label=${#locale.language == 'en'} ? 'Settings' : '설정'" aria-label="설정">
 <span class="material-symbols-outlined">settings</span>
 </button>
 </div>
@@ -185,7 +196,7 @@
 
         var domainMenus = {
             "회원관리": { summary: "회원 생애주기(가입/승인/권한/탈퇴)와 접근 이력 관리", groups: [
-                { title: "회원", links: [{ t: "회원 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/approve.html" }, { t: "회원 상세", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/detail.html", route: "/admin/member/detail" }, { t: "탈퇴 회원", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/withdrawn.html" }, { t: "휴면 계정", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/activate.html" }] },
+                { title: "회원", links: [{ t: "회원 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/list.html" }, { t: "신규 회원 등록", route: "/admin/member/register" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/approve.html" }, { t: "회원 상세", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/detail.html", route: "/admin/member/detail" }, { t: "탈퇴 회원", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/withdrawn.html" }, { t: "휴면 계정", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/activate.html" }] },
                 { title: "회원사", links: [{ t: "회원사 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/company_list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/company_approve.html", route: "/admin/member/company-approve" }] },
                 { title: "관리자", links: [{ t: "회원 목록", route: "/admin/member/admin-list" }] },
                 { title: "권한", links: [{ t: "권한 그룹", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/role.html" }, { t: "권한 변경", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/role.html" }, { t: "부서 권한 맵핑", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/access_log.html" }] },
@@ -330,6 +341,7 @@
                 "가시요소": "Visual",
                 "지원": "Support",
                 "연계": "Connections",
+                "API": "API",
                 "운영": "Operations",
                 "환경": "Environment",
                 "보안": "Security",
@@ -339,11 +351,81 @@
                 "센서": "Sensors",
                 "성능": "Performance",
                 "회원 목록": "Member List",
+                "신규 회원 등록": "New Member Registration",
                 "가입 승인": "Approval",
                 "회원 상세": "Member Detail",
                 "탈퇴 회원": "Withdrawn Members",
                 "휴면 계정": "Dormant Accounts",
                 "회원사 목록": "Company List",
+                "산정 결과 목록": "Calculation Result List",
+                "결과 상세": "Result Detail",
+                "데이터 변경 이력": "Data Change History",
+                "검증 관리": "Verification Management",
+                "발급 검토": "Issuance Review",
+                "이의신청 처리": "Objection Handling",
+                "인증서 통계": "Certificate Statistics",
+                "REC 중복 확인": "REC Duplicate Check",
+                "감사 로그": "Audit Log",
+                "승인자 이력": "Approver History",
+                "반려 사유 관리": "Rejection Reason Management",
+                "거래 목록": "Transaction List",
+                "거래 승인": "Transaction Approval",
+                "거래 거절": "Transaction Rejection",
+                "이상거래 점검": "Fraud Transaction Check",
+                "수수료 설정": "Fee Settings",
+                "정산 리포트": "Settlement Reports",
+                "정산 캘린더": "Settlement Calendar",
+                "환불 요청 목록": "Refund Request List",
+                "환불 처리": "Refund Processing",
+                "환불 계좌 검수": "Refund Account Review",
+                "게시판 관리": "Board Management",
+                "게시글 목록": "Post List",
+                "공지 배포": "Notice Publishing",
+                "첨부파일 관리": "Attachment Management",
+                "배너 목록": "Banner List",
+                "배너 편집": "Banner Edit",
+                "팝업 목록": "Popup List",
+                "팝업 스케줄": "Popup Schedule",
+                "FAQ 관리": "FAQ Management",
+                "Q&A 분류": "Q&A Categories",
+                "태그 관리": "Tag Management",
+                "메뉴 관리": "Menu Management",
+                "연계 목록": "Connection List",
+                "연계 등록": "Connection Registration",
+                "연계 수정": "Connection Edit",
+                "동기화 실행": "Run Sync",
+                "API 키": "API Keys",
+                "API 사용량": "API Usage",
+                "웹훅 설정": "Webhook Settings",
+                "스키마 맵핑": "Schema Mapping",
+                "연계 모니터링": "Connection Monitoring",
+                "실패 재처리": "Failure Retry",
+                "연계 로그": "Connection Logs",
+                "점검 모드": "Maintenance Mode",
+                "환경설정": "Environment Settings",
+                "코드 관리": "Code Management",
+                "모듈 관리": "Module Management",
+                "테마 관리": "Theme Management",
+                "IP 화이트리스트": "IP Whitelist",
+                "세션 관리": "Session Management",
+                "SSL 인증서": "SSL Certificate",
+                "보안 정책": "Security Policy",
+                "접속 로그": "Access Logs",
+                "에러 로그": "Error Logs",
+                "통합 로그": "Unified Logs",
+                "백업 설정": "Backup Settings",
+                "백업 실행": "Run Backup",
+                "복구 실행": "Run Restore",
+                "버전 관리": "Version Management",
+                "통합 대시보드": "Integrated Dashboard",
+                "운영센터": "Operations Center",
+                "알림센터": "Alert Center",
+                "센서 목록": "Sensor List",
+                "센서 등록": "Sensor Registration",
+                "센서 설정": "Sensor Settings",
+                "응답속도": "Response Time",
+                "배치 성능": "Batch Performance",
+                "리소스 사용량": "Resource Usage",
                 "권한 그룹": "Permission Groups",
                 "권한 변경": "Permission Changes",
                 "부서 권한 맵핑": "Department Permission Mapping",
@@ -387,6 +469,7 @@
             var directMap = {
                 "통합 대시보드": "/admin/",
                 "회원 목록": "/admin/member/list",
+                "신규 회원 등록": "/admin/member/register",
                 "가입 승인": "/admin/member/approve",
                 "회원 상세": "/admin/member/detail",
                 "권한 그룹": "/admin/auth/group"
@@ -520,7 +603,7 @@
                 '<div class="space-y-1 overflow-y-auto" id="gnbTreeWrap">' + groupsHtml + '</div>' +
                 '<div class="mt-auto border-t pt-5 border-[var(--kr-gov-border-light)]">' +
                 '<div class="p-4 bg-blue-50 rounded-[var(--kr-gov-radius)] border border-blue-100">' +
-                '<p class="text-[12px] font-bold text-[var(--kr-gov-blue)] mb-1">' + (isEn ? (domain + ' Domain Active') : (domain + ' 도메인 활성화')) + '</p>' +
+                '<p class="text-[12px] font-bold text-[var(--kr-gov-blue)] mb-1">' + (isEn ? (translateDomainLabel(domain, "en") + ' Domain Active') : (domain + ' 도메인 활성화')) + '</p>' +
                 '<p class="text-[11px] text-[var(--kr-gov-text-secondary)]">' + (isEn ? ('Currently displaying ' + groups.reduce(function(acc, g){ return acc + g.links.length; }, 0) + ' menus') : ('현재 전체 메뉴 ' + groups.reduce(function(acc, g){ return acc + g.links.length; }, 0) + '개 노출 중')) + '</p>' +
                 '</div>' +
                 '</div>';

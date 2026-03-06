@@ -16,6 +16,7 @@ import java.util.Map;
 public class MsaScanner {
     private static final String ROOT_PATH = "/app";
     private static final String MODULE_ROOT = "/opt/carbosys/module";
+    private static final String MODULE_ROOT_FALLBACK = "/app/module";
     private static final String PORT_REGISTRY = "/app/msa-ports.yml";
     private static final List<String> INFRA_MODULES = Arrays.asList(
             "EurekaServer", "ConfigServer", "GatewayServer");
@@ -41,10 +42,14 @@ public class MsaScanner {
                 continue;
 
             File moduleDir = new File(MODULE_ROOT, id);
+            File moduleDirFallback = new File(MODULE_ROOT_FALLBACK, id);
             String dirPath = moduleDir.exists()
                     ? moduleDir.getAbsolutePath()
-                    : new File(ROOT_PATH, id).getAbsolutePath();
-            boolean hasJarInModule = new File(moduleDir, "target/" + id + ".jar").exists();
+                    : (moduleDirFallback.exists()
+                            ? moduleDirFallback.getAbsolutePath()
+                            : new File(ROOT_PATH, id).getAbsolutePath());
+            boolean hasJarInModule = new File(moduleDir, "target/" + id + ".jar").exists()
+                    || new File(moduleDirFallback, "target/" + id + ".jar").exists();
             boolean hasJarInApp = new File(ROOT_PATH, id + ".jar").exists()
                     || new File(ROOT_PATH, id + "/target/" + id + ".jar").exists();
             boolean javaRunnable = hasJarInModule || hasJarInApp;

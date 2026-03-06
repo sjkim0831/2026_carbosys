@@ -129,7 +129,9 @@
                             <option value="" th:selected="${sbscrbSttus == null or sbscrbSttus == ''}">All</option>
                             <option value="P" th:selected="${sbscrbSttus == 'P'}">Active</option>
                             <option value="A" th:selected="${sbscrbSttus == 'A'}">Pending</option>
-                            <option value="D" th:selected="${sbscrbSttus == 'D'}">Suspended</option>
+                            <option value="R" th:selected="${sbscrbSttus == 'R'}">Rejected</option>
+                            <option value="D" th:selected="${sbscrbSttus == 'D'}">Deleted</option>
+                            <option value="X" th:selected="${sbscrbSttus == 'X'}">Blocked</option>
                         </select>
                     </div>
                     <div class="md:col-span-2">
@@ -203,10 +205,14 @@
                                           th:if="${member.entrprsMberSttus == 'P'}">Active</span>
                                     <span class="status-badge bg-blue-100 text-blue-700"
                                           th:if="${member.entrprsMberSttus == 'A'}">Pending</span>
+                                    <span class="status-badge bg-amber-100 text-amber-700"
+                                          th:if="${member.entrprsMberSttus == 'R'}">Rejected</span>
+                                    <span class="status-badge bg-slate-200 text-slate-700"
+                                          th:if="${member.entrprsMberSttus == 'D'}">Deleted</span>
                                     <span class="status-badge bg-red-100 text-red-700"
-                                          th:if="${member.entrprsMberSttus == 'D'}">Suspended</span>
+                                          th:if="${member.entrprsMberSttus == 'X'}">Blocked</span>
                                     <span class="status-badge bg-gray-100 text-gray-700"
-                                          th:if="${member.entrprsMberSttus != 'P' and member.entrprsMberSttus != 'A' and member.entrprsMberSttus != 'D'}"
+                                          th:if="${member.entrprsMberSttus != 'P' and member.entrprsMberSttus != 'A' and member.entrprsMberSttus != 'R' and member.entrprsMberSttus != 'D' and member.entrprsMberSttus != 'X'}"
                                           th:text="${member.entrprsMberSttus}">Other</span>
                                 </td>
                                 <td class="px-6 py-4 text-center space-x-1">

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Member Detail Information | CCUS Integrated Management System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-green: #006b5d;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+        }
+        @layer base {
+            body { font-family: 'Public Sans', 'Noto Sans KR', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+            line-height: 1.6;
+        }
+        .admin-sidebar-link {
+            @apply flex items-center gap-3 px-4 py-3 text-[14px] font-medium text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-[var(--kr-gov-radius)] transition-colors;
+        }
+        .admin-sidebar-link.active {
+            @apply bg-[var(--kr-gov-blue)] text-white font-bold;
+        }
+        .gov-card {
+            @apply border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white p-6 shadow-sm;
+        }
+        .gov-label {
+            @apply block text-[13px] font-bold text-[var(--kr-gov-text-secondary)] mb-2;
+        }
+        .gov-input-readonly {
+            @apply w-full px-4 py-2.5 bg-gray-50 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] text-[14px] text-[var(--kr-gov-text-primary)] outline-none focus:ring-2 focus:ring-[var(--kr-gov-focus)] transition-all;
+        }
+        .breadcrumb-item {
+            @apply flex items-center gap-1 text-[13px] text-gray-500;
+        }
+        .breadcrumb-item:last-child {
+            @apply text-[var(--kr-gov-blue)] font-bold;
+        }
+        .help-tooltip {
+            @apply invisible opacity-0 absolute right-0 top-full mt-2 w-64 p-4 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] shadow-xl z-50 text-sm transition-all;
+        }
+        .help-button:hover .help-tooltip {
+            @apply visible opacity-100;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "secondary": "#006b5d",
+                        "gov-gray": "#767676",
+                    },
+                    borderRadius: {
+                        'gov': '5px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-[#f8f9fa] text-[var(--kr-gov-text-primary)]">
+<a class="skip-link" href="#main-content">Skip to Main Content</a>
+<div th:replace="~{egovframework/com/admin/header :: headerFragment}"></div>
+<div class="flex min-h-[calc(100vh-124px)]">
+<aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col" aria-label="Admin Side Menu"></aside>
+<main class="flex-1 p-8 overflow-y-auto pb-32" id="main-content">
+<div class="mb-8">
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 mb-2">
+<div class="breadcrumb-item"><span class="material-symbols-outlined text-[16px]">home</span> Home</div>
+<span class="text-gray-300 text-[12px] material-symbols-outlined">chevron_right</span>
+<div class="breadcrumb-item">Member/Permission</div>
+<span class="text-gray-300 text-[12px] material-symbols-outlined">chevron_right</span>
+<div class="breadcrumb-item">Member List</div>
+<span class="text-gray-300 text-[12px] material-symbols-outlined">chevron_right</span>
+<div class="breadcrumb-item">Detail Information</div>
+</nav>
+<h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)]">Member Detail Information</h2>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+<div class="xl:col-span-1 flex flex-col gap-8">
+<section class="gov-card">
+<div class="flex flex-col items-center text-center">
+<div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-[48px] text-gray-400">account_circle</span>
+</div>
+<h3 class="text-xl font-bold mb-1">Hong Gil-dong <span class="text-sm font-normal text-gray-500">(hgd_ccus)</span></h3>
+<div class="flex gap-2 mb-6">
+<span class="px-2.5 py-1 bg-blue-50 text-[var(--kr-gov-blue)] text-[12px] font-bold rounded border border-blue-100">General Enterprise</span>
+<span class="px-2.5 py-1 bg-emerald-50 text-[var(--kr-gov-green)] text-[12px] font-bold rounded border border-emerald-100">Normal</span>
+</div>
+<div class="w-full grid grid-cols-2 gap-2">
+<button class="py-2.5 bg-white border border-[var(--kr-gov-border-light)] text-[13px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50">Reset Password</button>
+<button class="py-2.5 bg-white border border-[var(--kr-gov-border-light)] text-[13px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50">Change Status</button>
+</div>
+</div>
+</section>
+<section class="gov-card">
+<div class="flex items-center gap-2 mb-6 pb-4 border-b">
+<span class="material-symbols-outlined text-[var(--kr-gov-blue)]">shield_person</span>
+<h3 class="font-bold text-lg">Permission &amp; Policy</h3>
+</div>
+<div class="space-y-4">
+<div>
+<p class="gov-label">Assigned Permission Groups</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-gray-100 text-[12px] rounded-full font-medium">Enterprise Operator</span>
+<span class="px-3 py-1 bg-gray-100 text-[12px] rounded-full font-medium">Calc. Data Inquiry</span>
+</div>
+</div>
+<div>
+<p class="gov-label">Menu Access Right Summary</p>
+<div class="p-3 bg-gray-50 rounded text-[12px] text-[var(--kr-gov-text-secondary)] space-y-1">
+<p class="flex items-center gap-2"><span class="text-green-600 font-black">✓</span> Input/Edit Carbon Capture Amount</p>
+<p class="flex items-center gap-2"><span class="text-green-600 font-black">✓</span> Inquiry Emission Credit History</p>
+<p class="flex items-center gap-2"><span class="text-red-600 font-black">✕</span> System Settings &amp; Log Mgmt.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<div class="xl:col-span-2 flex flex-col gap-8">
+<section class="gov-card">
+<div class="flex items-center gap-2 mb-6 pb-4 border-b">
+<span class="material-symbols-outlined text-[var(--kr-gov-blue)]">person</span>
+<h3 class="font-bold text-lg">Basic Information</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="gov-label">Full Name</label>
+<input class="gov-input-readonly" readonly="" type="text" value="Hong Gil-dong"/>
+</div>
+<div>
+<label class="gov-label">User ID</label>
+<input class="gov-input-readonly" readonly="" type="text" value="hgd_ccus"/>
+</div>
+<div>
+<label class="gov-label">Email Address</label>
+<input class="gov-input-readonly" readonly="" type="email" value="hgd@company.com"/>
+</div>
+<div>
+<label class="gov-label">Contact Number</label>
+<input class="gov-input-readonly" readonly="" type="text" value="010-1234-5678"/>
+</div>
+<div>
+<label class="gov-label">Join Date</label>
+<div class="gov-input-readonly flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span> 2025.08.10
+                            </div>
+</div>
+<div>
+<label class="gov-label">Last Login Date/Time</label>
+<div class="gov-input-readonly flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">history</span> 2025.08.14 14:22:10
+                            </div>
+</div>
+</div>
+</section>
+<section class="gov-card">
+<div class="flex items-center gap-2 mb-6 pb-4 border-b">
+<span class="material-symbols-outlined text-[var(--kr-gov-green)]">business</span>
+<h3 class="font-bold text-lg">Affiliation &amp; Business Info</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="md:col-span-2">
+<label class="gov-label">Company Name</label>
+<input class="gov-input-readonly" readonly="" type="text" value="Korea Carbon Neutrality Technology Co., Ltd."/>
+</div>
+<div>
+<label class="gov-label">Business Registration Number</label>
+<input class="gov-input-readonly" readonly="" type="text" value="123-45-67890"/>
+</div>
+<div>
+<label class="gov-label">Representative Name</label>
+<input class="gov-input-readonly" readonly="" type="text" value="Kim Cheol-su"/>
+</div>
+<div>
+<label class="gov-label">Department</label>
+<input class="gov-input-readonly" readonly="" type="text" value="Renewable Energy Business Div."/>
+</div>
+<div>
+<label class="gov-label">Position</label>
+<input class="gov-input-readonly" readonly="" type="text" value="Manager"/>
+</div>
+</div>
+</section>
+<section class="gov-card">
+<div class="flex items-center gap-2 mb-6 pb-4 border-b">
+<span class="material-symbols-outlined text-orange-500">description</span>
+<h3 class="font-bold text-lg">Supporting Documents</h3>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-gray-50 border border-gray-100 rounded-[var(--kr-gov-radius)]">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400">picture_as_pdf</span>
+<div>
+<p class="text-[14px] font-bold">Copy of Business License</p>
+<p class="text-[12px] text-gray-500">business_license_hgd.pdf (1.2MB)</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 text-[12px] font-bold border border-[var(--kr-gov-border-light)] bg-white rounded hover:bg-gray-50">Preview</button>
+<button class="px-3 py-1.5 text-[12px] font-bold border border-[var(--kr-gov-border-light)] bg-white rounded hover:bg-gray-50">Download</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-gray-50 border border-gray-100 rounded-[var(--kr-gov-radius)]">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400">picture_as_pdf</span>
+<div>
+<p class="text-[14px] font-bold">Proof of Employment</p>
+<p class="text-[12px] text-gray-500">employment_cert_hgd.pdf (0.8MB)</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 text-[12px] font-bold border border-[var(--kr-gov-border-light)] bg-white rounded hover:bg-gray-50">Preview</button>
+<button class="px-3 py-1.5 text-[12px] font-bold border border-[var(--kr-gov-border-light)] bg-white rounded hover:bg-gray-50">Download</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<div class="fixed bottom-0 left-0 right-0 bg-white border-t border-[var(--kr-gov-border-light)] shadow-[0_-4px_10px_rgba(0,0,0,0.05)] z-50">
+<div class="max-w-full mx-auto px-10 py-5 flex justify-between items-center">
+<button class="px-8 py-3 bg-white border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-primary)] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">list</span> To List
+        </button>
+<div class="flex gap-3">
+<button class="px-8 py-3 bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">edit</span> Edit Information
+            </button>
+<button class="px-8 py-3 bg-red-50 text-red-700 border border-red-200 font-bold rounded-[var(--kr-gov-radius)] hover:bg-red-100 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">person_remove</span> Process Withdrawal
+            </button>
+</div>
+</div>
+</div>
+<div th:replace="~{egovframework/com/admin/footer :: footerFragment}"></div>
+</body>
+</html>

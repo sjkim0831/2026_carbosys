@@ -225,11 +225,8 @@ public class MsaProcessManager {
     }
 
     private String buildModule(MsaScanner.ModuleInfo mod) {
-        File moduleDir = new File(mod.getDir());
-        if (!moduleDir.exists() || !moduleDir.isDirectory()) {
-            return "빌드 실패: 모듈 폴더를 찾을 수 없습니다 - " + mod.getDir();
-        }
-        if (!new File(moduleDir, "pom.xml").exists()) {
+        File moduleDir = resolveBuildableModuleDir(mod);
+        if (moduleDir == null) {
             return "빌드 실패: pom.xml이 없습니다 - " + mod.getDir();
         }
 
@@ -262,7 +259,7 @@ public class MsaProcessManager {
     }
 
     private String deployModuleJar(MsaScanner.ModuleInfo mod) {
-        Path sourceJar = Paths.get(mod.getDir(), "target", mod.getArtifactId() + ".jar");
+        Path sourceJar = resolveSourceJar(mod);
         if (!Files.exists(sourceJar)) {
             return "배포 실패: 소스 JAR 없음 - " + sourceJar;
         }
@@ -284,6 +281,37 @@ public class MsaProcessManager {
         } catch (Exception e) {
             return "배포 실패: " + e.getMessage();
         }
+    }
+
+    private File resolveBuildableModuleDir(MsaScanner.ModuleInfo mod) {
+        for (File candidate : moduleDirCandidates(mod)) {
+            if (candidate.exists() && candidate.isDirectory() && new File(candidate, "pom.xml").exists()) {
+                return candidate;
+            }
+        }
+        return null;
+    }
+
+    private Path resolveSourceJar(MsaScanner.ModuleInfo mod) {
+        for (File candidate : moduleDirCandidates(mod)) {
+            Path jar = candidate.toPath().resolve("target").resolve(mod.getArtifactId() + ".jar");
+            if (Files.exists(jar)) {
+                return jar;
+            }
+        }
+        return Paths.get(mod.getDir(), "target", mod.getArtifactId() + ".jar");
+    }
+
+    private List<File> moduleDirCandidates(MsaScanner.ModuleInfo mod) {
+        String artifact = mod.getArtifactId();
+        List<File> out = new ArrayList<>();
+        out.add(new File(mod.getDir()));
+        if (artifact != null && !artifact.trim().isEmpty()) {
+            out.add(new File("/opt/carbosys/module", artifact));
+            out.add(new File("/app/module", artifact));
+            out.add(new File("/app", artifact));
+        }
+        return out;
     }
 
     private Process startUntrackedProcess(MsaScanner.ModuleInfo mod, int port, String logPrefix) throws IOException {

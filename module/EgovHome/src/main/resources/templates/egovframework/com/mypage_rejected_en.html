@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Registration Rejected - CCUS Integrated Management Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+            --kr-gov-error: #d32f2f;
+        }
+        @layer base {
+            body { font-family: 'Public Sans', 'Noto Sans KR', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body class="bg-[var(--kr-gov-bg-gray)] text-[var(--kr-gov-text-primary)] min-h-screen flex flex-col">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<main class="flex-grow flex flex-col items-center justify-center py-12 px-4" id="main-content">
+<div class="w-full max-w-[640px] bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm overflow-hidden p-8 md:p-12 text-center">
+<div class="mb-6 flex justify-center">
+<div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[48px] text-[var(--kr-gov-error)]">cancel</span>
+</div>
+</div>
+<h2 class="text-2xl font-bold mb-4">Registration Rejected</h2>
+<p class="text-lg font-medium mb-8">Your registration request was rejected, so access to My Page is unavailable.</p>
+<div class="bg-red-50 border border-red-100 rounded-[var(--kr-gov-radius)] p-6 mb-8 text-left">
+<dl class="space-y-3">
+<div class="flex border-b border-red-100 pb-2">
+<dt class="w-40 text-sm font-bold text-[var(--kr-gov-text-secondary)]">User ID</dt>
+<dd class="text-sm" th:text="${userId}">-</dd>
+</div>
+<div class="flex border-b border-red-100 pb-2">
+<dt class="w-40 text-sm font-bold text-[var(--kr-gov-text-secondary)]">Affiliation</dt>
+<dd class="text-sm" th:text="${companyName}">-</dd>
+</div>
+<div class="flex">
+<dt class="w-40 text-sm font-bold text-[var(--kr-gov-text-secondary)]">Status</dt>
+<dd class="text-sm"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">Rejected</span></dd>
+</div>
+</dl>
+</div>
+<p class="text-sm text-[var(--kr-gov-text-secondary)] mb-8">Check the rejection reason and proceed again through the application status flow or contact the administrator.</p>
+<div class="flex flex-col sm:flex-row gap-3 justify-center">
+<a class="min-w-[160px] h-12 flex items-center justify-center bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors" href="/home/en">Go to Home</a>
+<button id="logoutBtn" type="button" class="min-w-[160px] h-12 flex items-center justify-center border border-[var(--kr-gov-border-light)] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors">Log Out</button>
+</div>
+</div>
+</main>
+<script>
+  document.getElementById('logoutBtn')?.addEventListener('click', function () {
+    fetch('/signin/actionLogout', { method: 'POST', headers: { 'Content-Type': 'application/json' } })
+      .then(function (r) { return r.json(); })
+      .then(function () { location.href = '/home/en'; })
+      .catch(function () { location.href = '/home/en'; });
+  });
+</script>
+</body>
+</html>

@@ -16,6 +16,7 @@
                     ENTRPRS_MBER_ID               ,
                     ENTRPRS_SE_CODE              ,
                     BIZRNO                       ,
+                    INSTT_ID                     ,
                     JURIRNO                      ,
                     CMPNY_NM                     ,
                     CXFC                         ,
@@ -49,6 +50,7 @@
                     #{entrprsmberId},
                     #{entrprsSeCode},
                     #{bizrno},
+                    #{insttId},
                     #{jurirno},
 	                #{cmpnyNm},
 	                #{cxfc},
@@ -80,6 +82,35 @@
         
     </insert>
 
+    <insert id="insertEntrprsMberFile" parameterType="egovframework.com.uss.umt.service.EntrprsMberFileVO">
+        INSERT INTO COMTNENTRPRSMBERFILE
+            (
+                FILE_ID,
+                ENTRPRS_MBER_ID,
+                FILE_SN,
+                STRE_FILE_NM,
+                ORIGNL_FILE_NM,
+                FILE_STRE_PATH,
+                FILE_MG,
+                FILE_EXTSN,
+                FILE_CN,
+                REGIST_PNTTM
+            )
+        VALUES
+            (
+                #{fileId},
+                #{entrprsmberId},
+                #{fileSn},
+                #{streFileNm},
+                #{orignlFileNm},
+                #{fileStrePath},
+                #{fileMg},
+                #{fileExtsn},
+                #{fileCn},
+                SYSDATETIME
+            )
+    </insert>
+
     <delete id="deleteEntrprs_S">
         
             DELETE FROM COMTNENTRPRSMBER 
@@ -95,6 +126,7 @@
                 ENTRPRS_MBER_ID               entrprsmberId,
                 ENTRPRS_SE_CODE              entrprsSeCode,
                 BIZRNO                       bizrno,
+                INSTT_ID                     insttId,
                 JURIRNO                      jurirno,
                 CMPNY_NM                     cmpnyNm,
                 CXFC                         cxfc,
@@ -122,7 +154,7 @@
                 AUTH_DI                      authDi,
                 AUTH_EMAIL                   authEmail,
                 BIZ_REG_FILE_PATH            bizRegFilePath,
-                LOCK_AT        				 lockAt
+                LOCK_AT                      lockAt
             FROM COMTNENTRPRSMBER
             WHERE ESNTL_ID=#{uniqId}
         
@@ -136,6 +168,7 @@
                 ENTRPRS_MBER_ID               entrprsmberId,
                 ENTRPRS_SE_CODE              entrprsSeCode,
                 BIZRNO                       bizrno,
+                INSTT_ID                     insttId,
                 JURIRNO                      jurirno,
                 CMPNY_NM                     cmpnyNm,
                 CXFC                         cxfc,
@@ -163,10 +196,27 @@
                 AUTH_DI                      authDi,
                 AUTH_EMAIL                   authEmail,
                 BIZ_REG_FILE_PATH            bizRegFilePath,
-                LOCK_AT        				 lockAt
+                LOCK_AT                      lockAt
             FROM COMTNENTRPRSMBER
             WHERE ENTRPRS_MBER_ID=#{entrprsmberId}
         
+    </select>
+
+    <select id="selectEntrprsMberFiles" parameterType="string" resultType="egovframework.com.uss.umt.service.EntrprsMberFileVO">
+        SELECT
+            FILE_ID         AS fileId,
+            ENTRPRS_MBER_ID AS entrprsmberId,
+            FILE_SN         AS fileSn,
+            STRE_FILE_NM    AS streFileNm,
+            ORIGNL_FILE_NM  AS orignlFileNm,
+            FILE_STRE_PATH  AS fileStrePath,
+            FILE_MG         AS fileMg,
+            FILE_EXTSN      AS fileExtsn,
+            FILE_CN         AS fileCn,
+            TO_CHAR(REGIST_PNTTM, 'YYYY.MM.DD HH24:MI:SS') AS regDate
+        FROM COMTNENTRPRSMBERFILE
+        WHERE ENTRPRS_MBER_ID = #{value}
+        ORDER BY FILE_SN ASC, REGIST_PNTTM ASC
     </select>
 
     <update id="updateEntrprs_S">
@@ -176,6 +226,7 @@
                 ENTRPRS_MBER_ID               = #{entrprsmberId},
                 ENTRPRS_SE_CODE              = #{entrprsSeCode},
                 BIZRNO                       = #{bizrno},
+                INSTT_ID                     = #{insttId},
                 JURIRNO                      = #{jurirno},
                 CMPNY_NM                     = #{cmpnyNm},
                 CXFC                         = #{cxfc},
@@ -271,11 +322,41 @@
         )
     </insert>
 
+    <insert id="insertInsttFile" parameterType="egovframework.com.uss.umt.service.InsttFileVO">
+        INSERT INTO COMTNINSTTFILE
+        (
+            FILE_ID,
+            INSTT_ID,
+            FILE_SN,
+            STRE_FILE_NM,
+            ORIGNL_FILE_NM,
+            FILE_STRE_PATH,
+            FILE_MG,
+            FILE_EXTSN,
+            FILE_CN,
+            REGIST_PNTTM
+        )
+        VALUES
+        (
+            #{fileId},
+            #{insttId},
+            #{fileSn},
+            #{streFileNm},
+            #{orignlFileNm},
+            #{fileStrePath},
+            #{fileMg},
+            #{fileExtsn},
+            #{fileCn},
+            SYSDATETIME
+        )
+    </insert>
+
     <!-- 기관/기업 검색 (페이징) -->
     <select id="searchCompanyListPaged" resultType="egovMap" parameterType="map">
         SELECT * FROM (
             SELECT ROWNUM AS RN, T.* FROM (
                 SELECT
+                    INSTT_ID    AS INSTT_ID,
                     INSTT_NM   AS CMPNY_NM,
                     BIZRNO     AS BIZRNO,
                     REPRSNT_NM AS CXFC,
@@ -294,6 +375,23 @@
         WHERE Z.RN BETWEEN #{offset} + 1 AND #{offset} + #{pageSize}
     </select>
 
+    <select id="selectInsttFiles" parameterType="string" resultType="egovframework.com.uss.umt.service.InsttFileVO">
+        SELECT
+            FILE_ID        AS fileId,
+            INSTT_ID       AS insttId,
+            FILE_SN        AS fileSn,
+            STRE_FILE_NM   AS streFileNm,
+            ORIGNL_FILE_NM AS orignlFileNm,
+            FILE_STRE_PATH AS fileStrePath,
+            FILE_MG        AS fileMg,
+            FILE_EXTSN     AS fileExtsn,
+            FILE_CN        AS fileCn,
+            TO_CHAR(REGIST_PNTTM, 'YYYY.MM.DD HH24:MI:SS') AS regDate
+        FROM COMTNINSTTFILE
+        WHERE INSTT_ID = #{value}
+        ORDER BY FILE_SN ASC, REGIST_PNTTM ASC
+    </select>
+
     <!-- 기관/기업 검색 총 건수 -->
     <select id="searchCompanyListTotCnt" resultType="int" parameterType="map">
         SELECT COUNT(1) FROM COMTNINSTTINFO
@@ -308,6 +406,7 @@
 
     <select id="searchCompanyList" resultType="egovMap">
         SELECT 
+            INSTT_ID          as INSTT_ID,
             INSTT_NM          as CMPNY_NM,
             BIZRNO            as BIZRNO,
             REPRSNT_NM        as CXFC
@@ -316,6 +415,7 @@
           AND INSTT_STTUS IN ('P', 'A')
         UNION ALL
         SELECT 
+            ''                as INSTT_ID,
             CMPNY_NM          as CMPNY_NM,
             BIZRNO            as BIZRNO,
             CXFC              as CXFC
@@ -339,6 +439,7 @@
                 ENTRPRS_MIDDLE_TELNO  as ENTRPRS_MIDDLE_TELNO,
                 ENTRPRS_END_TELNO     as ENTRPRS_END_TELNO,
                 ENTRPRS_SE_CODE       as ENTRPRS_SE_CODE,
+                INSTT_ID              as INSTT_ID,
                 GROUP_ID              as GROUP_ID,
                 ENTRPRS_MBER_STTUS    as ENTRPRS_MBER_STTUS,
                 SBSCRB_DE             as SBSCRB_DE,
@@ -418,7 +519,7 @@
         
             SELECT COUNT(1) totcnt
             FROM    COMVNUSERMASTER
-            WHERE   USER_ID = #{checkId}
+            WHERE   USER_ID = #{value}
         
     </select>
 
@@ -426,7 +527,7 @@
         
             SELECT COUNT(1) totcnt
             FROM    COMVNUSERMASTER
-            WHERE   USER_EMAIL_ADRES = #{checkEmail}
+            WHERE   USER_EMAIL = #{value}
         
     </select>
 
@@ -464,6 +565,8 @@
         <if test="insttId != null and insttId != ''">
             AND INSTT_ID = #{insttId}
         </if>
+        ORDER BY LAST_UPDT_PNTTM DESC, FRST_REGIST_PNTTM DESC, INSTT_ID DESC
+        LIMIT 1
     </select>
 
     <select id="selectEntrprsMberIdByNameAndEmail_S" resultType="string">

@@ -26,8 +26,7 @@ public interface EgovEnterpriseMemberRepository extends JpaRepository<EntrprsMbe
             "ON a.esntlId = b.scrtyDtrmnTrgetId " +
             "WHERE a.entrprsMberId = :userId " +
             "AND a.entrprsMberPassword = :password " +
-            "AND a.entrprsMberStus IN ('A','P') "
+            "AND a.entrprsMberStus IN ('A','P','R') "
     )
     LoginDTO findByIdAndPassword(String userId, String password);
-
 }

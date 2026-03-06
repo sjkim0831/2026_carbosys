@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
+import egovframework.com.uss.umt.service.EntrprsMberFileVO;
 import egovframework.com.uss.umt.service.EntrprsManageVO;
+import egovframework.com.uss.umt.service.InsttFileVO;
 import egovframework.com.uss.umt.service.InsttInfoVO;
 import egovframework.com.uss.umt.service.StplatVO;
 import egovframework.com.uss.umt.service.UserDefaultVO;
@@ -48,6 +50,14 @@ public class EntrprsManageDAO extends EgovComAbstractDAO {
      */
     public String insertEntrprsmber(EntrprsManageVO entrprsManageVO) {
         return String.valueOf((int) insert("entrprsManageDAO.insertEntrprs_S", entrprsManageVO));
+    }
+
+    public void insertEntrprsMberFile(EntrprsMberFileVO fileVO) {
+        insert("entrprsManageDAO.insertEntrprsMberFile", fileVO);
+    }
+
+    public List<EntrprsMberFileVO> selectEntrprsMberFiles(String entrprsmberId) {
+        return selectList("entrprsManageDAO.selectEntrprsMberFiles", entrprsmberId);
     }
 
     /**
@@ -167,7 +177,8 @@ public class EntrprsManageDAO extends EgovComAbstractDAO {
      * @return int 사용가능여부(아이디 사용회수 )
      */
     public int checkIdDplct(String checkId) {
-        return (Integer) selectOne("entrprsManageDAO.checkIdDplct_S", checkId);
+        Object result = selectOne("entrprsManageDAO.checkIdDplct_S", checkId);
+        return result == null ? 0 : ((Number) result).intValue();
     }
 
     /**
@@ -177,7 +188,8 @@ public class EntrprsManageDAO extends EgovComAbstractDAO {
      * @return int 중복횟수(0이면 사용가능)
      */
     public int checkEmailDplct(String checkEmail) {
-        return (Integer) selectOne("entrprsManageDAO.checkEmailDplct_S", checkEmail);
+        Object result = selectOne("entrprsManageDAO.checkEmailDplct_S", checkEmail);
+        return result == null ? 0 : ((Number) result).intValue();
     }
 
     /**
@@ -187,6 +199,14 @@ public class EntrprsManageDAO extends EgovComAbstractDAO {
      */
     public void insertInsttInfo(InsttInfoVO insttInfoVO) {
         insert("entrprsManageDAO.insertInsttInfo", insttInfoVO);
+    }
+
+    public void insertInsttFile(InsttFileVO fileVO) {
+        insert("entrprsManageDAO.insertInsttFile", fileVO);
+    }
+
+    public List<InsttFileVO> selectInsttFiles(String insttId) {
+        return selectList("entrprsManageDAO.selectInsttFiles", insttId);
     }
 
     /**

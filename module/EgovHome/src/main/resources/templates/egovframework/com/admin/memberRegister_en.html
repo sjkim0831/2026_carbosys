@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"><head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>신규 회원 등록 | CCUS 통합관리 시스템</title>
+<title>New Member Registration | CCUS Integrated Management System</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -20,7 +22,7 @@
             --kr-gov-error: #d32f2f;
         }
         @layer base {
-            body { font-family: 'Noto Sans KR', 'Public Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+            body { font-family: 'Public Sans', 'Noto Sans KR', sans-serif; -webkit-font-smoothing: antialiased; }
             .skip-link {
                 @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
             }
@@ -69,23 +71,25 @@
     </style>
 </head>
 <body class="bg-[#f8f9fa] text-[var(--kr-gov-text-primary)]">
-<a class="skip-link" href="#main-content">본문 바로가기</a>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
 <div th:replace="~{egovframework/com/admin/header :: headerFragment}"></div>
+
 <div class="flex min-h-[calc(100vh-124px)]">
-<aside aria-label="관리자 사이드 메뉴" class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col"></aside>
+    <aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col" aria-label="Admin Side Menu"></aside>
 <main class="flex-1 p-8 overflow-y-auto" id="main-content">
 <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-sm text-[var(--kr-gov-text-secondary)] mb-4">
 <span class="material-symbols-outlined text-[18px]">home</span>
-<span>홈</span>
+<span>Home</span>
 <span class="material-symbols-outlined text-[16px]">chevron_right</span>
-<span>회원·권한 관리</span>
+<span>Member &amp; Permission</span>
 <span class="material-symbols-outlined text-[16px]">chevron_right</span>
-<span class="font-bold text-[var(--kr-gov-blue)]">신규 회원 등록</span>
+<span class="font-bold text-[var(--kr-gov-blue)]">Register New Member</span>
 </nav>
 <div class="flex justify-between items-end mb-8 border-b border-[var(--kr-gov-border-light)] pb-6">
 <div>
-<h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)] tracking-tight">신규 회원 등록</h2>
-<p class="text-[var(--kr-gov-text-secondary)] text-sm mt-1">시스템 사용을 위한 신규 사용자를 직접 등록합니다.</p>
+<h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)] tracking-tight">Register New Member</h2>
+<p class="text-[var(--kr-gov-text-secondary)] text-sm mt-1">Manually register a new user for system access.</p>
 </div>
 </div>
 <form>
@@ -93,38 +97,38 @@
 <section class="gov-card">
 <h3 class="text-lg font-bold mb-6 flex items-center gap-2 text-[var(--kr-gov-blue)]">
 <span class="material-symbols-outlined">account_circle</span>
-                        기본 정보
+                        Basic Information
                     </h3>
 <div class="space-y-6">
 <div>
-<label class="form-label" for="user-name">성명 <span class="required">*</span></label>
-<input class="gov-input" id="user-name" placeholder="실명을 입력하세요" required="" type="text"/>
+<label class="form-label" for="user-name">Full Name <span class="required">*</span></label>
+<input class="gov-input" id="user-name" placeholder="Enter full name" required="" type="text"/>
 </div>
 <div>
-<label class="form-label" for="user-id">아이디 <span class="required">*</span></label>
+<label class="form-label" for="user-id">Username <span class="required">*</span></label>
 <div class="flex gap-2">
-<input class="gov-input flex-1" id="user-id" placeholder="6~12자 영문, 숫자 조합" required="" type="text"/>
-<button class="px-4 py-2 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] font-bold rounded-[var(--kr-gov-radius)] hover:bg-blue-50 whitespace-nowrap text-sm" type="button">중복 확인</button>
+<input class="gov-input flex-1" id="user-id" placeholder="6-12 chars, alphanumeric" required="" type="text"/>
+<button class="px-4 py-2 border border-[var(--kr-gov-blue)] text-[var(--kr-gov-blue)] font-bold rounded-[var(--kr-gov-radius)] hover:bg-blue-50 whitespace-nowrap text-sm" type="button">Check Duplicates</button>
 </div>
-<p class="validation-msg success">사용 가능한 아이디입니다.</p>
+<p class="validation-msg success">This username is available.</p>
 </div>
 <div class="grid grid-cols-2 gap-4">
 <div>
-<label class="form-label" for="user-email">이메일 <span class="required">*</span></label>
+<label class="form-label" for="user-email">Email <span class="required">*</span></label>
 <input class="gov-input" id="user-email" placeholder="example@domain.com" required="" type="email"/>
 </div>
 <div>
-<label class="form-label" for="user-phone">연락처 <span class="required">*</span></label>
+<label class="form-label" for="user-phone">Phone Number <span class="required">*</span></label>
 <input class="gov-input" id="user-phone" placeholder="010-0000-0000" required="" type="tel"/>
 </div>
 </div>
 <div>
-<label class="form-label" for="user-type">회원 유형 <span class="required">*</span></label>
+<label class="form-label" for="user-type">Member Type <span class="required">*</span></label>
 <select class="gov-select" id="user-type" required="">
-<option disabled="" selected="" value="">선택하세요</option>
-<option value="enterprise">기업 (배출사업자)</option>
-<option value="center">진흥센터</option>
-<option value="authority">주무관청</option>
+<option disabled="" selected="" value="">Select Type</option>
+<option value="enterprise">Enterprise (Emitter)</option>
+<option value="center">Promotion Center</option>
+<option value="authority">Competent Authority</option>
 </select>
 </div>
 </div>
@@ -132,45 +136,45 @@
 <section class="gov-card">
 <h3 class="text-lg font-bold mb-6 flex items-center gap-2 text-[var(--kr-gov-blue)]">
 <span class="material-symbols-outlined">badge</span>
-                        소속 및 권한 정보
+                        Affiliation &amp; Permissions
                     </h3>
 <div class="space-y-6">
 <div>
-<label class="form-label" for="org-name">소속 기관/기업명 <span class="required">*</span></label>
+<label class="form-label" for="org-name">Organization / Company Name <span class="required">*</span></label>
 <div class="flex gap-2">
-<input class="gov-input flex-1" id="org-name" placeholder="기관명 또는 기업명을 검색하세요" readonly="" required="" type="text"/>
+<input class="gov-input flex-1" id="org-name" placeholder="Search for organization or company" readonly="" required="" type="text"/>
 <button class="px-4 py-2 bg-gray-800 text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-700 whitespace-nowrap text-sm flex items-center gap-1" type="button">
-<span class="material-symbols-outlined text-[18px]">search</span> 기관 검색
+<span class="material-symbols-outlined text-[18px]">search</span> Search Org
                                 </button>
 </div>
 </div>
 <div>
-<label class="form-label" for="dept-title">부서 / 직함 <span class="required">*</span></label>
+<label class="form-label" for="dept-title">Department / Position <span class="required">*</span></label>
 <div class="grid grid-cols-2 gap-4">
-<input class="gov-input" id="dept" placeholder="부서명" required="" type="text"/>
-<input class="gov-input" id="title" placeholder="직함" required="" type="text"/>
+<input class="gov-input" id="dept" placeholder="Department Name" required="" type="text"/>
+<input class="gov-input" id="title" placeholder="Job Title" required="" type="text"/>
 </div>
 </div>
 <div>
-<label class="form-label">시스템 접근 권한 설정 <span class="required">*</span></label>
+<label class="form-label">System Access Permissions <span class="required">*</span></label>
 <div class="border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] p-4 bg-gray-50">
-<p class="text-[12px] text-gray-500 mb-3">사용자에게 부여할 권한을 복수 선택할 수 있습니다.</p>
+<p class="text-[12px] text-gray-500 mb-3">You can select multiple permissions to assign to the user.</p>
 <div class="grid grid-cols-2 gap-3">
 <label class="flex items-center gap-3 p-3 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] cursor-pointer hover:border-[var(--kr-gov-blue)] transition-colors">
 <input class="w-5 h-5 text-[var(--kr-gov-blue)] border-gray-300 rounded focus:ring-[var(--kr-gov-blue)]" type="checkbox"/>
-<span class="text-sm font-medium">데이터 조회 권한</span>
+<span class="text-sm font-medium">Data Inquiry</span>
 </label>
 <label class="flex items-center gap-3 p-3 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] cursor-pointer hover:border-[var(--kr-gov-blue)] transition-colors">
 <input class="w-5 h-5 text-[var(--kr-gov-blue)] border-gray-300 rounded focus:ring-[var(--kr-gov-blue)]" type="checkbox"/>
-<span class="text-sm font-medium">데이터 입력/수정 권한</span>
+<span class="text-sm font-medium">Data Entry / Edit</span>
 </label>
 <label class="flex items-center gap-3 p-3 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] cursor-pointer hover:border-[var(--kr-gov-blue)] transition-colors">
 <input class="w-5 h-5 text-[var(--kr-gov-blue)] border-gray-300 rounded focus:ring-[var(--kr-gov-blue)]" type="checkbox"/>
-<span class="text-sm font-medium">인증 심사 권한</span>
+<span class="text-sm font-medium">Certification Audit</span>
 </label>
 <label class="flex items-center gap-3 p-3 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] cursor-pointer hover:border-[var(--kr-gov-blue)] transition-colors">
 <input class="w-5 h-5 text-[var(--kr-gov-blue)] border-gray-300 rounded focus:ring-[var(--kr-gov-blue)]" type="checkbox"/>
-<span class="text-sm font-medium">통계 리포트 다운로드</span>
+<span class="text-sm font-medium">Report Download</span>
 </label>
 </div>
 </div>
@@ -180,15 +184,18 @@
 </div>
 <div class="mt-12 flex justify-center gap-4 border-t border-[var(--kr-gov-border-light)] pt-10">
 <button class="px-10 py-3.5 border border-[var(--kr-gov-border-light)] bg-white text-[var(--kr-gov-text-secondary)] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-colors text-[16px]" type="button">
-                    취소
+                    Cancel
                 </button>
 <button class="px-10 py-3.5 bg-[var(--kr-gov-blue)] text-white font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors text-[16px] shadow-lg shadow-blue-900/10" type="submit">
-                    등록 완료
+                    Complete Registration
                 </button>
 </div>
 </form>
 </main>
 </div>
+
 <div th:replace="~{egovframework/com/admin/footer :: footerFragment}"></div>
 
-</body></html>
+</body>
+
+</html>

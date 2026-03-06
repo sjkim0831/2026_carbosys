@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Member Information | CCUS Integrated Management System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-green: #006b5d;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-radius: 5px;
+            --kr-gov-error: #c62828;
+        }
+        @layer base {
+            body {
+                font-family: 'Public Sans', 'Noto Sans KR', sans-serif;
+                -webkit-font-smoothing: antialiased;
+            }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+            line-height: 1.6;
+        }
+        .gov-card {
+            @apply border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white p-6 shadow-sm;
+        }
+        .gov-label {
+            @apply block text-[14px] font-bold text-[var(--kr-gov-text-primary)] mb-2;
+        }
+        .gov-input,
+        .gov-select,
+        .gov-textarea {
+            @apply w-full border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-[var(--kr-gov-focus)] outline-none transition-all text-[15px];
+        }
+        .gov-input,
+        .gov-select {
+            @apply h-11 px-4;
+        }
+        .gov-textarea {
+            @apply min-h-[96px] px-4 py-3;
+        }
+        .gov-readonly {
+            @apply bg-gray-50 text-gray-600;
+        }
+        .required-dot::after {
+            content: '*';
+            @apply text-[var(--kr-gov-error)] ml-1;
+        }
+    </style>
+</head>
+<body class="bg-[#f8f9fa] text-[var(--kr-gov-text-primary)]">
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<div th:replace="~{egovframework/com/admin/header :: headerFragment}"></div>
+
+<div class="flex min-h-[calc(100vh-124px)]">
+    <aside aria-label="Admin side menu"
+           class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col"></aside>
+<main class="flex-1 p-8 overflow-y-auto" id="main-content">
+<div class="mb-8">
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+<span>Member Management</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="font-medium text-[var(--kr-gov-blue)]">Edit Member</span>
+</nav>
+<h2 class="text-2xl font-black">Edit Member Information</h2>
+<p class="text-sm text-[var(--kr-gov-text-secondary)] mt-1">Only fields backed by member and institution tables are editable.</p>
+</div>
+
+<div class="mb-4 rounded-[var(--kr-gov-radius)] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+     th:if="${memberEditError}" th:text="${memberEditError}"></div>
+<div class="mb-4 rounded-[var(--kr-gov-radius)] border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
+     th:if="${memberEditErrors != null}">
+<p class="font-bold mb-1">Please review the input values.</p>
+<ul class="list-disc pl-5 space-y-1">
+<li th:each="error : ${memberEditErrors}" th:text="${error}"></li>
+</ul>
+</div>
+<div class="mb-4 rounded-[var(--kr-gov-radius)] border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800"
+     th:if="${memberEditUpdated}">
+                Member information has been saved.
+            </div>
+
+<form method="post" th:if="${member != null}" th:action="@{/admin/member/edit(language='en')}">
+<input name="memberId" th:value="${member.entrprsmberId}" type="hidden"/>
+<input name="language" type="hidden" value="en"/>
+
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+<section class="gov-card xl:col-span-1 space-y-5">
+<div class="flex items-center gap-2 border-b pb-4">
+<span class="material-symbols-outlined text-[var(--kr-gov-blue)]">assignment_ind</span>
+<h3 class="text-lg font-bold">Account Summary</h3>
+</div>
+<div>
+<label class="gov-label">Member ID</label>
+<input class="gov-input gov-readonly" readonly type="text" th:value="${member.entrprsmberId}"/>
+</div>
+<div>
+<label class="gov-label">Joined At</label>
+<input class="gov-input gov-readonly" readonly type="text" th:value="${#strings.isEmpty(member.sbscrbDe) ? '-' : member.sbscrbDe}"/>
+</div>
+<div>
+<label class="gov-label">Business Role</label>
+<div class="rounded-[var(--kr-gov-radius)] bg-blue-50 border border-blue-100 px-4 py-3">
+<p class="text-sm font-bold text-[var(--kr-gov-blue)]" th:text="${businessRoleLabel}">-</p>
+<p class="mt-1 text-xs text-slate-600">A summary of the core tasks linked to this member type.</p>
+</div>
+</div>
+<div>
+<label class="gov-label">Account Status</label>
+<div class="rounded-[var(--kr-gov-radius)] bg-slate-50 px-4 py-3 text-sm">
+<p><span class="font-bold">Member Type:</span> <span th:text="${membershipTypeLabel}">-</span></p>
+<p class="mt-1"><span class="font-bold">Member Status:</span> <span th:text="${statusLabel}">-</span></p>
+<p class="mt-1"><span class="font-bold">Member Evidence:</span> <span th:text="${memberDocumentStatusLabel}">-</span></p>
+</div>
+</div>
+<div>
+<label class="gov-label">Primary Access Scopes</label>
+<div class="flex flex-wrap gap-2">
+<span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700"
+      th:each="scope : ${accessScopes}" th:text="${scope}">Scope</span>
+</div>
+</div>
+<div th:if="${institutionInfo != null and !#maps.isEmpty(institutionInfo)}">
+<label class="gov-label">Company Reference</label>
+<div class="rounded-[var(--kr-gov-radius)] bg-gray-50 px-4 py-3 text-sm text-[var(--kr-gov-text-secondary)]">
+<p><span class="font-bold text-[var(--kr-gov-text-primary)]">Institution Status:</span> <span th:text="${institutionStatusLabel}">-</span></p>
+<p class="mt-1"><span class="font-bold text-[var(--kr-gov-text-primary)]">Document Status:</span> <span th:text="${documentStatusLabel}">-</span></p>
+<p class="mt-1"><span class="font-bold text-[var(--kr-gov-text-primary)]">Institution ID:</span> <span th:text="${institutionInfo['INSTT_ID']}">-</span></p>
+</div>
+</div>
+</section>
+
+<div class="xl:col-span-2 space-y-6">
+<section class="gov-card">
+<div class="flex items-center gap-2 border-b pb-4 mb-5">
+<span class="material-symbols-outlined text-[var(--kr-gov-blue)]">person</span>
+<h3 class="text-lg font-bold">Member Profile</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<div>
+<label class="gov-label required-dot" for="applcntNm">Member Name</label>
+<input class="gov-input" id="applcntNm" name="applcntNm" th:value="${member.applcntNm}" type="text"/>
+</div>
+<div>
+<label class="gov-label required-dot" for="applcntEmailAdres">Email</label>
+<input class="gov-input" id="applcntEmailAdres" name="applcntEmailAdres" th:value="${member.applcntEmailAdres}" type="email"/>
+</div>
+<div>
+<label class="gov-label required-dot" for="phoneNumber">Phone Number</label>
+<input class="gov-input" id="phoneNumber" name="phoneNumber" placeholder="010-1234-5678" th:value="${phoneNumber}" type="text"/>
+</div>
+<div>
+<label class="gov-label required-dot" for="entrprsSeCode">Member Type</label>
+<select class="gov-select" id="entrprsSeCode" name="entrprsSeCode">
+<option th:selected="${memberTypeCode == 'E'}" value="E">CO2 Emitter/Capture Company</option>
+<option th:selected="${memberTypeCode == 'P'}" value="P">CCUS Project Company</option>
+<option th:selected="${memberTypeCode == 'C'}" value="C">CCUS Promotion Center</option>
+<option th:selected="${memberTypeCode == 'G'}" value="G">Government / Agency</option>
+</select>
+</div>
+<div>
+<label class="gov-label required-dot" for="entrprsMberSttus">Member Status</label>
+<select class="gov-select" id="entrprsMberSttus" name="entrprsMberSttus">
+<option th:selected="${memberStatusCode == 'P'}" value="P">Active</option>
+<option th:selected="${memberStatusCode == 'A'}" value="A">Pending Approval</option>
+<option th:selected="${memberStatusCode == 'R'}" value="R">Rejected</option>
+<option th:selected="${memberStatusCode == 'D'}" value="D">Deleted</option>
+<option th:selected="${memberStatusCode == 'X'}" value="X">Blocked</option>
+</select>
+</div>
+<div class="md:col-span-2">
+<label class="inline-flex items-center gap-3 text-sm font-medium cursor-pointer">
+<input class="h-4 w-4 rounded border-gray-300 text-[var(--kr-gov-blue)] focus:ring-[var(--kr-gov-focus)]"
+       name="marketingYn" th:checked="${member.marketingYn == 'Y'}" type="checkbox" value="Y"/>
+<span>Agrees to receive marketing information</span>
+</label>
+</div>
+</div>
+</section>
+
+<section class="gov-card">
+<div class="flex items-center gap-2 border-b pb-4 mb-5">
+<span class="material-symbols-outlined text-[var(--kr-gov-green)]">location_on</span>
+<h3 class="text-lg font-bold">Contact and Submission Address</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<div>
+<label class="gov-label" for="zip">Zip Code</label>
+<input class="gov-input" id="zip" name="zip" th:value="${member.zip}" type="text"/>
+</div>
+<div>
+<label class="gov-label" for="detailAdres">Detail Address</label>
+<input class="gov-input" id="detailAdres" name="detailAdres" th:value="${member.detailAdres}" type="text"/>
+</div>
+<div class="md:col-span-2">
+<label class="gov-label" for="adres">Base Address</label>
+<textarea class="gov-textarea" id="adres" name="adres" th:text="${member.adres}"></textarea>
+</div>
+<div class="md:col-span-2 rounded-[var(--kr-gov-radius)] border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+This section is the member table's contact/submission address. It is managed separately from the company address.
+</div>
+</div>
+</section>
+
+<section class="gov-card">
+<div class="flex items-center gap-2 border-b pb-4 mb-5">
+<span class="material-symbols-outlined text-[var(--kr-gov-blue)]">description</span>
+<h3 class="text-lg font-bold">Member Evidence Files</h3>
+</div>
+<div class="space-y-3" th:if="${memberEvidenceFiles != null and !#lists.isEmpty(memberEvidenceFiles)}">
+<div class="rounded-[var(--kr-gov-radius)] border border-slate-200 bg-slate-50 px-4 py-3"
+     th:each="file : ${memberEvidenceFiles}">
+<div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+<div class="min-w-0">
+<p class="text-sm font-bold text-[var(--kr-gov-text-primary)]" th:text="${file.fileName}">evidence.pdf</p>
+<p class="mt-1 text-xs text-slate-500 break-all" th:text="${file.filePath}">/path/file.pdf</p>
+</div>
+<div class="flex gap-2">
+<a class="px-3 py-1.5 text-[12px] font-bold border border-[var(--kr-gov-border-light)] bg-white rounded hover:bg-gray-50"
+   target="_blank" th:href="${file.previewUrl}">Preview</a>
+<a class="px-3 py-1.5 text-[12px] font-bold border border-[var(--kr-gov-border-light)] bg-white rounded hover:bg-gray-50"
+   th:href="${file.downloadUrl}">Download</a>
+</div>
+</div>
+</div>
+</section>
+<div class="rounded-[var(--kr-gov-radius)] border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-sm text-slate-500"
+     th:if="${memberEvidenceFiles == null or #lists.isEmpty(memberEvidenceFiles)}">
+No evidence files are registered in the member table.
+</div>
+
+<section class="gov-card">
+<div class="flex items-center gap-2 border-b pb-4 mb-5">
+<span class="material-symbols-outlined text-[var(--kr-gov-green)]">business_center</span>
+<h3 class="text-lg font-bold">Company Information</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<div class="md:col-span-2">
+<label class="gov-label" for="cmpnyNm">Institution Name</label>
+<input class="gov-input gov-readonly" id="cmpnyNm" readonly th:value="${member.cmpnyNm}" type="text"/>
+</div>
+<div>
+<label class="gov-label" for="cxfc">Representative Name</label>
+<input class="gov-input gov-readonly" id="cxfc" readonly th:value="${member.cxfc}" type="text"/>
+</div>
+<div>
+<label class="gov-label" for="bizrno">Business Registration No.</label>
+<input class="gov-input gov-readonly" id="bizrno" readonly th:value="${member.bizrno}" type="text"/>
+</div>
+<div class="md:col-span-2 rounded-[var(--kr-gov-radius)] border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+This section is reference-only company data. Edit it from the institution management or approval flow.
+</div>
+</div>
+</section>
+</div>
+</div>
+
+<div class="mt-8 flex justify-center gap-3 border-t pt-6">
+<button class="min-w-[140px] rounded-[var(--kr-gov-radius)] border border-[var(--kr-gov-border-light)] bg-white px-8 py-3 font-bold text-[var(--kr-gov-text-secondary)] hover:bg-gray-50"
+        onclick="window.location.href='/admin/member/detail?memberId=' + encodeURIComponent(document.querySelector('input[name=memberId]').value) + '&language=en'"
+        type="button">Go to Detail</button>
+<button class="min-w-[140px] rounded-[var(--kr-gov-radius)] bg-[var(--kr-gov-blue)] px-8 py-3 font-bold text-white hover:bg-[var(--kr-gov-blue-hover)]"
+        type="submit">Save</button>
+</div>
+</form>
+</main>
+</div>
+
+<div th:replace="~{egovframework/com/admin/footer :: footerFragment}"></div>
+
+</body>
+
+</html>
