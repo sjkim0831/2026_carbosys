@@ -112,19 +112,19 @@
                     <div class="space-y-1.5">
                         <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="charger-name">담당자 성명
                             <span class="text-[var(--kr-gov-error)]">*</span></label>
-                        <input class="input-field" id="charger-name" name="chargerName" type="text"
+                        <input class="input-field" id="charger-name" name="chargerName" type="text" autocomplete="name"
                             th:value="${result['chargerNm']}" required />
                     </div>
                     <div class="space-y-1.5">
                         <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="charger-email">이메일 주소
                             <span class="text-[var(--kr-gov-error)]">*</span></label>
-                        <input class="input-field" id="charger-email" name="chargerEmail" type="email"
+                        <input class="input-field" id="charger-email" name="chargerEmail" type="email" autocomplete="email"
                             th:value="${result['chargerEmail']}" required />
                     </div>
                     <div class="space-y-1.5">
                         <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="charger-tel">연락처 <span
                                 class="text-[var(--kr-gov-error)]">*</span></label>
-                        <input class="input-field" id="charger-tel" name="chargerTel" type="tel"
+                        <input class="input-field" id="charger-tel" name="chargerTel" type="tel" autocomplete="tel-national" inputmode="numeric"
                             th:value="${result['chargerTel']}" required />
                     </div>
                 </div>
@@ -136,7 +136,7 @@
                     <div class="space-y-1.5">
                         <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="company-name">업체명
                             <span class="text-[var(--kr-gov-error)]">*</span></label>
-                        <input class="input-field" id="company-name" name="agencyName" type="text"
+                        <input class="input-field" id="company-name" name="agencyName" type="text" autocomplete="organization"
                             th:value="${result['insttNm']}" required />
                     </div>
                     <div class="space-y-1.5">
@@ -149,7 +149,7 @@
                     <div class="space-y-1.5">
                         <label class="text-sm font-bold text-[var(--kr-gov-text-secondary)]" for="rep-name">대표자 성명 <span
                                 class="text-[var(--kr-gov-error)]">*</span></label>
-                        <input class="input-field" id="rep-name" name="representativeName" type="text"
+                        <input class="input-field" id="rep-name" name="representativeName" type="text" autocomplete="name"
                             th:value="${result['reprsntNm']}" required />
                     </div>
                     <div class="md:col-span-2 space-y-1.5">
@@ -165,7 +165,7 @@
                         </div>
                         <input class="input-field mb-2 bg-gray-50 cursor-pointer" id="company-address"
                             name="companyAddress" type="text" th:value="${result['adres']}" readonly
-                            onclick="execDaumPostcode()" required />
+                            onclick="execDaumPostcode()" required autocomplete="street-address" />
                         <input class="input-field" id="company-address-detail" name="companyAddressDetail"
                             placeholder="상세주소를 입력하세요" type="text" th:value="${result['detailAdres']}" />
                     </div>

@@ -128,6 +128,47 @@
         
     </select>
 
+    <select id="selectEntrprsByMberId_S" resultType="egovframework.com.uss.umt.service.EntrprsManageVO">
+        
+            SELECT
+                ESNTL_ID                      uniqId,
+                'USR02'                      userTy,
+                ENTRPRS_MBER_ID               entrprsmberId,
+                ENTRPRS_SE_CODE              entrprsSeCode,
+                BIZRNO                       bizrno,
+                JURIRNO                      jurirno,
+                CMPNY_NM                     cmpnyNm,
+                CXFC                         cxfc,
+                ZIP                          zip,
+                ADRES                        adres,
+                ENTRPRS_MIDDLE_TELNO         entrprsMiddleTelno,
+                FXNUM                        fxnum,
+                INDUTY_CODE                  indutyCode,
+                APPLCNT_NM                   applcntNm,
+                SBSCRB_DE                    sbscrbDe,
+                ENTRPRS_MBER_STTUS           entrprsMberSttus,
+                ENTRPRS_MBER_PASSWORD        entrprsMberPassword,
+                ENTRPRS_MBER_PASSWORD_HINT   entrprsMberPasswordHint,
+                ENTRPRS_MBER_PASSWORD_CNSR   entrprsMberPasswordCnsr,
+                GROUP_ID                     groupId,
+                DETAIL_ADRES                 detailAdres,
+                ENTRPRS_END_TELNO            entrprsEndTelno,
+                AREA_NO                      areaNo,
+                APPLCNT_IHIDNUM              applcntIhidnum,
+                APPLCNT_EMAIL_ADRES          applcntEmailAdres,
+                MARKETING_YN                 marketingYn,
+                AUTH_TY                      authTy,
+                AUTH_DN                      authDn,
+                AUTH_CI                      authCi,
+                AUTH_DI                      authDi,
+                AUTH_EMAIL                   authEmail,
+                BIZ_REG_FILE_PATH            bizRegFilePath,
+                LOCK_AT        				 lockAt
+            FROM COMTNENTRPRSMBER
+            WHERE ENTRPRS_MBER_ID=#{entrprsmberId}
+        
+    </select>
+
     <update id="updateEntrprs_S">
         
             UPDATE COMTNENTRPRSMBER 
@@ -221,7 +262,7 @@
             #{adres},
             #{detailAdres},
             #{bizRegFilePath},
-            'P',
+            #{insttSttus},
             SYSDATETIME,
             SYSDATETIME,
             #{chargerNm},
@@ -285,38 +326,51 @@
         ORDER BY CMPNY_NM ASC
     </select>
 
-    <select id="selectEntrprsMberList" resultType="egovMap">
+    <select id="selectEntrprsMberList" resultType="egovframework.com.uss.umt.service.EntrprsManageVO">
         SELECT * FROM ( SELECT rownum rn, TB.* FROM (
             SELECT 
                 ESNTL_ID              as UNIQ_ID,
                 'USR02'               as USER_TY,
-                ENTRPRS_MBER_ID       as USER_ID,
+                ENTRPRS_MBER_ID       as ENTRPRSMBER_ID,
                 CMPNY_NM              as CMPNY_NM,
-                APPLCNT_NM            as USER_NM,
-                APPLCNT_EMAIL_ADRES   as EMAIL_ADRES,
+                APPLCNT_NM            as APPLCNT_NM,
+                APPLCNT_EMAIL_ADRES   as APPLCNT_EMAIL_ADRES,
                 AREA_NO               as AREA_NO,
-                ENTRPRS_MIDDLE_TELNO  as MIDDLE_TELNO,
-                ENTRPRS_END_TELNO     as END_TELNO,
-                ''                    as MOBLPHON_NO,
+                ENTRPRS_MIDDLE_TELNO  as ENTRPRS_MIDDLE_TELNO,
+                ENTRPRS_END_TELNO     as ENTRPRS_END_TELNO,
+                ENTRPRS_SE_CODE       as ENTRPRS_SE_CODE,
                 GROUP_ID              as GROUP_ID,
-                ENTRPRS_MBER_STTUS    as STTUS,
+                ENTRPRS_MBER_STTUS    as ENTRPRS_MBER_STTUS,
                 SBSCRB_DE             as SBSCRB_DE,
                 BIZ_REG_FILE_PATH     as BIZ_REG_FILE_PATH
             FROM    COMTNENTRPRSMBER
             WHERE 1=1
+        <if test='entrprsSeCode != null and entrprsSeCode != ""'>
+            AND ENTRPRS_SE_CODE = #{entrprsSeCode}
+        </if>
         <if test='sbscrbSttus != null and sbscrbSttus neq "0" and sbscrbSttus neq ""'>
             AND ENTRPRS_MBER_STTUS LIKE  #{sbscrbSttus}
         </if>
-        <if test="@egovframework.com.cmm.util.EgovMybatisUtil@isNotEmpty(searchKeyword)">
-            <if test="searchCondition == 0">
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <if test='searchCondition == "0"'>
             AND ENTRPRS_MBER_ID LIKE '%' || #{searchKeyword} || '%'
             </if>
-            <if test="searchCondition == 1">
+            <if test='searchCondition == "1"'>
             AND APPLCNT_NM LIKE '%' ||#{searchKeyword}|| '%'
+            </if>
+            <if test='searchCondition == "2"'>
+            AND CMPNY_NM LIKE '%' ||#{searchKeyword}|| '%'
+            </if>
+            <if test='searchCondition == null or searchCondition == "" or searchCondition == "all"'>
+            AND (
+                ENTRPRS_MBER_ID LIKE '%' || #{searchKeyword} || '%'
+                OR APPLCNT_NM LIKE '%' || #{searchKeyword} || '%'
+                OR CMPNY_NM LIKE '%' || #{searchKeyword} || '%'
+            )
             </if>
         </if>
         <![CDATA[
-        ORDER BY 13 DESC
+        ORDER BY SBSCRB_DE DESC
         ) TB ) Z WHERE rn BETWEEN #{firstIndex} + 1 AND #{firstIndex} + #{recordCountPerPage}
         ]]>
     </select>
@@ -326,15 +380,28 @@
             SELECT COUNT(1) totcnt
             FROM    COMTNENTRPRSMBER
 	        WHERE 1=1
+        <if test='entrprsSeCode != null and entrprsSeCode != ""'>
+            AND ENTRPRS_SE_CODE = #{entrprsSeCode}
+        </if>
         <if test='sbscrbSttus != null and sbscrbSttus neq "0" and sbscrbSttus neq ""'>
             AND ENTRPRS_MBER_STTUS LIKE  #{sbscrbSttus}
         </if>
-        <if test="@egovframework.com.cmm.util.EgovMybatisUtil@isNotEmpty(searchKeyword)">
-            <if test="searchCondition == 0">
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <if test='searchCondition == "0"'>
             AND ENTRPRS_MBER_ID LIKE '%' || #{searchKeyword} || '%'
             </if>
-            <if test="searchCondition == 1">
+            <if test='searchCondition == "1"'>
             AND APPLCNT_NM LIKE '%' || #{searchKeyword} || '%'
+            </if>
+            <if test='searchCondition == "2"'>
+            AND CMPNY_NM LIKE '%' || #{searchKeyword} || '%'
+            </if>
+            <if test='searchCondition == null or searchCondition == "" or searchCondition == "all"'>
+            AND (
+                ENTRPRS_MBER_ID LIKE '%' || #{searchKeyword} || '%'
+                OR APPLCNT_NM LIKE '%' || #{searchKeyword} || '%'
+                OR CMPNY_NM LIKE '%' || #{searchKeyword} || '%'
+            )
             </if>
         </if>
     </select>

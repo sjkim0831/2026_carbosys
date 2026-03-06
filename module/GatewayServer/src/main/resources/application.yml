@@ -29,11 +29,11 @@ spring:
             allowCredentials: true # 클라이언트가 쿠키, 인증 정보, Authorization 헤더 등을 포함한 요청을 보낼 수 있도록 허용
 
       routes:
-        - id: EgovAdminMainMerged
+        - id: EgovAdminMerged
           uri: lb://EGOVHOME
           order: -100
           predicates:
-            - Path=/adminmain,/adminmain/**
+            - Path=/admin,/admin/**
 
         - id: EgovMsaManagerRoot
           uri: lb://EGOVMSAMANAGER

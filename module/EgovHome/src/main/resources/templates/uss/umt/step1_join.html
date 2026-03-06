@@ -135,9 +135,12 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <fieldset class="mb-12">
+                    <legend class="sr-only">회원 유형 선택</legend>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <label class="type-card group" th:classappend="${currType == 'EMITTER' ? 'active' : ''}">
-                        <input class="hidden" name="membership_type" type="radio" value="EMITTER"
+                        <input class="sr-only" name="membership_type" type="radio" value="EMITTER"
+                            required
                             th:checked="${currType == 'EMITTER'}" />
                         <div
                             class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-[var(--kr-gov-blue)] transition-colors">
@@ -155,7 +158,7 @@
                         </div>
                     </label>
                     <label class="type-card group" th:classappend="${currType == 'PERFORMER' ? 'active' : ''}">
-                        <input class="hidden" name="membership_type" type="radio" value="PERFORMER"
+                        <input class="sr-only" name="membership_type" type="radio" value="PERFORMER"
                             th:checked="${currType == 'PERFORMER'}" />
                         <div
                             class="w-20 h-20 bg-cyan-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-cyan-700 transition-colors">
@@ -173,7 +176,7 @@
                         </div>
                     </label>
                     <label class="type-card group" th:classappend="${currType == 'CENTER' ? 'active' : ''}">
-                        <input class="hidden" name="membership_type" type="radio" value="CENTER"
+                        <input class="sr-only" name="membership_type" type="radio" value="CENTER"
                             th:checked="${currType == 'CENTER'}" />
                         <div
                             class="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-[var(--kr-gov-green)] transition-colors">
@@ -191,7 +194,7 @@
                         </div>
                     </label>
                     <label class="type-card group" th:classappend="${currType == 'GOV' ? 'active' : ''}">
-                        <input class="hidden" name="membership_type" type="radio" value="GOV"
+                        <input class="sr-only" name="membership_type" type="radio" value="GOV"
                             th:checked="${currType == 'GOV'}" />
                         <div
                             class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-6 group-hover:bg-slate-700 transition-colors">
@@ -208,7 +211,8 @@
                                 style="font-variation-settings: 'FILL' 1;">check_circle</span>
                         </div>
                     </label>
-                </div>
+                    </div>
+                </fieldset>
                 <div class="flex items-center justify-center gap-4">
                     <a class="w-40 h-14 border border-[var(--kr-gov-border-light)] bg-white text-[var(--kr-gov-text-primary)] flex items-center justify-center rounded-[var(--kr-gov-radius)] font-bold hover:bg-gray-50 transition-colors"
                         href="/join/reset">

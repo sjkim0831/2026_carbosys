@@ -122,11 +122,13 @@
         </div>
         <div
             class="w-full max-w-[480px] bg-white border border-[var(--kr-gov-border-light)] rounded-lg shadow-sm overflow-hidden">
-            <div class="flex border-b border-[var(--kr-gov-border-light)] bg-gray-50">
+            <div class="flex border-b border-[var(--kr-gov-border-light)] bg-gray-50" role="tablist" aria-label="Member type">
                 <button type="button" class="flex-1 py-4 text-[16px] login-tab login-tab-active"
-                    data-value="ENT" data-join="/join/en/step1" data-findid="/signin/findId?language=en">Domestic Enterprise</button>
+                    data-value="ENT" data-join="/join/en/step1" data-findid="/signin/findId?language=en"
+                    role="tab" aria-selected="true" tabindex="0">Domestic Enterprise</button>
                 <button type="button" class="flex-1 py-4 text-[16px] login-tab login-tab-inactive"
-                    data-value="ENT" data-join="/join/en/overseas/step1" data-findid="/signin/findId/overseas?language=en">Overseas Enterprise</button>
+                    data-value="ENT" data-join="/join/en/overseas/step1" data-findid="/signin/findId/overseas?language=en"
+                    role="tab" aria-selected="false" tabindex="-1">Overseas Enterprise</button>
             </div>
             <div class="p-8 lg:p-10">
                 <form id="loginForm" name="loginForm" class="space-y-6">
@@ -136,14 +138,14 @@
                                 for="id">ID</label>
                             <input
                                 class="w-full h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all"
-                                id="id" name="id" placeholder="Enter your ID" type="text" />
+                                id="id" name="id" placeholder="Enter your ID" type="text" required autocomplete="username" spellcheck="false" />
                         </div>
                         <div class="relative">
                             <label class="block text-sm font-bold text-[var(--kr-gov-text-secondary)] mb-1.5"
                                 for="password">Password</label>
                             <input
                                 class="w-full h-14 px-4 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] focus:ring-2 focus:ring-[var(--kr-gov-focus)] focus:border-transparent transition-all"
-                                id="password" name="password" placeholder="Enter your password" type="password" />
+                                id="password" name="password" placeholder="Enter your password" type="password" required autocomplete="current-password" />
                         </div>
                     </div>
                     <div class="flex items-center justify-between">
@@ -164,8 +166,7 @@
                     </div>
                     <button
                         class="w-full h-14 bg-[var(--kr-gov-blue)] text-white text-lg font-bold rounded-[var(--kr-gov-radius)] hover:bg-[var(--kr-gov-blue-hover)] transition-colors focus-visible"
-                        type="button"
-                        onclick="loginProcess()">
+                        type="submit">
                         Log In
                     </button>
                     <div
@@ -262,6 +263,15 @@
                 });
                 this.classList.remove("login-tab-inactive");
                 this.classList.add("login-tab-active");
+                this.setAttribute("aria-selected", "true");
+                this.setAttribute("tabindex", "0");
+                this.focus();
+                document.querySelectorAll(".login-tab").forEach(t => {
+                    if (t !== this) {
+                        t.setAttribute("aria-selected", "false");
+                        t.setAttribute("tabindex", "-1");
+                    }
+                });
                 const joinHref = this.getAttribute('data-join') || '/join/en/step1';
                 document.getElementById('joinLink').href = joinHref;
                 const findIdHref = this.getAttribute('data-findid') || '/signin/findId?language=en';

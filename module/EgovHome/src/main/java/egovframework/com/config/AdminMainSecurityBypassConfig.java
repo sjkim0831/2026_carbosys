@@ -15,8 +15,8 @@ public class AdminMainSecurityBypassConfig {
     @Order(0)
     public SecurityFilterChain adminMainSecurityFilterChain(HttpSecurity http) throws Exception {
         http.requestMatcher(new OrRequestMatcher(
-                new AntPathRequestMatcher("/adminmain"),
-                new AntPathRequestMatcher("/adminmain/**")))
+                new AntPathRequestMatcher("/admin"),
+                new AntPathRequestMatcher("/admin/**")))
                 .authorizeRequests(authorize -> authorize.anyRequest().permitAll())
                 .csrf().disable();
         return http.build();

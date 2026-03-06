@@ -60,6 +60,16 @@ public class EntrprsManageDAO extends EgovComAbstractDAO {
         return (EntrprsManageVO) selectOne("entrprsManageDAO.selectEntrprs_S", entrprsmberId);
     }
 
+    /**
+     * 기업회원 ID(ENTRPRS_MBER_ID)로 기업회원 상세정보를 조회한다.
+     *
+     * @param entrprsmberId 기업회원ID
+     * @return EntrprsManageVO 기업회원 상세정보
+     */
+    public EntrprsManageVO selectEntrprsmberByMberId(String entrprsmberId) {
+        return (EntrprsManageVO) selectOne("entrprsManageDAO.selectEntrprsByMberId_S", entrprsmberId);
+    }
+
     public List<?> searchCompanyList(String searchKeyword) {
         return selectList("entrprsManageDAO.searchCompanyList", searchKeyword);
     }

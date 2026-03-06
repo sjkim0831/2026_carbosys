@@ -1,21 +1,23 @@
 # CUBRID Docker 실행 가이드
 
+## 기준 파일 (Source of Truth)
+
+- 실행/운영 기준은 **`docker-compose.yml`** 입니다.
+- 이 문서와 값이 다르면 **항상 `docker-compose.yml`을 우선** 적용합니다.
+
 ## 핵심 변경 사항
 
-- DB 파일 저장 위치를 프로젝트 상대경로(`./data`)가 아니라 **WSL 절대경로(`/opt/carbosys/data`)** 기준으로 고정했습니다.
-- 호스트 데이터 소스는 **`/opt/carbosys/data` 하나만** 사용합니다.  
-  (`/var/lib/cubrid`는 같은 폴더로 바인드, `/opt/data`는 사용하지 않음)
-- `docker compose down` / `up -d` 반복 시에도 `/opt/carbosys/data`가 유지되면 DB가 초기화되지 않습니다.
+- DB 파일 저장 위치는 프로젝트 상대경로 **`./data`** 기준입니다.
+- CUBRID 데이터 디렉토리는 컨테이너 내부 `/var/lib/cubrid`에 `./data`를 바인드합니다.
+- `docker compose down` / `up -d` 반복 시에도 `./data`가 유지되면 DB가 초기화되지 않습니다.
 - 브로커는 `CUBRID_COMPONENTS=ALL` + `cubrid.conf(service=server,broker)` 기준으로 자동 기동됩니다.
 - **외부 접속 지원**: 브로커(33000) 외에도 실제 데이터 처리를 담당하는 **CAS 포트(33001)**가 외부로 노출되어야 합니다.
 
 ---
 
-## 왜 `./data`가 아닌 `/opt/carbosys/data`를 쓰는가
+## 데이터 경로 기준
 
-리포지토리 위치가 바뀌거나(`git pull`, 폴더 이동, 다른 경로에서 실행) compose 실행 기준 경로가 달라지면 `./data`가 다른 폴더를 가리킬 수 있습니다.
-
-현재 실제 데이터 경로가 `\\wsl$\Ubuntu\opt\carbosys\data`라면, WSL 내부 경로는 `/opt/carbosys/data`이므로 이 절대경로를 bind mount로 직접 지정해야 기존 데이터를 안정적으로 재사용할 수 있습니다.
+리포지토리 루트(`/opt/carbosys`)에서 `docker compose`를 실행하는 것을 기준으로 `./data`를 사용합니다.
 
 ---
 
@@ -24,8 +26,8 @@
 ### 1) 폴더 생성
 
 ```bash
-mkdir -p infra/cubrid/conf infra/cubrid/init /opt/carbosys/data
-chmod 777 /opt/carbosys/data
+mkdir -p infra/cubrid/conf infra/cubrid/init data
+chmod 777 data
 ```
 
 ### 2) 설정 파일 확인
@@ -62,13 +64,11 @@ services:
       CUBRID_DB: com
       CUBRID_LOCALE: ko_KR.utf8
       CUBRID_COMPONENTS: ALL
-      CUBRID_DATABASES: /opt/carbosys/data
+      CUBRID_DATABASES: /var/lib/cubrid
     volumes:
       - "./infra/cubrid/init:/docker-entrypoint-initdb.d"
-      - "./infra/cubrid/conf/cubrid.conf:/opt/carbosys/conf/cubrid.conf"
-      - "./infra/cubrid/conf/cubrid_broker.conf:/opt/carbosys/conf/cubrid_broker.conf"
-      - "/opt/carbosys/data:/opt/carbosys/data"
-      - "/opt/carbosys/data:/var/lib/cubrid"
+      - "./infra/cubrid/conf:/opt/carbosys/conf"
+      - "./data:/var/lib/cubrid"
     ports:
       - "33000:33000"
       - "33001:33001"
@@ -108,14 +108,14 @@ docker compose ps
 docker compose logs cubrid | tail -n 200
 ```
 
-3. 컨테이너 내부에서 DB 파일 확인 (`/opt/carbosys/data/com*` 존재 여부)
+3. 컨테이너 내부에서 DB 파일 확인 (`/var/lib/cubrid/com*` 존재 여부)
 ```bash
-docker exec cubrid ls -al /opt/carbosys/data
+docker exec cubrid ls -al /var/lib/cubrid
 ```
 
-4. 호스트의 실제 데이터 폴더 확인 (WSL 기준)
+4. 호스트의 데이터 폴더 확인
 ```bash
-ls -al /opt/carbosys/data
+ls -al ./data
 ```
 
 5. 브로커 수동 기동(긴급 조치)

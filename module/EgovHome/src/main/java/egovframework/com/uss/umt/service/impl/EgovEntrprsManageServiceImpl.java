@@ -89,6 +89,12 @@ public class EgovEntrprsManageServiceImpl extends EgovAbstractServiceImpl implem
 	}
 
 	@Override
+	public EntrprsManageVO selectEntrprsmberByMberId(String entrprsmberId) {
+		EntrprsManageVO entrprsManageVO = entrprsManageDAO.selectEntrprsmberByMberId(entrprsmberId);
+		return entrprsManageVO;
+	}
+
+	@Override
 	public List<?> searchCompanyList(String searchKeyword) throws Exception {
 		return entrprsManageDAO.searchCompanyList(searchKeyword);
 	}

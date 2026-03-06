@@ -33,9 +33,10 @@ public class EgovLoginManageController {
     @RequestMapping(value = "/loginView", method = { RequestMethod.GET, RequestMethod.POST })
     public String loginView(@RequestParam(value = "language", required = false) String language, LoginVO loginVO,
             Model model, HttpServletRequest request) {
-        boolean adminLoginRequest = request.getRequestURI().startsWith("/admin/login");
+        boolean adminLoginRequest = isAdminLoginRequest(request);
         if (!adminLoginRequest && isAdminMainRequested(request)) {
-            return "redirect:/admin/login/loginView";
+            // Gateway rewrite 환경에서 /signin/loginView 로 들어와도 admin 화면을 직접 렌더링해 루프 방지
+            adminLoginRequest = true;
         }
         String accessToken = jwtProvider.getCookie(request, "accessToken");
         if (ObjectUtils.isEmpty(accessToken)) {
@@ -48,7 +49,7 @@ public class EgovLoginManageController {
             return adminLoginRequest ? "egovframework/com/uat/uia/admin_login"
                     : "egovframework/com/uat/uia/login";
         } else {
-            return adminLoginRequest ? "redirect:/adminmain/" : "redirect:/home";
+            return adminLoginRequest ? "redirect:/admin/" : "redirect:/home";
         }
     }
 
@@ -58,14 +59,31 @@ public class EgovLoginManageController {
             Object savedRequest = session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
             if (savedRequest instanceof DefaultSavedRequest) {
                 String redirectUrl = ((DefaultSavedRequest) savedRequest).getRedirectUrl();
-                if (!ObjectUtils.isEmpty(redirectUrl) && redirectUrl.contains("/adminmain")) {
+                if (!ObjectUtils.isEmpty(redirectUrl) && redirectUrl.contains("/admin")) {
                     return true;
                 }
             }
         }
 
         String referer = request.getHeader("Referer");
-        return !ObjectUtils.isEmpty(referer) && referer.contains("/adminmain");
+        return !ObjectUtils.isEmpty(referer) && referer.contains("/admin");
+    }
+
+    private boolean isAdminLoginRequest(HttpServletRequest request) {
+        String requestUri = request.getRequestURI();
+        if (!ObjectUtils.isEmpty(requestUri) && requestUri.startsWith("/admin/login")) {
+            return true;
+        }
+        String requestUrl = request.getRequestURL() == null ? null : request.getRequestURL().toString();
+        if (!ObjectUtils.isEmpty(requestUrl) && requestUrl.contains("/admin/login")) {
+            return true;
+        }
+        String originalUri = request.getHeader("X-Original-Uri");
+        if (!ObjectUtils.isEmpty(originalUri) && originalUri.startsWith("/admin/login")) {
+            return true;
+        }
+        String forwardedPrefix = request.getHeader("X-Forwarded-Prefix");
+        return !ObjectUtils.isEmpty(forwardedPrefix) && forwardedPrefix.contains("/admin");
     }
 
     @GetMapping("/authChoice")

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>회원 상세 정보 | CCUS 통합관리 시스템</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Public+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --kr-gov-blue: #00378b;
+            --kr-gov-blue-hover: #002d72;
+            --kr-gov-green: #006b5d;
+            --kr-gov-text-primary: #1a1a1a;
+            --kr-gov-text-secondary: #4d4d4d;
+            --kr-gov-border-light: #d9d9d9;
+            --kr-gov-focus: #005fde;
+            --kr-gov-bg-gray: #f2f2f2;
+            --kr-gov-radius: 5px;
+        }
+        @layer base {
+            body { font-family: 'Noto Sans KR', 'Public Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+            .skip-link {
+                @apply absolute -top-full left-0 bg-[var(--kr-gov-blue)] text-white p-3 z-[100] transition-all focus:top-0 focus:outline-none focus:ring-2 focus:ring-white;
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 400, 'opsz' 24;
+            font-size: 24px;
+            line-height: 1.6;
+        }
+        .admin-sidebar-link {
+            @apply flex items-center gap-3 px-4 py-3 text-[15px] font-medium text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-[var(--kr-gov-radius)] transition-colors;
+        }
+        .admin-sidebar-link.active {
+            @apply bg-[var(--kr-gov-blue)] text-white font-bold;
+        }
+        .admin-sidebar-sublink {
+            @apply flex items-center gap-2 pl-12 pr-4 py-2 text-[14px] text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)] hover:font-bold transition-all;
+        }
+        .admin-sidebar-sublink.active {
+            @apply text-[var(--kr-gov-blue)] font-bold relative;
+        }
+        .admin-sidebar-sublink.active::before {
+            content: '';
+            @apply absolute left-8 w-1.5 h-1.5 bg-[var(--kr-gov-blue)] rounded-full top-1/2 -translate-y-1/2;
+        }
+        .gov-card {
+            @apply border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white p-6 shadow-sm;
+        }
+        .gov-label {
+            @apply block text-[14px] font-bold text-[var(--kr-gov-text-secondary)] mb-2;
+        }
+        .gov-input-readonly {
+            @apply w-full px-4 py-2.5 bg-gray-50 border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] text-[15px] text-[var(--kr-gov-text-primary)] outline-none focus:ring-2 focus:ring-[var(--kr-gov-focus)] transition-all;
+        }
+        .breadcrumb-item {
+            @apply flex items-center gap-1 text-[13px] text-gray-500;
+        }
+        .breadcrumb-item:last-child {
+            @apply text-[var(--kr-gov-blue)] font-bold;
+        }
+        .help-tooltip {
+            @apply invisible opacity-0 absolute right-0 top-full mt-2 w-64 p-4 bg-white border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] shadow-xl z-50 text-sm transition-all;
+        }
+        .help-button:hover .help-tooltip {
+            @apply visible opacity-100;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00378b",
+                        "secondary": "#006b5d",
+                        "gov-gray": "#767676",
+                    },
+                    borderRadius: {
+                        'gov': '5px',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-[#f8f9fa] text-[var(--kr-gov-text-primary)]">
+<a class="skip-link" href="#main-content">본문 바로가기</a>
+<div th:replace="~{egovframework/com/admin/header :: headerFragment}"></div>
+<div class="flex min-h-[calc(100vh-124px)]">
+<aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col" aria-label="관리자 사이드 메뉴"></aside>
+<main class="flex-1 p-8 overflow-y-auto pb-32" id="main-content">
+<div class="mb-8">
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 mb-2">
+<div class="breadcrumb-item"><span class="material-symbols-outlined text-[16px]">home</span> 홈</div>
+<span class="text-gray-300 text-[12px] material-symbols-outlined">chevron_right</span>
+<div class="breadcrumb-item">회원·권한 관리</div>
+<span class="text-gray-300 text-[12px] material-symbols-outlined">chevron_right</span>
+<div class="breadcrumb-item">회원 목록</div>
+<span class="text-gray-300 text-[12px] material-symbols-outlined">chevron_right</span>
+<div class="breadcrumb-item">상세 정보</div>
+</nav>
+<h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)]">회원 상세 정보</h2>
+</div>
+<div class="mb-4 text-sm text-red-600 font-medium" th:if="${memberDetailError}" th:text="${memberDetailError}"></div>
+<div th:if="${member != null}" class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+<div class="xl:col-span-1 flex flex-col gap-8">
+<section class="gov-card">
+<div class="flex flex-col items-center text-center">
+<div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-[48px] text-gray-400">account_circle</span>
+</div>
+<h3 class="text-xl font-bold mb-1" th:text="${(#strings.isEmpty(member.applcntNm) ? '-' : member.applcntNm) + ' (' + member.entrprsmberId + ')'}">홍길동 (hgd_ccus)</h3>
+<div class="flex gap-2 mb-6">
+<span class="px-2.5 py-1 bg-blue-50 text-[var(--kr-gov-blue)] text-[12px] font-bold rounded border border-blue-100" th:text="${membershipTypeLabel}">일반기업</span>
+<span class="px-2.5 py-1 text-[12px] font-bold rounded border" th:classappend="${statusBadgeClass}" th:text="${statusLabel}">정상</span>
+</div>
+<div class="w-full grid grid-cols-2 gap-2">
+<button class="py-2.5 bg-white border border-[var(--kr-gov-border-light)] text-[13px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50" type="button">비밀번호 초기화</button>
+<button class="py-2.5 bg-white border border-[var(--kr-gov-border-light)] text-[13px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50" type="button">상태 변경</button>
+</div>
+</div>
+</section>
+<section class="gov-card">
+<div class="flex items-center gap-2 mb-6 pb-4 border-b">
+<span class="material-symbols-outlined text-[var(--kr-gov-blue)]">shield_person</span>
+<h3 class="font-bold text-lg">권한 및 접근 정책</h3>
+</div>
+<div class="space-y-4">
+<div>
+<p class="gov-label">배정 권한 그룹</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-gray-100 text-[13px] rounded-full font-medium">기업 실무자</span>
+<span class="px-3 py-1 bg-gray-100 text-[13px] rounded-full font-medium">산정 데이터 조회</span>
+</div>
+</div>
+<div>
+<p class="gov-label">메뉴 접근 권한 요약</p>
+<div class="p-3 bg-gray-50 rounded text-[13px] text-[var(--kr-gov-text-secondary)] space-y-1">
+<p class="flex items-center gap-2"><span class="text-green-600 font-black">✓</span> 탄소 포집량 입력/수정</p>
+<p class="flex items-center gap-2"><span class="text-green-600 font-black">✓</span> 배출권 산정 이력 조회</p>
+<p class="flex items-center gap-2"><span class="text-red-600 font-black">✕</span> 시스템 설정 및 로그 관리</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<div class="xl:col-span-2 flex flex-col gap-8">
+<section class="gov-card">
+<div class="flex items-center gap-2 mb-6 pb-4 border-b">
+<span class="material-symbols-outlined text-[var(--kr-gov-blue)]">person</span>
+<h3 class="font-bold text-lg">기본 정보</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="gov-label">성명</label>
+<input class="gov-input-readonly" readonly="" type="text" th:value="${#strings.isEmpty(member.applcntNm) ? '-' : member.applcntNm}" value="-"/>
+</div>
+<div>
+<label class="gov-label">아이디</label>
+<input class="gov-input-readonly" readonly="" type="text" th:value="${member.entrprsmberId}" value="-"/>
+</div>
+<div>
+<label class="gov-label">이메일 주소</label>
+<input class="gov-input-readonly" readonly="" type="email" th:value="${#strings.isEmpty(member.applcntEmailAdres) ? '-' : member.applcntEmailAdres}" value="-"/>
+</div>
+<div>
+<label class="gov-label">연락처</label>
+<input class="gov-input-readonly" readonly="" type="text" th:value="${phoneNumber}" value="-"/>
+</div>
+<div>
+<label class="gov-label">최초 가입일</label>
+<div class="gov-input-readonly flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span> <span th:text="${#strings.isEmpty(member.sbscrbDe) ? '-' : member.sbscrbDe}">-</span>
+                                </div>
+</div>
+<div>
+<label class="gov-label">최종 로그인 일시</label>
+<div class="gov-input-readonly flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">history</span> -
+                                </div>
+</div>
+</div>
+</section>
+<section class="gov-card">
+<div class="flex items-center gap-2 mb-6 pb-4 border-b">
+<span class="material-symbols-outlined text-[var(--kr-gov-green)]">business</span>
+<h3 class="font-bold text-lg">소속 및 사업자 정보</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="md:col-span-2">
+<label class="gov-label">기업명</label>
+<input class="gov-input-readonly" readonly="" type="text" th:value="${#strings.isEmpty(member.cmpnyNm) ? '-' : member.cmpnyNm}" value="-"/>
+</div>
+<div>
+<label class="gov-label">사업자 등록번호</label>
+<input class="gov-input-readonly" readonly="" type="text" th:value="${#strings.isEmpty(member.bizrno) ? '-' : member.bizrno}" value="-"/>
+</div>
+<div>
+<label class="gov-label">대표자명</label>
+<input class="gov-input-readonly" readonly="" type="text" th:value="${#strings.isEmpty(member.cxfc) ? '-' : member.cxfc}" value="-"/>
+</div>
+<div>
+<label class="gov-label">주소</label>
+<input class="gov-input-readonly" readonly="" type="text" th:value="${#strings.isEmpty(member.adres) ? '-' : member.adres}" value="-"/>
+</div>
+<div>
+<label class="gov-label">상세 주소</label>
+<input class="gov-input-readonly" readonly="" type="text" th:value="${#strings.isEmpty(member.detailAdres) ? '-' : member.detailAdres}" value="-"/>
+</div>
+</div>
+</section>
+<section class="gov-card">
+<div class="flex items-center gap-2 mb-6 pb-4 border-b">
+<span class="material-symbols-outlined text-orange-500">description</span>
+<h3 class="font-bold text-lg">제출 증빙 서류</h3>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-gray-50 border border-gray-100 rounded-[var(--kr-gov-radius)]">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400">picture_as_pdf</span>
+<div>
+<p class="text-[14px] font-bold">사업자 등록증 사본</p>
+<p class="text-[12px] text-gray-500" th:text="${#strings.isEmpty(member.bizRegFilePath) ? '등록된 파일이 없습니다.' : member.bizRegFilePath}">등록된 파일이 없습니다.</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 text-[12px] font-bold border border-[var(--kr-gov-border-light)] bg-white rounded hover:bg-gray-50" type="button">미리보기</button>
+<button class="px-3 py-1.5 text-[12px] font-bold border border-[var(--kr-gov-border-light)] bg-white rounded hover:bg-gray-50" type="button">다운로드</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<div class="fixed bottom-0 left-0 right-0 bg-white border-t border-[var(--kr-gov-border-light)] shadow-[0_-4px_10px_rgba(0,0,0,0.05)] z-50">
+<div class="max-w-full mx-auto px-10 py-5 flex justify-between items-center">
+<button onclick="location.href='/admin/member/list'" class="px-8 py-3 bg-white border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-primary)] font-bold rounded-[var(--kr-gov-radius)] hover:bg-gray-50 transition-all flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+            목록으로
+        </button>
+<div class="flex gap-2">
+<button class="px-5 py-2.5 border border-red-200 bg-red-50 text-red-700 text-[13px] font-bold rounded-[var(--kr-gov-radius)] hover:bg-red-100" type="button">반려</button>
+<button class="px-5 py-2.5 bg-[var(--kr-gov-green)] text-white text-[13px] font-bold rounded-[var(--kr-gov-radius)] hover:opacity-90" type="button">승인</button>
+</div>
+</div>
+</div>
+</body>
+</html>

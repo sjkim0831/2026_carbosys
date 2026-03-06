@@ -35,6 +35,18 @@
         .admin-sidebar-link.active {
             @apply bg-[var(--kr-gov-blue)] text-white font-bold;
         }
+        .gnb-tree-group {
+            margin-bottom: 0.9rem;
+        }
+        .gnb-tree-title {
+            @apply w-full flex items-center justify-between px-2 py-2 text-[13px] font-black uppercase tracking-wider text-[var(--kr-gov-blue)];
+        }
+        .gnb-tree-links {
+            margin-left: 0.5rem;
+        }
+        .gnb-tree-links .admin-sidebar-link {
+            @apply py-2 text-[14px];
+        }
         .gov-card {
             @apply border border-[var(--kr-gov-border-light)] rounded-[var(--kr-gov-radius)] bg-white p-6 shadow-sm;
         }
@@ -91,15 +103,20 @@
 </div>
 </div>
 </div>
-<nav class="hidden xl:flex items-center space-x-2 h-full">
-<a class="px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-blue)] border-b-4 border-[var(--kr-gov-blue)]" href="#">Operation Dashboard</a>
-<a class="px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" href="#">Users &amp; Permissions</a>
-<a class="px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" href="#">Logic Management</a>
-<a class="px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" href="#">Certification &amp; Audit</a>
-<a class="px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" href="#">Stats &amp; Reports</a>
-<a class="px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" href="#">System Settings</a>
+<nav class="hidden xl:flex items-center space-x-2 h-full" id="adminGnbMenu" aria-label="Admin Main Menu">
+<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-blue)] border-b-4 border-[var(--kr-gov-blue)]" data-domain="Member Management" href="/admin/member/list?language=en">Member Management</a>
+<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="Emissions/Certification" href="#">Emissions/Certification</a>
+<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="Transactions/Settlement" href="#">Transactions/Settlement</a>
+<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="Content" href="#">Content</a>
+<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="External Integration" href="#">External Integration</a>
+<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="System" href="#">System</a>
+<a class="js-gnb-menu px-5 py-2 text-[15px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]" data-domain="Monitoring" href="#">Monitoring</a>
 </nav>
 <div class="flex items-center gap-1">
+<div class="hidden md:flex items-center gap-1 mr-1">
+<a id="admin-lang-ko" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100" href="/admin">한글</a>
+<a id="admin-lang-en" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100" href="/admin?language=en">ENG</a>
+</div>
 <div class="relative help-button">
 <button aria-label="Help" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full flex items-center gap-1.5">
 <span class="material-symbols-outlined">help</span>
@@ -130,31 +147,9 @@
 </div>
 </header>
 <div class="flex min-h-[calc(100vh-124px)]">
-<aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col">
-<div class="mb-4 px-2 py-2 flex items-center justify-between">
-<h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Operation Tools</h2>
-<span class="material-symbols-outlined text-gray-400 cursor-pointer">menu_open</span>
-</div>
-<a class="admin-sidebar-link active" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-            Operation Dashboard
-        </a>
-<a class="admin-sidebar-link" href="#">
-<span class="material-symbols-outlined">terminal</span>
-            Code Management
-        </a>
-<a class="admin-sidebar-link" href="#">
-<span class="material-symbols-outlined">analytics</span>
-            Log Analysis
-        </a>
-<div class="mt-auto border-t pt-4 border-[var(--kr-gov-border-light)]">
-<div class="p-4 bg-emerald-50 rounded-[var(--kr-gov-radius)] text-[13px]">
-<p class="font-bold text-[var(--kr-gov-green)] mb-1 uppercase">System Status: Normal</p>
-<p class="text-[var(--kr-gov-text-secondary)] text-[11px]">2025.08 Guidelines Applied</p>
-</div>
-</div>
-</aside>
+<aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col"></aside>
 <main class="flex-1 p-8 overflow-y-auto" id="main-content">
+<div>
 <div class="flex justify-between items-end mb-6">
 <div>
 <h2 class="text-2xl font-black text-[var(--kr-gov-text-primary)]">Operation Dashboard</h2>
@@ -388,6 +383,7 @@
 </div>
 </div>
 </div>
+</div>
 </main>
 </div>
 <footer class="bg-white border-t border-[var(--kr-gov-border-light)] z-40 relative">
@@ -410,5 +406,243 @@
 </div>
 </div>
 </footer>
+
+<script>
+window.addEventListener("DOMContentLoaded", function () {
+    var domainMenus = {
+        "Member Management": {
+            groups: [
+                { title: "Members", links: [
+                    { t: "Member List", route: "/admin/member/list?language=en" },
+                    { t: "Approval", route: "/admin/member/approve" },
+                    { t: "Member Detail", route: "/admin/member/detail" },
+                    { t: "Withdrawn Members", route: "#" },
+                    { t: "Dormant Accounts", route: "#" }
+                ]},
+                { title: "Company Members", links: [
+                    { t: "Company List", route: "#" },
+                    { t: "Approval", route: "/admin/member/company-approve" }
+                ]},
+                { title: "Admin", links: [
+                    { t: "Member List", route: "/admin/member/list?language=en" }
+                ]},
+                { title: "Permissions", links: [
+                    { t: "Permission Groups", route: "/admin/auth/group" },
+                    { t: "Permission Changes", route: "#" },
+                    { t: "Department Permission Mapping", route: "#" }
+                ]},
+                { title: "History", links: [
+                    { t: "Login History", route: "#" },
+                    { t: "Access Block History", route: "#" },
+                    { t: "Password Reset History", route: "#" }
+                ]}
+            ]
+        },
+        "Emissions/Certification": {
+            groups: [
+                { title: "Emissions", links: [{ t: "Result List", route: "#" }, { t: "Result Detail", route: "#" }, { t: "Data History", route: "#" }, { t: "Validation", route: "#" }] },
+                { title: "Certification", links: [{ t: "Issue Review", route: "#" }, { t: "Objection Handling", route: "#" }, { t: "Certificate Stats", route: "#" }, { t: "REC Duplicate Check", route: "#" }] },
+                { title: "Audit", links: [{ t: "Audit Logs", route: "#" }, { t: "Approver History", route: "#" }, { t: "Reject Reasons", route: "#" }] }
+            ]
+        },
+        "Transactions/Settlement": {
+            groups: [
+                { title: "Transactions", links: [{ t: "Transaction List", route: "#" }, { t: "Approve", route: "#" }, { t: "Reject", route: "#" }, { t: "Anomaly Check", route: "#" }] },
+                { title: "Settlement", links: [{ t: "Fee Settings", route: "#" }, { t: "Settlement Reports", route: "#" }, { t: "Settlement Calendar", route: "#" }] },
+                { title: "Refund", links: [{ t: "Refund Requests", route: "#" }, { t: "Refund Processing", route: "#" }, { t: "Refund Account Review", route: "#" }] }
+            ]
+        },
+        "Content": {
+            groups: [
+                { title: "Board", links: [{ t: "Board Management", route: "#" }, { t: "Post List", route: "#" }, { t: "Notice Publish", route: "#" }, { t: "Attachment Management", route: "#" }] },
+                { title: "Visual", links: [{ t: "Banner List", route: "#" }, { t: "Banner Edit", route: "#" }, { t: "Popup List", route: "#" }, { t: "Popup Schedule", route: "#" }] },
+                { title: "Support", links: [{ t: "FAQ Management", route: "#" }, { t: "Q&A Categories", route: "#" }, { t: "Tag Management", route: "#" }, { t: "Menu Management", route: "#" }] }
+            ]
+        },
+        "External Integration": {
+            groups: [
+                { title: "Connections", links: [{ t: "Connection List", route: "#" }, { t: "Add Connection", route: "#" }, { t: "Edit Connection", route: "#" }, { t: "Run Sync", route: "#" }] },
+                { title: "API", links: [{ t: "API Keys", route: "#" }, { t: "API Usage", route: "#" }, { t: "Webhook Settings", route: "#" }, { t: "Schema Mapping", route: "#" }] },
+                { title: "Operations", links: [{ t: "Monitoring", route: "#" }, { t: "Retry Failed", route: "#" }, { t: "Integration Logs", route: "#" }, { t: "Maintenance Mode", route: "#" }] }
+            ]
+        },
+        "System": {
+            groups: [
+                { title: "Environment", links: [{ t: "Configuration", route: "#" }, { t: "Code Management", route: "#" }, { t: "Module Management", route: "#" }, { t: "Theme Management", route: "#" }] },
+                { title: "Security", links: [{ t: "IP Whitelist", route: "#" }, { t: "Session Management", route: "#" }, { t: "SSL Certificates", route: "#" }, { t: "Security Policy", route: "#" }] },
+                { title: "Logs", links: [{ t: "Access Logs", route: "#" }, { t: "Audit Logs", route: "#" }, { t: "Error Logs", route: "#" }, { t: "Unified Logs", route: "#" }] },
+                { title: "Backup", links: [{ t: "Backup Settings", route: "#" }, { t: "Run Backup", route: "#" }, { t: "Run Restore", route: "#" }, { t: "Version Management", route: "#" }] }
+            ]
+        },
+        "Monitoring": {
+            groups: [
+                { title: "Dashboard", links: [{ t: "Integrated Dashboard", route: "#" }, { t: "Operation Center", route: "#" }, { t: "Alert Center", route: "#" }] },
+                { title: "Sensors", links: [{ t: "Sensor List", route: "#" }, { t: "Sensor Add", route: "#" }, { t: "Sensor Settings", route: "#" }] },
+                { title: "Performance", links: [{ t: "Response Time", route: "#" }, { t: "Batch Performance", route: "#" }, { t: "Resource Usage", route: "#" }] }
+            ]
+        }
+    };
+
+    var lnb = document.querySelector(".js-admin-lnb");
+    var gnbLinks = Array.prototype.slice.call(document.querySelectorAll(".js-gnb-menu"));
+    if (!lnb || !gnbLinks.length) return;
+
+    function normalize(path) {
+        var clean = (path || "/").split("#")[0];
+        if (clean.length > 1 && clean.charAt(clean.length - 1) === "/") clean = clean.slice(0, -1);
+        return clean;
+    }
+
+    function buildLocaleTarget(toEnglish) {
+        var path = (window.location.pathname || "/admin").split("?")[0];
+        if (path.length > 1 && path.charAt(path.length - 1) === "/") {
+            path = path.slice(0, -1);
+        }
+        var params = new URLSearchParams(window.location.search || "");
+        params.delete("content");
+        params.set("language", toEnglish ? "en" : "ko");
+        var query = params.toString();
+        return path + (query ? "?" + query : "");
+    }
+
+    function withLanguage(pathOrUrl) {
+        if (!pathOrUrl || pathOrUrl === "#" || pathOrUrl.indexOf("/admin") !== 0) {
+            return pathOrUrl;
+        }
+        var parts = pathOrUrl.split("?");
+        var path = parts[0];
+        var params = new URLSearchParams(parts[1] || "");
+        if (!params.get("language")) {
+            params.set("language", "en");
+        }
+        params.delete("content");
+        var query = params.toString();
+        return path + (query ? "?" + query : "");
+    }
+
+    function updateLocaleSwitchLinks() {
+        var koLink = document.getElementById("admin-lang-ko");
+        var enLink = document.getElementById("admin-lang-en");
+        if (!koLink || !enLink) {
+            return;
+        }
+        koLink.setAttribute("href", buildLocaleTarget(false));
+        enLink.setAttribute("href", buildLocaleTarget(true));
+        koLink.classList.remove("bg-[var(--kr-gov-blue)]", "text-white");
+        enLink.classList.add("bg-[var(--kr-gov-blue)]", "text-white");
+    }
+
+    function resolveContentRoute(domainName, group, item) {
+        var route = item.route || item.path || "";
+        return withLanguage(route || "#");
+    }
+
+    function findDomainByPath(currentPath) {
+        var found = null;
+        Object.keys(domainMenus).some(function (domainName) {
+            var groups = domainMenus[domainName].groups || [];
+            return groups.some(function (group) {
+                return (group.links || []).some(function (item) {
+                    var href = resolveContentRoute(domainName, group, item);
+                    if (normalize(href) === currentPath) {
+                        found = domainName;
+                        return true;
+                    }
+                    return false;
+                });
+            });
+        });
+        return found;
+    }
+
+    function renderLnb(domain) {
+        var groups = (domainMenus[domain] && domainMenus[domain].groups) ? domainMenus[domain].groups : [];
+        var currentPath = normalize(window.location.pathname + window.location.search);
+        var totalMenus = 0;
+        var groupsHtml = groups.map(function (group, idx) {
+            var linksHtml = (group.links || []).map(function (item) {
+                totalMenus += 1;
+                var href = resolveContentRoute(domain, group, item);
+                var isActive = href !== "#" && normalize(href) === currentPath;
+                return '<a class="admin-sidebar-link' + (isActive ? ' active' : '') + '" href="' + href + '">' +
+                    '<span class="material-symbols-outlined text-[20px]">chevron_right</span>' + item.t + '</a>';
+            }).join("");
+            return '<div class="gnb-tree-group">' +
+                '<button class="gnb-tree-title" type="button">' +
+                '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[20px]">folder</span>' + group.title + '</span>' +
+                '<span class="material-symbols-outlined text-[18px] gnb-toggle-icon">' + (idx === 0 ? 'expand_more' : 'chevron_right') + '</span>' +
+                '</button>' +
+                '<div class="gnb-tree-links" style="' + (idx === 0 ? '' : 'display:none;') + '">' + linksHtml + '</div>' +
+                '</div>';
+        }).join("");
+
+        lnb.innerHTML = '' +
+            '<div class="mb-6"><div class="relative">' +
+            '<input class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-[var(--kr-gov-radius)] text-sm focus:ring-2 focus:ring-[var(--kr-gov-blue)] focus:border-[var(--kr-gov-blue)] outline-none" id="gnbMenuFilter" placeholder="Search menu (e.g. approval)" type="text">' +
+            '<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[20px]">search</span></div>' +
+            '<div class="space-y-1 overflow-y-auto" id="gnbTreeWrap">' + groupsHtml + '</div></div>' +
+            '<div class="mt-auto border-t pt-5 border-[var(--kr-gov-border-light)]">' +
+            '<div class="p-4 bg-blue-50 rounded-[var(--kr-gov-radius)] border border-blue-100">' +
+            '<p class="text-[12px] font-bold text-[var(--kr-gov-blue)] mb-1">' + domain + ' Domain Active</p>' +
+            '<p class="text-[11px] text-[var(--kr-gov-text-secondary)]">Currently displaying ' + totalMenus + ' menus</p>' +
+            '</div></div>';
+
+        Array.prototype.forEach.call(lnb.querySelectorAll(".gnb-tree-title"), function (btn) {
+            btn.addEventListener("click", function () {
+                var links = btn.nextElementSibling;
+                var icon = btn.querySelector(".gnb-toggle-icon");
+                var open = links.style.display !== "none";
+                links.style.display = open ? "none" : "";
+                icon.textContent = open ? "chevron_right" : "expand_more";
+            });
+        });
+
+        var filter = lnb.querySelector("#gnbMenuFilter");
+        filter.addEventListener("input", function () {
+            var keyword = filter.value.trim().toLowerCase();
+            Array.prototype.forEach.call(lnb.querySelectorAll(".gnb-tree-group"), function (groupEl) {
+                var visibleCount = 0;
+                Array.prototype.forEach.call(groupEl.querySelectorAll(".gnb-tree-links a"), function (a) {
+                    var show = a.textContent.toLowerCase().indexOf(keyword) !== -1;
+                    a.style.display = show ? "" : "none";
+                    if (show) visibleCount += 1;
+                });
+                groupEl.style.display = visibleCount > 0 || keyword === "" ? "" : "none";
+            });
+        });
+    }
+
+    gnbLinks.forEach(function (link) {
+        link.addEventListener("click", function (e) {
+            var domain = link.getAttribute("data-domain");
+            var href = link.getAttribute("href") || "#";
+            gnbLinks.forEach(function (item) {
+                item.classList.remove("text-[var(--kr-gov-blue)]", "border-b-4", "border-[var(--kr-gov-blue)]");
+                item.classList.add("text-[var(--kr-gov-text-secondary)]");
+            });
+            link.classList.remove("text-[var(--kr-gov-text-secondary)]");
+            link.classList.add("text-[var(--kr-gov-blue)]", "border-b-4", "border-[var(--kr-gov-blue)]");
+            renderLnb(domain);
+            if (href === "#") {
+                e.preventDefault();
+            }
+        });
+    });
+
+    var currentDomain = findDomainByPath(normalize(window.location.pathname + window.location.search)) || "Member Management";
+    gnbLinks.forEach(function (item) {
+        var active = item.getAttribute("data-domain") === currentDomain;
+        if (active) {
+            item.classList.remove("text-[var(--kr-gov-text-secondary)]");
+            item.classList.add("text-[var(--kr-gov-blue)]", "border-b-4", "border-[var(--kr-gov-blue)]");
+        } else {
+            item.classList.remove("text-[var(--kr-gov-blue)]", "border-b-4", "border-[var(--kr-gov-blue)]");
+            item.classList.add("text-[var(--kr-gov-text-secondary)]");
+        }
+    });
+    renderLnb(currentDomain);
+    updateLocaleSwitchLinks();
+});
+</script>
 
 </body></html>

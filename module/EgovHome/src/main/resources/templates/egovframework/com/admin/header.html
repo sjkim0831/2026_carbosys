@@ -1,5 +1,5 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<header th:fragment="headerFragment" class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-40">
+<header th:fragment="headerFragment" class="bg-white border-b border-[var(--kr-gov-border-light)] sticky top-0 z-40" role="banner">
     <div class="bg-[var(--kr-gov-bg-gray)] border-b border-[var(--kr-gov-border-light)]">
         <div class="max-w-full mx-auto px-6 py-1.5 flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -9,14 +9,14 @@
             </div>
             <div class="flex items-center gap-4 text-[11px] font-medium text-[var(--kr-gov-text-secondary)]">
                 <span th:if="${loginVO != null}">관리자 로그인: <span th:text="${loginVO.userName}">홍길동</span></span>
-                <button class="hover:underline" onclick="logout()">로그아웃</button>
+                <button type="button" class="hover:underline" onclick="logout()">로그아웃</button>
             </div>
         </div>
     </div>
     <div class="max-w-full mx-auto px-6">
         <div class="flex justify-between items-center h-20">
             <div class="flex items-center gap-4">
-                <div class="flex items-center gap-2">
+                <a class="flex items-center gap-2" href="/admin">
                     <span class="material-symbols-outlined text-[32px] text-[var(--kr-gov-blue)]">eco</span>
                     <div class="flex flex-col">
                         <h1 class="text-xl font-bold tracking-tight text-[var(--kr-gov-text-primary)]">CCUS 통합관리 시스템
@@ -24,11 +24,11 @@
                         <p class="text-[10px] text-[var(--kr-gov-blue)] font-black uppercase tracking-widest">Admin
                             Dashboard</p>
                     </div>
-                </div>
+                </a>
             </div>
-            <nav class="hidden xl:flex items-center space-x-2 h-full" id="adminGnbMenu">
+            <nav class="hidden xl:flex items-center space-x-2 h-full" id="adminGnbMenu" aria-label="관리자 주 메뉴">
                 <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
-                    data-domain="회원관리" href="/adminmain/member/stats">회원관리</a>
+                    data-domain="회원관리" href="/admin/member/list">회원관리</a>
                 <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
                     data-domain="배출/인증" href="#">배출/인증</a>
                 <a class="js-gnb-menu px-5 py-2 text-[16px] font-bold text-[var(--kr-gov-text-secondary)] hover:text-[var(--kr-gov-blue)]"
@@ -43,8 +43,12 @@
                     data-domain="모니터링" href="#">모니터링</a>
             </nav>
 <div class="flex items-center gap-1">
+<div class="hidden md:flex items-center gap-1 mr-1">
+<a id="admin-lang-ko" href="/admin" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100">한글</a>
+<a id="admin-lang-en" href="/admin?language=en" class="px-3 py-1.5 text-[12px] font-bold rounded border border-[var(--kr-gov-border-light)] text-[var(--kr-gov-text-secondary)] hover:bg-gray-100">ENG</a>
+</div>
 <div class="relative help-button">
-<button aria-label="도움말" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full flex items-center gap-1.5">
+<button type="button" aria-label="도움말" aria-haspopup="true" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full flex items-center gap-1.5">
 <span class="material-symbols-outlined">help</span>
 <span class="text-[14px] font-bold hidden lg:inline">도움말</span>
 </button>
@@ -58,14 +62,14 @@
 <li class="flex gap-2"><span class="text-blue-500">•</span> 미승인 회원은 '승인' 버튼을 통해 즉시 처리가 가능합니다.</li>
 <li class="flex gap-2"><span class="text-blue-500">•</span> 시스템 로그의 'CRITICAL' 항목은 즉각적인 조치가 필요합니다.</li>
 </ul>
-<button class="mt-3 w-full py-1.5 bg-[var(--kr-gov-bg-gray)] text-[11px] font-bold rounded hover:bg-gray-200">상세 매뉴얼 다운로드</button>
+<button type="button" class="mt-3 w-full py-1.5 bg-[var(--kr-gov-bg-gray)] text-[11px] font-bold rounded hover:bg-gray-200">상세 매뉴얼 다운로드</button>
 </div>
 </div>
-<button aria-label="알림" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full relative">
+<button type="button" aria-label="알림" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full relative">
 <span class="material-symbols-outlined">notifications</span>
 <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
 </button>
-<button aria-label="설정" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full">
+<button type="button" aria-label="설정" class="p-2.5 text-[var(--kr-gov-text-secondary)] hover:bg-gray-100 rounded-full">
 <span class="material-symbols-outlined">settings</span>
 </button>
 </div>
@@ -90,6 +94,10 @@
         transition: opacity .2s ease, visibility .2s ease;
     }
     .help-button:hover .help-tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+    .help-button:focus-within .help-tooltip {
         visibility: visible;
         opacity: 1;
     }
@@ -140,16 +148,53 @@
 
 <script>
     window.addEventListener("DOMContentLoaded", function () {
+        function getCurrentLanguage() {
+            var params = new URLSearchParams(window.location.search || "");
+            var lang = (params.get("language") || "").toLowerCase();
+            if (lang === "en") {
+                return "en";
+            }
+            if (lang === "ko") {
+                return "ko";
+            }
+            return (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0 ? "en" : "ko";
+        }
+
+        function normalizeUrl(url) {
+            var raw = (url || "").trim();
+            if (!raw) {
+                return "/";
+            }
+            var parts = raw.split("#");
+            var withoutHash = parts[0];
+            var qIndex = withoutHash.indexOf("?");
+            var path = qIndex >= 0 ? withoutHash.substring(0, qIndex) : withoutHash;
+            var query = qIndex >= 0 ? withoutHash.substring(qIndex) : "";
+            if (!path) {
+                path = "/";
+            }
+            if (path.length > 1 && path.charAt(path.length - 1) === "/") {
+                path = path.slice(0, -1);
+            }
+            return path + query;
+        }
+
+        function pathOnly(url) {
+            return normalizeUrl(url).split("?")[0];
+        }
+
         var domainMenus = {
             "회원관리": { summary: "회원 생애주기(가입/승인/권한/탈퇴)와 접근 이력 관리", groups: [
-                { title: "회원", links: [{ t: "회원 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/approve.html" }, { t: "회원 상세", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/detail.html" }, { t: "탈퇴 회원", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/withdrawn.html" }, { t: "휴면 계정", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/activate.html" }] },
+                { title: "회원", links: [{ t: "회원 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/approve.html" }, { t: "회원 상세", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/detail.html", route: "/admin/member/detail" }, { t: "탈퇴 회원", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/withdrawn.html" }, { t: "휴면 계정", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/activate.html" }] },
+                { title: "회원사", links: [{ t: "회원사 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/company_list.html" }, { t: "가입 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/company_approve.html", route: "/admin/member/company-approve" }] },
+                { title: "관리자", links: [{ t: "회원 목록", route: "/admin/member/admin-list" }] },
                 { title: "권한", links: [{ t: "권한 그룹", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/role.html" }, { t: "권한 변경", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/role.html" }, { t: "부서 권한 맵핑", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/access_log.html" }] },
                 { title: "이력", links: [{ t: "로그인 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/login_history.html" }, { t: "접근 차단 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/security.html" }, { t: "비밀번호 초기화 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/member/reset_password.html" }] }
             ]},
             "배출/인증": { summary: "배출량 산정 결과 검토 및 인증서 발급 프로세스 운영", groups: [
                 { title: "배출", links: [{ t: "산정 결과 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/emission/result_list.html" }, { t: "결과 상세", u: "../../../Downloads/화면설계/화면설계/화면/admin/emission/result_detail.html" }, { t: "데이터 변경 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/emission/data_history.html" }, { t: "검증 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/emission/validate.html" }] },
                 { title: "인증", links: [{ t: "발급 검토", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/review.html" }, { t: "이의신청 처리", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/objection_list.html" }, { t: "인증서 통계", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/statistics.html" }, { t: "REC 중복 확인", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/rec_check.html" }] },
-                { title: "감사", links: [{ t: "감사 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/audit_log.html" }, { t: "승인자 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/pending_list.html" }, { t: "반려 사유 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/approve.html" }] }
+                { title: "감사", links: [{ t: "감사 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/audit_log.html", route: "/admin/certificate/audit-log" }, { t: "승인자 이력", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/pending_list.html" }, { t: "반려 사유 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/certificate/approve.html" }] }
             ]},
             "거래/정산": { summary: "거래 승인, 이상거래 모니터링, 결제/정산/환불 처리", groups: [
                 { title: "거래", links: [{ t: "거래 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/trade/list.html" }, { t: "거래 승인", u: "../../../Downloads/화면설계/화면설계/화면/admin/trade/approve.html" }, { t: "거래 거절", u: "../../../Downloads/화면설계/화면설계/화면/admin/trade/reject.html" }, { t: "이상거래 점검", u: "../../../Downloads/화면설계/화면설계/화면/admin/trade/duplicate.html" }] },
@@ -159,7 +204,7 @@
             "콘텐츠": { summary: "공지/FAQ/게시판/배너/팝업 등 대민 콘텐츠 운영", groups: [
                 { title: "게시판", links: [{ t: "게시판 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/board_list.html" }, { t: "게시글 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/post_list.html" }, { t: "공지 배포", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/board_add.html" }, { t: "첨부파일 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/file.html" }] },
                 { title: "가시요소", links: [{ t: "배너 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/banner_list.html" }, { t: "배너 편집", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/banner_edit.html" }, { t: "팝업 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/popup_list.html" }, { t: "팝업 스케줄", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/popup_edit.html" }] },
-                { title: "지원", links: [{ t: "FAQ 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/faq_list.html" }, { t: "Q&A 분류", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/tag.html" }, { t: "태그 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/tag.html" }, { t: "메뉴 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/menu.html" }] }
+                { title: "지원", links: [{ t: "FAQ 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/faq_list.html" }, { t: "Q&A 분류", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/qna.html" }, { t: "태그 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/tag.html" }, { t: "메뉴 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/content/menu.html" }] }
             ]},
             "외부연계": { summary: "외부 API/플랫폼 연계 상태와 키/스키마/재시도 정책 관리", groups: [
                 { title: "연계", links: [{ t: "연계 목록", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/connection_list.html" }, { t: "연계 등록", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/connection_add.html" }, { t: "연계 수정", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/connection_edit.html" }, { t: "동기화 실행", u: "../../../Downloads/화면설계/화면설계/화면/admin/external/sync.html" }] },
@@ -168,8 +213,8 @@
             ]},
             "시스템": { summary: "설정/보안/로그/백업/복구 등 플랫폼 운영 핵심 기능", groups: [
                 { title: "환경", links: [{ t: "환경설정", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/config.html" }, { t: "코드 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/code.html" }, { t: "모듈 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/module.html" }, { t: "테마 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/theme.html" }] },
-                { title: "보안", links: [{ t: "IP 화이트리스트", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/ip_whitelist.html" }, { t: "세션 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/session.html" }, { t: "SSL 인증서", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/ssl.html" }, { t: "보안 정책", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/security.html" }] },
-                { title: "로그", links: [{ t: "접속 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/access_history.html" }, { t: "감사 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/audit_log.html" }, { t: "에러 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/error_log.html" }, { t: "통합 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/unified_log.html" }] },
+                { title: "보안", links: [{ t: "IP 화이트리스트", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/ip_whitelist.html" }, { t: "세션 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/session.html" }, { t: "SSL 인증서", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/ssl.html" }, { t: "보안 정책", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/security.html", route: "/admin/system/security-policy" }] },
+                { title: "로그", links: [{ t: "접속 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/access_history.html" }, { t: "감사 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/audit_log.html", route: "/admin/system/audit-log" }, { t: "에러 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/error_log.html" }, { t: "통합 로그", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/unified_log.html" }] },
                 { title: "백업", links: [{ t: "백업 설정", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/backup_config.html" }, { t: "백업 실행", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/backup.html" }, { t: "복구 실행", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/restore.html" }, { t: "버전 관리", u: "../../../Downloads/화면설계/화면설계/화면/admin/system/version.html" }] }
             ]},
             "모니터링": { summary: "서비스/센서/인프라 실시간 상태 감시 및 경보 관리", groups: [
@@ -185,13 +230,212 @@
             return;
         }
 
-        function renderLnb(domain) {
-            var isEn = (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0;
+        function normalizePath(path) { return pathOnly(path); }
+
+        function buildLocaleTarget(toEnglish) {
+            var path = normalizePath(window.location.pathname || "/admin");
+
+            var params = new URLSearchParams(window.location.search || "");
+            params.delete("content");
+            params.set("language", toEnglish ? "en" : "ko");
+
+            var query = params.toString();
+            return path + (query ? "?" + query : "");
+        }
+
+        function withLanguage(pathOrUrl) {
+            if (!pathOrUrl || pathOrUrl === "#" || pathOrUrl.indexOf("/admin") !== 0) {
+                return pathOrUrl;
+            }
+            var parts = pathOrUrl.split("?");
+            var path = parts[0];
+            var params = new URLSearchParams(parts[1] || "");
+            if (!params.get("language")) {
+                var currentParams = new URLSearchParams(window.location.search || "");
+                var currentLang = (currentParams.get("language") || "").toLowerCase();
+                if (!currentLang) {
+                    currentLang = (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0 ? "en" : "ko";
+                }
+                params.set("language", currentLang === "en" ? "en" : "ko");
+            }
+            params.delete("content");
+            var query = params.toString();
+            return path + (query ? "?" + query : "");
+        }
+
+        function applyLocaleToStaticLinksAndForms(root) {
+            var currentLang = getCurrentLanguage();
+            var scope = root || document;
+            Array.prototype.forEach.call(scope.querySelectorAll("a[href]"), function (a) {
+                var href = a.getAttribute("href") || "";
+                if (!href || href === "#" || href.indexOf("/admin") !== 0) {
+                    return;
+                }
+                var normalized = withLanguage(href);
+                if (normalized && normalized !== href) {
+                    a.setAttribute("href", normalized);
+                }
+            });
+
+            Array.prototype.forEach.call(scope.querySelectorAll("form[action]"), function (form) {
+                var action = form.getAttribute("action") || "";
+                if (!action || action.indexOf("/admin") !== 0) {
+                    return;
+                }
+                form.setAttribute("action", action.split("?")[0]);
+                var langInput = form.querySelector("input[name='language']");
+                if (!langInput) {
+                    langInput = document.createElement("input");
+                    langInput.type = "hidden";
+                    langInput.name = "language";
+                    form.appendChild(langInput);
+                }
+                langInput.value = currentLang;
+            });
+        }
+
+        function translateDomainLabel(label, lang) {
+            if (lang !== "en") {
+                return label;
+            }
+            var map = {
+                "회원관리": "Member Management",
+                "배출/인증": "Emissions/Certification",
+                "거래/정산": "Transactions/Settlement",
+                "콘텐츠": "Content",
+                "외부연계": "External Integration",
+                "시스템": "System",
+                "모니터링": "Monitoring"
+            };
+            return map[label] || label;
+        }
+
+        function translateMenuLabel(label, lang) {
+            if (lang !== "en") {
+                return label;
+            }
+            var map = {
+                "회원": "Members",
+                "회원사": "Company Members",
+                "관리자": "Admin",
+                "권한": "Permissions",
+                "이력": "History",
+                "배출": "Emissions",
+                "인증": "Certification",
+                "감사": "Audit",
+                "거래": "Transactions",
+                "정산": "Settlement",
+                "환불": "Refund",
+                "게시판": "Board",
+                "가시요소": "Visual",
+                "지원": "Support",
+                "연계": "Connections",
+                "운영": "Operations",
+                "환경": "Environment",
+                "보안": "Security",
+                "로그": "Logs",
+                "백업": "Backup",
+                "대시보드": "Dashboard",
+                "센서": "Sensors",
+                "성능": "Performance",
+                "회원 목록": "Member List",
+                "가입 승인": "Approval",
+                "회원 상세": "Member Detail",
+                "탈퇴 회원": "Withdrawn Members",
+                "휴면 계정": "Dormant Accounts",
+                "회원사 목록": "Company List",
+                "권한 그룹": "Permission Groups",
+                "권한 변경": "Permission Changes",
+                "부서 권한 맵핑": "Department Permission Mapping",
+                "로그인 이력": "Login History",
+                "접근 차단 이력": "Access Block History",
+                "비밀번호 초기화 이력": "Password Reset History"
+            };
+            return map[label] || label;
+        }
+
+        function updateLocaleSwitchLinks() {
+            var koLink = document.getElementById("admin-lang-ko");
+            var enLink = document.getElementById("admin-lang-en");
+            if (!koLink || !enLink) {
+                return;
+            }
+
+            koLink.setAttribute("href", buildLocaleTarget(false));
+            enLink.setAttribute("href", buildLocaleTarget(true));
+
+            var path = normalizePath(window.location.pathname || "");
+            var params = new URLSearchParams(window.location.search || "");
+            var lang = (params.get("language") || "").toLowerCase();
+            var isEn = lang === "en";
+            if (!lang) {
+                isEn = (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0;
+            }
+
+            koLink.classList.toggle("bg-[var(--kr-gov-blue)]", !isEn);
+            koLink.classList.toggle("text-white", !isEn);
+            enLink.classList.toggle("bg-[var(--kr-gov-blue)]", isEn);
+            enLink.classList.toggle("text-white", isEn);
+        }
+
+        function resolveMenuPath(item) {
+            var text = item.text || item.t || "";
+            var route = item.route || item.path || "";
+            if (route) {
+                return withLanguage(route);
+            }
+            var directMap = {
+                "통합 대시보드": "/admin/",
+                "회원 목록": "/admin/member/list",
+                "가입 승인": "/admin/member/approve",
+                "회원 상세": "/admin/member/detail",
+                "권한 그룹": "/admin/auth/group"
+            };
+            if (directMap[text]) {
+                return withLanguage(directMap[text]);
+            }
+            var source = item.u || item.url || "";
+            if (!source) {
+                return "#";
+            }
+            if (source.charAt(0) === "/" && source.indexOf(".html") === -1) {
+                return withLanguage(source);
+            }
+            var match = source.match(/\/admin\/(.+)\.html$/);
+            if (match && match[1]) {
+                return withLanguage("/admin/" + match[1]);
+            }
+            return "#";
+        }
+
+        function findDomainByPath(pathname) {
+            var target = normalizePath(pathname);
+            var matchedDomain = null;
+            Object.keys(domainMenus).some(function (domainName) {
+                var groups = domainMenus[domainName].groups || [];
+                return groups.some(function (group) {
+                    var links = group.links || [];
+                    return links.some(function (item) {
+                        var href = resolveMenuPath(item);
+                        if (href !== "#" && normalizePath(href) === target) {
+                            matchedDomain = domainName;
+                            return true;
+                        }
+                        return false;
+                    });
+                });
+            });
+            return matchedDomain;
+        }
+
+        function renderLnb(domain, pathOverride) {
+            var isEn = getCurrentLanguage() === "en";
             var groups = (domainMenus[domain] && domainMenus[domain].groups) ? domainMenus[domain].groups : [];
-            var currentPath = window.location.pathname || "";
-            var activeAssigned = false;
+            var currentPath = normalizePath(pathOverride || window.location.pathname || "");
             function groupIcon(title) {
+                if (title.indexOf("회원사") !== -1 || title.indexOf("Company") !== -1) return "apartment";
                 if (title.indexOf("회원") !== -1 || title.indexOf("Members") !== -1) return "group";
+                if (title.indexOf("관리자") !== -1 || title.indexOf("Admin") !== -1) return "admin_panel_settings";
                 if (title.indexOf("권한") !== -1 || title.indexOf("Permissions") !== -1) return "admin_panel_settings";
                 if (title.indexOf("이력") !== -1 || title.indexOf("History") !== -1) return "history";
                 if (title.indexOf("배출") !== -1) return "co2";
@@ -216,6 +460,7 @@
                 return "folder";
             }
             function subIcon(text) {
+                if (text.indexOf("회원사") !== -1 || text.indexOf("Company") !== -1) return "apartment";
                 if (text.indexOf("목록") !== -1 || text.indexOf("List") !== -1) return "list_alt";
                 if (text.indexOf("승인") !== -1 || text.indexOf("Approve") !== -1 || text.indexOf("Approval") !== -1) return "how_to_reg";
                 if (text.indexOf("상세") !== -1 || text.indexOf("Detail") !== -1) return "person_search";
@@ -233,38 +478,37 @@
                 if (text.indexOf("백업") !== -1 || text.indexOf("Backup") !== -1 || text.indexOf("복구") !== -1 || text.indexOf("Restore") !== -1) return "backup";
                 return "chevron_right";
             }
-            function resolveExistingPath(text) {
-                var directMap = {
-                    "통합 대시보드": "/adminmain/",
-                    "회원 목록": "/adminmain/member/list",
-                    "권한 그룹": "/adminmain/auth/group"
-                };
-                if (directMap[text]) {
-                    return directMap[text];
-                }
-                return "#";
-            }
+            var activePath = "";
+            groups.some(function (group) {
+                return (group.links || []).some(function (item) {
+                    var href = resolveMenuPath(item);
+                    if (href !== "#" && normalizePath(href) === currentPath) {
+                        activePath = normalizePath(href);
+                        return true;
+                    }
+                    return false;
+                });
+            });
             var groupsHtml = groups.map(function (group, idx) {
+                var groupHasActive = false;
                 var linksHtml = group.links.map(function (item, linkIdx) {
                     var text = item.text || item.t || "";
-                    var href = resolveExistingPath(text);
-                    var isActive = false;
-                    if (!activeAssigned && href !== "#" && currentPath === href) {
-                        isActive = true;
-                    } else if (!activeAssigned && idx === 0 && linkIdx === 0) {
-                        isActive = true;
+                    var displayText = translateMenuLabel(text, isEn ? "en" : "ko");
+                    var href = resolveMenuPath(item);
+                    var normalizedHref = normalizePath(href);
+                    var isActive = (activePath && href !== "#" && normalizedHref === activePath) || (!activePath && idx === 0 && linkIdx === 0);
+                    if (isActive && activePath) {
+                        groupHasActive = true;
                     }
-                    if (isActive) {
-                        activeAssigned = true;
-                    }
-                    return '<a class="admin-sidebar-link' + (isActive ? ' active' : '') + '" href="' + href + '"><span class="material-symbols-outlined text-[20px]">' + subIcon(text) + '</span>' + text + '</a>';
+                    return '<a class="admin-sidebar-link' + (isActive ? ' active' : '') + '" href="' + href + '"><span class="material-symbols-outlined text-[20px]">' + subIcon(text) + '</span>' + displayText + '</a>';
                 }).join("");
+                var groupTitle = translateMenuLabel(group.title, isEn ? "en" : "ko");
                 return '' +
                     '<div class="gnb-tree-group">' +
-                    '<button class="gnb-tree-title ' + (idx === 0 ? 'active' : 'inactive') + '" type="button">' +
-                    '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[20px]">' + groupIcon(group.title) + '</span>' + group.title + '</span>' +
-                    '<span class="material-symbols-outlined text-[18px] gnb-toggle-icon">' + (idx === 0 ? "expand_more" : "chevron_right") + '</span></button>' +
-                    '<div class="gnb-tree-links" style="' + (idx === 0 ? "" : "display:none;") + '">' + linksHtml + '</div>' +
+                    '<button class="gnb-tree-title ' + ((activePath ? groupHasActive : idx === 0) ? 'active' : 'inactive') + '" type="button">' +
+                    '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[20px]">' + groupIcon(group.title) + '</span>' + groupTitle + '</span>' +
+                    '<span class="material-symbols-outlined text-[18px] gnb-toggle-icon">' + ((activePath ? groupHasActive : idx === 0) ? "expand_more" : "chevron_right") + '</span></button>' +
+                    '<div class="gnb-tree-links" style="' + ((activePath ? groupHasActive : idx === 0) ? "" : "display:none;") + '">' + linksHtml + '</div>' +
                     '</div>';
             }).join("");
 
@@ -292,11 +536,14 @@
             });
 
             Array.prototype.forEach.call(lnb.querySelectorAll(".admin-sidebar-link"), function (a) {
-                a.addEventListener("click", function () {
-                    Array.prototype.forEach.call(lnb.querySelectorAll(".admin-sidebar-link.active"), function (activeEl) {
-                        activeEl.classList.remove("active");
-                    });
-                    a.classList.add("active");
+                a.addEventListener("click", function (e) {
+                var href = a.getAttribute("href") || "";
+                var isModified = e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
+                if (isModified || !href || href === "#" || href.indexOf("/admin/") !== 0) {
+                        return;
+                    }
+                    e.preventDefault();
+                    navigateAdminRoute(href, true);
                 });
             });
 
@@ -319,8 +566,11 @@
         }
 
         function setActive(domain) {
+            var lang = getCurrentLanguage();
             gnbLinks.forEach(function (link) {
                 var active = link.getAttribute("data-domain") === domain;
+                var domainLabel = link.getAttribute("data-domain") || "";
+                link.textContent = translateDomainLabel(domainLabel, lang);
                 link.classList.toggle("text-[var(--kr-gov-blue)]", active);
                 link.classList.toggle("border-b-4", active);
                 link.classList.toggle("border-[var(--kr-gov-blue)]", active);
@@ -329,10 +579,128 @@
             });
         }
 
+        function applyPathState(pathname, push) {
+            var targetUrl = normalizeUrl(pathname || (window.location.pathname + window.location.search) || "/");
+            var targetPath = normalizePath(targetUrl);
+            var matchedDomain = findDomainByPath(targetPath);
+            var domain = matchedDomain || currentDomain || "회원관리";
+            currentDomain = domain;
+            window.localStorage.setItem("adminGnbDomain", domain);
+            if (push) {
+                window.history.pushState({ admin: true }, "", targetUrl);
+            }
+            setActive(domain);
+            renderLnb(domain, targetPath);
+            updateLocaleSwitchLinks();
+            applyLocaleToStaticLinksAndForms(document);
+            document.title = document.title || "Admin";
+            window.scrollTo(0, 0);
+        }
+
+        function navigateAdminRoute(pathname, push) {
+            var targetUrl = normalizeUrl(pathname);
+            var currentUrl = normalizeUrl(window.location.pathname + window.location.search);
+            if (targetUrl === currentUrl) {
+                applyPathState(targetUrl, false);
+                return;
+            }
+            fetch(targetUrl, {
+                method: "GET",
+                credentials: "same-origin",
+                headers: { "X-Requested-With": "XMLHttpRequest" }
+            }).then(function (response) {
+                if (!response.ok) {
+                    throw new Error("HTTP " + response.status);
+                }
+                return response.text();
+            }).then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, "text/html");
+                var nextMain = doc.querySelector("#main-content");
+                var currentMain = document.querySelector("#main-content");
+                if (!nextMain || !currentMain) {
+                    loadDashboardFallback(targetUrl, push);
+                    return;
+                }
+                syncPageHeadStyles(doc);
+                currentMain.className = nextMain.className;
+                currentMain.innerHTML = nextMain.innerHTML;
+                if (doc.title) {
+                    document.title = doc.title;
+                }
+                applyPathState(targetUrl, push);
+            }).catch(function () {
+                loadDashboardFallback(targetUrl, push);
+            });
+        }
+
+        function loadDashboardFallback(targetPath, push) {
+            fetch("/admin", {
+                method: "GET",
+                credentials: "same-origin",
+                headers: { "X-Requested-With": "XMLHttpRequest" }
+            }).then(function (response) {
+                if (!response.ok) {
+                    throw new Error("HTTP " + response.status);
+                }
+                return response.text();
+            }).then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, "text/html");
+                var nextMain = doc.querySelector("#main-content");
+                var currentMain = document.querySelector("#main-content");
+                if (!nextMain || !currentMain) {
+                    window.location.href = "/admin";
+                    return;
+                }
+                syncPageHeadStyles(doc);
+                currentMain.className = nextMain.className;
+                currentMain.innerHTML = nextMain.innerHTML;
+                if (doc.title) {
+                    document.title = doc.title;
+                }
+                applyPathState(targetPath, push);
+            }).catch(function () {
+                window.location.href = "/admin";
+            });
+        }
+
+        function syncPageHeadStyles(doc) {
+            var head = document.head;
+            Array.prototype.forEach.call(
+                head.querySelectorAll("[data-admin-dynamic-head='true']"),
+                function (el) { el.remove(); }
+            );
+
+            var nextStyle = doc.head.querySelector("style[type='text/tailwindcss']");
+            if (nextStyle) {
+                var styleClone = document.createElement("style");
+                styleClone.setAttribute("type", "text/tailwindcss");
+                styleClone.setAttribute("data-admin-dynamic-head", "true");
+                styleClone.textContent = nextStyle.textContent || "";
+                head.appendChild(styleClone);
+            }
+
+            var nextConfig = doc.head.querySelector("script#tailwind-config");
+            if (nextConfig) {
+                var configClone = document.createElement("script");
+                configClone.setAttribute("id", "tailwind-config");
+                configClone.setAttribute("data-admin-dynamic-head", "true");
+                configClone.textContent = nextConfig.textContent || "";
+                head.appendChild(configClone);
+            }
+        }
+
         var savedDomain = window.localStorage.getItem("adminGnbDomain");
-        var currentDomain = domainMenus[savedDomain] ? savedDomain : "회원관리";
+        var pathDomain = findDomainByPath(window.location.pathname || "");
+        var currentDomain = pathDomain || (domainMenus[savedDomain] ? savedDomain : "회원관리");
+        if (pathDomain) {
+            window.localStorage.setItem("adminGnbDomain", pathDomain);
+        }
         setActive(currentDomain);
         renderLnb(currentDomain);
+        updateLocaleSwitchLinks();
+        applyLocaleToStaticLinksAndForms(document);
 
         gnbLinks.forEach(function (link) {
             link.addEventListener("click", function (e) {
@@ -345,6 +713,10 @@
                 setActive(domain);
                 renderLnb(domain);
             });
+        });
+
+        window.addEventListener("popstate", function () {
+            navigateAdminRoute(window.location.pathname || "/admin/", false);
         });
     });
 </script>

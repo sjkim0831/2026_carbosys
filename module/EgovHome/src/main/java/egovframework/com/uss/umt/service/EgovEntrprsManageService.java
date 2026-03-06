@@ -40,6 +40,15 @@ public interface EgovEntrprsManageService {
 	 */
 	public EntrprsManageVO selectEntrprsmber(String entrprsmberId) throws Exception;
 
+	/**
+	 * 기업회원 ID(ENTRPRS_MBER_ID) 기준으로 기업회원 상세정보를 조회한다.
+	 *
+	 * @param entrprsmberId 조회대상 기업회원ID
+	 * @return entrprsManageVO 기업회원정보
+	 * @throws Exception
+	 */
+	public EntrprsManageVO selectEntrprsmberByMberId(String entrprsmberId) throws Exception;
+
 	public List<?> searchCompanyList(String searchKeyword) throws Exception;
 
 	public List<?> searchCompanyListPaged(java.util.Map<String, Object> params) throws Exception;

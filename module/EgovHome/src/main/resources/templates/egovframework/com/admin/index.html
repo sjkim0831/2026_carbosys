@@ -76,7 +76,7 @@
     <a class="skip-link" href="#main-content">본문 바로가기</a>
 
     <!-- Header fragment inclusion -->
-    <div th:replace="~{egovframework/com/adminmain/header :: headerFragment}"></div>
+    <div th:replace="~{egovframework/com/admin/header :: headerFragment}"></div>
 
     <div class="flex min-h-[calc(100vh-124px)]">
         <aside class="js-admin-lnb w-72 bg-white border-r border-[var(--kr-gov-border-light)] p-5 flex flex-col">
@@ -84,7 +84,7 @@
                 <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Operation Tools</h2>
                 <span class="material-symbols-outlined text-gray-400 cursor-pointer">menu_open</span>
             </div>
-            <a class="admin-sidebar-link active" href="/adminmain/">
+            <a class="admin-sidebar-link active" href="/admin/">
                 <span class="material-symbols-outlined">dashboard</span>
                 운영 대시보드
             </a>
@@ -197,7 +197,7 @@
     </div>
 
     <!-- Footer fragment inclusion -->
-    <div th:replace="~{egovframework/com/adminmain/footer :: footerFragment}"></div>
+    <div th:replace="~{egovframework/com/admin/footer :: footerFragment}"></div>
 
     <script th:inline="javascript">
         function logout() {
