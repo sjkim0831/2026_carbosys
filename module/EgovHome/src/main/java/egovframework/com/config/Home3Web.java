@@ -34,7 +34,9 @@ public class Home3Web implements WebMvcConfigurer {
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-        templateResolver.setPrefix("classpath:/templates/egovframework/com/");
+        // EgovHome runs multiple controllers that return template paths from /templates root.
+        // Keep resolver root-wide to avoid duplicated path resolution.
+        templateResolver.setPrefix("classpath:/templates/");
         templateResolver.setSuffix(".html");
         templateResolver.setOrder(0);
         templateResolver.setTemplateMode(TemplateMode.HTML);

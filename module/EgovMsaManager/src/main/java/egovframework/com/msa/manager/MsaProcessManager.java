@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class MsaProcessManager {
-    private static final String APP_ROOT = "/app";
+    private static final String APP_ROOT = AppPaths.root();
     private static final String DEFAULT_XMS = "64m";
     private static final String DEFAULT_XMX = "256m";
     private final Map<String, ProcessEntry> processMap = new ConcurrentHashMap<>();
@@ -38,9 +38,32 @@ public class MsaProcessManager {
         }
     }
 
+    private static class LaunchSpec {
+        final List<String> command;
+        final File workDir;
+        final String mode;
+
+        LaunchSpec(List<String> command, File workDir, String mode) {
+            this.command = command;
+            this.workDir = workDir;
+            this.mode = mode;
+        }
+    }
+
     public synchronized void startModule(MsaScanner.ModuleInfo mod) {
-        if (processMap.containsKey(mod.getId()))
+        if (mod == null || mod.getId() == null) {
             return;
+        }
+        if (mod.getPort() != null && mod.getPort() != 0 && isPortInUse(mod.getPort())) {
+            return;
+        }
+        if (processMap.containsKey(mod.getId())) {
+            ProcessEntry existing = processMap.get(mod.getId());
+            if (existing != null && ("starting".equals(existing.status) || "running".equals(existing.status))) {
+                return;
+            }
+            processMap.remove(mod.getId());
+        }
 
         ProcessEntry entry = new ProcessEntry();
         entry.status = "starting";
@@ -48,22 +71,12 @@ public class MsaProcessManager {
 
         new Thread(() -> {
             try {
-                String jarArg = resolveRunnableJar(mod);
-                List<String> cmd = new ArrayList<>(Arrays.asList(
-                        "java",
-                        "-Xms" + resolveXms(mod),
-                        "-Xmx" + resolveXmx(mod),
-                        "-jar",
-                        jarArg));
-                // Enforce central port if registered
-                if (mod.getPort() != null && mod.getPort() != 0) {
-                    cmd.add("--server.port=" + mod.getPort());
-                }
-
-                ProcessBuilder pb = new ProcessBuilder(cmd);
-                pb.directory(new File(APP_ROOT));
+                LaunchSpec spec = resolveLaunchSpec(mod, mod.getPort());
+                ProcessBuilder pb = new ProcessBuilder(spec.command);
+                pb.directory(spec.workDir);
                 pb.redirectErrorStream(true);
                 pb.environment().put("JAVA_OPTS", "-Djava.awt.headless=true");
+                entry.addLog("[System] launch mode=" + spec.mode + " cmd=" + String.join(" ", spec.command));
 
                 Process proc = pb.start();
                 entry.process = proc;
@@ -76,12 +89,16 @@ public class MsaProcessManager {
                         entry.addLog(line);
                         appendToStartupLog(mod.getDir(), line);
 
-                        if (line.contains("Started ") && line.contains("seconds")) {
+                        if ((line.contains("Started ") && line.contains("seconds"))
+                                || (mod.getPort() != null && mod.getPort() != 0 && isPortInUse(mod.getPort()))) {
                             entry.status = "running";
                         }
                     }
                 }
-                proc.waitFor();
+                int rc = proc.waitFor();
+                if (!"stopped".equals(entry.status)) {
+                    entry.addLog("[System] process exited code=" + rc);
+                }
             } catch (Exception e) {
                 entry.addLog("Error: " + e.getMessage());
                 entry.status = "error";
@@ -105,6 +122,13 @@ public class MsaProcessManager {
     public synchronized String deployAndRestartModule(MsaScanner.ModuleInfo mod) {
         if (!mod.isJavaRunnable()) {
             return "이 모듈은 Java 실행 대상이 아닙니다.";
+        }
+        if (isSelfModule(mod)) {
+            String deployResult = deployModuleJar(mod);
+            if (!"ok".equals(deployResult)) {
+                return deployResult;
+            }
+            return scheduleSelfRestart(mod);
         }
         String deployResult = deployModuleJar(mod);
         if (!"ok".equals(deployResult)) {
@@ -145,6 +169,12 @@ public class MsaProcessManager {
     public synchronized String deployZeroDowntimeModule(MsaScanner.ModuleInfo mod) {
         if (!mod.isJavaRunnable()) {
             return "이 모듈은 Java 실행 대상이 아닙니다.";
+        }
+        // Self zero-downtime is not safe: control process can terminate mid-switch.
+        // Fallback to normal deploy+restart for manager itself.
+        if (isSelfModule(mod)) {
+            appendToStartupLog(mod.getDir(), "[ZD] self module fallback -> deploy+restart");
+            return deployAndRestartModule(mod);
         }
         if (mod.getPort() == null || mod.getPort() == 0) {
             return "무중단 배포 실패: 기본 포트가 설정되어 있지 않습니다.";
@@ -283,6 +313,96 @@ public class MsaProcessManager {
         }
     }
 
+    private boolean isSelfModule(MsaScanner.ModuleInfo mod) {
+        if (mod == null) {
+            return false;
+        }
+        return "EgovMsaManager".equals(mod.getId()) || "EgovMsaManager".equals(mod.getArtifactId());
+    }
+
+    private String scheduleSelfRestart(MsaScanner.ModuleInfo mod) {
+        long selfPid = ProcessHandle.current().pid();
+        int basePort = (mod.getPort() != null && mod.getPort() != 0) ? mod.getPort() : 18030;
+        int shadowPort = pickShadowPort(basePort);
+        if (shadowPort <= 0) {
+            return "자기 재기동 예약 실패: 임시 포트를 찾지 못했습니다.";
+        }
+        String jarArg = resolveRunnableJar(mod);
+        String xms = resolveXms(mod);
+        String xmx = resolveXmx(mod);
+        String startupLog = mod.getDir() + "/startup.log";
+
+        String script = "nohup sh -c '"
+                + "echo \"[SELF-ZD] shadow start: port=" + shadowPort + "\" >> " + startupLog + "; "
+                + "cd " + APP_ROOT + " || exit 1; "
+                + "java -Xms" + xms + " -Xmx" + xmx + " -jar " + jarArg + " --server.port=" + shadowPort
+                + " >> " + startupLog + " 2>&1 & "
+                + "shadow_pid=$!; "
+                + "for i in $(seq 1 90); do "
+                + "  ss -ltn | grep -q \":" + shadowPort + " \" && break; "
+                + "  sleep 1; "
+                + "done; "
+                + "if ! ss -ltn | grep -q \":" + shadowPort + " \"; then "
+                + "  echo \"[SELF-ZD] shadow failed: port=" + shadowPort + "\" >> " + startupLog + "; "
+                + "  exit 1; "
+                + "fi; "
+                + "for i in $(seq 1 90); do "
+                + "  curl -fsS http://localhost:" + shadowPort + "/admin/msa/api/modules >/dev/null 2>&1 && break; "
+                + "  sleep 1; "
+                + "done; "
+                + "if ! curl -fsS http://localhost:" + shadowPort + "/admin/msa/api/modules >/dev/null 2>&1; then "
+                + "  echo \"[SELF-ZD] shadow api failed: port=" + shadowPort + "\" >> " + startupLog + "; "
+                + "  kill -15 $shadow_pid 2>/dev/null || true; "
+                + "  sleep 1; "
+                + "  kill -0 $shadow_pid 2>/dev/null && kill -9 $shadow_pid 2>/dev/null || true; "
+                + "  exit 1; "
+                + "fi; "
+                + "echo \"[SELF-ZD] shadow healthy: port=" + shadowPort + "\" >> " + startupLog + "; "
+                + "sleep 1; "
+                + "kill -15 " + selfPid + " 2>/dev/null || true; "
+                + "for i in $(seq 1 90); do "
+                + "  ps -p " + selfPid + " >/dev/null 2>&1 || break; "
+                + "  sleep 1; "
+                + "done; "
+                + "for i in $(seq 1 90); do "
+                + "  ss -ltn | grep -q \":" + basePort + " \" || break; "
+                + "  sleep 1; "
+                + "done; "
+                + "echo \"[SELF-ZD] base start: port=" + basePort + "\" >> " + startupLog + "; "
+                + "java -Xms" + xms + " -Xmx" + xmx + " -jar " + jarArg + " --server.port=" + basePort
+                + " >> " + startupLog + " 2>&1 & "
+                + "for i in $(seq 1 90); do "
+                + "  ss -ltn | grep -q \":" + basePort + " \" && break; "
+                + "  sleep 1; "
+                + "done; "
+                + "if ! ss -ltn | grep -q \":" + basePort + " \"; then "
+                + "  echo \"[SELF-ZD] base failed, shadow kept: port=" + shadowPort + "\" >> " + startupLog + "; "
+                + "  exit 1; "
+                + "fi; "
+                + "for i in $(seq 1 90); do "
+                + "  curl -fsS http://localhost:" + basePort + "/admin/msa/api/modules >/dev/null 2>&1 && break; "
+                + "  sleep 1; "
+                + "done; "
+                + "if ! curl -fsS http://localhost:" + basePort + "/admin/msa/api/modules >/dev/null 2>&1; then "
+                + "  echo \"[SELF-ZD] base api failed, shadow kept: port=" + shadowPort + "\" >> " + startupLog + "; "
+                + "  exit 1; "
+                + "fi; "
+                + "echo \"[SELF-ZD] base healthy: port=" + basePort + "\" >> " + startupLog + "; "
+                + "kill -15 $shadow_pid 2>/dev/null || true; "
+                + "sleep 1; "
+                + "kill -0 $shadow_pid 2>/dev/null && kill -9 $shadow_pid 2>/dev/null || true; "
+                + "echo \"[SELF-ZD] completed: base=" + basePort + ", shadowStopped=" + shadowPort + "\" >> " + startupLog + "; "
+                + "' >/dev/null 2>&1 &";
+        try {
+            new ProcessBuilder("sh", "-lc", script).start();
+            appendToStartupLog(mod.getDir(),
+                    "[SELF] restart scheduled: pid=" + selfPid + ", basePort=" + basePort + ", shadowPort=" + shadowPort + ", jar=" + jarArg);
+            return "ok";
+        } catch (Exception e) {
+            return "자기 재기동 예약 실패: " + e.getMessage();
+        }
+    }
+
     private File resolveBuildableModuleDir(MsaScanner.ModuleInfo mod) {
         for (File candidate : moduleDirCandidates(mod)) {
             if (candidate.exists() && candidate.isDirectory() && new File(candidate, "pom.xml").exists()) {
@@ -307,27 +427,21 @@ public class MsaProcessManager {
         List<File> out = new ArrayList<>();
         out.add(new File(mod.getDir()));
         if (artifact != null && !artifact.trim().isEmpty()) {
-            out.add(new File("/opt/carbosys/module", artifact));
-            out.add(new File("/app/module", artifact));
-            out.add(new File("/app", artifact));
+            out.add(new File(AppPaths.moduleRoot(), artifact));
+            out.add(new File(AppPaths.root(), artifact));
         }
         return out;
     }
 
     private Process startUntrackedProcess(MsaScanner.ModuleInfo mod, int port, String logPrefix) throws IOException {
-        String jarArg = resolveRunnableJar(mod);
-        List<String> cmd = new ArrayList<>(Arrays.asList(
-                "java",
-                "-Xms" + resolveXms(mod),
-                "-Xmx" + resolveXmx(mod),
-                "-jar",
-                jarArg,
-                "--server.port=" + port));
-        ProcessBuilder pb = new ProcessBuilder(cmd);
-        pb.directory(new File(APP_ROOT));
+        LaunchSpec spec = resolveLaunchSpec(mod, port);
+        ProcessBuilder pb = new ProcessBuilder(spec.command);
+        pb.directory(spec.workDir);
         pb.redirectErrorStream(true);
         pb.environment().put("JAVA_OPTS", "-Djava.awt.headless=true");
         Process proc = pb.start();
+        appendToStartupLog(mod.getDir(),
+                logPrefix + " launch mode=" + spec.mode + " cmd=" + String.join(" ", spec.command));
 
         new Thread(() -> {
             try (BufferedReader reader = new BufferedReader(
@@ -453,12 +567,21 @@ public class MsaProcessManager {
         // hanging
         if (port != null && port != 0) {
             try {
+                String safeId = (id == null ? "" : id).replaceAll("[^A-Za-z0-9._-]", "");
+                String p1 = AppPaths.root() + "/" + safeId + ".jar";
+                String p2 = AppPaths.root() + "/" + safeId + "/target/" + safeId + ".jar";
+                String p3 = AppPaths.moduleRoot() + "/" + safeId;
                 // Minimal environments often don't include fuser/lsof.
-                // Kill by Spring port arg pattern first, then force kill if still alive.
-                String killCmd = "pids=$(ps -ef | grep -- '--server.port=" + port
+                // Kill by --server.port arg first, then by module JAR path.
+                String killCmd = "pids_port=$(ps -ef | grep -- '--server.port=" + port
                         + "' | grep -v grep | awk '{print $2}' || true); "
-                        + "if [ -n \"$pids\" ]; then kill -15 $pids || true; sleep 1; "
-                        + "for p in $pids; do kill -0 $p 2>/dev/null && kill -9 $p || true; done; fi";
+                        + "pids_jar=$(ps -eo pid,args | awk '$2==\"java\" && (index($0,\"" + p1
+                        + "\")>0 || index($0,\"" + p2 + "\")>0) {print $1}' || true); "
+                        + "pids_mvn=$(ps -eo pid,args | awk '$2 ~ /java$/ && (index($0,\"-Dmaven.multiModuleProjectDirectory="
+                        + p3 + "\")>0 || index($0,\"" + p3 + "/target/classes\")>0) {print $1}' || true); "
+                        + "pids=\"$pids_port $pids_jar $pids_mvn\"; "
+                        + "if [ -n \"$pids\" ]; then kill -15 $pids 2>/dev/null || true; sleep 1; "
+                        + "for p in $pids; do kill -0 $p 2>/dev/null && kill -9 $p 2>/dev/null || true; done; fi";
                 new ProcessBuilder("sh", "-c", killCmd).start().waitFor();
             } catch (Exception e) {
                 // ignore
@@ -473,12 +596,15 @@ public class MsaProcessManager {
         // Kill any remaining same-module java instances (e.g., shadow port instance).
         try {
             String artifact = mod.getArtifactId().replaceAll("[^A-Za-z0-9._-]", "");
-            String p1 = "/app/" + artifact + "/target/" + artifact + ".jar";
-            String p2 = "/app/" + artifact + ".jar";
+            String p1 = AppPaths.root() + "/" + artifact + "/target/" + artifact + ".jar";
+            String p2 = AppPaths.root() + "/" + artifact + ".jar";
+            String p3 = AppPaths.moduleRoot() + "/" + artifact;
             String killCmd = "pids1=$(ps -eo pid,args | awk '$2==\"java\" && index($0,\"" + p1
                     + "\")>0 {print $1}'); "
                     + "pids2=$(ps -eo pid,args | awk '$2==\"java\" && index($0,\"" + p2 + "\")>0 {print $1}'); "
-                    + "pids=\"$pids1 $pids2\"; "
+                    + "pids3=$(ps -eo pid,args | awk '$2 ~ /java$/ && (index($0,\"-Dmaven.multiModuleProjectDirectory="
+                    + p3 + "\")>0 || index($0,\"" + p3 + "/target/classes\")>0) {print $1}'); "
+                    + "pids=\"$pids1 $pids2 $pids3\"; "
                     + "if [ -n \"$pids\" ]; then kill -15 $pids 2>/dev/null || true; sleep 1; "
                     + "for p in $pids; do kill -0 $p 2>/dev/null && kill -9 $p 2>/dev/null || true; done; fi";
             new ProcessBuilder("sh", "-c", killCmd).start().waitFor();
@@ -568,8 +694,40 @@ public class MsaProcessManager {
         if (Files.exists(appJar)) {
             return appJar.toString();
         }
-        // Fallback to mounted source tree jar.
-        return Paths.get(mod.getDir(), "target", mod.getArtifactId() + ".jar").toString();
+        Path sourceJar = Paths.get(mod.getDir(), "target", mod.getArtifactId() + ".jar");
+        if (Files.exists(sourceJar)) {
+            return sourceJar.toString();
+        }
+        return appTargetJar.toString();
+    }
+
+    private LaunchSpec resolveLaunchSpec(MsaScanner.ModuleInfo mod, Integer overridePort) {
+        String jarArg = resolveRunnableJar(mod);
+        if (jarArg != null && Files.exists(Paths.get(jarArg))) {
+            List<String> cmd = new ArrayList<>(Arrays.asList(
+                    "java",
+                    "-Xms" + resolveXms(mod),
+                    "-Xmx" + resolveXmx(mod),
+                    "-jar",
+                    jarArg));
+            if (overridePort != null && overridePort != 0) {
+                cmd.add("--server.port=" + overridePort);
+            }
+            return new LaunchSpec(cmd, new File(APP_ROOT), "jar");
+        }
+
+        File moduleDir = resolveBuildableModuleDir(mod);
+        if (moduleDir == null) {
+            throw new IllegalStateException("실행 실패: JAR/POM을 찾지 못했습니다 - " + mod.getDir());
+        }
+
+        List<String> cmd = new ArrayList<>();
+        cmd.add("mvn");
+        cmd.add("spring-boot:run");
+        if (overridePort != null && overridePort != 0) {
+            cmd.add("-Dspring-boot.run.arguments=--server.port=" + overridePort);
+        }
+        return new LaunchSpec(cmd, moduleDir, "mvn");
     }
 
     private String resolveXms(MsaScanner.ModuleInfo mod) {

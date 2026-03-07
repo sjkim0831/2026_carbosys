@@ -100,13 +100,13 @@ for mod in "$@"; do
   fi
 
   cont_src="/opt/carbosys/module/$mod/target/$mod.jar"
-  cont_dst="/app/$mod.jar"
+  cont_dst="/opt/carbosys/$mod.jar"
   log_file="/opt/carbosys/logs/$mod.log"
 
   echo "[DIRECT-RESTART] $mod port=$port"
   docker exec "$CONTAINER" sh -lc "test -f '$cont_src'"
   docker exec "$CONTAINER" sh -lc "cp '$cont_src' '$cont_dst'"
-  docker exec "$CONTAINER" sh -lc "pids=\$(pgrep -f '/app/$mod.jar' || true); if [ -n \"\$pids\" ]; then kill -15 \$pids; fi"
+  docker exec "$CONTAINER" sh -lc "pids=\$(pgrep -f '/opt/carbosys/$mod.jar' || true); if [ -n \"\$pids\" ]; then kill -15 \$pids; fi"
   sleep 2
   docker exec "$CONTAINER" sh -lc "nohup java -Xms256m -Xmx512m -jar '$cont_dst' --server.port=$port > '$log_file' 2>&1 &"
 done

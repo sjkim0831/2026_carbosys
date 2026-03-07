@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.DumperOptions;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -31,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.Base64;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
@@ -51,14 +55,18 @@ public class MsaController {
     private OpsInsightService opsInsightService;
 
     private final MsaScanner scanner = new MsaScanner();
-    private static final String MAPPING_FILE = "/app/msa-mappings.yml";
+    private static final String APP_ROOT = AppPaths.root();
+    private static final List<String> MAPPING_FILE_CANDIDATES = Arrays.asList(
+            AppPaths.resolvePath("msa-mappings.yml").toString());
     private static final DateTimeFormatter LOG_TIME_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private static final String WEBHOOK_RUN_SCRIPT = "/opt/carbosys/scripts/ci/run_changed_modules_pipeline.sh";
-    private static final String WEBHOOK_LOG_FILE = "/opt/carbosys/logs/msa-webhook.log";
-    private static final String WEBHOOK_CONFIG_FILE = "/opt/carbosys/logs/msa-webhook.properties";
-    private static final String RUNTIME_CONFIG_FILE = "/opt/carbosys/logs/msa-runtime.properties";
-    private static final String REMOTE_DEPLOY_CONFIG_FILE = "/opt/carbosys/logs/msa-remote-deploy.properties";
-    private static final String REMOTE_DEPLOY_LOG_FILE = "/opt/carbosys/logs/msa-remote-deploy.log";
+    private static final String WEBHOOK_RUN_SCRIPT = AppPaths.resolvePath("scripts", "ci", "run_changed_modules_pipeline.sh").toString();
+    private static final String WEBHOOK_LOG_FILE = AppPaths.resolvePath("logs", "msa-webhook.log").toString();
+    private static final String WEBHOOK_CONFIG_FILE = AppPaths.resolvePath("logs", "msa-webhook.properties").toString();
+    private static final String RUNTIME_CONFIG_FILE = AppPaths.resolvePath("logs", "msa-runtime.properties").toString();
+    private static final String REMOTE_DEPLOY_CONFIG_FILE = AppPaths.resolvePath("logs", "msa-remote-deploy.properties").toString();
+    private static final String REMOTE_DEPLOY_LOG_FILE = AppPaths.resolvePath("logs", "msa-remote-deploy.log").toString();
+    private static final String PROJECT_REGISTRY_FILE = AppPaths.resolvePath("logs", "msa-projects.yml").toString();
+    private static final String SSH_EDIT_TOKEN_ENV = "MSA_SSH_EDIT_TOKEN";
     private static final String RUNTIME_MODE_KEY = "serverMode";
     private static final String MODE_DEV = "development";
     private static final String MODE_PROD = "production";
@@ -79,6 +87,7 @@ public class MsaController {
 
     @GetMapping("/manager")
     public String managerView(Model model) {
+        model.addAttribute("appRoot", APP_ROOT);
         return "msaManager";
     }
 
@@ -103,7 +112,7 @@ public class MsaController {
     public List<Map<String, Object>> getMappings() {
         List<Map<String, Object>> mappings = new ArrayList<>();
         try {
-            File file = new File(MAPPING_FILE);
+            File file = resolveFirstExisting(MAPPING_FILE_CANDIDATES);
             if (file.exists()) {
                 Yaml yaml = new Yaml();
                 Map<String, Object> obj = yaml.load(new FileInputStream(file));
@@ -131,6 +140,16 @@ public class MsaController {
             e.printStackTrace();
         }
         return mappings;
+    }
+
+    private File resolveFirstExisting(List<String> candidates) {
+        for (String path : candidates) {
+            File f = new File(path);
+            if (f.exists()) {
+                return f;
+            }
+        }
+        return new File(candidates.get(0));
     }
 
     @ResponseBody
@@ -441,7 +460,7 @@ public class MsaController {
         out.put("keyPath", p.getProperty("keyPath", ""));
         out.put("passwordMasked", maskToken(p.getProperty("password", "")));
         out.put("hasPassword", !str(p.getProperty("password", "")).isEmpty());
-        out.put("remoteDir", p.getProperty("remoteDir", "/opt/carbosys"));
+        out.put("remoteDir", p.getProperty("remoteDir", APP_ROOT));
         out.put("containerName", p.getProperty("containerName", "carbosys-app"));
         out.put("managerUrl", p.getProperty("managerUrl", "http://localhost:18030"));
         out.put("activeColor", p.getProperty("activeColor", "blue"));
@@ -494,7 +513,7 @@ public class MsaController {
         if (req != null && req.containsKey("port")) p.setProperty("port", port.isEmpty() ? "22" : port);
         if (req != null && req.containsKey("keyPath")) p.setProperty("keyPath", keyPath);
         if (req != null && req.containsKey("password")) p.setProperty("password", password);
-        if (req != null && req.containsKey("remoteDir")) p.setProperty("remoteDir", remoteDir.isEmpty() ? "/opt/carbosys" : remoteDir);
+        if (req != null && req.containsKey("remoteDir")) p.setProperty("remoteDir", remoteDir.isEmpty() ? APP_ROOT : remoteDir);
         if (req != null && req.containsKey("containerName")) p.setProperty("containerName", containerName.isEmpty() ? "carbosys-app" : containerName);
         if (req != null && req.containsKey("managerUrl")) p.setProperty("managerUrl", managerUrl.isEmpty() ? "http://localhost:18030" : managerUrl);
         if (req != null && req.containsKey("activeColor")) p.setProperty("activeColor", normalizeColor(activeColor));
@@ -522,6 +541,249 @@ public class MsaController {
         out.put("webhookRemoteBuildEnabled", boolProp(p, "webhookRemoteBuildEnabled"));
         out.put("webhookRemoteDeployOnlyEnabled", boolProp(p, "webhookRemoteDeployOnlyEnabled"));
         return out;
+    }
+
+    @ResponseBody
+    @GetMapping("/api/projects")
+    public Map<String, Object> getProjectRegistry() {
+        List<Map<String, Object>> projects = loadProjectRegistry().stream()
+                .map(this::sanitizeProjectOutput)
+                .collect(Collectors.toList());
+        Map<String, Object> out = new LinkedHashMap<>();
+        out.put("status", "ok");
+        out.put("count", projects.size());
+        out.put("projects", projects);
+        out.put("appRoot", APP_ROOT);
+        return out;
+    }
+
+    @ResponseBody
+    @PostMapping("/api/projects")
+    public Map<String, Object> upsertProject(@RequestBody(required = false) Map<String, Object> req) {
+        Map<String, Object> out = new LinkedHashMap<>();
+        if (req == null) {
+            out.put("status", "error");
+            out.put("message", "요청 본문이 필요합니다.");
+            return out;
+        }
+        String id = str(req.get("id")).replaceAll("[^A-Za-z0-9._-]", "");
+        if (id.isEmpty()) {
+            out.put("status", "error");
+            out.put("message", "id는 영문/숫자/._- 만 허용됩니다.");
+            return out;
+        }
+        List<Map<String, Object>> projects = loadProjectRegistry();
+        Map<String, Object> normalized = normalizeProjectInput(id, req);
+        boolean replaced = false;
+        for (int i = 0; i < projects.size(); i++) {
+            if (id.equals(str(projects.get(i).get("id")))) {
+                projects.set(i, normalized);
+                replaced = true;
+                break;
+            }
+        }
+        if (!replaced) {
+            projects.add(normalized);
+        }
+        saveProjectRegistry(projects);
+        out.put("status", "ok");
+        out.put("action", replaced ? "updated" : "created");
+        out.put("project", sanitizeProjectOutput(normalized));
+        return out;
+    }
+
+    @ResponseBody
+    @DeleteMapping("/api/projects/{id}")
+    public Map<String, Object> deleteProject(@PathVariable String id) {
+        String targetId = str(id).replaceAll("[^A-Za-z0-9._-]", "");
+        List<Map<String, Object>> projects = loadProjectRegistry();
+        int before = projects.size();
+        projects = projects.stream()
+                .filter(p -> !targetId.equals(str(p.get("id"))))
+                .collect(Collectors.toList());
+        saveProjectRegistry(projects);
+        Map<String, Object> out = new LinkedHashMap<>();
+        out.put("status", "ok");
+        out.put("deleted", before - projects.size());
+        return out;
+    }
+
+    @ResponseBody
+    @PostMapping("/api/projects/{id}/ssh/test")
+    public Map<String, Object> testProjectSsh(@PathVariable String id, HttpServletRequest request) {
+        Map<String, Object> denied = verifySshPermission(request);
+        if (denied != null) {
+            return denied;
+        }
+        Map<String, Object> project = findProject(id);
+        Map<String, Object> out = new LinkedHashMap<>();
+        if (project == null) {
+            out.put("status", "error");
+            out.put("message", "프로젝트를 찾지 못했습니다: " + id);
+            return out;
+        }
+        try {
+            Map<String, Object> exec = runSshCapture(sshConfigFromProject(project), "pwd; ls -1");
+            out.put("status", "ok");
+            out.put("project", sanitizeProjectOutput(project));
+            out.put("output", exec.get("output"));
+            return out;
+        } catch (Exception e) {
+            out.put("status", "error");
+            out.put("message", "SSH 테스트 실패: " + e.getMessage());
+            return out;
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/api/projects/{id}/ssh/exec")
+    public Map<String, Object> execProjectSsh(@PathVariable String id,
+            @RequestBody(required = false) Map<String, Object> req,
+            HttpServletRequest request) {
+        Map<String, Object> denied = verifySshPermission(request);
+        if (denied != null) {
+            return denied;
+        }
+        String cmd = req == null ? "" : str(req.get("command"));
+        Map<String, Object> out = new LinkedHashMap<>();
+        if (cmd.isEmpty()) {
+            out.put("status", "error");
+            out.put("message", "command가 필요합니다.");
+            return out;
+        }
+        if (cmd.length() > 4000) {
+            out.put("status", "error");
+            out.put("message", "command 길이가 너무 깁니다.");
+            return out;
+        }
+        Map<String, Object> project = findProject(id);
+        if (project == null) {
+            out.put("status", "error");
+            out.put("message", "프로젝트를 찾지 못했습니다: " + id);
+            return out;
+        }
+        try {
+            Map<String, Object> exec = runSshCapture(sshConfigFromProject(project), cmd);
+            out.put("status", "ok");
+            out.put("output", exec.get("output"));
+            out.put("exitCode", exec.get("exitCode"));
+            return out;
+        } catch (Exception e) {
+            out.put("status", "error");
+            out.put("message", "원격 명령 실패: " + e.getMessage());
+            return out;
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/api/projects/{id}/ssh/file/write")
+    public Map<String, Object> writeProjectFile(@PathVariable String id,
+            @RequestBody(required = false) Map<String, Object> req,
+            HttpServletRequest request) {
+        Map<String, Object> denied = verifySshPermission(request);
+        if (denied != null) {
+            return denied;
+        }
+        String path = req == null ? "" : str(req.get("path"));
+        String content = req == null ? "" : String.valueOf(req.getOrDefault("content", ""));
+        boolean backup = req != null && Boolean.parseBoolean(str(req.get("backup")));
+        Map<String, Object> out = new LinkedHashMap<>();
+        Map<String, Object> project = findProject(id);
+        if (project == null) {
+            out.put("status", "error");
+            out.put("message", "프로젝트를 찾지 못했습니다: " + id);
+            return out;
+        }
+        String rootDir = str(project.get("rootDir"));
+        if (path.isEmpty()) {
+            out.put("status", "error");
+            out.put("message", "path가 필요합니다.");
+            return out;
+        }
+        String normalizedPath = path.startsWith("/") ? path : (rootDir + "/" + path);
+        if (!normalizedPath.startsWith(rootDir + "/") && !normalizedPath.equals(rootDir)) {
+            out.put("status", "error");
+            out.put("message", "path는 프로젝트 rootDir 하위만 허용됩니다.");
+            return out;
+        }
+        String b64 = Base64.getEncoder().encodeToString(content.getBytes(StandardCharsets.UTF_8));
+        String cmd = ""
+                + "set -e; "
+                + "target=" + shellQuote(normalizedPath) + "; "
+                + "mkdir -p \"$(dirname \"$target\")\"; "
+                + (backup ? "if [ -f \"$target\" ]; then cp \"$target\" \"$target.bak.$(date +%Y%m%d%H%M%S)\"; fi; " : "")
+                + "printf %s " + shellQuote(b64) + " | base64 -d > \"$target\"; "
+                + "echo OK";
+        try {
+            Map<String, Object> exec = runSshCapture(sshConfigFromProject(project), cmd);
+            out.put("status", "ok");
+            out.put("path", normalizedPath);
+            out.put("exitCode", exec.get("exitCode"));
+            out.put("output", exec.get("output"));
+            return out;
+        } catch (Exception e) {
+            out.put("status", "error");
+            out.put("message", "원격 파일 쓰기 실패: " + e.getMessage());
+            return out;
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/api/projects/{id}/manager/modules")
+    public ResponseEntity<?> getProjectManagerModules(@PathVariable String id, HttpServletRequest request) {
+        Map<String, Object> denied = verifySshPermission(request);
+        if (denied != null) {
+            return ResponseEntity.status(403).body(denied);
+        }
+        Map<String, Object> project = findProject(id);
+        if (project == null) {
+            return ResponseEntity.badRequest().body(Map.of("status", "error", "message", "프로젝트를 찾지 못했습니다: " + id));
+        }
+        String managerUrl = str(project.get("managerUrl"));
+        try {
+            Map<String, Object> exec = runSshCapture(sshConfigFromProject(project),
+                    "curl -fsS " + shellQuote(managerUrl + "/admin/msa/api/modules"));
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(exec.get("output"));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("status", "error", "message", "원격 매니저 조회 실패: " + e.getMessage()));
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/api/projects/{id}/manager/modules/{moduleId}/{action}")
+    public Map<String, Object> invokeProjectManagerModuleAction(@PathVariable String id,
+            @PathVariable String moduleId,
+            @PathVariable String action,
+            HttpServletRequest request) {
+        Map<String, Object> denied = verifySshPermission(request);
+        if (denied != null) {
+            return denied;
+        }
+        Set<String> allowed = new LinkedHashSet<>(Arrays.asList(
+                "start", "stop", "restart", "deploy-restart", "deploy-zerodowntime", "build-deploy-restart",
+                "build-deploy-zerodowntime"));
+        if (!allowed.contains(action)) {
+            return Map.of("status", "error", "message", "지원하지 않는 action: " + action);
+        }
+        Map<String, Object> project = findProject(id);
+        if (project == null) {
+            return Map.of("status", "error", "message", "프로젝트를 찾지 못했습니다: " + id);
+        }
+        String managerUrl = str(project.get("managerUrl"));
+        String call = "curl -fsS -X POST " + shellQuote(
+                managerUrl + "/admin/msa/api/modules/" + moduleId + "/" + action);
+        try {
+            Map<String, Object> exec = runSshCapture(sshConfigFromProject(project), call);
+            Map<String, Object> out = new LinkedHashMap<>();
+            out.put("status", "ok");
+            out.put("output", exec.get("output"));
+            out.put("exitCode", exec.get("exitCode"));
+            return out;
+        } catch (Exception e) {
+            return Map.of("status", "error", "message", "원격 모듈 제어 실패: " + e.getMessage());
+        }
     }
 
     @ResponseBody
@@ -733,6 +995,22 @@ public class MsaController {
         res.put("serverMode", getServerMode());
         res.put("buildAllowed", !isBuildBlocked());
         return res;
+    }
+
+    @ResponseBody
+    @PostMapping("/api/autodeploy/ai/start")
+    public Map<String, Object> startAiEditSession() {
+        return changeMonitorService.startAiEditSession();
+    }
+
+    @ResponseBody
+    @PostMapping("/api/autodeploy/ai/end")
+    public Map<String, Object> endAiEditSession(@RequestBody(required = false) Map<String, Object> req) {
+        Boolean build = null;
+        if (req != null && req.containsKey("build")) {
+            build = Boolean.parseBoolean(String.valueOf(req.get("build")));
+        }
+        return changeMonitorService.endAiEditSession(build);
     }
 
     @ResponseBody
@@ -952,16 +1230,16 @@ public class MsaController {
             if (managerPort == null || managerPort == 0) {
                 managerPort = 18030;
             }
-            String rebootLog = "/opt/carbosys/logs/msa-manager-reboot.log";
+            String rebootLog = AppPaths.resolvePath("logs", "msa-manager-reboot.log").toString();
             String rebootCmd = "sleep 3; "
-                    + "if [ -f /app/EgovMsaManager.jar ]; then "
-                    + "nohup java -Xms256m -Xmx512m -jar /app/EgovMsaManager.jar --server.port=" + managerPort
+                    + "if [ -f " + shellQuote(APP_ROOT + "/EgovMsaManager.jar") + " ]; then "
+                    + "nohup java -Xms256m -Xmx512m -jar " + shellQuote(APP_ROOT + "/EgovMsaManager.jar") + " --server.port=" + managerPort
                     + " > " + rebootLog + " 2>&1 & "
-                    + "elif [ -f /app/EgovMsaManager/target/EgovMsaManager.jar ]; then "
-                    + "nohup java -Xms256m -Xmx512m -jar /app/EgovMsaManager/target/EgovMsaManager.jar --server.port="
+                    + "elif [ -f " + shellQuote(APP_ROOT + "/EgovMsaManager/target/EgovMsaManager.jar") + " ]; then "
+                    + "nohup java -Xms256m -Xmx512m -jar " + shellQuote(APP_ROOT + "/EgovMsaManager/target/EgovMsaManager.jar") + " --server.port="
                     + managerPort + " > " + rebootLog + " 2>&1 & "
-                    + "elif [ -d /opt/carbosys/module/EgovMsaManager ]; then "
-                    + "cd /opt/carbosys/module/EgovMsaManager && "
+                    + "elif [ -d " + shellQuote(AppPaths.moduleRoot() + "/EgovMsaManager") + " ]; then "
+                    + "cd " + shellQuote(AppPaths.moduleRoot() + "/EgovMsaManager") + " && "
                     + "nohup mvn -DskipTests spring-boot:run "
                     + "-Dspring-boot.run.arguments=--server.port=" + managerPort
                     + " > " + rebootLog + " 2>&1 & "
@@ -1044,7 +1322,7 @@ public class MsaController {
     }
 
     private boolean syncWebhookSource(Map<String, Object> payload) {
-        String root = "/opt/carbosys";
+        String root = APP_ROOT;
         appendWebhookTail("git sync start: branch=pass(current tracking)");
         try {
             runWebhookCommand(Arrays.asList("sh", "-lc", "git -C " + shellQuote(root) + " fetch --all --prune"));
@@ -1222,11 +1500,11 @@ public class MsaController {
         }
         try {
             appendRemoteLog("INIT start");
-            String remoteDir = cfg.getProperty("remoteDir", "/opt/carbosys");
+            String remoteDir = cfg.getProperty("remoteDir", APP_ROOT);
             String pack = "/tmp/carbosys-initial-" + System.currentTimeMillis() + ".tar.gz";
             runLocalOrThrow(Arrays.asList("sh", "-lc",
                     "tar -czf " + shellQuote(pack)
-                            + " -C /opt/carbosys Dockerfile docker-compose.yml entrypoint.sh msa-mappings.yml msa-ports.yml module"));
+                            + " -C " + shellQuote(APP_ROOT) + " Dockerfile docker-compose.yml entrypoint.sh msa-mappings.yml msa-ports.yml module"));
             runSshOrThrow(cfg, "mkdir -p " + shellQuote(remoteDir));
             runScpOrThrow(cfg, pack, remoteDir + "/carbosys-initial.tar.gz");
             runSshOrThrow(cfg, "cd " + shellQuote(remoteDir)
@@ -1260,14 +1538,14 @@ public class MsaController {
             appendRemoteLog("AUTO-ALL start build=" + build);
             if (build) {
                 appendRemoteLog("AUTO-ALL local build start");
-                runLocalOrThrow(Arrays.asList("sh", "-lc", "cd /opt/carbosys && mvn -DskipTests package"));
+                runLocalOrThrow(Arrays.asList("sh", "-lc", "cd " + shellQuote(APP_ROOT) + " && mvn -DskipTests package"));
                 appendRemoteLog("AUTO-ALL local build done");
             }
-            String remoteDir = cfg.getProperty("remoteDir", "/opt/carbosys");
+            String remoteDir = cfg.getProperty("remoteDir", APP_ROOT);
             String pack = "/tmp/carbosys-auto-all-" + System.currentTimeMillis() + ".tar.gz";
             runLocalOrThrow(Arrays.asList("sh", "-lc",
                     "tar -czf " + shellQuote(pack)
-                            + " -C /opt/carbosys Dockerfile docker-compose.yml entrypoint.sh msa-mappings.yml msa-ports.yml module"));
+                            + " -C " + shellQuote(APP_ROOT) + " Dockerfile docker-compose.yml entrypoint.sh msa-mappings.yml msa-ports.yml module"));
             runSshOrThrow(cfg, "mkdir -p " + shellQuote(remoteDir));
             runScpOrThrow(cfg, pack, remoteDir + "/carbosys-auto-all.tar.gz");
             runSshOrThrow(cfg, "cd " + shellQuote(remoteDir)
@@ -1299,11 +1577,11 @@ public class MsaController {
         }
         try {
             appendRemoteLog("SOURCE sync start");
-            String remoteDir = cfg.getProperty("remoteDir", "/opt/carbosys");
+            String remoteDir = cfg.getProperty("remoteDir", APP_ROOT);
             String pack = "/tmp/carbosys-source-" + System.currentTimeMillis() + ".tar.gz";
             runLocalOrThrow(Arrays.asList("sh", "-lc",
                     "tar -czf " + shellQuote(pack)
-                            + " -C /opt/carbosys Dockerfile docker-compose.yml entrypoint.sh msa-mappings.yml msa-ports.yml module"));
+                            + " -C " + shellQuote(APP_ROOT) + " Dockerfile docker-compose.yml entrypoint.sh msa-mappings.yml msa-ports.yml module"));
             runSshOrThrow(cfg, "mkdir -p " + shellQuote(remoteDir));
             runScpOrThrow(cfg, pack, remoteDir + "/carbosys-source.tar.gz");
             runSshOrThrow(cfg, "cd " + shellQuote(remoteDir)
@@ -1328,7 +1606,7 @@ public class MsaController {
         Map<String, Object> out = new HashMap<>();
         try {
             appendRemoteLog("BUILD-ONLY start");
-            runLocalOrThrow(Arrays.asList("sh", "-lc", "cd /opt/carbosys && mvn -DskipTests package"));
+            runLocalOrThrow(Arrays.asList("sh", "-lc", "cd " + shellQuote(APP_ROOT) + " && mvn -DskipTests package"));
             appendRemoteLog("BUILD-ONLY done");
             out.put("status", "ok");
             out.put("message", "로컬 빌드 완료");
@@ -1357,7 +1635,7 @@ public class MsaController {
         String healthUrl = "green".equals(target)
                 ? cfg.getProperty("greenGatewayHealthUrl", "http://localhost:9001/actuator/health")
                 : cfg.getProperty("blueGatewayHealthUrl", "http://localhost:9000/actuator/health");
-        String remoteDir = cfg.getProperty("remoteDir", "/opt/carbosys");
+        String remoteDir = cfg.getProperty("remoteDir", APP_ROOT);
         try {
             String services = composeServiceArgs(cfg, includeManager, homeOnly);
             appendRemoteLog("COLOR-UP start color=" + target + ", build=" + build + ", services=" + services);
@@ -1455,19 +1733,19 @@ public class MsaController {
         String greenHealthUrl = cfg.getProperty("greenGatewayHealthUrl", "http://localhost:9001/actuator/health");
         String switchCmd = cfg.getProperty("nginxSwitchCmd", "").trim();
         String reloadCmd = cfg.getProperty("nginxReloadCmd", "nginx -s reload").trim();
-        String remoteDir = cfg.getProperty("remoteDir", "/opt/carbosys");
+        String remoteDir = cfg.getProperty("remoteDir", APP_ROOT);
         try {
             appendRemoteLog("BG deploy start (final port=9000 blue), includeManager=" + includeManager + ", homeOnly=" + homeOnly + ", build=" + build + ", syncSources=" + syncSources);
             if (build) {
                 appendRemoteLog("BG local build start");
-                runLocalOrThrow(Arrays.asList("sh", "-lc", "cd /opt/carbosys && mvn -DskipTests package"));
+                runLocalOrThrow(Arrays.asList("sh", "-lc", "cd " + shellQuote(APP_ROOT) + " && mvn -DskipTests package"));
                 appendRemoteLog("BG local build done");
             }
             if (syncSources) {
                 String pack = "/tmp/carbosys-bg-" + System.currentTimeMillis() + ".tar.gz";
                 runLocalOrThrow(Arrays.asList("sh", "-lc",
                         "tar -czf " + shellQuote(pack)
-                                + " -C /opt/carbosys Dockerfile docker-compose.yml entrypoint.sh msa-mappings.yml msa-ports.yml module"));
+                                + " -C " + shellQuote(APP_ROOT) + " Dockerfile docker-compose.yml entrypoint.sh msa-mappings.yml msa-ports.yml module"));
                 runSshOrThrow(cfg, "mkdir -p " + shellQuote(remoteDir));
                 runScpOrThrow(cfg, pack, remoteDir + "/carbosys-bg.tar.gz");
                 runSshOrThrow(cfg, "cd " + shellQuote(remoteDir)
@@ -1600,7 +1878,7 @@ public class MsaController {
             appendRemoteLog("UPLOAD start: " + moduleId);
             runScpOrThrow(cfg, jarLocal, remoteTmp);
             runSshOrThrow(cfg, "docker cp " + shellQuote(remoteTmp) + " "
-                    + shellQuote(containerName + ":/app/" + moduleId + ".jar")
+                    + shellQuote(containerName + ":" + APP_ROOT + "/" + moduleId + ".jar")
                     + " && rm -f " + shellQuote(remoteTmp));
 
             appendRemoteLog("RELOAD start: " + moduleId);
@@ -1807,7 +2085,7 @@ public class MsaController {
 
     private void ensureLogsDir() {
         try {
-            Path dir = Paths.get("/opt/carbosys/logs");
+            Path dir = AppPaths.logsDir();
             if (!Files.exists(dir)) {
                 Files.createDirectories(dir);
             }

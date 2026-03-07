@@ -7,20 +7,19 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MsaScanner {
-    private static final String ROOT_PATH = "/app";
-    private static final String MODULE_ROOT = "/opt/carbosys/module";
-    private static final String MODULE_ROOT_FALLBACK = "/app/module";
-    private static final String PORT_REGISTRY = "/app/msa-ports.yml";
-    private static final List<String> INFRA_MODULES = Arrays.asList(
-            "EurekaServer", "ConfigServer", "GatewayServer");
-
+    private static final String ROOT_PATH = AppPaths.root();
+    private static final String MODULE_ROOT = AppPaths.moduleRoot();
+    private static final String MODULE_ROOT_FALLBACK = AppPaths.moduleRoot();
+    private static final List<String> PORT_REGISTRY_CANDIDATES = List.of(
+            AppPaths.resolvePath("msa-ports.yml").toString());
+    private static final List<String> MAPPING_FILE_CANDIDATES = List.of(
+            AppPaths.resolvePath("msa-mappings.yml").toString());
     @Data
     @Builder
     public static class ModuleInfo {
@@ -36,10 +35,16 @@ public class MsaScanner {
     public List<ModuleInfo> scan() {
         Map<String, Integer> registry = loadPortRegistry();
         Map<String, ModuleInfo> modules = new LinkedHashMap<>();
-        for (Map.Entry<String, Integer> entry : registry.entrySet()) {
-            String id = entry.getKey();
-            if (INFRA_MODULES.contains(id))
-                continue;
+        List<String> moduleIds = new ArrayList<>();
+        moduleIds.addAll(registry.keySet());
+        for (String fromMapping : loadMappingModuleIds()) {
+            if (!moduleIds.contains(fromMapping)) {
+                moduleIds.add(fromMapping);
+            }
+        }
+
+        for (String id : moduleIds) {
+            Integer port = registry.get(id);
 
             File moduleDir = new File(MODULE_ROOT, id);
             File moduleDirFallback = new File(MODULE_ROOT_FALLBACK, id);
@@ -52,15 +57,18 @@ public class MsaScanner {
                     || new File(moduleDirFallback, "target/" + id + ".jar").exists();
             boolean hasJarInApp = new File(ROOT_PATH, id + ".jar").exists()
                     || new File(ROOT_PATH, id + "/target/" + id + ".jar").exists();
-            boolean javaRunnable = hasJarInModule || hasJarInApp;
+            boolean hasPom = new File(moduleDir, "pom.xml").exists()
+                    || new File(moduleDirFallback, "pom.xml").exists();
+            // In local mvn mode, module can be runnable even when target jar has not been built yet.
+            boolean javaRunnable = hasJarInModule || hasJarInApp || hasPom;
 
             modules.put(id, ModuleInfo.builder()
                     .id(id)
                     .name(id)
                     .dir(dirPath)
-                    .port(entry.getValue())
+                    .port(port)
                     .artifactId(id)
-                    .registered(true)
+                    .registered(port != null)
                     .javaRunnable(javaRunnable)
                     .build());
         }
@@ -71,7 +79,7 @@ public class MsaScanner {
     private Map<String, Integer> loadPortRegistry() {
         Map<String, Integer> ports = new HashMap<>();
         try {
-            File file = new File(PORT_REGISTRY);
+            File file = resolveFirstExisting(PORT_REGISTRY_CANDIDATES);
             if (file.exists()) {
                 Yaml yaml = new Yaml();
                 Map<String, Object> obj = yaml.load(new FileInputStream(file));
@@ -86,6 +94,45 @@ public class MsaScanner {
             System.err.println("Failed to load port registry: " + e.getMessage());
         }
         return ports;
+    }
+
+    private List<String> loadMappingModuleIds() {
+        List<String> ids = new ArrayList<>();
+        try {
+            File file = resolveFirstExisting(MAPPING_FILE_CANDIDATES);
+            if (!file.exists()) {
+                return ids;
+            }
+            Yaml yaml = new Yaml();
+            Map<String, Object> obj = yaml.load(new FileInputStream(file));
+            if (!(obj.get("mappings") instanceof List)) {
+                return ids;
+            }
+            List<Map<String, Object>> mappings = (List<Map<String, Object>>) obj.get("mappings");
+            for (Map<String, Object> mapping : mappings) {
+                Object mod = mapping.get("module");
+                if (mod == null) {
+                    continue;
+                }
+                String id = mod.toString().trim();
+                if (!id.isEmpty() && !ids.contains(id)) {
+                    ids.add(id);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to load mapping modules: " + e.getMessage());
+        }
+        return ids;
+    }
+
+    private File resolveFirstExisting(List<String> candidates) {
+        for (String path : candidates) {
+            File f = new File(path);
+            if (f.exists()) {
+                return f;
+            }
+        }
+        return new File(candidates.get(0));
     }
 
 }

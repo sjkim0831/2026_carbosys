@@ -38,7 +38,7 @@ import java.util.stream.Stream;
 
 @Service
 public class LogAnalyticsService {
-    private static final Path LOG_DIR = Paths.get("/opt/carbosys/logs");
+    private static final Path LOG_DIR = AppPaths.logsDir();
     private static final Path OFFSET_FILE = LOG_DIR.resolve("log-offsets.properties");
     private static final Path LOG_ARCHIVE_FILE = LOG_DIR.resolve("module-log-events.jsonl");
     private static final Path CRITICAL_FILE = LOG_DIR.resolve("critical-events.jsonl");

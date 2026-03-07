@@ -18,61 +18,61 @@ COPY --from=node_runtime /usr/local/lib/node_modules /usr/local/lib/node_modules
 RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && \
     ln -sf /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
 
-WORKDIR /app
+WORKDIR /opt/carbosys
 
 # Copy Config / Info files
-COPY msa-mappings.yml /app/
-COPY msa-ports.yml /app/
+COPY msa-mappings.yml /opt/carbosys/
+COPY msa-ports.yml /opt/carbosys/
 
 # Copy already built jars from host's target directories directly
-COPY module/ConfigServer/target/ConfigServer.jar /app/
-COPY module/EurekaServer/target/EurekaServer.jar /app/
-COPY module/GatewayServer/target/GatewayServer.jar /app/
-COPY module/EgovMsaManager/target/EgovMsaManager.jar /app/
-COPY module/EgovLogin/target/EgovLogin.jar /app/
-COPY module/EgovMain/target/EgovMain.jar /app/
-COPY module/EgovBoard/target/EgovBoard.jar /app/
-COPY module/EgovAuthor/target/EgovAuthor.jar /app/
-COPY module/EgovCmmnCode/target/EgovCmmnCode.jar /app/
-COPY module/EgovQuestionnaire/target/EgovQuestionnaire.jar /app/
-COPY module/EgovSearch/target/EgovSearch.jar /app/
-COPY module/EgovMobileId/target/EgovMobileId.jar /app/
-COPY module/EgovLoginPolicy/target/EgovLoginPolicy.jar /app/
-COPY module/EgovSR/target/EgovSR.jar /app/
-COPY module/EgovCertLogin/target/EgovCertLogin.jar /app/
-COPY module/EgovSimpleAuth/target/EgovSimpleAuth.jar /app/
-COPY module/EgovGnrLogin/target/EgovGnrLogin.jar /app/
-COPY module/EgovHome/target/EgovHome.jar /app/
+COPY module/ConfigServer/target/ConfigServer.jar /opt/carbosys/
+COPY module/EurekaServer/target/EurekaServer.jar /opt/carbosys/
+COPY module/GatewayServer/target/GatewayServer.jar /opt/carbosys/
+COPY module/EgovMsaManager/target/EgovMsaManager.jar /opt/carbosys/
+COPY module/EgovLogin/target/EgovLogin.jar /opt/carbosys/
+COPY module/EgovMain/target/EgovMain.jar /opt/carbosys/
+COPY module/EgovBoard/target/EgovBoard.jar /opt/carbosys/
+COPY module/EgovAuthor/target/EgovAuthor.jar /opt/carbosys/
+COPY module/EgovCmmnCode/target/EgovCmmnCode.jar /opt/carbosys/
+COPY module/EgovQuestionnaire/target/EgovQuestionnaire.jar /opt/carbosys/
+COPY module/EgovSearch/target/EgovSearch.jar /opt/carbosys/
+COPY module/EgovMobileId/target/EgovMobileId.jar /opt/carbosys/
+COPY module/EgovLoginPolicy/target/EgovLoginPolicy.jar /opt/carbosys/
+COPY module/EgovSR/target/EgovSR.jar /opt/carbosys/
+COPY module/EgovCertLogin/target/EgovCertLogin.jar /opt/carbosys/
+COPY module/EgovSimpleAuth/target/EgovSimpleAuth.jar /opt/carbosys/
+COPY module/EgovGnrLogin/target/EgovGnrLogin.jar /opt/carbosys/
+COPY module/EgovHome/target/EgovHome.jar /opt/carbosys/
 
 # Keep full module sources in image as a fallback build source when host bind mount is unavailable.
-COPY module /app/module
+COPY module /opt/carbosys/module
 
 # Create target directories so MsaScanner and other tools find files in their standard locations
-RUN mkdir -p /app/EgovMain/target /app/EgovLogin/target /app/EgovBoard/target \
-    /app/EgovAuthor/target /app/EgovCmmnCode/target /app/EgovQuestionnaire/target /app/EgovSearch/target \
-    /app/EgovMobileId/target /app/EgovLoginPolicy/target /app/EgovSR/target /app/EgovCertLogin/target \
-    /app/EgovSimpleAuth/target /app/EgovGnrLogin/target /app/EgovMsaManager/target \
-    /app/EgovHome/target && \
-    ln -sf /app/EgovMain.jar /app/EgovMain/target/EgovMain.jar && \
-    ln -sf /app/EgovLogin.jar /app/EgovLogin/target/EgovLogin.jar && \
-    ln -sf /app/EgovBoard.jar /app/EgovBoard/target/EgovBoard.jar && \
-    ln -sf /app/EgovAuthor.jar /app/EgovAuthor/target/EgovAuthor.jar && \
-    ln -sf /app/EgovCmmnCode.jar /app/EgovCmmnCode/target/EgovCmmnCode.jar && \
-    ln -sf /app/EgovQuestionnaire.jar /app/EgovQuestionnaire/target/EgovQuestionnaire.jar && \
-    ln -sf /app/EgovSearch.jar /app/EgovSearch/target/EgovSearch.jar && \
-    ln -sf /app/EgovMobileId.jar /app/EgovMobileId/target/EgovMobileId.jar && \
-    ln -sf /app/EgovLoginPolicy.jar /app/EgovLoginPolicy/target/EgovLoginPolicy.jar && \
-    ln -sf /app/EgovSR.jar /app/EgovSR/target/EgovSR.jar && \
-    ln -sf /app/EgovCertLogin.jar /app/EgovCertLogin/target/EgovCertLogin.jar && \
-    ln -sf /app/EgovSimpleAuth.jar /app/EgovSimpleAuth/target/EgovSimpleAuth.jar && \
-    ln -sf /app/EgovGnrLogin.jar /app/EgovGnrLogin/target/EgovGnrLogin.jar && \
-    ln -sf /app/EgovMsaManager.jar /app/EgovMsaManager/target/EgovMsaManager.jar && \
-    ln -sf /app/EgovHome.jar /app/EgovHome/target/EgovHome.jar
+RUN mkdir -p /opt/carbosys/EgovMain/target /opt/carbosys/EgovLogin/target /opt/carbosys/EgovBoard/target \
+    /opt/carbosys/EgovAuthor/target /opt/carbosys/EgovCmmnCode/target /opt/carbosys/EgovQuestionnaire/target /opt/carbosys/EgovSearch/target \
+    /opt/carbosys/EgovMobileId/target /opt/carbosys/EgovLoginPolicy/target /opt/carbosys/EgovSR/target /opt/carbosys/EgovCertLogin/target \
+    /opt/carbosys/EgovSimpleAuth/target /opt/carbosys/EgovGnrLogin/target /opt/carbosys/EgovMsaManager/target \
+    /opt/carbosys/EgovHome/target && \
+    ln -sf /opt/carbosys/EgovMain.jar /opt/carbosys/EgovMain/target/EgovMain.jar && \
+    ln -sf /opt/carbosys/EgovLogin.jar /opt/carbosys/EgovLogin/target/EgovLogin.jar && \
+    ln -sf /opt/carbosys/EgovBoard.jar /opt/carbosys/EgovBoard/target/EgovBoard.jar && \
+    ln -sf /opt/carbosys/EgovAuthor.jar /opt/carbosys/EgovAuthor/target/EgovAuthor.jar && \
+    ln -sf /opt/carbosys/EgovCmmnCode.jar /opt/carbosys/EgovCmmnCode/target/EgovCmmnCode.jar && \
+    ln -sf /opt/carbosys/EgovQuestionnaire.jar /opt/carbosys/EgovQuestionnaire/target/EgovQuestionnaire.jar && \
+    ln -sf /opt/carbosys/EgovSearch.jar /opt/carbosys/EgovSearch/target/EgovSearch.jar && \
+    ln -sf /opt/carbosys/EgovMobileId.jar /opt/carbosys/EgovMobileId/target/EgovMobileId.jar && \
+    ln -sf /opt/carbosys/EgovLoginPolicy.jar /opt/carbosys/EgovLoginPolicy/target/EgovLoginPolicy.jar && \
+    ln -sf /opt/carbosys/EgovSR.jar /opt/carbosys/EgovSR/target/EgovSR.jar && \
+    ln -sf /opt/carbosys/EgovCertLogin.jar /opt/carbosys/EgovCertLogin/target/EgovCertLogin.jar && \
+    ln -sf /opt/carbosys/EgovSimpleAuth.jar /opt/carbosys/EgovSimpleAuth/target/EgovSimpleAuth.jar && \
+    ln -sf /opt/carbosys/EgovGnrLogin.jar /opt/carbosys/EgovGnrLogin/target/EgovGnrLogin.jar && \
+    ln -sf /opt/carbosys/EgovMsaManager.jar /opt/carbosys/EgovMsaManager/target/EgovMsaManager.jar && \
+    ln -sf /opt/carbosys/EgovHome.jar /opt/carbosys/EgovHome/target/EgovHome.jar
 
 # Copy entrypoint script
-COPY entrypoint.sh /app/
-RUN chmod +x /app/entrypoint.sh
+COPY entrypoint.sh /opt/carbosys/
+RUN chmod +x /opt/carbosys/entrypoint.sh
 
 EXPOSE 8761 9000 18000 18011 18030
 
-ENTRYPOINT /bin/sh /app/entrypoint.sh
+ENTRYPOINT /bin/sh /opt/carbosys/entrypoint.sh

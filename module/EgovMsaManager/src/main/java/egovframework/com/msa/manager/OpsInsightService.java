@@ -37,8 +37,9 @@ import java.util.stream.Stream;
 
 @Service
 public class OpsInsightService {
-    private static final String MAPPING_FILE = "/app/msa-mappings.yml";
-    private static final String MODULE_ROOT = "/opt/carbosys/module";
+    private static final List<String> MAPPING_FILE_CANDIDATES = Arrays.asList(
+            AppPaths.resolvePath("msa-mappings.yml").toString());
+    private static final String MODULE_ROOT = AppPaths.moduleRoot();
     private static final DateTimeFormatter TS_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private static final Pattern IMG_NO_ALT = Pattern.compile("<img\\b(?![^>]*\\balt\\s*=)[^>]*>", Pattern.CASE_INSENSITIVE);
@@ -51,8 +52,8 @@ public class OpsInsightService {
     private static final long SOURCE_SCAN_MAX_FILE_BYTES = 768L * 1024L;
     private static final int EXPLORER_TERMINAL_MAX_LINES = 300;
     private static final List<String> EXPLORER_LOG_FILES = Arrays.asList(
-            "/opt/carbosys/logs/critical-events.jsonl",
-            "/opt/carbosys/logs/module-log-events.jsonl");
+            AppPaths.resolvePath("logs", "critical-events.jsonl").toString(),
+            AppPaths.resolvePath("logs", "module-log-events.jsonl").toString());
 
     private static final String EXTERNAL_URLS_ENV = "MSA_SECURITY_API_URLS";
     private static final String EXTERNAL_TOKEN_ENV = "MSA_SECURITY_API_TOKEN";
@@ -2005,7 +2006,7 @@ public class OpsInsightService {
     }
 
     private List<Map<String, Object>> loadMappings() {
-        File file = new File(MAPPING_FILE);
+        File file = resolveFirstExisting(MAPPING_FILE_CANDIDATES);
         if (!file.exists()) {
             return Collections.emptyList();
         }
@@ -2026,6 +2027,16 @@ public class OpsInsightService {
         } catch (Exception e) {
             return Collections.emptyList();
         }
+    }
+
+    private File resolveFirstExisting(List<String> candidates) {
+        for (String path : candidates) {
+            File f = new File(path);
+            if (f.exists()) {
+                return f;
+            }
+        }
+        return new File(candidates.get(0));
     }
 
     private Integer readRssMbByPort(Integer port) {

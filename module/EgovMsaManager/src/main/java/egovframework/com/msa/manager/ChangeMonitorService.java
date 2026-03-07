@@ -35,7 +35,8 @@ import java.util.stream.Stream;
 
 @Service
 public class ChangeMonitorService {
-    private static final Path LOG_DIR = Paths.get("/opt/carbosys/logs");
+    private static final Path LOG_DIR = AppPaths.logsDir();
+    private static final Path AI_EDIT_LOCK_FILE = AppPaths.resolvePath(".ai-edit.lock");
     private static final Path STATE_FILE = LOG_DIR.resolve("msa-autodeploy-state.properties");
     private static final Path HISTORY_LOG_FILE = LOG_DIR.resolve("change-history.jsonl");
     private static final Path RUNTIME_CONFIG_FILE = LOG_DIR.resolve("msa-runtime.properties");
@@ -62,6 +63,10 @@ public class ChangeMonitorService {
     private final Map<String, Long> lastDeployAt = new ConcurrentHashMap<>();
     private final Set<String> deployingModules = ConcurrentHashMap.newKeySet();
     private final Deque<Map<String, Object>> history = new ArrayDeque<>();
+    private final AtomicBoolean aiEditSessionActive = new AtomicBoolean(false);
+    private volatile boolean aiPrevAutoDeployEnabled = false;
+    private volatile boolean aiPrevManagerAutoDeployEnabled = false;
+    private final Map<String, Map<String, FileMeta>> aiBaselineByModule = new ConcurrentHashMap<>();
     private static final DateTimeFormatter HISTORY_TS_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private static class FileMeta {
@@ -83,6 +88,7 @@ public class ChangeMonitorService {
         loopExec.submit(() -> {
             while (running.get()) {
                 try {
+                    syncAiEditSessionByLockFile();
                     scanOnce();
                     Thread.sleep(SCAN_INTERVAL_MS);
                 } catch (InterruptedException ie) {
@@ -122,6 +128,153 @@ public class ChangeMonitorService {
         addHistory("system", "AUTO_DEPLOY_MANAGER_" + (enabled ? "ON" : "OFF"),
                 "MsaManager 자동 무중단 배포 대상 " + (enabled ? "포함" : "제외"),
                 new ArrayList<>(), "ok");
+    }
+
+    public Map<String, Object> startAiEditSession() {
+        Map<String, Object> out = new LinkedHashMap<>();
+        if (!aiEditSessionActive.compareAndSet(false, true)) {
+            out.put("status", "already_running");
+            out.put("message", "AI 편집 세션이 이미 실행 중입니다.");
+            out.put("autoDeployEnabled", autoDeployEnabled.get());
+            out.put("managerEnabled", managerAutoDeployEnabled.get());
+            return out;
+        }
+
+        aiPrevAutoDeployEnabled = autoDeployEnabled.get();
+        aiPrevManagerAutoDeployEnabled = managerAutoDeployEnabled.get();
+
+        List<MsaScanner.ModuleInfo> modules = scanner.scan();
+        aiBaselineByModule.clear();
+        for (MsaScanner.ModuleInfo mod : modules) {
+            if (!mod.isJavaRunnable()) {
+                continue;
+            }
+            Map<String, FileMeta> snap = collectModuleFiles(mod.getDir());
+            aiBaselineByModule.put(mod.getId(), snap);
+            fileStateByModule.put(mod.getId(), snap);
+        }
+
+        autoDeployEnabled.set(false);
+        saveState();
+        addHistory("system", "AI_EDIT_START",
+                "AI 수정 시작: 자동 무중단 배포 일시 비활성화",
+                new ArrayList<>(), "running");
+
+        out.put("status", "ok");
+        out.put("message", "AI 편집 세션 시작");
+        out.put("autoDeployEnabled", autoDeployEnabled.get());
+        out.put("managerEnabled", managerAutoDeployEnabled.get());
+        out.put("prevAutoDeployEnabled", aiPrevAutoDeployEnabled);
+        out.put("prevManagerEnabled", aiPrevManagerAutoDeployEnabled);
+        out.put("baselineModules", aiBaselineByModule.size());
+        return out;
+    }
+
+    public Map<String, Object> endAiEditSession(Boolean buildRequested) {
+        Map<String, Object> out = new LinkedHashMap<>();
+        if (!aiEditSessionActive.compareAndSet(true, false)) {
+            out.put("status", "not_running");
+            out.put("message", "실행 중인 AI 편집 세션이 없습니다.");
+            out.put("autoDeployEnabled", autoDeployEnabled.get());
+            out.put("managerEnabled", managerAutoDeployEnabled.get());
+            return out;
+        }
+
+        List<MsaScanner.ModuleInfo> modules = scanner.scan();
+        Map<String, MsaScanner.ModuleInfo> modById = new LinkedHashMap<>();
+        List<String> changedModuleIds = new ArrayList<>();
+        for (MsaScanner.ModuleInfo mod : modules) {
+            if (!mod.isJavaRunnable()) {
+                continue;
+            }
+            if ("EgovMsaManager".equals(mod.getId()) && !aiPrevManagerAutoDeployEnabled) {
+                continue;
+            }
+            Map<String, FileMeta> baseline = aiBaselineByModule.get(mod.getId());
+            Map<String, FileMeta> now = collectModuleFiles(mod.getDir());
+            fileStateByModule.put(mod.getId(), now);
+            if (baseline == null) {
+                continue;
+            }
+            ChangeSet cs = diff(baseline, now);
+            if (!cs.summary.isEmpty()) {
+                changedModuleIds.add(mod.getId());
+                modById.put(mod.getId(), mod);
+                addHistory(mod.getId(), "AI_EDIT_CHANGE",
+                        "AI 세션 변경 감지 (" + cs.summary.size() + "건)", cs.details, "detected");
+            }
+        }
+
+        boolean buildAllowed = isBuildAllowed();
+        boolean useBuild = (buildRequested == null) ? buildAllowed : buildRequested.booleanValue();
+        List<Map<String, String>> deployResults = new ArrayList<>();
+
+        for (String id : changedModuleIds) {
+            MsaScanner.ModuleInfo mod = modById.get(id);
+            if (mod == null) {
+                continue;
+            }
+            Map<String, String> row = new LinkedHashMap<>();
+            row.put("module", id);
+            if (!deployingModules.add(id)) {
+                row.put("status", "skipped");
+                row.put("message", "이미 배포 중");
+                deployResults.add(row);
+                continue;
+            }
+            try {
+                addHistory(id, "AI_EDIT_DEPLOY_START",
+                        "AI 수정 종료 배포 시작 (" + (useBuild ? "build+무중단" : "deploy-only+무중단") + ")",
+                        new ArrayList<>(), "running");
+                String res = useBuild
+                        ? processManager.buildDeployZeroDowntimeModule(mod)
+                        : processManager.deployZeroDowntimeModule(mod);
+                if ("ok".equals(res)) {
+                    lastDeployAt.put(id, System.currentTimeMillis());
+                    row.put("status", "ok");
+                    row.put("message", "배포 완료");
+                    addHistory(id, "AI_EDIT_DEPLOY_DONE", "AI 수정 종료 자동 무중단 배포 완료",
+                            new ArrayList<>(), "ok");
+                } else {
+                    row.put("status", "error");
+                    row.put("message", res);
+                    addHistory(id, "AI_EDIT_DEPLOY_FAIL", res, new ArrayList<>(), "error");
+                }
+            } finally {
+                deployingModules.remove(id);
+                deployResults.add(row);
+            }
+        }
+
+        autoDeployEnabled.set(aiPrevAutoDeployEnabled);
+        managerAutoDeployEnabled.set(aiPrevManagerAutoDeployEnabled);
+        saveState();
+        aiBaselineByModule.clear();
+        addHistory("system", "AI_EDIT_END",
+                "AI 수정 종료: 자동 무중단 배포 설정 복구 (enabled=" + aiPrevAutoDeployEnabled + ")",
+                new ArrayList<>(), "ok");
+
+        out.put("status", "ok");
+        out.put("message", "AI 편집 세션 종료");
+        out.put("changedModules", changedModuleIds);
+        out.put("deployMode", useBuild ? "build+zero-downtime" : "deploy-only+zero-downtime");
+        out.put("buildAllowed", buildAllowed);
+        out.put("results", deployResults);
+        out.put("autoDeployEnabled", autoDeployEnabled.get());
+        out.put("managerEnabled", managerAutoDeployEnabled.get());
+        return out;
+    }
+
+    private void syncAiEditSessionByLockFile() {
+        boolean lockExists = Files.exists(AI_EDIT_LOCK_FILE);
+        boolean active = aiEditSessionActive.get();
+        if (lockExists && !active) {
+            startAiEditSession();
+            return;
+        }
+        if (!lockExists && active) {
+            endAiEditSession(null);
+        }
     }
 
     public List<Map<String, Object>> getHistory() {
@@ -243,6 +396,7 @@ public class ChangeMonitorService {
         try (Stream<Path> s = Files.walk(root, 8)) {
             s.filter(Files::isRegularFile)
                     .filter(p -> !isIgnoredPath(root, p))
+                    .filter(p -> isDockerCopiedRelevantPath(root, p))
                     .forEach(p -> {
                         try {
                             String rel = root.relativize(p).toString().replace('\\', '/');
@@ -257,12 +411,39 @@ public class ChangeMonitorService {
 
     private boolean isIgnoredPath(Path root, Path p) {
         String rel = root.relativize(p).toString().replace('\\', '/');
-        return rel.startsWith("target/")
-                || rel.startsWith(".git/")
-                || rel.startsWith("node_modules/")
-                || rel.startsWith(".idea/")
-                || rel.endsWith(".log")
-                || rel.contains("/.DS_Store");
+        String l = rel.toLowerCase();
+        if (l.startsWith("target/") || l.startsWith(".git/") || l.startsWith("node_modules/")
+                || l.startsWith(".idea/") || l.startsWith(".vscode/") || l.startsWith(".settings/")
+                || l.startsWith(".metadata/") || l.startsWith("logs/") || l.startsWith("log/")
+                || l.startsWith("tmp/") || l.startsWith("temp/") || l.startsWith("run/")
+                || l.startsWith("data/") || l.startsWith("backup/")) {
+            return true;
+        }
+        if (l.endsWith(".log") || l.endsWith(".out") || l.endsWith(".pid") || l.endsWith(".lock")
+                || l.endsWith(".tmp") || l.endsWith(".swp") || l.endsWith(".swo")
+                || l.endsWith(".class")) {
+            return true;
+        }
+        return l.contains("/.ds_store")
+                || l.contains("/.git/")
+                || l.contains("/.svn/")
+                || l.contains("/.cache/")
+                || l.contains("/.mvn/wrapper/maven-wrapper.jar")
+                || l.contains("/startup.log");
+    }
+
+    private boolean isDockerCopiedRelevantPath(Path root, Path p) {
+        // Root Dockerfile copies /opt/carbosys/module into image.
+        // Track files that impact runtime/build, exclude system noise.
+        String rel = root.relativize(p).toString().replace('\\', '/');
+        String l = rel.toLowerCase();
+        if ("pom.xml".equals(l) || "dockerfile".equals(l) || "mvnw".equals(l) || "mvnw.cmd".equals(l)
+                || "build.gradle".equals(l) || "build.gradle.kts".equals(l)
+                || "settings.gradle".equals(l) || "settings.gradle.kts".equals(l)
+                || "package.json".equals(l) || "package-lock.json".equals(l) || "yarn.lock".equals(l)) {
+            return true;
+        }
+        return l.startsWith("src/") || l.startsWith(".mvn/") || l.startsWith("gradle/");
     }
 
     private FileMeta readFileMeta(Path p, String rel) {

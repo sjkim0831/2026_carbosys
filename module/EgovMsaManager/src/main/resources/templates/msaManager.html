@@ -262,7 +262,7 @@
                             </h2>
                             <p class="text-xs text-gray-500 mt-1">기본값 OFF, 서버 메모리/런타임 상태 유지(컨테이너 재생성 전까지 유지)</p>
                             <p id="changeRangeLabel" class="text-xs text-gray-500 mt-1">기간: 전체</p>
-                            <p class="text-xs text-gray-400 mt-1 mono">로그 파일: /opt/carbosys/logs/change-history.jsonl</p>
+                            <p class="text-xs text-gray-400 mt-1 mono" th:text="'로그 파일: ' + ${appRoot} + '/logs/change-history.jsonl'">로그 파일: /opt/carbosys/logs/change-history.jsonl</p>
                         </div>
                         <label class="inline-flex items-center gap-2 text-sm font-bold">
                             <input id="autoDeployToggle" type="checkbox" class="rounded border-gray-300 text-cyan-600 focus:ring-cyan-500" onchange="toggleAutoDeploy(this.checked)" />
@@ -358,7 +358,7 @@
                             <input id="remotePassword" type="password" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="ssh password" />
                         </label>
                         <label class="text-xs font-bold text-gray-600 md:col-span-2">Remote Dir
-                            <input id="remoteDir" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="/opt/carbosys" />
+                            <input id="remoteDir" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" th:placeholder="${appRoot}" placeholder="/opt/carbosys" />
                         </label>
                         <label class="text-xs font-bold text-gray-600 md:col-span-1">Container
                             <input id="remoteContainerName" type="text" class="mt-1 w-full px-3 py-2 rounded border border-gray-200 text-xs" placeholder="carbosys-app" />
@@ -471,7 +471,7 @@
                         </div>
                         <div class="flex items-center gap-2">
                             <button onclick="resetLiveLogs()" class="px-3 py-2 rounded text-[12px] font-bold bg-rose-600 text-white hover:bg-rose-700">실시간 로그 초기화</button>
-                            <span class="text-xs text-gray-400 mono">파일: /opt/carbosys/logs/module-log-events.jsonl</span>
+                            <span class="text-xs text-gray-400 mono" th:text="'파일: ' + ${appRoot} + '/logs/module-log-events.jsonl'">파일: /opt/carbosys/logs/module-log-events.jsonl</span>
                         </div>
                     </div>
                 </div>
@@ -1001,6 +1001,7 @@
         let trafficOverview = null;
         let trafficLoadStatus = null;
         let accessibilityIssues = [];
+        const appRoot = /*[[${appRoot}]]*/ '/opt/carbosys';
         let runtimeConfig = {
             serverMode: 'development',
             dangerousOpsBlocked: false,
@@ -1913,7 +1914,7 @@
                 setVal('remotePort', data.port || '22');
                 setVal('remoteUser', data.user);
                 setVal('remoteKeyPath', data.keyPath);
-                setVal('remoteDir', data.remoteDir || '/opt/carbosys');
+                setVal('remoteDir', data.remoteDir || appRoot);
                 setVal('remoteContainerName', data.containerName || 'carbosys-app');
                 setVal('remoteManagerUrl', data.managerUrl || 'http://localhost:18030');
                 setVal('composeBlueFile', data.composeBlueFile || 'docker-compose.blue.yml');
@@ -1954,7 +1955,7 @@
                     user: document.getElementById('remoteUser')?.value || '',
                     keyPath: document.getElementById('remoteKeyPath')?.value || '',
                     password: document.getElementById('remotePassword')?.value || '',
-                    remoteDir: document.getElementById('remoteDir')?.value || '/opt/carbosys',
+                    remoteDir: document.getElementById('remoteDir')?.value || appRoot,
                     containerName: document.getElementById('remoteContainerName')?.value || 'carbosys-app',
                     managerUrl: document.getElementById('remoteManagerUrl')?.value || 'http://localhost:18030',
                     activeColor: document.getElementById('bgActiveColor')?.value || 'blue',
@@ -2029,7 +2030,7 @@
                     showToast('warning', '운영 모드에서는 차단됩니다.');
                     return;
                 }
-                if (!confirm('빌드를 실행할까요? (로컬 /opt/carbosys 기준 mvn -DskipTests package)')) return;
+                if (!confirm(`빌드를 실행할까요? (로컬 ${appRoot} 기준 mvn -DskipTests package)`)) return;
                 const r = await fetch('/admin/msa/api/remote/build', { method: 'POST' });
                 const data = await r.json();
                 if (data.status !== 'ok') throw new Error(data.message || 'build failed');

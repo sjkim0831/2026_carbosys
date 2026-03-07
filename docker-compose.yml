@@ -44,8 +44,16 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
-      MSA_MANAGER_XMS: "512m"
-      MSA_MANAGER_XMX: "1024m"
+      EUREKA_XMS: "64m"
+      EUREKA_XMX: "128m"
+      CONFIG_XMS: "64m"
+      CONFIG_XMX: "128m"
+      GATEWAY_XMS: "128m"
+      GATEWAY_XMX: "256m"
+      MSA_MANAGER_XMS: "128m"
+      MSA_MANAGER_XMX: "256m"
+      EGOV_HOME_XMS: "256m"
+      EGOV_HOME_XMX: "512m"
     depends_on:
       cubrid:
         condition: service_healthy
