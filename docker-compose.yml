@@ -50,8 +50,6 @@ services:
       CONFIG_XMX: "128m"
       GATEWAY_XMS: "128m"
       GATEWAY_XMX: "256m"
-      MSA_MANAGER_XMS: "128m"
-      MSA_MANAGER_XMX: "256m"
       EGOV_HOME_XMS: "256m"
       EGOV_HOME_XMX: "512m"
     depends_on:
@@ -60,7 +58,6 @@ services:
     ports:
       - "8761:8761"
       - "9000:9000"
-      - "18030:18030"
     container_name: carbosys-app
     hostname: carbosys-app
     networks:

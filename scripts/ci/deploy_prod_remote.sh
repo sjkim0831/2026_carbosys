@@ -43,9 +43,6 @@ if [[ "$PROD_DEPLOY_ENGINE" == "msa-api" ]]; then
   fi
   for mod in "$@"; do
     endpoint="deploy-zerodowntime"
-    if [[ "$mod" == "EgovMsaManager" ]]; then
-      endpoint="deploy-restart"
-    fi
     echo "[DEPLOY][PROD][MSA-API] $mod via $PROD_MSA_MANAGER_URL/api/modules/$mod/$endpoint"
     resp="$(curl -fsS -X POST "$PROD_MSA_MANAGER_URL/api/modules/$mod/$endpoint")"
     status="$(echo "$resp" | jq -r '.status // "error"')"

@@ -1,10 +1,19 @@
-# IntelliJ project files
-.idea
+# IntelliJ / IDE
+.idea/
 *.iml
-out
-gen
+out/
+gen/
+.project
+.classpath
+.metadata/
+.settings/
+.loadpath
+.recommenders
+.sts4-cache/
+.factorypath
+.vscode/
 
-# macOS
+# OS metadata
 .DS_Store
 ._.DS_Store
 **/.DS_Store
@@ -12,16 +21,16 @@ gen
 *.AppleDouble
 *.LSOverride
 
-# maven
+# Maven / Java build outputs
 target/
 **/target/
-.project
-.classpath
 **/.mvn/wrapper/
 **/mvnw*
+*.jar
+*.war
+*.out
 
-# eclipse
-.metadata
+# Temp / editor
 bin/
 tmp/
 *.tmp
@@ -29,44 +38,40 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.settings/
-.loadpath
-.recommenders
-.sts4-cache/
-.factorypath
 
-#sonar
+# Analysis
 sonar-project.properties
-.scannerwork
+.scannerwork/
 
-model/
-
-# Build artifacts
-*.jar
-*.war
-*.out
-
-# Database data and log files
-docker-compose/cubrid/data/
-*.log
-csql.err
-/data
-infra/cubrid/init/20260225_backup_data.sql:Zone.Identifier
-infra/cubrid/init/20260225_backup_schema.sql:Zone.Identifier
-infra/cubrid/init/create_instt_info.sql:Zone.Identifier
-file/instt/INSTT_1772173772820.jpg
-/file
-/file
-/file/instt
+# Local assistant artifacts
 .aider*
 .changed_modules
 .changed_modules.csv
-/screen
-backup
-backup/*
-logs/*
 
-# Runtime/generated logs
+# Runtime and local data (must not be versioned)
+/data/
+/logs/
+/file/
+/backup/
+/var/
+/screen/
+/wsl.localhost/
+*.log
+csql.err
+
+# App runtime-generated files
 module/**/runtime/*.log
 module/**/runtime/*.jsonl
 module/**/runtime/log-offsets.properties
+module/**/runtime/*.properties
+
+# DB backup/key artifacts
+infra/cubrid/conf/com_bk0_keys
+infra/cubrid/conf/db_backup_*.sql
+infra/cubrid/conf/db_backup_*_indexes
+infra/cubrid/conf/db_backup_*_objects
+infra/cubrid/conf/db_backup_*_schema
+infra/cubrid/init/*.Zone.Identifier
+
+# Misc
+model/

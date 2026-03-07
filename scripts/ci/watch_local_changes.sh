@@ -14,7 +14,6 @@ snapshot_hash() {
     ! -path "$ROOT_DIR/data/*" \
     ! -path "$ROOT_DIR/file/*" \
     ! -path "$ROOT_DIR/module/*/target/*" \
-    ! -path "$ROOT_DIR/module/EgovMsaManager/runtime/*" \
     ! -path "$ROOT_DIR/.ops-control/*" \
     -printf '%P|%T@\n' | sort | sha256sum | awk '{print $1}'
 }

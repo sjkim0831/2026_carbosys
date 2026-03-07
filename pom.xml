@@ -20,7 +20,6 @@
 		<module>module/EgovMobileId</module>
 		<module>module/EgovQuestionnaire</module>
 		<module>module/EgovSearch</module>
-		<module>module/EgovMsaManager</module>
 		<module>module/EurekaServer</module>
 		<module>module/GatewayServer</module>
 	</modules>

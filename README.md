@@ -38,8 +38,21 @@
     ├ module/EgovSearch-Config
     ├ module/EgovSearch
     ├ module/EurekaServer
-    └ module/GatewayServer
+    ├ module/GatewayServer
+    ├ infra/
+    ├ scripts/
+    └ docs/
 ```
+
+### 루트 디렉터리 운영 원칙 (2026-03-07)
+
+- `module/`: 서비스 소스 코드(실행 대상)
+- `infra/`: Docker/DB/Jenkins 등 인프라 설정
+- `scripts/`: 배포/운영/자동화 스크립트
+- `docs/`: 프로젝트 문서
+- `data`, `logs`, `file`, `backup`, `var`: 런타임/운영 데이터(로컬 전용, Git 미추적)
+
+상세 기준은 `docs/ROOT_STRUCTURE.md`를 참고.
 
 ### 루트(aggregator) 빌드 기준
 

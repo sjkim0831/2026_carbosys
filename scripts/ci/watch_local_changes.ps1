@@ -15,7 +15,6 @@ function Get-SnapshotHash {
       $_.FullName -notmatch '\\data\\' -and
       $_.FullName -notmatch '\\file\\' -and
       $_.FullName -notmatch '\\module\\[^\\]+\\target\\' -and
-      $_.FullName -notmatch '\\module\\EgovMsaManager\\runtime\\' -and
       $_.FullName -notmatch '\\.ops-control\\'
     } |
     Sort-Object FullName |

@@ -28,7 +28,6 @@ COPY msa-ports.yml /opt/carbosys/
 COPY module/ConfigServer/target/ConfigServer.jar /opt/carbosys/
 COPY module/EurekaServer/target/EurekaServer.jar /opt/carbosys/
 COPY module/GatewayServer/target/GatewayServer.jar /opt/carbosys/
-COPY module/EgovMsaManager/target/EgovMsaManager.jar /opt/carbosys/
 COPY module/EgovLogin/target/EgovLogin.jar /opt/carbosys/
 COPY module/EgovMain/target/EgovMain.jar /opt/carbosys/
 COPY module/EgovBoard/target/EgovBoard.jar /opt/carbosys/
@@ -51,7 +50,7 @@ COPY module /opt/carbosys/module
 RUN mkdir -p /opt/carbosys/EgovMain/target /opt/carbosys/EgovLogin/target /opt/carbosys/EgovBoard/target \
     /opt/carbosys/EgovAuthor/target /opt/carbosys/EgovCmmnCode/target /opt/carbosys/EgovQuestionnaire/target /opt/carbosys/EgovSearch/target \
     /opt/carbosys/EgovMobileId/target /opt/carbosys/EgovLoginPolicy/target /opt/carbosys/EgovSR/target /opt/carbosys/EgovCertLogin/target \
-    /opt/carbosys/EgovSimpleAuth/target /opt/carbosys/EgovGnrLogin/target /opt/carbosys/EgovMsaManager/target \
+    /opt/carbosys/EgovSimpleAuth/target /opt/carbosys/EgovGnrLogin/target \
     /opt/carbosys/EgovHome/target && \
     ln -sf /opt/carbosys/EgovMain.jar /opt/carbosys/EgovMain/target/EgovMain.jar && \
     ln -sf /opt/carbosys/EgovLogin.jar /opt/carbosys/EgovLogin/target/EgovLogin.jar && \
@@ -66,13 +65,12 @@ RUN mkdir -p /opt/carbosys/EgovMain/target /opt/carbosys/EgovLogin/target /opt/c
     ln -sf /opt/carbosys/EgovCertLogin.jar /opt/carbosys/EgovCertLogin/target/EgovCertLogin.jar && \
     ln -sf /opt/carbosys/EgovSimpleAuth.jar /opt/carbosys/EgovSimpleAuth/target/EgovSimpleAuth.jar && \
     ln -sf /opt/carbosys/EgovGnrLogin.jar /opt/carbosys/EgovGnrLogin/target/EgovGnrLogin.jar && \
-    ln -sf /opt/carbosys/EgovMsaManager.jar /opt/carbosys/EgovMsaManager/target/EgovMsaManager.jar && \
     ln -sf /opt/carbosys/EgovHome.jar /opt/carbosys/EgovHome/target/EgovHome.jar
 
 # Copy entrypoint script
 COPY entrypoint.sh /opt/carbosys/
 RUN chmod +x /opt/carbosys/entrypoint.sh
 
-EXPOSE 8761 9000 18000 18011 18030
+EXPOSE 8761 9000 18000
 
 ENTRYPOINT /bin/sh /opt/carbosys/entrypoint.sh

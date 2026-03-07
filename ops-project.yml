@@ -8,7 +8,6 @@ paths:
   moduleRoot: /opt/carbosys/module
   containerDeployRoot: /opt
   containerProjectPath: /opt/carbosys
-  managerRuntimePath: /opt/carbosys/module/EgovMsaManager/runtime
   centralMappingFile: /opt/carbosys/msa-mappings.yml
   centralPortFile: /opt/carbosys/msa-ports.yml
 

@@ -11,8 +11,6 @@ CONFIG_XMS="${CONFIG_XMS:-64m}"
 CONFIG_XMX="${CONFIG_XMX:-128m}"
 GATEWAY_XMS="${GATEWAY_XMS:-128m}"
 GATEWAY_XMX="${GATEWAY_XMX:-256m}"
-MSA_MANAGER_XMS="${MSA_MANAGER_XMS:-128m}"
-MSA_MANAGER_XMX="${MSA_MANAGER_XMX:-256m}"
 EGOV_HOME_XMS="${EGOV_HOME_XMS:-256m}"
 EGOV_HOME_XMX="${EGOV_HOME_XMX:-512m}"
 
@@ -26,30 +24,6 @@ java -Xms"${EUREKA_XMS}" -Xmx"${EUREKA_XMX}" -jar /opt/carbosys/EurekaServer.jar
 
 echo "Starting ConfigServer..."
 java -Xms"${CONFIG_XMS}" -Xmx"${CONFIG_XMX}" -jar /opt/carbosys/ConfigServer.jar &
-
-# Start MSA Manager
-echo "Waiting for Eureka (8761) readiness before starting EgovMsaManager..."
-EUREKA_MAX_RETRIES="${EUREKA_MAX_RETRIES:-120}"
-EUREKA_SLEEP_SEC="${EUREKA_RETRY_INTERVAL_SEC:-2}"
-EUREKA_COUNT=0
-while true; do
-  EUREKA_CODE="$(curl -sS -o /dev/null -w "%{http_code}" --max-time 2 http://localhost:8761/ || true)"
-  case "$EUREKA_CODE" in
-    200|302|401|403)
-      echo "Eureka ready: ${EUREKA_CODE}"
-      break
-      ;;
-  esac
-  EUREKA_COUNT=$((EUREKA_COUNT + 1))
-  if [ "$EUREKA_COUNT" -ge "$EUREKA_MAX_RETRIES" ]; then
-    echo "Eureka readiness timeout after $((EUREKA_MAX_RETRIES * EUREKA_SLEEP_SEC)) seconds. Starting EgovMsaManager anyway..."
-    break
-  fi
-  sleep "$EUREKA_SLEEP_SEC"
-done
-
-echo "Starting EgovMsaManager..."
-java -Xms"${MSA_MANAGER_XMS}" -Xmx"${MSA_MANAGER_XMX}" -jar /opt/carbosys/EgovMsaManager.jar &
 
 # Start Gateway/EgovHome only after Config is ready
 echo "Waiting for ConfigServer (8888) readiness before starting Gateway and EgovHome..."

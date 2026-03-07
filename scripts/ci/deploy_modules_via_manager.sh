@@ -62,9 +62,6 @@ for mod in "$@"; do
   echo "[DEPLOY] $mod"
 
   endpoint="deploy-zerodowntime"
-  if [[ "$mod" == "EgovMsaManager" ]]; then
-    endpoint="deploy-restart"
-  fi
 
   resp="$(curl -fsS -X POST "$MSA_MANAGER_URL/api/modules/$mod/$endpoint")"
   status="$(echo "$resp" | jq -r '.status // "error"')"

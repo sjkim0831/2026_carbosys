@@ -46,7 +46,7 @@ Windows PowerShell:
 
 - 기본 동작: `MSA Manager` 미기동 시 `docker compose up -d` 자동 실행 후 감시 시작
 - 변경 감지 시 변경 모듈만 빌드/배포
-- 감시 제외: `target`, `logs`, `data`, `file`, `module/EgovMsaManager/runtime`
+- 감시 제외: `target`, `logs`, `data`, `file`
 
 ## 4) 선택: GitHub webhook 자동 생성
 실행 전에 토큰만 넣으면 webhook까지 자동 등록됩니다.
@@ -66,4 +66,4 @@ $env:GITHUB_TOKEN="<your_token>"
 ## 5) 확인 주소
 - Jenkins: http://localhost:18081
 - Job: http://localhost:18081/job/carbosys-main-cicd/
-- Manager: http://localhost:18030/admin/msa/manager
+- Manager(외부 분리): 별도 매니저 인스턴스 주소 사용

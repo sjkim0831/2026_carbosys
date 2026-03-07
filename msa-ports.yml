@@ -7,9 +7,6 @@ ports:
   ConfigServer: 8888
   GatewayServer: 9000
   
-  # Admin Modules
-  EgovMsaManager: 18030
-  
   # Core Business Modules
   EgovMain: 18001
   EgovLogin: 18002
