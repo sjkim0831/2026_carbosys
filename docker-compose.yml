@@ -1,49 +1,13 @@
 services:
-  cubrid:
-    image: cubrid/cubrid:11.2
-    restart: unless-stopped
-    entrypoint:
-      - /bin/sh
-      - -lc
-      - >
-        mkdir -p /var/lib/cubrid && exec /entrypoint.sh
-    environment:
-      TZ: Asia/Seoul
-      CUBRID_DB: com
-      CUBRID_LOCALE: ko_KR.utf8
-      CUBRID_CHARSET: utf8
-      DB_ROOT_PASSWORD: ""
-      CUBRID_COMPONENTS: ALL
-      CUBRID_DATABASES: /var/lib/cubrid
-      CUBRID_CONF: /opt/carbosys/conf/cubrid.conf
-      CUBRID_BROKER_CONF: /opt/carbosys/conf/cubrid_broker.conf
-    volumes:
-      - "./infra/cubrid/init:/docker-entrypoint-initdb.d"
-      - "./infra/cubrid/conf:/opt/carbosys/conf"
-      - "./data:/var/lib/cubrid"
-    healthcheck:
-      test: [ "CMD-SHELL", "cubrid server status com | grep -q 'Server com'" ]
-      interval: 10s
-      timeout: 5s
-      retries: 12
-      start_period: 30s
-    platform: linux/x86_64
-    hostname: cubrid
-    shm_size: '2gb'
-    privileged: true
-    container_name: cubrid
-    ports:
-      - "33000:33000"
-      - "33001:33001"
-    networks:
-      - carbosys-net
-
   carbosys-app:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        APP_HOME: "${APP_HOME:-/opt/app}"
     restart: unless-stopped
     environment:
+      APP_HOME: "${APP_HOME:-/opt/app}"
       EUREKA_XMS: "64m"
       EUREKA_XMX: "128m"
       CONFIG_XMS: "64m"
@@ -52,9 +16,7 @@ services:
       GATEWAY_XMX: "256m"
       EGOV_HOME_XMS: "256m"
       EGOV_HOME_XMX: "512m"
-    depends_on:
-      cubrid:
-        condition: service_healthy
+      CUBRID_HOST: "host.docker.internal"
     ports:
       - "8761:8761"
       - "9000:9000"
@@ -63,33 +25,10 @@ services:
     networks:
       - carbosys-net
     volumes:
-      - "./file:/opt/carbosys/file"
-      - "./module:/opt/carbosys/module"
-      - "./logs:/opt/carbosys/logs"
+      - "./module:${APP_HOME:-/opt/app}/module"
+      - "./logs:${APP_HOME:-/opt/app}/logs"
     extra_hosts:
-      - "localhost:127.0.0.1"
-
-  jenkins:
-    profiles: [ "ci" ]
-    build:
-      context: .
-      dockerfile: infra/jenkins/Dockerfile
-    container_name: carbosys-jenkins
-    user: "0:0"
-    restart: unless-stopped
-    depends_on:
-      - carbosys-app
-    ports:
-      - "18081:8080"
-      - "50000:50000"
-    environment:
-      TZ: Asia/Seoul
-    networks:
-      - carbosys-net
-    volumes:
-      - "jenkins_home:/var/jenkins_home"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - "./:/opt/carbosys"
+      - "host.docker.internal:host-gateway"
 
   tunnel:
     image: cloudflare/cloudflared:latest
@@ -101,6 +40,3 @@ services:
 networks:
   carbosys-net:
     driver: bridge
-
-volumes:
-  jenkins_home: {}

@@ -759,9 +759,15 @@ public class EgovJoinController {
     @GetMapping("/downloadInsttFile")
     public void downloadInsttFile(@RequestParam("filePath") String filePath,
             javax.servlet.http.HttpServletResponse response) throws Exception {
-        java.io.File file = new java.io.File(filePath);
-        // Security check: only allow files within the instt directory
-        if (!file.exists() || !file.getCanonicalPath().startsWith("/opt/carbosys/file/instt")) {
+        File file = new File(filePath);
+        File insttDir = resolveInsttUploadDir();
+        String canonicalDir = insttDir.getCanonicalPath();
+        if (!canonicalDir.endsWith(File.separator)) {
+            canonicalDir += File.separator;
+        }
+        String canonicalFile = file.getCanonicalPath();
+        // Security check: only allow files within the configured instt directory
+        if (!file.exists() || !canonicalFile.startsWith(canonicalDir)) {
             response.sendError(404, "File not found or access denied.");
             return;
         }
@@ -838,10 +844,9 @@ public class EgovJoinController {
     }
 
     private List<EntrprsMberFileVO> saveJoinEvidenceFiles(String memberId, List<MultipartFile> fileUploads) throws Exception {
-        String uploadDir = "/opt/carbosys/file/instt";
-        File dir = new File(uploadDir);
+        File dir = resolveInsttUploadDir();
         if (!dir.exists() && !dir.mkdirs()) {
-            throw new Exception("Cannot create upload directory: " + uploadDir);
+            throw new Exception("Cannot create upload directory: " + dir.getAbsolutePath());
         }
 
         String safeMemberId = hasText(memberId) ? memberId.replaceAll("[^a-zA-Z0-9_-]", "") : "JOIN";
@@ -898,10 +903,9 @@ public class EgovJoinController {
     }
 
     private List<InsttFileVO> saveInsttEvidenceFiles(String insttId, List<MultipartFile> fileUploads, int startFileSn) throws Exception {
-        String uploadDir = "/opt/carbosys/file/instt";
-        File dir = new File(uploadDir);
+        File dir = resolveInsttUploadDir();
         if (!dir.exists() && !dir.mkdirs()) {
-            throw new Exception("Cannot create upload directory: " + uploadDir);
+            throw new Exception("Cannot create upload directory: " + dir.getAbsolutePath());
         }
 
         String safeInsttId = hasText(insttId) ? insttId.replaceAll("[^a-zA-Z0-9_-]", "") : "INSTT";
@@ -955,6 +959,17 @@ public class EgovJoinController {
             }
         }
         return String.join(",", paths);
+    }
+
+    private File resolveInsttUploadDir() {
+        String path = System.getProperty("carbosys.file.instt.dir");
+        if (!hasText(path)) {
+            path = System.getenv("CARBONET_FILE_INSTT_DIR");
+        }
+        if (!hasText(path)) {
+            path = "./file/instt";
+        }
+        return new File(path).getAbsoluteFile();
     }
 
     private String normalizeMembershipCode(String membershipType) {

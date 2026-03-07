@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+APP_HOME="${APP_HOME:-/opt/app}"
 
 echo "Starting Carbosys MSA Services..."
 
@@ -20,10 +21,10 @@ echo "Skipping CUBRID readiness wait."
 
 # Start core services (Eureka/Config/EgovHome/Manager first)
 echo "Starting EurekaServer..."
-java -Xms"${EUREKA_XMS}" -Xmx"${EUREKA_XMX}" -jar /opt/carbosys/EurekaServer.jar &
+java -Xms"${EUREKA_XMS}" -Xmx"${EUREKA_XMX}" -jar "${APP_HOME}/EurekaServer.jar" &
 
 echo "Starting ConfigServer..."
-java -Xms"${CONFIG_XMS}" -Xmx"${CONFIG_XMX}" -jar /opt/carbosys/ConfigServer.jar &
+java -Xms"${CONFIG_XMS}" -Xmx"${CONFIG_XMX}" -jar "${APP_HOME}/ConfigServer.jar" &
 
 # Start Gateway/EgovHome only after Config is ready
 echo "Waiting for ConfigServer (8888) readiness before starting Gateway and EgovHome..."
@@ -45,31 +46,31 @@ while true; do
 done
 
 echo "Starting GatewayServer..."
-java -Xms"${GATEWAY_XMS}" -Xmx"${GATEWAY_XMX}" -jar /opt/carbosys/GatewayServer.jar &
+java -Xms"${GATEWAY_XMS}" -Xmx"${GATEWAY_XMX}" -jar "${APP_HOME}/GatewayServer.jar" &
 
 echo "Starting EgovHome..."
-java -Xms"${EGOV_HOME_XMS}" -Xmx"${EGOV_HOME_XMX}" -jar /opt/carbosys/EgovHome.jar --server.port=18000 &
+java -Xms"${EGOV_HOME_XMS}" -Xmx"${EGOV_HOME_XMX}" -jar "${APP_HOME}/EgovHome.jar" --server.port=18000 &
 
 echo "Core services started (Gateway/EgovHome after Config readiness)."
 echo "Other modules should be managed via MSA Manager UI."
 
 # Start Business Services (Commented out to allow Manager control)
 # echo "Starting business services..."
-# java -jar /opt/carbosys/EgovMain.jar &
-# java -jar /opt/carbosys/EgovLogin.jar &
-# java -jar /opt/carbosys/EgovBoard.jar &
-# java -jar /opt/carbosys/EgovJoin.jar &
-# java -jar /opt/carbosys/EgovAuthor.jar &
-# java -jar /opt/carbosys/EgovCmmnCode.jar &
-# java -jar /opt/carbosys/EgovQuestionnaire.jar &
-# java -jar /opt/carbosys/EgovSearch.jar &
-# java -jar /opt/carbosys/EgovMobileId.jar &
-# java -jar /opt/carbosys/EgovLoginPolicy.jar &
+# java -jar "${APP_HOME}/EgovMain.jar" &
+# java -jar "${APP_HOME}/EgovLogin.jar" &
+# java -jar "${APP_HOME}/EgovBoard.jar" &
+# java -jar "${APP_HOME}/EgovJoin.jar" &
+# java -jar "${APP_HOME}/EgovAuthor.jar" &
+# java -jar "${APP_HOME}/EgovCmmnCode.jar" &
+# java -jar "${APP_HOME}/EgovQuestionnaire.jar" &
+# java -jar "${APP_HOME}/EgovSearch.jar" &
+# java -jar "${APP_HOME}/EgovMobileId.jar" &
+# java -jar "${APP_HOME}/EgovLoginPolicy.jar" &
 
 # Start UI Services (Commented out)
 # echo "Starting UI services..."
-# java -jar /opt/carbosys/home3.jar &
-# java -jar /opt/carbosys/signin.jar &
+# java -jar "${APP_HOME}/home3.jar" &
+# java -jar "${APP_HOME}/signin.jar" &
 
 echo "All services started!"
 echo "Waiting for all processes..."

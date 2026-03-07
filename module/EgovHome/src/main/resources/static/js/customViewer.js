@@ -23,8 +23,18 @@ class CustomViewer extends HTMLElement {
         this.iframe = this.shadowRoot.querySelector("iframe");
         this.observer = null;
         this.resizeObserver = null;
+        this.loadTimeout = null;
+        this.lastSrc = "";
+
+        this.iframe.addEventListener("error", () => {
+            this.renderFallback("페이지를 불러오지 못했습니다.", this.lastSrc);
+        });
 
         this.iframe.addEventListener("load", () => {
+            if (this.loadTimeout) {
+                clearTimeout(this.loadTimeout);
+                this.loadTimeout = null;
+            }
             this.adjustHeight();
             this.setupMutationObserver();
             this.setupResizeObserver();
@@ -39,8 +49,46 @@ class CustomViewer extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === "src" && newValue) {
+            this.lastSrc = newValue;
             this.iframe.src = newValue;
+            if (this.loadTimeout) {
+                clearTimeout(this.loadTimeout);
+            }
+            this.loadTimeout = setTimeout(() => {
+                this.renderFallback("페이지 응답 시간이 초과되었습니다.", newValue);
+            }, 10000);
         }
+    }
+
+    renderFallback(message, path) {
+        if (this.loadTimeout) {
+            clearTimeout(this.loadTimeout);
+            this.loadTimeout = null;
+        }
+        this.iframe.srcdoc = `
+            <html lang="ko">
+                <head>
+                    <meta charset="UTF-8" />
+                    <style>
+                        body { margin:0; font-family: Arial, sans-serif; background:#f8fafc; color:#111827; }
+                        .wrap { padding: 20px; }
+                        .card { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:16px; }
+                        .title { margin:0 0 8px; color:#991b1b; font-size:18px; font-weight:700; }
+                        .text { margin:0 0 8px; font-size:14px; }
+                        .meta { margin:0; font-size:12px; color:#4b5563; word-break:break-all; }
+                    </style>
+                </head>
+                <body>
+                    <div class="wrap">
+                        <div class="card">
+                            <p class="title">페이지 오류</p>
+                            <p class="text">${message}</p>
+                            <p class="meta">path: ${path || "-"}</p>
+                        </div>
+                    </div>
+                </body>
+            </html>`;
+        this.adjustHeight();
     }
 
     setupMutationObserver() {

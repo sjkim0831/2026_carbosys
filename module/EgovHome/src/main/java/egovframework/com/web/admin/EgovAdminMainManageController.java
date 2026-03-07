@@ -237,9 +237,7 @@ public class EgovAdminMainManageController {
             HttpServletResponse response) throws Exception {
         File file = new File(safeString(filePath));
         String canonicalPath = file.getCanonicalPath();
-        if (!file.exists()
-                || (!canonicalPath.startsWith("/opt/carbosys/file/")
-                && !canonicalPath.startsWith("/srv/file/carbosys/"))) {
+        if (!file.exists() || !isAllowedFilePath(canonicalPath)) {
             response.sendError(404, "File not found or access denied.");
             return;
         }
@@ -947,5 +945,34 @@ public class EgovAdminMainManageController {
 
     private String safeString(String value) {
         return value == null ? "" : value.trim();
+    }
+
+    private boolean isAllowedFilePath(String canonicalPath) {
+        List<String> roots = new ArrayList<>();
+        String byProp = safeString(System.getProperty("carbosys.file.root"));
+        String byEnv = safeString(System.getenv("CARBONET_FILE_ROOT"));
+        if (!byProp.isEmpty()) {
+            roots.add(byProp);
+        } else if (!byEnv.isEmpty()) {
+            roots.add(byEnv);
+        } else {
+            roots.add("./file");
+        }
+        roots.add("/srv/file/carbosys");
+
+        for (String root : roots) {
+            try {
+                String prefix = new File(root).getCanonicalPath();
+                if (!prefix.endsWith(File.separator)) {
+                    prefix += File.separator;
+                }
+                if (canonicalPath.startsWith(prefix)) {
+                    return true;
+                }
+            } catch (Exception ignore) {
+                // Skip invalid root and continue.
+            }
+        }
+        return false;
     }
 }

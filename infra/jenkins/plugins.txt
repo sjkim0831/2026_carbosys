@@ -1,4 +1,0 @@
-workflow-aggregator
-git
-github
-pipeline-model-definition

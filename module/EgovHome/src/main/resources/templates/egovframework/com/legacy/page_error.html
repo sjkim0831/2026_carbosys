@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>페이지 오류</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Noto Sans KR", sans-serif;
+            background: #f8fafc;
+            color: #111827;
+        }
+        .wrap {
+            max-width: 760px;
+            margin: 24px auto;
+            padding: 20px;
+        }
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 18px;
+        }
+        .title {
+            margin: 0 0 10px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #991b1b;
+        }
+        .meta {
+            margin: 6px 0 0;
+            font-size: 13px;
+            color: #4b5563;
+        }
+        .hint {
+            margin-top: 14px;
+            font-size: 13px;
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="card">
+        <h1 class="title">요청 페이지 오류</h1>
+        <p th:text="${errorMessage}">요청한 페이지 처리 중 오류가 발생했습니다.</p>
+        <p class="meta">경로: <span th:text="${errorPath}">-</span></p>
+        <p class="hint">메인 페이지는 계속 동작합니다. 메뉴에서 다른 페이지로 이동하거나 잠시 후 다시 시도해 주세요.</p>
+    </div>
+</div>
+</body>
+</html>

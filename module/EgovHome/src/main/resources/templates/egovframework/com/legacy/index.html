@@ -73,6 +73,14 @@
 
 <script th:inline="javascript" defer>
 
+    window.addEventListener("error", function (event) {
+        console.warn("Main page runtime error isolated:", event.message);
+    });
+
+    window.addEventListener("unhandledrejection", function (event) {
+        console.warn("Main page async error isolated:", event.reason);
+    });
+
     function loadContent(url) {
         const viewer = document.querySelector("custom-viewer");
         if (viewer) {
